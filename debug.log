@@ -1,0 +1,2 @@
+[0102/104028.390:ERROR:registration_protocol_win.cc(102)] CreateFile: 系统找不到指定的文件。 (0x2)
+[0102/104242.151:ERROR:registration_protocol_win.cc(102)] CreateFile: 系统找不到指定的文件。 (0x2)

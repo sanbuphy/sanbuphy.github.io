@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on 散步的小屋</title>
+    <link>https://sanbu.github.io/tags/python/</link>
+    <description>Recent content in python on 散步的小屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 31 Dec 2021 19:48:48 +0800</lastBuildDate><atom:link href="https://sanbu.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>机器学习入门路径及其数学基础</title>
+      <link>https://sanbu.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Fri, 31 Dec 2021 19:48:48 +0800</pubDate>
+      
+      <guid>https://sanbu.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</guid>
+      <description>机器学习的数学基础 基础不牢地动山摇，好好打数理基础！但一口吃不成大胖子—— 有答主提到： ”在很多相关的回答中，我都一再强调不要试图补足数学知识</description>
+    </item>
+    
+  </channel>
+</rss>
