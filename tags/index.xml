@@ -2,71 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 散步的小屋</title>
-    <link>https://sanbu.github.io/tags/</link>
+    <link>https://sanbuphy.github.io/tags/</link>
     <description>Recent content in Tags on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 31 Dec 2021 19:48:48 +0800</lastBuildDate><atom:link href="https://sanbu.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 31 Dec 2021 19:48:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Machine learning</title>
-      <link>https://sanbu.github.io/tags/machine-learning/</link>
+      <link>https://sanbuphy.github.io/tags/machine-learning/</link>
       <pubDate>Fri, 31 Dec 2021 19:48:48 +0800</pubDate>
       
-      <guid>https://sanbu.github.io/tags/machine-learning/</guid>
+      <guid>https://sanbuphy.github.io/tags/machine-learning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>python</title>
-      <link>https://sanbu.github.io/tags/python/</link>
+      <link>https://sanbuphy.github.io/tags/python/</link>
       <pubDate>Fri, 31 Dec 2021 19:48:48 +0800</pubDate>
       
-      <guid>https://sanbu.github.io/tags/python/</guid>
+      <guid>https://sanbuphy.github.io/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>css</title>
-      <link>https://sanbu.github.io/tags/css/</link>
-      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
+      <title>笔记</title>
+      <link>https://sanbuphy.github.io/tags/%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://sanbu.github.io/tags/css/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>html</title>
-      <link>https://sanbu.github.io/tags/html/</link>
-      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://sanbu.github.io/tags/html/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>markdown</title>
-      <link>https://sanbu.github.io/tags/markdown/</link>
-      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://sanbu.github.io/tags/markdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>themes</title>
-      <link>https://sanbu.github.io/tags/themes/</link>
-      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://sanbu.github.io/tags/themes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>emoji</title>
-      <link>https://sanbu.github.io/tags/emoji/</link>
-      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://sanbu.github.io/tags/emoji/</guid>
+      <guid>https://sanbuphy.github.io/tags/%E7%AC%94%E8%AE%B0/</guid>
       <description></description>
     </item>
     

@@ -2,93 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sanbu.github.io/categories/</loc>
+    <loc>https://sanbuphy.github.io/categories/</loc>
     <lastmod>2021-12-31T19:48:48+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/tags/machine-learning/</loc>
+    <loc>https://sanbuphy.github.io/tags/machine-learning/</loc>
     <lastmod>2021-12-31T19:48:48+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/post/</loc>
+    <loc>https://sanbuphy.github.io/post/</loc>
     <lastmod>2021-12-31T19:48:48+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/tags/python/</loc>
+    <loc>https://sanbuphy.github.io/tags/python/</loc>
     <lastmod>2021-12-31T19:48:48+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/tags/</loc>
+    <loc>https://sanbuphy.github.io/tags/</loc>
     <lastmod>2021-12-31T19:48:48+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/</loc>
+    <loc>https://sanbuphy.github.io/</loc>
     <lastmod>2022-01-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://sanbuphy.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2021-12-31T19:48:48+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</loc>
+    <loc>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2021-12-31T19:48:48+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/page/</loc>
+    <loc>https://sanbuphy.github.io/page/</loc>
     <lastmod>2022-01-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/%E5%85%B3%E4%BA%8E%E6%88%91/</loc>
+    <loc>https://sanbuphy.github.io/%E5%85%B3%E4%BA%8E%E6%88%91/</loc>
     <lastmod>2022-01-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
+    <loc>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2021-12-28T18:39:12+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</loc>
+    <loc>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2021-12-28T18:39:12+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</loc>
+    <loc>https://sanbuphy.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</loc>
     <lastmod>2021-12-28T18:39:12+08:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/categories/test/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/categories/%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/p/test-chinese/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/archives/</loc>
+    <loc>https://sanbuphy.github.io/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sanbu.github.io/tags/css/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+    <loc>https://sanbuphy.github.io/categories/test/</loc>
   </url><url>
-    <loc>https://sanbu.github.io/tags/html/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+    <loc>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</loc>
   </url><url>
-    <loc>https://sanbu.github.io/tags/markdown/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+    <loc>https://sanbuphy.github.io/search/</loc>
   </url><url>
-    <loc>https://sanbu.github.io/p/markdown-syntax-guide/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/categories/syntax/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/tags/themes/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/categories/themes/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/p/placeholder-text/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/categories/test-with-whitespaces/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/p/math-typesetting/</loc>
-    <lastmod>2019-03-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/tags/emoji/</loc>
-    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/p/emoji-support/</loc>
-    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://sanbu.github.io/search/</loc>
+    <loc>https://sanbuphy.github.io/tags/%E7%AC%94%E8%AE%B0/</loc>
   </url>
 </urlset>

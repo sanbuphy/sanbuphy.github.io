@@ -2,81 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on 散步的小屋</title>
-    <link>https://sanbu.github.io/post/</link>
+    <link>https://sanbuphy.github.io/post/</link>
     <description>Recent content in Posts on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 31 Dec 2021 19:48:48 +0800</lastBuildDate><atom:link href="https://sanbu.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 31 Dec 2021 19:48:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>机器学习入门路径及其数学基础</title>
-      <link>https://sanbu.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</link>
+      <link>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Fri, 31 Dec 2021 19:48:48 +0800</pubDate>
       
-      <guid>https://sanbu.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</guid>
+      <guid>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</guid>
       <description>机器学习的数学基础 基础不牢地动山摇，好好打数理基础！但一口吃不成大胖子—— 有答主提到： ”在很多相关的回答中，我都一再强调不要试图补足数学知识</description>
     </item>
     
     <item>
       <title>如何运用hugo与github.io搭建个人博客</title>
-      <link>https://sanbu.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
+      <link>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
       <pubDate>Tue, 28 Dec 2021 18:39:12 +0800</pubDate>
       
-      <guid>https://sanbu.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
-      <description>认识hugo Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。 中文文档地址： https://www.gohugo.org/ 图文安装教程1 图文安装教程2 hug</description>
+      <guid>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>hugo &amp;ndash;baseUrl=&amp;ldquo;https://sanbuphy.github.io/ 前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你可能需要生成ssh后与github绑定，可参考本博中</description>
     </item>
     
     <item>
       <title>杂七杂八知识库</title>
-      <link>https://sanbu.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</link>
+      <link>https://sanbuphy.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</link>
       <pubDate>Tue, 28 Dec 2021 18:39:12 +0800</pubDate>
       
-      <guid>https://sanbu.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</guid>
-      <description>计算机原理 从二进制到处理器原理</description>
+      <guid>https://sanbuphy.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</guid>
+      <description>环境配置相关 anaconda anaconda与Jupyter notebook安装教程https://zhuanlan.zhihu.com/p/370934</description>
     </item>
     
     <item>
-      <title>测试文档</title>
-      <link>https://sanbu.github.io/p/test-chinese/</link>
-      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      <title>《机器学习》西瓜书笔记(一)</title>
+      <link>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://sanbu.github.io/p/test-chinese/</guid>
-      <description>正文测试 而这些并不是完全重要，更加重要的问题是， 带着这些问题，我们来审视一下学生会退会。 既然如何， 对我个人而言，学生会退会不仅仅是一个重大的</description>
-    </item>
-    
-    <item>
-      <title>Markdown Syntax Guide</title>
-      <link>https://sanbu.github.io/p/markdown-syntax-guide/</link>
-      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://sanbu.github.io/p/markdown-syntax-guide/</guid>
-      <description>&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Placeholder Text</title>
-      <link>https://sanbu.github.io/p/placeholder-text/</link>
-      <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://sanbu.github.io/p/placeholder-text/</guid>
-      <description>&lt;p&gt;Lorem est tota propiore conpellat pectoribus de pectora summo.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Math Typesetting</title>
-      <link>https://sanbu.github.io/p/math-typesetting/</link>
-      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://sanbu.github.io/p/math-typesetting/</guid>
-      <description>&lt;p&gt;Mathematical notation in a Hugo project can be enabled by using third party JavaScript libraries.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Emoji Support</title>
-      <link>https://sanbu.github.io/p/emoji-support/</link>
-      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://sanbu.github.io/p/emoji-support/</guid>
-      <description>&lt;p&gt;Emoji can be enabled in a Hugo project in a number of ways.&lt;/p&gt;</description>
+      <guid>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>本文为个人对西瓜书不成熟的一些理解和资料整理，欢迎批评指出意见，谢谢！(可邮箱联系physicoada@gmail.com) 西瓜书章节一 绪论</description>
     </item>
     
   </channel>

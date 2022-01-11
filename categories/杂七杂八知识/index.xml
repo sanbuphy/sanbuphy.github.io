@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>杂七杂八知识 on 散步的小屋</title>
-    <link>https://sanbu.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
+    <link>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
     <description>Recent content in 杂七杂八知识 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 28 Dec 2021 18:39:12 +0800</lastBuildDate><atom:link href="https://sanbu.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Dec 2021 18:39:12 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>如何运用hugo与github.io搭建个人博客</title>
-      <link>https://sanbu.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
+      <link>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
       <pubDate>Tue, 28 Dec 2021 18:39:12 +0800</pubDate>
       
-      <guid>https://sanbu.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
-      <description>认识hugo Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。 中文文档地址： https://www.gohugo.org/ 图文安装教程1 图文安装教程2 hug</description>
+      <guid>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>hugo &amp;ndash;baseUrl=&amp;ldquo;https://sanbuphy.github.io/ 前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你可能需要生成ssh后与github绑定，可参考本博中</description>
     </item>
     
     <item>
       <title>杂七杂八知识库</title>
-      <link>https://sanbu.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</link>
+      <link>https://sanbuphy.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</link>
       <pubDate>Tue, 28 Dec 2021 18:39:12 +0800</pubDate>
       
-      <guid>https://sanbu.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</guid>
-      <description>计算机原理 从二进制到处理器原理</description>
+      <guid>https://sanbuphy.github.io/p/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86%E5%BA%93/</guid>
+      <description>环境配置相关 anaconda anaconda与Jupyter notebook安装教程https://zhuanlan.zhihu.com/p/370934</description>
     </item>
     
   </channel>
