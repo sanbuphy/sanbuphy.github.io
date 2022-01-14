@@ -6,11 +6,29 @@
     <description>Recent content in Categories on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 31 Dec 2021 19:48:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 12 Jan 2022 21:54:58 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linear algebra</title>
+      <link>https://sanbuphy.github.io/categories/linear-algebra/</link>
+      <pubDate>Wed, 12 Jan 2022 21:54:58 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/linear-algebra/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Math</title>
+      <link>https://sanbuphy.github.io/categories/math/</link>
+      <pubDate>Wed, 12 Jan 2022 21:54:58 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/math/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>机器学习</title>
       <link>https://sanbuphy.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Fri, 31 Dec 2021 19:48:48 +0800</pubDate>
+      <pubDate>Tue, 11 Jan 2022 20:53:41 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
       <description></description>

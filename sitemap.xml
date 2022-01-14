@@ -3,24 +3,39 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://sanbuphy.github.io/categories/</loc>
-    <lastmod>2021-12-31T19:48:48+08:00</lastmod>
+    <lastmod>2022-01-12T21:54:58+08:00</lastmod>
   </url><url>
-    <loc>https://sanbuphy.github.io/tags/machine-learning/</loc>
-    <lastmod>2021-12-31T19:48:48+08:00</lastmod>
+    <loc>https://sanbuphy.github.io/categories/linear-algebra/</loc>
+    <lastmod>2022-01-12T21:54:58+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/categories/math/</loc>
+    <lastmod>2022-01-12T21:54:58+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/post/</loc>
-    <lastmod>2021-12-31T19:48:48+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/tags/python/</loc>
-    <lastmod>2021-12-31T19:48:48+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/tags/</loc>
-    <lastmod>2021-12-31T19:48:48+08:00</lastmod>
+    <lastmod>2022-01-12T21:54:58+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/</loc>
-    <lastmod>2022-01-01T00:00:00+00:00</lastmod>
+    <lastmod>2022-01-12T21:54:58+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/</loc>
+    <lastmod>2022-01-12T21:54:58+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/machine-learning/</loc>
+    <lastmod>2022-01-11T20:53:41+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/</loc>
+    <lastmod>2022-01-11T20:53:41+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</loc>
+    <lastmod>2022-01-11T20:53:41+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2022-01-11T20:53:41+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2022-01-11T20:53:41+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/python/</loc>
     <lastmod>2021-12-31T19:48:48+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</loc>
@@ -46,10 +61,6 @@
   </url><url>
     <loc>https://sanbuphy.github.io/categories/test/</loc>
   </url><url>
-    <loc>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</loc>
-  </url><url>
     <loc>https://sanbuphy.github.io/search/</loc>
-  </url><url>
-    <loc>https://sanbuphy.github.io/tags/%E7%AC%94%E8%AE%B0/</loc>
   </url>
 </urlset>
