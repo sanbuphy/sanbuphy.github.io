@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你可能需要生成ssh后与github绑定，可参考本博中的教'><title>如何运用hugo与github.io搭建个人博客</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你也许也想知道怎么利用GitHub Desktop上传东西到'><title>如何运用hugo与github.io搭建个人博客</title>
 
 <link rel='canonical' href='https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/'>
 
 <link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='如何运用hugo与github.io搭建个人博客'>
-<meta property='og:description' content='前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你可能需要生成ssh后与github绑定，可参考本博中的教'>
+<meta property='og:description' content='前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你也许也想知道怎么利用GitHub Desktop上传东西到'>
 <meta property='og:url' content='https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/'>
 <meta property='og:site_name' content='散步的小屋'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2021-12-28T18:39:12&#43;08:00'/><meta property='article:modified_time' content='2021-12-28T18:39:12&#43;08:00'/>
 <meta name="twitter:title" content="如何运用hugo与github.io搭建个人博客">
-<meta name="twitter:description" content="前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你可能需要生成ssh后与github绑定，可参考本博中的教">
+<meta name="twitter:description" content="前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你也许也想知道怎么利用GitHub Desktop上传东西到">
     </head>
     <body class="
     article-page has-toc
@@ -106,7 +106,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 3 分钟
+                    阅读时长: 4 分钟
                 </time>
             </div>
         
@@ -121,7 +121,6 @@
 <ol>
 <li>你可能需要学习如何使用git，可参考本博中的教程或观看<a class="link" href="https://www.bilibili.com/video/BV1FE411P7B3?p=2"  target="_blank" rel="noopener"
     >狂神git简单教程</a>。</li>
-<li>你可能需要生成ssh后与github绑定，可参考本博中的教程。</li>
 <li>你也许也想知道怎么利用GitHub Desktop上传东西到github上，可参考<a class="link" href="https://blog.csdn.net/lililuni/article/details/83144090"  target="_blank" rel="noopener"
     >GitHub Desktop 的使用教程</a></li>
 </ol>
@@ -149,10 +148,13 @@
     >主题手册</a></p>
 <h3 id="markdown语法检索">markdown语法检索</h3>
 <p><a class="link" href="https://www.appinn.com/markdown/#%E5%AE%97%E6%97%A8"  target="_blank" rel="noopener"
-    >https://www.appinn.com/markdown/#%E5%AE%97%E6%97%A8</a></p>
+    >https://www.appinn.com/markdown/#%E5%AE%97%E6%97%A8</a>  <br>
+<a class="link" href="https://edward852.github.io/post/markdown%E6%94%AF%E6%8C%81%E6%83%85%E5%86%B5%E6%B5%8B%E8%AF%95/"  target="_blank" rel="noopener"
+    >常见的markdown写法</a></p>
 <h2 id="创建你的第一个文章">创建你的第一个文章</h2>
 <p>使用  <code>hugo new xxxxx.md</code><br>
-注意命名时不可以空格，可以用-代替</p>
+注意命名时不可以空格，可以用-代替
+然后就可以使用 <code>hugo server </code>来查看效果啦！</p>
 <h2 id="发布你的博客">发布你的博客</h2>
 <p>我们将使用github.io来代替服务器以及域名：<br>
 <a class="link" href="https://blog.csdn.net/cbb944131226/article/details/82940224"  target="_blank" rel="noopener"
@@ -162,13 +164,13 @@
 <li>Git要上传或执行的文件可以在文件夹中，右键空白地区点git bash here从而实现目录内操作。</li>
 <li>在linux操作中（比如git）粘贴操作是shift+insert或单击鼠标的滚轮。而复制只要选中即可。</li>
 <li>**【非常重要】**github的域名地址与用户名必须一致，比如你的github名字叫sakura，那么域名必须是sakura.github.io。</li>
-<li>hugo命令<code>hugo  --baseUrl=&quot;https://Username.github.io/&quot;</code>执行完后，会生成一个public文件夹，在public文件中执行1.操作即可推送。</li>
+<li>hugo命令<code>hugo  --baseUrl=&quot;https://改为你的名字.github.io/&quot;</code>执行完后，会生成一个public文件夹，在public文件中执行1.操作即可推送。</li>
 <li>用git推送的时候<code>git pull --rebase origin master</code>语句可能会出错显示没有文件，不用担心，这是因为此时目标仓库是空的，直接下一步    <br>
 最后，你只需要输入对应网址，即可看到自己的宝贝博客了！</li>
 </ol>
 <h2 id="更新你的博客">更新你的博客</h2>
 <ol>
-<li>在博客目录下使用<code>hugo  --baseUrl=&quot;https://Username.github.io/&quot;</code>覆盖原来的public文件夹</li>
+<li>在博客目录下使用<code>hugo  --baseUrl=&quot;https://改为你的名字.github.io/&quot;</code>覆盖原来的public文件夹</li>
 <li>进入public文件夹右键git bash</li>
 <li>分别执行 git init // git add . // git commit -m &lsquo;写你的备注&rsquo; // git push</li>
 </ol>
@@ -190,14 +192,21 @@
 <li>是否使用了<code>math: true</code>，或尝试导入MathJax包，可参考<a class="link" href="https://m0t0k1ch1st0ry.com/blog/2017/10/07/mathjax/"  target="_blank" rel="noopener"
     >Hugo に MathJax を導入して数式を書けるようにする</a>  <br>
 或者分离式的mathjax调用方法<a class="link" href="https://kenbannikki.com/notes/using-mathjax-with-hugo/"  target="_blank" rel="noopener"
-    >HugoでMathJaxを使う</a>     <br>
-MathJax的中文文档：https://www.gohugo.org/doc/tutorials/mathjax/</li>
-<li>注意此时<code>\\</code>换行不成功的话，用<code>\\\</code>试试看</li>
+    >HugoでMathJaxを使う</a>       <br>
+MathJax的中文文档：https://www.gohugo.org/doc/tutorials/mathjax/ <br>
+Mathjax的日文文档：https://www.eng.niigata-u.ac.jp/~nomoto/download/mathjax.pdf</li>
+<li>注意此时<code>\\</code>换行不成功的话，用<code>\\\</code>试试看，有些<code>\,</code>的无效也可以用<code>\\,</code>代替尝试。</li>
+<li>有时候数学公式正确也会显示不出来，此时你可以检查<strong>代码界面</strong>或<strong>网页公式处</strong>是否存在斜体如&quot;<em>_j</em>&quot;，此时改为&quot;_j&quot;即可恢复正常，特别是_{}时要注意，可以把开始倾斜的代码（找到这里的&quot;_&quot;)改为_{}就可以正常显示。</li>
 </ol>
 <h3 id="文章图片加载很慢">文章图片加载很慢</h3>
 <ol>
 <li>可以参考这个文章<a class="link" href="https://www.dazhuanlan.com/twofie/topics/1881524"  target="_blank" rel="noopener"
     >Hugo Content 使用图源、压缩与工具介绍</a></li>
+</ol>
+<h3 id="文章头看到了不同的格式比如与---">文章头看到了不同的格式比如+++与&mdash;</h3>
+<ol>
+<li>Front Matter支持三种格式，yaml，toml与json方式，你可以参考：<a class="link" href="https://blog.csdn.net/sunjinfu19841120/article/details/88956372"  target="_blank" rel="noopener"
+    >基础文件和头部格式介绍</a></li>
 </ol>
 
 </section>
@@ -230,6 +239,18 @@ MathJax的中文文档：https://www.gohugo.org/doc/tutorials/mathjax/</li>
         <h2 class="section-title">相关文章</h2>
         <div class="related-contents">
             <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/%E5%88%A9%E7%94%A8git%E7%94%9F%E6%88%90ssh%E5%B9%B6%E4%B8%8Egithub%E8%BF%9E%E6%8E%A5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">利用git生成SSH并与github连接</h2>
+        </div>
+    </a>
+</article>
                 
                     
 <article class="">
@@ -427,6 +448,7 @@ MathJax的中文文档：https://www.gohugo.org/doc/tutorials/mathjax/</li>
         <li><a href="#文章看不到">文章看不到</a></li>
         <li><a href="#数学公式不显示">数学公式不显示</a></li>
         <li><a href="#文章图片加载很慢">文章图片加载很慢</a></li>
+        <li><a href="#文章头看到了不同的格式比如与---">文章头看到了不同的格式比如+++与&mdash;</a></li>
       </ol>
     </li>
   </ol>

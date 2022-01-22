@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='线性回归、对数几率回归、二分类线性判别及其数学基础'><title>《机器学习》西瓜书笔记(二)</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='《机器学习》西瓜书笔记(二)'>
+<meta property='og:description' content='线性回归、对数几率回归、二分类线性判别及其数学基础'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Machine learning' /><meta property='article:published_time' content='2022-01-17T22:53:41&#43;08:00'/><meta property='article:modified_time' content='2022-01-17T22:53:41&#43;08:00'/>
+<meta name="twitter:title" content="《机器学习》西瓜书笔记(二)">
+<meta name="twitter:description" content="线性回归、对数几率回归、二分类线性判别及其数学基础">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" >
+                机器学习
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/">《机器学习》西瓜书笔记(二)</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        线性回归、对数几率回归、二分类线性判别及其数学基础
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 17, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>本文为个人对西瓜书不成熟的一些理解和资料整理，欢迎批评指出意见，谢谢！(可邮箱联系physicoada@gmail.com)</p>
+<h2 id="西瓜书章节三--线性模型">西瓜书章节三  线性模型</h2>
+<p>文字版浓缩可参考：<a class="link" href="https://github.com/Vay-keen/Machine-learning-learning-notes/blob/master/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%284%29--%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.md"  target="_blank" rel="noopener"
+    >周志华机器学习笔记 by:Vay-keen</a></p>
+<p>简略而言，本章主要涉及到三大块内容</p>
+<ul>
+<li>线性回归及极大似然估计</li>
+<li>对数几率回归及交叉熵思想</li>
+<li>二分类线性判别分析</li>
+</ul>
+<h3 id="数学基础">数学基础</h3>
+<h4 id="极大似然估计">极大似然估计</h4>
+<h4 id="凸函数">凸函数</h4>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 70; 
+			flex-basis: 169px"
+	>
+	<a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/chigua2.jpg" data-size="2182x3086">
+		<img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/chigua2.jpg"
+			width="2182"
+			height="3086"
+			srcset="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/chigua2_huafcd3297fe575c7ac67533b0df971f22_374632_480x0_resize_q75_box.jpg 480w, /p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/chigua2_huafcd3297fe575c7ac67533b0df971f22_374632_1024x0_resize_q75_box.jpg 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure>
+本图来自：<a class="link" href="https://www.pianshen.com/article/98061511620/"  target="_blank" rel="noopener"
+    >凸函数的四种判断方法</a>
+多元函数判别法(Hessian矩阵正定性)：</p>
+<p>机器学习中凸函数的好处：函数具有唯一的极小值。这意味着我们求得的模型是全局最优，不会陷入局部最优（想象一下无数波浪的函数，难以在梯度下降中找到最小值）。</p>
+<h4 id="信息熵相对熵与交叉熵">信息熵、相对熵与交叉熵</h4>
+<p>请参考数学专栏中的文章（机器学习中的信息论基础）</p>
+<h4 id="拉格朗日乘子法">拉格朗日乘子法</h4>
+<h3 id="线性回归">线性回归</h3>
+<h4 id="矩阵推导">矩阵推导</h4>
+<p>矩阵求导方法及其完整过程请参考我的另外一篇文章：<a class="link" href="https://sanbuphy.github.io/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/"  target="_blank" rel="noopener"
+    >矩阵求导建议入门手册</a></p>
+<h4 id="极大似然估计法">极大似然估计法</h4>
+<h3 id="对数几率回归逻辑回归">对数几率回归(逻辑回归)</h3>
+<h4 id="极大似然估计法-1">极大似然估计法</h4>
+<h3 id="线性判别分析">线性判别分析</h3>
+<h3 id="多分类学习">多分类学习</h3>
+<h4 id="ecoc码">ECOC码</h4>
+<p>在书中，我们会看到这样的一张图：     <br>
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 223; 
+			flex-basis: 536px"
+	>
+	<a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/chigua.png" data-size="894x400">
+		<img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/chigua.png"
+			width="894"
+			height="400"
+			srcset="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/chigua_hub8e31a2bb461476b573f82071999d431_126670_480x0_resize_box_3.png 480w, /p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/chigua_hub8e31a2bb461476b573f82071999d431_126670_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure>
+其中涉及到所谓的海明距离与欧氏距离。
+海明距离指的是：对于长度相等的两个字符串，在相同位置上不同字符的个数。<br>
+而欧氏距离指的是多维空间中两点间绝对距离：
+$
+dist\left( X,Y \right) =\sqrt{\sum_{i=1}^n{\left( x_i-y_i \right) ^2}}
+$            <br>
+由此我们可以计算出图中的数字，对(a)图中可有：
+$$
+\qquad \text{示例}-1 {\color{red} -1 +1 -1 }+1
+\\
+C1\text{编码} \ -1 {\color{red} +1 -1 +1 }+1
+$$
+容易看出海明距离为3，而欧氏距离为
+$$
+\sqrt{\left( -1-\left( -1 \right) \right) ^2+\left( -1-1 \right) ^2+2^2+2^2+0}=2\sqrt{3}
+$$
+其他值可以用相同的办法推导得到。</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a class="link" href="https://blog.csdn.net/muyao987/article/details/107197624"  target="_blank" rel="noopener"
+    >逻辑回归的原理、推导和常见问题</a></li>
+<li><a class="link" href="https://www.cnblogs.com/lsm-boke/p/12242352.html"  target="_blank" rel="noopener"
+    >凸函数、损失函数、线性模型的基本形式、线性回归、w* 的代码实现</a></li>
+<li></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/machine-learning/">Machine learning</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/_hu05be89c43654817bfc3a6d1d1f1925fe_2269278_8ef6f3da06f90875df4fa94970343871.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 机器学习中的信息论基础"
+                        
+                        data-hash="md5-I4tq5bCqkvQkOs5ljsw&#43;bg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的信息论基础</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">《机器学习》西瓜书笔记(一)</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">矩阵求导简易入门手册</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/knowledge-3.e3c7a47d466ad34818fd36ff5164a319_hu3adb970a553883b0b7ae744c75f65cb9_2096564_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 机器学习入门路径及其数学基础"
+                        
+                        data-hash="md5-48ekfUZq00gY/Tb/UWSjGQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习入门路径及其数学基础</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (DISQUS) {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#西瓜书章节三--线性模型">西瓜书章节三  线性模型</a>
+      <ol>
+        <li><a href="#数学基础">数学基础</a>
+          <ol>
+            <li><a href="#极大似然估计">极大似然估计</a></li>
+            <li><a href="#凸函数">凸函数</a></li>
+            <li><a href="#信息熵相对熵与交叉熵">信息熵、相对熵与交叉熵</a></li>
+            <li><a href="#拉格朗日乘子法">拉格朗日乘子法</a></li>
+          </ol>
+        </li>
+        <li><a href="#线性回归">线性回归</a>
+          <ol>
+            <li><a href="#矩阵推导">矩阵推导</a></li>
+            <li><a href="#极大似然估计法">极大似然估计法</a></li>
+          </ol>
+        </li>
+        <li><a href="#对数几率回归逻辑回归">对数几率回归(逻辑回归)</a>
+          <ol>
+            <li><a href="#极大似然估计法-1">极大似然估计法</a></li>
+          </ol>
+        </li>
+        <li><a href="#线性判别分析">线性判别分析</a></li>
+        <li><a href="#多分类学习">多分类学习</a>
+          <ol>
+            <li><a href="#ecoc码">ECOC码</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

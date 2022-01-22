@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Reference GitHubにssh接続できるようにする'><title>利用git生成SSH并与github连接</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='注意事项 在开始菜单，需要使用管理员模式打开git bash 在linux操作中（比如git）粘贴操作是shift&#43;insert或单击鼠标的滚轮。而复制'><title>利用git生成SSH并与github连接</title>
 
 <link rel='canonical' href='https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8git%E7%94%9F%E6%88%90ssh%E5%B9%B6%E4%B8%8Egithub%E8%BF%9E%E6%8E%A5/'>
 
 <link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='利用git生成SSH并与github连接'>
-<meta property='og:description' content='Reference GitHubにssh接続できるようにする'>
+<meta property='og:description' content='注意事项 在开始菜单，需要使用管理员模式打开git bash 在linux操作中（比如git）粘贴操作是shift&#43;insert或单击鼠标的滚轮。而复制'>
 <meta property='og:url' content='https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8git%E7%94%9F%E6%88%90ssh%E5%B9%B6%E4%B8%8Egithub%E8%BF%9E%E6%8E%A5/'>
 <meta property='og:site_name' content='散步的小屋'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-01-05T22:54:06&#43;08:00'/><meta property='article:modified_time' content='2022-01-05T22:54:06&#43;08:00'/>
 <meta name="twitter:title" content="利用git生成SSH并与github连接">
-<meta name="twitter:description" content="Reference GitHubにssh接続できるようにする">
+<meta name="twitter:description" content="注意事项 在开始菜单，需要使用管理员模式打开git bash 在linux操作中（比如git）粘贴操作是shift&#43;insert或单击鼠标的滚轮。而复制">
     </head>
     <body class="
-    article-page 
+    article-page has-toc
 ">
     <script>
         (function() {
@@ -40,191 +40,22 @@
 </script>
 <div class="container main-container flex 
     
-        on-phone--column extended
+        extended
     
 ">
     
-        <aside class="sidebar left-sidebar sticky">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
-    </button>
-
-    <header class="site-info">
-        
-            
-            <figure class="site-avatar">
-                
-                    
-                    
-                    
-                        
-                        <img src="/img/avatar_hub4b3fac45b1eb5fa4580fdf8af87568b_123914_300x0_resize_box_3.png" width="300"
-                            height="300" class="site-logo" loading="lazy" alt="Avatar">
-                    
-                
-
-                
-                    <span class="emoji">🍥</span>
-                
-            </figure>
-            
-        
-        
-        <h1 class="site-name"><a href="/">散步的小屋</a></h1>
-        <h2 class="site-description">天気がいいから、散歩しましょう</h2><ol class="social-menu">
-                
-                    <li>
-                        <a 
-                            href='https://github.com/CaiJimmy/hugo-theme-stack'
-                            target="_blank"
-                            title="GitHub"
-                        >
-                            
-                            
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-</svg>
-
-
-
-                            
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a 
-                            href='https://twitter.com'
-                            target="_blank"
-                            title="Twitter"
-                        >
-                            
-                            
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
-</svg>
-
-
-
-                            
-                        </a>
-                    </li>
-                
-            </ol></header>
-
-    <ol class="menu" id="main-menu">
-        
-        
-        
-
-        <li >
-            <a href='/' target="_blank">
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
-  <polyline points="5 12 3 12 12 3 21 12 19 12" />
-  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+  <polyline points="15 6 9 12 15 18" />
 </svg>
 
 
 
-                
-                <span>主页</span>
+                <span>返回</span>
             </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>
-
-
-
-                
-                <span>关于我</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/archives/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="4" width="18" height="4" rx="2" />
-  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-  <line x1="10" y1="12" x2="14" y2="12" />
-</svg>
-
-
-
-                
-                <span>归档</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/search/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
-
-
-
-                
-                <span>搜索</span>
-            </a>
-        </li>
-        
-
-        
-            <li id="dark-mode-toggle">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="8" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
-
-
-
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="16" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
-
-
-
-                <span>暗色模式</span>
-            </li>
-        
-    </ol>
-</aside>
-
+        </div>
     
 <main class="main full-width">
     <article class="main-article">
@@ -275,7 +106,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    阅读时长: 3 分钟
                 </time>
             </div>
         
@@ -286,9 +117,75 @@
 
     <section class="article-content">
     <!-- raw HTML omitted -->
-<h2 id="reference">Reference</h2>
-<p><a class="link" href="https://qiita.com/0ta2/items/25c27d447378b13a1ac3"  target="_blank" rel="noopener"
-    >GitHubにssh接続できるようにする</a></p>
+<h2 id="注意事项">注意事项</h2>
+<ul>
+<li>在开始菜单，需要使用<strong>管理员</strong>模式打开git bash</li>
+<li>在linux操作中（比如git）粘贴操作是shift+insert或单击鼠标的滚轮。而复制只要选中即可。（粘贴后修改就很麻烦了，推荐先修改好再粘贴）</li>
+</ul>
+<h2 id="生成ssh账号密码">生成SSH账号密码</h2>
+<p>如果你是第一次使用,可以先设置git的user name和email：</p>
+<pre tabindex="0"><code>git config --global user.name &quot;这里改成你的名字&quot;
+git config --global user.email  &quot;这里改成你的邮箱&quot;
+</code></pre><p>接下来即可生成ssh密钥：（注意别把$和#注释部分也给复制进去了，只需要复制考虑$后面的部分）</p>
+<pre tabindex="0"><code>$ ssh-keygen -t rsa -b 4096 -C &quot;这里改成你的邮箱&quot;
+# -t 密钥方式设定
+# -b 密钥强度设定
+# -C 注释设定
+
+# 你会看到出现以下信息：
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/ts/.ssh/id_rsa): /Users/ts/.ssh/id_rsa_github # 此时输入你的密钥用户名(可以是邮箱)
+Enter passphrase (empty for no passphrase):  #此时输入你的密钥密码
+Enter same passphrase again:  # 再次输入密码
+#以防万一忘记账户密码，你可以记在其他地方
+
+#看到以下信息，便说明你大概率生成成功
+Your identification has been saved in id_rsa_github.
+Your public key has been saved in id_rsa_github.pub.
+</code></pre><p>接下来需要检查我们是不是真的生成成功：</p>
+<pre tabindex="0"><code>$ ls -l ~/.ssh
+#如果你看到以下信息，就说明已生成成功（没看到config也没关系）
+-rw-------  1 ts  staff   938  9 15 22:53 config
+-rw-------  1 ts  staff  3326 11  8 21:52 id_rsa_github #私密密钥
+-rw-r--r--  1 ts  staff   757 11  8 21:52 id_rsa_github.pub #公开密钥 注意这个要用记事本模式打开，然后在下一步骤中粘贴
+</code></pre><p><strong>注意，这时候可能找不到密钥，但在文件夹中又看得到rsa密钥文件</strong>，此时可以在不同文件夹（可能生成在某个子类文件夹内）右键打开git bash再输入上述命令，直到能出现以上信息为止。【记住此时的文件夹，在第四步还有用】</p>
+<h2 id="在github添加ssh-key">在github添加SSH key</h2>
+<p>这一步比较简单，在github中右上角找到settings，找到SSH and GPG keys，再选择New SSH key，把上一个步骤中的<strong>公开密钥</strong>内信息全部粘贴到key中，Title可以随便写。最后点击Add key即可完成（如果想看图文操作可以参考reference）</p>
+<h2 id="最后修改与验证">最后修改与验证</h2>
+<p>此时回到第二步末尾中的文件夹，输入以下代码：</p>
+<pre tabindex="0"><code>$ vim ~/.ssh/config
+</code></pre><p>此时已在命令行格式中进入文件,粘贴以下讯息：</p>
+<pre tabindex="0"><code>Host github
+  HostName github.com
+  IdentityFile ~/.ssh/id_rsa_github #指定私密密钥
+  User git
+</code></pre><p>粘贴后（此时还在文件中），我们需要按ESC键跳到命令模式，然后输入下列指令：</p>
+<pre tabindex="0"><code>$ :wq
+#冒号是必须的，意思是保存文件并退出vi
+</code></pre><p>最后修正权限：</p>
+<pre tabindex="0"><code>$ chmod 600 ~/.ssh/config
+</code></pre><p>接下来我们尝试连接，首先确认ssh-agent是否正常运行:</p>
+<pre tabindex="0"><code>$ eval &quot;$(ssh-agent -s)&quot;
+
+Agent pid 32047
+# 出现类似信息则表示正常运行
+
+$ ssh-add ~/.ssh/id_rsa_github
+
+Enter passphrase for /Users/ts/.ssh/id_rsa_github: # 此时输入第二步中设定的密码
+Identity added: /Users/ts/.ssh/id_rsa_github (/Users/ts/.ssh/id_rsa_github)
+</code></pre><p>最后进行连接！</p>
+<pre tabindex="0"><code>$ ssh -T git@github.com
+
+Hi mackerel7! You've successfully authenticated, but GitHub does not provide shell access.
+#恭喜你，当出现如上信息则表示你已经成功链接！
+</code></pre><h2 id="reference">Reference</h2>
+<ul>
+<li><a class="link" href="https://qiita.com/0ta2/items/25c27d447378b13a1ac3"  target="_blank" rel="noopener"
+    >GitHubにssh接続できるようにする</a></li>
+<li><a class="link" href="https://blog.csdn.net/u013778905/article/details/83501204"  target="_blank" rel="noopener"
+    >GitHub如何配置SSH Key</a></li>
+</ul>
 
 </section>
 
@@ -492,6 +389,36 @@
             >
 
             </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#注意事项">注意事项</a></li>
+    <li><a href="#生成ssh账号密码">生成SSH账号密码</a></li>
+    <li><a href="#在github添加ssh-key">在github添加SSH key</a></li>
+    <li><a href="#最后修改与验证">最后修改与验证</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
     
 
         </div>

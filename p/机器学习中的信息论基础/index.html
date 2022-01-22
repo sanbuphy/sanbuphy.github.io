@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='从自信息量到交叉熵&amp;极大似然估计'><title>机器学习中的信息论基础</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='机器学习中的信息论基础'>
+<meta property='og:description' content='从自信息量到交叉熵&amp;极大似然估计'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Machine learning' /><meta property='article:published_time' content='2022-01-22T22:34:11&#43;08:00'/><meta property='article:modified_time' content='2022-01-22T22:34:11&#43;08:00'/><meta property='og:image' content='https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/michael-sum-LEpfefQf4rU-unsplash.jpg' />
+<meta name="twitter:title" content="机器学习中的信息论基础">
+<meta name="twitter:description" content="从自信息量到交叉熵&amp;极大似然估计"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/michael-sum-LEpfefQf4rU-unsplash.jpg' />
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+                <img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/michael-sum-LEpfefQf4rU-unsplash_hu05be89c43654817bfc3a6d1d1f1925fe_2269278_800x0_resize_q75_box.jpg"
+                        srcset="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/michael-sum-LEpfefQf4rU-unsplash_hu05be89c43654817bfc3a6d1d1f1925fe_2269278_800x0_resize_q75_box.jpg 800w, /p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/michael-sum-LEpfefQf4rU-unsplash_hu05be89c43654817bfc3a6d1d1f1925fe_2269278_1600x0_resize_q75_box.jpg 1600w"
+                        width="800" 
+                        height="533" 
+                        loading="lazy"
+                        alt="Featured image of post 机器学习中的信息论基础" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" >
+                机器学习
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+            <a href="/categories/math/" >
+                Math
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/">机器学习中的信息论基础</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        从自信息量到交叉熵&amp;极大似然估计
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 22, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>首先，我们需要认识什么是信息量与信息熵:</p>
+<h2 id="自信息量">自信息量</h2>
+<p>通常自信息可以从两个方面来理解:</p>
+<ol>
+<li><strong>自信息是事件发生前,事件发生的不确定性。</strong></li>
+<li><strong>自信息表示事件发生后,事件所包含的信息量。</strong></li>
+</ol>
+<p>(比如你看到这，会想问作者也许不是一只猫而是人类————那我当然不是猫，这就没有不确定性可言，没有什么信息量；如果有一天我真的是猫了，那便是大新闻了！！) <br>
+自然而然，我们会想到所谓信息量应当与概率有关，且应该可以加合（两个事件发生时带来的信息量应该是分别发生时的和），也就是满足以下特质：</p>
+<ul>
+<li>$f\left( P \right) &gt;0 \; \; \; \; P\left( x \right) \in \left( 0,1 \right) $</li>
+<li>$f\left( P_A·P_B \right) =f\left( P_A \right) +f\left( P_B \right) $</li>
+<li>$f\left( 1 \right) =0$</li>
+<li>事件发生概率越大，自信息量越小</li>
+</ul>
+<p>此时我们可以才想到对数会满足这样的性质，于是可以给出：$I\left( x \right) =-\log \left( P\left( x \right) \right) $       <br>
+因为在计算机领域中习惯用二进制，所以我们通常以2为底，这样自信息量的单位就为比特bit,——即二进制数的一位包含的信息或2个选项中特别指定1个的需要信息量。而机器学习中常选择以e为底，单位为奈特nats       <br>
+你可以通过以下例题来更好的理解自信息量：<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 213; 
+			flex-basis: 513px"
+	>
+	<a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua3.png" data-size="849x397">
+		<img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua3.png"
+			width="849"
+			height="397"
+			srcset="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua3_hu8329c2e9843336c3f6e3de434640aacf_63036_480x0_resize_box_3.png 480w, /p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua3_hu8329c2e9843336c3f6e3de434640aacf_63036_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="以2为底的对数符号lb">
+	</a>
+	
+	<figcaption>以2为底的对数符号lb</figcaption>
+	
+</figure>
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 136; 
+			flex-basis: 328px"
+	>
+	<a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua4.png" data-size="738x539">
+		<img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua4.png"
+			width="738"
+			height="539"
+			srcset="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua4_hu7358e9233fa379eb929803dca2e43690_148517_480x0_resize_box_3.png 480w, /p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua4_hu7358e9233fa379eb929803dca2e43690_148517_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="信息熵">信息熵</h2>
+<p>接下来，我们将进一步研究什么是信息熵，在前面我们学会了如何衡量一个事件的不确定性，但一个随机变量可能包含的多个事件，我们该如何对这个 <strong>随机变量的不确定性</strong> 进行刻画呢？   <br>
+我们会自然想到求出所有事件的信息量期望，且熵越大，事件的不确定性越强，当满足均匀分布时熵最大(有约束情况下要额外考虑，一阶矩二阶矩不同时的最大熵分布不同，详情可参考最大熵原理）；如果熵值小，证明某个事件发生的概率比较大，随机变量取某个值的概率大，不确定性就小了。(另外，信息熵也可以理解为解除信源不确定性所需要的信息量)
+于是我们给出： (其中规定)$0\log 0=0$
+$$
+H\left( x \right) =-\sum_{i=1}^n{p\left( x_i \right) \log \left( p\left( x_i \right) \right)}
+$$
+我们可以验证，当n个事件满足等概率分布时其中当结果为logn（n为总数）信息熵达到最大值。   <br>
+另外可以给出条件熵(你可以运用条件概率辅助理解)：
+$$
+H\left( Y|X \right) =-\sum_x{\sum_y{p\left( xy \right) \log P\left( y|x \right) =\sum_x{-\sum_y{P\left( y|x \right) \log P\left( x \right) =\sum_x{P\left( x \right) H\left( Y|x \right)}}}}}
+$$</p>
+<h2 id="相对熵">相对熵</h2>
+<p>如果我们对于同一个随机变量x有两个单独的概率分布P(x) 和 Q(x)，我们可以使用KL散度（Kullback-Leibler (KL) divergence）或者叫相对熵来衡量这<strong>两个分布的差异情况</strong>，其中p对q的相对熵写作(在机器学习中，我们可以把P(x)看作真实分布，而Q(x)作为预测的分布)：
+$$
+D_{KL}\left(p||q \right) =\sum_x{p\left( x \right) \log \frac{p\left( x \right)}{q\left( x \right)}=E_{p\left( x \right)}\log \frac{p\left( x \right)}{q\left( x \right)}}
+$$
+同时KL散度还满足以下条件：
+$$
+D_{KL}\left(p||q \right) \ne D_{KL}(q||p)
+\\
+D_{KL}\left(
+p||q\right) \geqslant 0
+$$
+对于第一个式子，我们可以借助以下内容理解：
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 113; 
+			flex-basis: 273px"
+	>
+	<a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua5.png" data-size="827x727">
+		<img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua5.png"
+			width="827"
+			height="727"
+			srcset="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua5_hue3bf3906151592c8066971d242d88c99_188105_480x0_resize_box_3.png 480w, /p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/chigua5_hue3bf3906151592c8066971d242d88c99_188105_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="by Deep Learning.Ian Goodfellow and Yoshua Bengio and Aaron Courville">
+	</a>
+	
+	<figcaption>by Deep Learning.Ian Goodfellow and Yoshua Bengio and Aaron Courville</figcaption>
+	
+</figure>
+用比较通俗的话来说，让我们回到公式之中，且注意到P(x)作为真实分布，Q(x)作为预测的分布；</p>
+<p>$$
+D_{KL}\left( p||q \right) =E_{p\left( x \right)}\log \frac{p\left( x \right)}{q\left( x \right)}
+$$</p>
+<ol>
+<li>当第一种情况，如果P(x)是较大的，那么q(x)也应该较大来保证相对熵最小化；如果P(x)是较小的，那实际上q(x)的大小对相对熵影响不大；所以我们只需要特别注意前者的情况。此时在看图你就可以更加理解了。</li>
+</ol>
+<p>$$
+D_{KL}\left( q||p \right) =E_{q\left( x \right)}\log \frac{q\left( x \right)}{p\left( x \right)}
+$$</p>
+<ol start="2">
+<li>当第二种情况，很显然会与第一种情况相反，如果P(x)是较小的，那么q(x)也应该较小来保证相对熵最小化————这就是为什么说图中提到概率小的地方比较重要，而q(x)较大的时候就影响不大了。</li>
+</ol>
+<h2 id="交叉熵">交叉熵</h2>
+<p>接下来我们要了解常用的一种更常用的熵————交叉熵，由前面学到的相对熵可以进一步推导：</p>
+<p>$$
+\begin{aligned}
+D_{KL}\left( p||q \right) &amp;=\sum_{i=1}^n{p\left( x_{\mathrm{i}} \right) \log \left( \frac{p\left( x_i \right)}{q\left( x_i \right)} \right)}\\
+\mathrm{
+}&amp;=\sum_{i=1}^n{p\left( x_i \right) \log \left( p\left( x_i \right) \right)}-\sum_{i=1}^n{p\left( x_i \right)}\log \left( q\left( x_i \right) \right)\\
+&amp;=-H\left( p \right) -\sum_{i=1}^n{p\left( x_i \right)}\log \left( q\left( x_i \right) \right)\
+\end{aligned}
+$$</p>
+<p>其中第一项我们可通过推导得知是针对真实分布概率p(x)的信息熵，而后一项我们定义为交叉熵；
+$$
+H\left( p,q \right) =-\sum_{i=1}^n{p\left( x_i \right)}\log \left( q\left( x_i \right) \right)
+$$
+交叉熵可以理解为，<strong>消除体系不确定性所需要付出的努力大小</strong>。</p>
+<h3 id="交叉熵与极大似然估计的联系">交叉熵与极大似然估计的联系</h3>
+<p>由于真实分布的信息熵是确定的，在优化过程中（最小化相对熵），我们可以把他忽略，只看交叉熵的部分。此外，最小化交叉熵其实与极大似然估计是等价的，具体证明如下：（参考Deep Learning.Ian Goodfellow and Yoshua Bengio and Aaron Courville）       <br>
+我们考虑一组含有m个样本的数据集$\mathbf{X}=({ x^{(1)},\cdots ,x^{(m)} }) $,此时可以定义 $ \theta $ 的极大似然为(其中P为模型的联合概率)：(如果你不懂argmax是什么意思可以参考<a class="link" href="https://zhuanlan.zhihu.com/p/79383099"  target="_blank" rel="noopener"
+    >argmax科普</a>)
+$$
+\begin{aligned}
+\mathbf{\theta }_{ML}&amp;=\underset{\theta}{\mathrm{argmax}}P_{model}\left( \mathbf{X};\theta \right)\\
+\mathrm{
+}&amp;=\underset{\theta}{\mathrm{argmax}}\prod_{i=1}^m{P_{model}\left( \boldsymbol{x}^{\left( i \right)};\theta \right)}
+\end{aligned}
+$$
+由于乘积不好计算，我们可以取log将他转换为加和形式，取最值时的参数不变；且可以乘上不影响结果的 $ \frac{1}{m} $。
+$$
+\begin{aligned}
+\mathbf{\theta }_{ML}&amp;=\underset{\theta}{\mathrm{argmax}}\sum_{i=1}^m \mathrm{log} {P_{model}\left( \boldsymbol{x}^{\left( i \right)};\theta \right)}\\
+\mathrm{
+}&amp;=\underset{\theta}{\mathrm{argmax}}\frac{1}{m}\sum_{i=1}^m \mathrm{log} {P_{model}\left( \boldsymbol{x}^{\left( i \right)};\theta \right)}
+\end{aligned}
+$$
+由大数定律可知（算术平均值依概率收敛于期望）：
+$$
+\frac{1}{m}\sum_{i=1}^m{X_i\longrightarrow}\frac{1}{m}\sum_{i=1}^m{EX_i}
+$$
+可以将原式进一步化为：
+$$
+\begin{aligned}
+\mathbf{\theta }_{ML}&amp;=\underset{\theta}{\mathrm{arg}\max}\mathbb{E}_{\mathbf{x}~\hat{p}_{data}}\log P_{model}\left( \boldsymbol{x};\boldsymbol{\theta } \right)\\
+&amp;=\underset{\theta}{\mathrm{arg}\max}\sum_x{p\left( x \right) \log q\left( x \right)}\\
+&amp;=\underset{\theta}{\mathrm{arg}\min}\left[ -\sum_x{p\left( x \right) \log q\left( x \right)} \right]\\
+\end{aligned}
+$$
+Bravo!!! 此时你惊喜的发现这就是我们前面推导得到的交叉熵公式，至此，对于真实分布和模型分布，我们明白了MLE方法（让似然最大化）等价于两者间交叉熵的最小化。好奇的你也许想问“MLE与KL散度也是共通的吗？”————这个问题你可以自己试试看，就用上式类似办法加常数即可！</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a class="link" href="https://www.cnblogs.com/wangguchangqing/p/12068084.html#autoid-0-1-0"  target="_blank" rel="noopener"
+    >一文搞懂交叉熵损失</a></li>
+<li><a class="link" href="https://www.cnblogs.com/kyrieng/p/8694705.html"  target="_blank" rel="noopener"
+    >详解机器学习中的熵、条件熵、相对熵和交叉熵 </a></li>
+<li><a class="link" href="https://www.doc88.com/p-5763943323651.html?r=1"  target="_blank" rel="noopener"
+    >信息论基础</a></li>
+<li><a class="link" href="https://zhuanlan.zhihu.com/p/355150033"  target="_blank" rel="noopener"
+    >数字世界逼近现实世界——浅谈分布近似与最大似然估计</a></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/machine-learning/">Machine learning</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">《机器学习》西瓜书笔记(二)</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">矩阵求导简易入门手册</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">《机器学习》西瓜书笔记(一)</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%B7%AF%E5%BE%84%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/knowledge-3.e3c7a47d466ad34818fd36ff5164a319_hu3adb970a553883b0b7ae744c75f65cb9_2096564_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 机器学习入门路径及其数学基础"
+                        
+                        data-hash="md5-48ekfUZq00gY/Tb/UWSjGQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习入门路径及其数学基础</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (DISQUS) {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#自信息量">自信息量</a></li>
+    <li><a href="#信息熵">信息熵</a></li>
+    <li><a href="#相对熵">相对熵</a></li>
+    <li><a href="#交叉熵">交叉熵</a>
+      <ol>
+        <li><a href="#交叉熵与极大似然估计的联系">交叉熵与极大似然估计的联系</a></li>
+      </ol>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

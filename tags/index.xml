@@ -6,20 +6,29 @@
     <description>Recent content in Tags on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 11 Jan 2022 20:53:41 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Jan 2022 22:34:11 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Machine learning</title>
       <link>https://sanbuphy.github.io/tags/machine-learning/</link>
-      <pubDate>Tue, 11 Jan 2022 20:53:41 +0800</pubDate>
+      <pubDate>Sat, 22 Jan 2022 22:34:11 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/tags/machine-learning/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>Linear algebra</title>
+      <link>https://sanbuphy.github.io/tags/linear-algebra/</link>
+      <pubDate>Wed, 12 Jan 2022 21:54:58 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/tags/linear-algebra/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>笔记</title>
       <link>https://sanbuphy.github.io/tags/%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Tue, 11 Jan 2022 20:53:41 +0800</pubDate>
+      <pubDate>Wed, 12 Jan 2022 21:54:58 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/tags/%E7%AC%94%E8%AE%B0/</guid>
       <description></description>

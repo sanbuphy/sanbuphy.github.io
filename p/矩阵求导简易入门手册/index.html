@@ -9,7 +9,7 @@
 <meta property='og:description' content='帮助理解西瓜书的求导部分'>
 <meta property='og:url' content='https://sanbuphy.github.io/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/'>
 <meta property='og:site_name' content='散步的小屋'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-01-12T21:54:58&#43;08:00'/><meta property='article:modified_time' content='2022-01-12T21:54:58&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Machine learning' /><meta property='article:tag' content='笔记' /><meta property='article:tag' content='Linear algebra' /><meta property='article:published_time' content='2022-01-12T21:54:58&#43;08:00'/><meta property='article:modified_time' content='2022-01-12T21:54:58&#43;08:00'/>
 <meta name="twitter:title" content="矩阵求导简易入门手册">
 <meta name="twitter:description" content="帮助理解西瓜书的求导部分">
     </head>
@@ -69,8 +69,8 @@
                 Math
             </a>
         
-            <a href="/categories/linear-algebra/" >
-                Linear algebra
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
             </a>
         
     </header>
@@ -226,7 +226,7 @@ $$\frac{\mathrm{d} \mathbf{x} }{\mathrm{d} \mathbf{x}} =\mathbf{I} \tag{5} \qqua
 若想从“直观上”理解结果为什么会有转置符，可以反复理解 <strong>(1.2)分子布局</strong> 中的右图
 $$\frac{\mathrm{d} \mathbf{a}^{\mathrm{T}}\mathbf{x} }{\mathrm{d} \mathbf{x}}=\frac{\mathrm{d} \mathbf{x}^{\mathrm{T}}\mathbf{a} }{\mathrm{d} \mathbf{x}}=\mathbf{a}^{\mathrm{T}} \tag{6} $$
 $$\frac{\mathrm{d} \mathbf{x}^{\mathrm{T}}\mathbf{x} }{\mathrm{d} \mathbf{x}}=2\mathbf{x}^{\mathrm{T}} \tag{7} $$
-$$\frac{\mathrm{d} {\mathbf{x}^{\mathrm{T}}\mathbf{a}}^2 }{\mathrm{d} \mathbf{x}}=2\mathbf{x}^{\mathrm{T}}\mathbf{a}\mathbf{a}^{\mathrm{T}} \tag{8} $$
+$$\frac{\mathrm{d} ({\mathbf{x}^{\mathrm{T}}\mathbf{a}})^2 }{\mathrm{d} \mathbf{x}}=2\mathbf{x}^{\mathrm{T}}\mathbf{a}\mathbf{a}^{\mathrm{T}} \tag{8} $$
 $$\frac{\mathrm{d} \mathbf{Ax} }{\mathrm{d} \mathbf{x}} =\mathbf{A} \tag{9} $$
 $$\frac{\mathrm{d} \mathbf{x}^{\mathrm{T}}\mathbf{A} }{\mathrm{d} \mathbf{x}}=\mathbf{A}^{\mathrm{T}} \tag{10} $$
 $$\frac{\mathrm{d} \mathbf{x}^{\mathrm{T}}\mathbf{A}\mathbf{x} }{\mathrm{d} \mathbf{x}}=\mathbf{x}^{\mathrm{T}}(\mathbf{A}+\mathbf{A}^{\mathrm{T}}) \tag{11} $$</p>
@@ -250,8 +250,10 @@ x_2
 方便计算，且符合目的。在计算结果直觉中一定要紧紧把握结果与分子（上下拉长）分母（左右拉宽）的关系。</p>
 <h3 id="多元线性回归推导">多元线性回归推导</h3>
 <p>在西瓜书第三章开头中，我们需要求解最小error$\ E=(\boldsymbol{y}-\mathbf{X}\boldsymbol{\hat{w}})^{\mathrm{T}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\hat{w}}) $
-对其展开有：$$\begin{aligned}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\hat{w}})^{\mathrm{T}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\hat{w}}) &amp;=(\boldsymbol{y}^{\mathrm{T}}-\boldsymbol{\hat{w}}^{\mathrm{T}}\mathbf{X}^{\mathrm{T}})(\boldsymbol{y}-\mathbf{X}\boldsymbol{\hat{w}}) \\     &amp;= \boldsymbol{y}^{\mathrm{T}} \boldsymbol{y}- (\boldsymbol{y}^{\mathrm{T}} \mathbf{X})  \boldsymbol{\hat{w}}-\boldsymbol{\hat{w}}^{\mathrm{T}} (\mathbf{X}^{\mathrm{T}} \boldsymbol{y})   +\boldsymbol{\hat{w}}^{\mathrm{T}} (\mathbf{X}^{\mathrm{T}} \mathbf{X})  \boldsymbol{\hat{w}} \end{aligned}$$
-把括号中看作常数，每一项分别对 $\boldsymbol{\hat{w}}$ 求导，利用公式$(9),(10),(11)$可得: <br>
+对其展开有：$$ \begin{aligned}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\hat{w}})^{\mathrm{T}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\hat{w}}) &amp;=(\boldsymbol{y}^{\mathrm{T}}-\boldsymbol{\hat{w}}^{\mathrm{T}}\mathbf{X}^{\mathrm{T}})(\boldsymbol{y}-\mathbf{X}\boldsymbol{\hat{w}}) \\
+&amp;= \boldsymbol{y}^{\mathrm{T}} \boldsymbol{y}- (\boldsymbol{y}^{\mathrm{T}} \mathbf{X})  \boldsymbol{\hat{w}}-\boldsymbol{\hat{w}}^{\mathrm{T}} (\mathbf{X}^{\mathrm{T}} \boldsymbol{y})
++\boldsymbol{\hat{w}}^{\mathrm{T}} (\mathbf{X}^{\mathrm{T}} \mathbf{X})  \boldsymbol{\hat{w}} \end{aligned}$$</p>
+<p>把括号中看作常数，每一项分别对 $\boldsymbol{\hat{w}}$ 求导，利用公式$(9),(10),(11)$可得: <br>
 $$ \frac{\partial \boldsymbol{E}_{\boldsymbol{\hat{w}}} }{\partial \boldsymbol{\hat{w}}} = -\boldsymbol{y}^{\mathrm{T}} \mathbf{X} - \boldsymbol{y}^{\mathrm{T}} \mathbf{X} + \boldsymbol{\hat{w}}^{\mathrm{T}} [\mathbf{X}^{\mathrm{T}} \mathbf{X}+(\mathbf{X}^{\mathrm{T}} \mathbf{X})^{\mathrm{T}}] = -2\boldsymbol{y}^{\mathrm{T}} \mathbf{X} + 2\boldsymbol{\hat{w}}^{\mathrm{T}} \mathbf{X}^{\mathrm{T}} \mathbf{X} $$
 令其等于零可得：
 $$\boldsymbol{y}^{\mathrm{T}} \mathbf{X} = \boldsymbol{\hat{w}}^{\mathrm{T}} \mathbf{X}^{\mathrm{T}} \mathbf{X}$$
@@ -260,15 +262,78 @@ $$ \mathbf{X}^{\mathrm{T}} \boldsymbol{y}  = \mathbf{X}^{\mathrm{T}} \mathbf{X} 
 若此时 $\mathbf{X}^{\mathrm{T}} \mathbf{X}$ 为满秩、非奇异矩阵，我们可以得到：
 $$\boldsymbol{\hat{w}}=( \mathbf{X}^{\mathrm{T}} \mathbf{X})^{-1} \mathbf{X}^{\mathrm{T}} \boldsymbol{y}   \\ \ \\ Q.E.D$$</p>
 <h2 id="上文公式的证明过程">上文公式的证明过程</h2>
-<p>两天内补充</p>
+<ul>
+<li>如果你不知道计算结果是否正确，可以使用<a class="link" href="http://www.matrixcalculus.org/"  target="_blank" rel="noopener"
+    >验算矩阵求导结果是否正确</a>进行验证。</li>
+</ul>
+<ol>
+<li>
+<p>证明(6)
+$$
+Let \; s=\boldsymbol{a}^T\mathbf{x}={a}_1x_1+\cdots +a_nx_n.\quad Then,\;\frac{\partial s}{\partial x_i}=a_i
+\\
+So,\:\frac{\mathrm{d} \boldsymbol{a}^{\mathrm{T}}\mathbf{x} }{\mathrm{d} \mathbf{x}}=\frac{\mathrm{d} s}{\mathrm{d} \mathbf{x}}=\left[ \frac{\mathrm{d}s}{\mathrm{d}x_1},\frac{\mathrm{d}s}{\mathrm{d}x_2},\cdots ,\frac{\mathrm{d}s}{\mathrm{d}x_n} \right] =\left[ a_1,a_2,\cdots ,a_n \right] =\boldsymbol{a}^T
+$$</p>
+</li>
+<li>
+<p>证明(7)
+$$
+Let \; s=\boldsymbol{\mathbf{x}}^{\mathrm{T}}\mathbf{x}=\sum_i{x_{i}^{2}}. \quad
+Then,\;\frac{\partial s}{\partial x_i}=2x_i \\ So, \;\; \frac{\mathrm{d} s}{\mathrm{d} \mathbf{x}}=2\mathbf{x}^{\mathrm{T}}
+$$</p>
+</li>
+<li>
+<p>证明(8)  <br>
+当成复合函数即可，相信你可以自己证明！</p>
+</li>
+<li>
+<p>证明(9)  <br>
+比较麻烦的方法，由：
+$$
+\mathbf{A}\mathbf{x}=\left[ \begin{matrix}
+a_{11}&amp;		\cdots&amp;		a_{1n}\\
+\vdots&amp;		\ddots&amp;		\vdots\\
+a_{n1}&amp;		\cdots&amp;		a_{nn}\\
+\end{matrix} \right] \left[ \begin{array}{c}
+x_1\\
+\vdots\\
+x_n\\
+\end{array} \right] =\left[ \begin{array}{c}
+a_{11}x_1+\cdots +a_{1n}x_n\\
+\vdots\\
+a_{n1}x_1+\cdots +a_{nn}x_n\\
+\end{array} \right]
+$$ <br>
+再由“分子决定行，分母决定列，分别求导”原则（如果不理解可以返回开头再看一遍）
+得到：
+$$
+\left[ \begin{matrix}
+a_{11}&amp;		\cdots&amp;		a_{1n}\\
+\vdots&amp;		\ddots&amp;		\vdots\\
+a_{n1}&amp;		\cdots&amp;		a_{nn}\\
+\end{matrix} \right]=\mathbf{A}
+$$
+比较简单的方法：（类似上面的证明）</p>
+</li>
+</ol>
+<p>$$
+Let\,\,  \boldsymbol{s}=\mathbf{A} \mathbf{x}. \;\;  Then,  s_i=\sum_j{\begin{array}{c}
+a_{ij}x_j\\
+\end{array}}, and\,\,\frac{\partial s_i}{\partial x_j}=a_{ij}.
+\\
+So, \frac{\mathrm{d} \boldsymbol{s}}{\mathrm{d} \mathbf{x}}=A.
+$$</p>
+<p>注释:有些情况（比如矩阵对向量、向量对矩阵、矩阵对矩阵求导）可能存在不好表达的情况（详情参考Reference4)因为列向量对列向量求导本质是用雅可比矩阵定义的。在这里建议直接记住结果,或者用网站验证结果；如果会用张量指标计算也行。如果你想学习更一般地做法，可以参考附录3的文章。</p>
 <h2 id="reference">Reference</h2>
 <ul>
 <li><a class="link" href="https://github.com/sanbuphy/chiguaqunzhong/blob/main/matrix_calculus%20NTU%20.pdf"  target="_blank" rel="noopener"
     >matrix_calculus NTU (Po-Chen Wu)</a></li>
 <li><a class="link" href="https://wenku.baidu.com/view/ace84aa564ce0508763231126edb6f1aff0071f2.html"  target="_blank" rel="noopener"
     >Matrix Differentiation NUS(Leow Wee Kheng)</a></li>
-<li><a class="link" href="http://www.matrixcalculus.org/"  target="_blank" rel="noopener"
-    >验算矩阵求导结果是否正确</a></li>
+<li><a class="link" href="https://zhuanlan.zhihu.com/p/273729929"  target="_blank" rel="noopener"
+    >矩阵求导公式的数学推导（矩阵求导——基础篇）</a></li>
+<li><a class="link" href="https://daiwk.github.io/assets/matrix&#43;vector&#43;derivatives&#43;for&#43;machine&#43;learning.pdf"  target="_blank" rel="noopener"
+    >机器学习中的矩阵、向量求导</a></li>
 </ul>
 
 </section>
@@ -276,6 +341,16 @@ $$\boldsymbol{\hat{w}}=( \mathbf{X}^{\mathrm{T}} \mathbf{X})^{-1} \mathbf{X}^{\m
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/tags/machine-learning/">Machine learning</a>
+        
+            <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
+        
+            <a href="/tags/linear-algebra/">Linear algebra</a>
+        
+    </section>
+
 
     
     <section class="article-copyright">
@@ -320,6 +395,60 @@ $$\boldsymbol{\hat{w}}=( \mathbf{X}^{\mathrm{T}} \mathbf{X})^{-1} \mathbf{X}^{\m
 
     <aside class="related-contents--wrapper">
     
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/_hu05be89c43654817bfc3a6d1d1f1925fe_2269278_8ef6f3da06f90875df4fa94970343871.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 机器学习中的信息论基础"
+                        
+                        data-hash="md5-I4tq5bCqkvQkOs5ljsw&#43;bg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的信息论基础</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">《机器学习》西瓜书笔记(二)</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">《机器学习》西瓜书笔记(一)</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
     
 </aside>
 

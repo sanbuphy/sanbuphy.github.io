@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>笔记 on 散步的小屋</title>
+    <link>https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 笔记 on 散步的小屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 22 Jan 2022 22:34:11 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>机器学习中的信息论基础</title>
+      <link>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Sat, 22 Jan 2022 22:34:11 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/</guid>
+      <description>首先，我们需要认识什么是信息量与信息熵: 自信息量 通常自信息可以从两个方面来理解: 自信息是事件发生前,事件发生的不确定性。 自信息表示事件发生后</description>
+    </item>
+    
+    <item>
+      <title>《机器学习》西瓜书笔记(二)</title>
+      <link>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
+      <pubDate>Mon, 17 Jan 2022 22:53:41 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
+      <description>本文为个人对西瓜书不成熟的一些理解和资料整理，欢迎批评指出意见，谢谢！(可邮箱联系physicoada@gmail.com) 西瓜书章节三 线性</description>
+    </item>
+    
+    <item>
+      <title>矩阵求导简易入门手册</title>
+      <link>https://sanbuphy.github.io/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/</link>
+      <pubDate>Wed, 12 Jan 2022 21:54:58 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/</guid>
+      <description>初始介绍 符号规定 在本文中，我们做如下规定： Matrix矩阵为：$\mathbf{A}, \mathbf{X}, \mathbf{Y}$ Vector向量（规定为$\color{red} {</description>
+    </item>
+    
+    <item>
+      <title>《机器学习》西瓜书笔记(一)</title>
+      <link>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Tue, 11 Jan 2022 20:53:41 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>本文为个人对西瓜书不成熟的一些理解和资料整理，欢迎批评指出意见，谢谢！(可邮箱联系physicoada@gmail.com) 西瓜书章节一 绪论</description>
+    </item>
+    
+  </channel>
+</rss>

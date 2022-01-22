@@ -6,14 +6,23 @@
     <description>Recent content in 杂七杂八知识 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 28 Dec 2021 18:39:12 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 Jan 2022 22:54:06 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>利用git生成SSH并与github连接</title>
+      <link>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8git%E7%94%9F%E6%88%90ssh%E5%B9%B6%E4%B8%8Egithub%E8%BF%9E%E6%8E%A5/</link>
+      <pubDate>Wed, 05 Jan 2022 22:54:06 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8git%E7%94%9F%E6%88%90ssh%E5%B9%B6%E4%B8%8Egithub%E8%BF%9E%E6%8E%A5/</guid>
+      <description>注意事项 在开始菜单，需要使用管理员模式打开git bash 在linux操作中（比如git）粘贴操作是shift+insert或单击鼠标的滚轮。而复制</description>
+    </item>
+    
     <item>
       <title>如何运用hugo与github.io搭建个人博客</title>
       <link>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
       <pubDate>Tue, 28 Dec 2021 18:39:12 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8hugo%E4%B8%8Egithub.io%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
-      <description>前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你可能需要生成ssh后与github绑定，可参考本博中的教</description>
+      <description>前置要求 你可能需要学习如何使用git，可参考本博中的教程或观看狂神git简单教程。 你也许也想知道怎么利用GitHub Desktop上传东西到</description>
     </item>
     
     <item>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linear algebra on 散步的小屋</title>
+    <link>https://sanbuphy.github.io/tags/linear-algebra/</link>
+    <description>Recent content in Linear algebra on 散步的小屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 12 Jan 2022 21:54:58 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/linear-algebra/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>矩阵求导简易入门手册</title>
+      <link>https://sanbuphy.github.io/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/</link>
+      <pubDate>Wed, 12 Jan 2022 21:54:58 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/</guid>
+      <description>初始介绍 符号规定 在本文中，我们做如下规定： Matrix矩阵为：$\mathbf{A}, \mathbf{X}, \mathbf{Y}$ Vector向量（规定为$\color{red} {</description>
+    </item>
+    
+  </channel>
+</rss>
