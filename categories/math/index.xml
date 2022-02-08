@@ -6,7 +6,16 @@
     <description>Recent content in Math on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 22 Jan 2022 22:34:11 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/math/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 29 Jan 2022 16:18:00 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/math/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>小猫也能看懂的反向传播算法</title>
+      <link>https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sat, 29 Jan 2022 16:18:00 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</guid>
+      <description>在介绍具体的算法之前，我们得先认识一下神经网络以及为什么要构造这样的神经网络。 注，如果你对神经网络的发展史感兴趣，可参考神经网络浅讲：从神经</description>
+    </item>
+    
     <item>
       <title>机器学习中的信息论基础</title>
       <link>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/</link>

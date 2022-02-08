@@ -6,7 +6,186 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 22 Jan 2022 22:34:11 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 08 Feb 2022 15:28:17 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Opencv基础教程及其链接</title>
+        <link>https://sanbuphy.github.io/p/opencv%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E5%85%B6%E9%93%BE%E6%8E%A5/</link>
+        <pubDate>Tue, 08 Feb 2022 15:28:17 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/opencv%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E5%85%B6%E9%93%BE%E6%8E%A5/</guid>
+        <description>&lt;p&gt;推荐参考：
+&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV12V411q7Sp/?spm_id_from=333.788&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;基于Python的Opencv全系列速成课&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1Hm4y1X7s9/?spm_id_from=333.788&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;3天建立计算机视觉移动应用程序-支持iOS与Android&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV11X4y1N7cQ/?spm_id_from=333.788&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;无人机编程与Python教学&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/jasmcaus/opencv-course&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>小猫也能看懂的反向传播算法</title>
+        <link>https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</link>
+        <pubDate>Sat, 29 Jan 2022 16:18:00 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</guid>
+        <description>&lt;img src="https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/jeff-rodgers-DaPabnoYMKc-unsplash.jpg" alt="Featured image of post 小猫也能看懂的反向传播算法" /&gt;&lt;p&gt;在介绍具体的算法之前，我们得先认识一下神经网络以及为什么要构造这样的神经网络。
+注，如果你对神经网络的发展史感兴趣，可参考&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/subconscious/p/5058741.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;神经网络浅讲：从神经元到深度学习&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;神经网络基础&#34;&gt;神经网络基础&lt;/h2&gt;
+&lt;p&gt;首先，我们知道人的神经网络是由神经元组成的，每个神经元与其他神经元相连。当某个神经元 “兴奋”时, 就会向相连的神经元发送化学物质，改变这些神经元内的电位；如果某神经元的电位超过了一个“阈值” ( threshold), 那么它就会被激活，即 “兴奋” 起来，接着向向其他神经元发送化学物质。   &lt;br&gt;
+我们可以把神经元抽象成“神经单元”，即从&lt;strong&gt;单纯的输入0或1，阶跃函数型激活模式，输出0或1（即点火）&lt;strong&gt;的生物模型；变为&lt;/strong&gt;允许输入任何模型框架内数值，自选激活函数且将结果转化为兴奋度&lt;/strong&gt;的一般模型。 &lt;br&gt;
+一般的，我们常用sigmoid函数作为激活函数，如果你想了解其他激活函数，可以自行搜索（网络上真的很多）：  &lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 225; 
+			flex-basis: 541px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing1.png&#34; data-size=&#34;708x314&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing1.png&#34;
+			width=&#34;708&#34;
+			height=&#34;314&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing1_hu96e35c1fb03766fbb920d20802a4cbcd_85711_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing1_hu96e35c1fb03766fbb920d20802a4cbcd_85711_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;MP神经元模型 by：周志华-机器学习&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;MP神经元模型 by：周志华-机器学习&lt;/figcaption&gt;
+	
+&lt;/figure&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 214; 
+			flex-basis: 514px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing2.png&#34; data-size=&#34;772x360&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing2.png&#34;
+			width=&#34;772&#34;
+			height=&#34;360&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing2_huf0c7ad51a6d125d3535def1e49e98a0f_53580_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing2_huf0c7ad51a6d125d3535def1e49e98a0f_53580_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;常见激活函数 by：周志华-机器学习&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;常见激活函数 by：周志华-机器学习&lt;/figcaption&gt;
+	
+&lt;/figure&gt;
+由上可知，神经单元可以拆解为三大要素：
+$$
+\text{输入：} z=w_1x_1+\cdots +w_nx_n+b\cdot 1
+\\
+\text{输出：} a=f\left( z \right)
+\\
+\text{激活函数：}f\left( z \right) =\frac{1}{1+e^{-z}}
+$$
+其中b为偏置（为了形式美观，我们令阈值 $ \theta = -b $ ），b·1的意思是常数1作为b对应的输入值（这样可以在之后将等式写成更美观的矩阵，类似多元回归时把常数放入矩阵的操作）    &lt;br&gt;
+有了神经单元，把他们连接后就形成了神经网络（不同层的作用将在下部分给出）
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 136; 
+			flex-basis: 326px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing3.PNG&#34; data-size=&#34;565x415&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing3.PNG&#34;
+			width=&#34;565&#34;
+			height=&#34;415&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing3_hu3f13d4a903d68ecc4c0d4bea7e1ef2fa_116603_480x0_resize_box_3.PNG 480w, https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing3_hu3f13d4a903d68ecc4c0d4bea7e1ef2fa_116603_1024x0_resize_box_3.PNG 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;阶层型神经网络 by：深度学习的数学&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;阶层型神经网络 by：深度学习的数学&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;神经网络的运作原理&#34;&gt;神经网络的运作原理&lt;/h2&gt;
+&lt;p&gt;假设，你是一只爱吃“0”与“1”图样猫粮且非常挑食的小猫，出于懒惰，你想让计算机帮自己把这两类图案的猫粮完全区分。在以前，我们学过了分类法的线性回归(逻辑回归)，单纯的二维数据点分类不是件难事，但当我们遇到图像后该怎么办呢？为了方便，我们需要引入上述的神经网络。 &lt;br&gt;
+为了引入神经网络，首先需要对猫粮图案处理成计算机可识别的内容，我们可以这样进行编号：（举例图案为4x3的格子）
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 259; 
+			flex-basis: 621px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing4.png&#34; data-size=&#34;943x364&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing4.png&#34;
+			width=&#34;943&#34;
+			height=&#34;364&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing4_hu2e9223918525cf31f51e7561fe0417c1_11841_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing4_hu2e9223918525cf31f51e7561fe0417c1_11841_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;将猫粮的0/1图案使用格子划分&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;将猫粮的0/1图案使用格子划分&lt;/figcaption&gt;
+	
+&lt;/figure&gt;
+其中编号代表有多少个信号源输入，信号输入的大小可以根据黑白设定，给出相应的0/1。（比如黑格子给神经元1的输入，白格子为0的输入）
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 185; 
+			flex-basis: 444px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing5.png&#34; data-size=&#34;844x456&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing5.png&#34;
+			width=&#34;844&#34;
+			height=&#34;456&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing5_hu3230b5ef4a6d3bdc519a46dd3bf63163_135554_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing5_hu3230b5ef4a6d3bdc519a46dd3bf63163_135554_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;将图像信息输入神经网络&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;将图像信息输入神经网络&lt;/figcaption&gt;
+	
+&lt;/figure&gt;  &lt;br&gt;
+在这里为了简化，我们只有简单的三层，一层输入，一层隐藏层（你可以理解为进一步处理数据），一层输出（用于判断结果是0还是1）。我们把它称为&lt;strong&gt;两层神经网络&lt;/strong&gt;（有些地方觉得输入层需要计入，但在此我们采用“因为输入层不活动只是输入”的观点，将输入层排除在层数计算外）    &lt;br&gt;
+有了数据输入，接下来便需要进一步认识神经单元的符号语言，从而理解数据在神经网络中是怎么传导的。（此处友情建议复习小节一的神经单元三大要素）
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 228; 
+			flex-basis: 547px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing6.png&#34; data-size=&#34;659x289&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing6.png&#34;
+			width=&#34;659&#34;
+			height=&#34;289&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing6_hu947275a1b30ddb8a3e29420e1516031c_75137_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/shenjing6_hu947275a1b30ddb8a3e29420e1516031c_75137_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;神经单元的符号语言&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;神经单元的符号语言&lt;/figcaption&gt;
+	
+&lt;/figure&gt;   如何理解这套符号呢？如图所示，“我们现在所研究的”对象是第L层的第j个神经单元，而他前一层的神经网络即为L-1层，且我们设前一层神经单元的标号为i。根据这套符号以及我们前面学到的神经单元三大要素，我们知道了第L层第j个神经单元的输入为 $ \mathrm{z}_{j}^{l} $，输出为 $ \mathrm{a}_{j}^{l} $ ,其中b为偏置，且L-1层第i个神经单元对L层第j个神经单元的影响权重为 $\mathrm{w}_{ji}^{l}$，激活函数负责把神经单元的“左半边”变成右半边的输出。（注，有些地方权重编号的ji可能互换为ij，但不影响最后结果）&lt;/p&gt;
+&lt;p&gt;有了神经网络，我们自然想到它到底有什么用？让我们回望初心——分类，我们的目的是通过模型对样本进行分类；操作是通过对训练集的学习，将某种参数决定下的模型预测值（某种特征）与对应的现实特征比较，让现实和预测的差别尽量小，从而实现分类的效果。而神经网络也是如此，决定分类结果的是输出层，我们可以设输出层（参考上面出现的两层神经网络）的第一个神经单元的输出值 $a_1^3$ 在图样为1的时候接近1（现实目标为1），第二个神经单元的输出值 $a_2^3$在图样为0的时候接近1（显示目标为0），即为：（注意，值为1表示的是神经单元“兴奋”）&lt;/p&gt;
+&lt;h3 id=&#34;为什么需要梯度下降法&#34;&gt;为什么需要梯度下降法&lt;/h3&gt;
+&lt;h3 id=&#34;前向传播原理&#34;&gt;前向传播原理&lt;/h3&gt;
+&lt;h3 id=&#34;反向传播原理&#34;&gt;反向传播原理&lt;/h3&gt;
+&lt;h3 id=&#34;一般化处理&#34;&gt;一般化处理&lt;/h3&gt;
+&lt;h2 id=&#34;浅析西瓜书中的bp算法&#34;&gt;浅析西瓜书中的BP算法&lt;/h2&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/71892752&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;温故知新——前向传播算法和反向传播算法（BP算法）及其推导&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/jsfantasy/p/12177275.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;反向传播算法详细推导&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV16x411V7Qg?p=2&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;深度学习之反向传播算法 上/下 Part 3 ver 0.9 beta&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;《深度学习的数学》 涌井良幸 涌井贞美&lt;/li&gt;
+&lt;li&gt;《机器学习 Machine Learning》 周志华&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>机器学习中的信息论基础</title>
         <link>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/</link>
         <pubDate>Sat, 22 Jan 2022 22:34:11 +0800</pubDate>
@@ -158,7 +337,7 @@ $$
 $$
 由大数定律可知（算术平均值依概率收敛于期望）：
 $$
-\frac{1}{m}\sum_{i=1}^m{X_i\longrightarrow}\frac{1}{m}\sum_{i=1}^m{EX_i}
+\frac{1}{m}\sum_{i=1}^m{X_i\longrightarrow} \mu
 $$
 可以将原式进一步化为：
 $$
