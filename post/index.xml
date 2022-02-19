@@ -6,14 +6,23 @@
     <description>Recent content in Posts on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 08 Feb 2022 15:28:17 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Feb 2022 20:45:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Opencv基础教程及其链接</title>
-      <link>https://sanbuphy.github.io/p/opencv%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E5%85%B6%E9%93%BE%E6%8E%A5/</link>
+      <title>完美安装paddle、PPOCRLabel、eiseg(linux)</title>
+      <link>https://sanbuphy.github.io/p/%E5%AE%8C%E7%BE%8E%E5%AE%89%E8%A3%85paddleppocrlabeleiseglinux/</link>
+      <pubDate>Sat, 19 Feb 2022 20:45:40 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E5%AE%8C%E7%BE%8E%E5%AE%89%E8%A3%85paddleppocrlabeleiseglinux/</guid>
+      <description>中心思想：遇事不决，降低版本 （numpy,paddlepaddle,opencv） 以防万一的操作 1.安装PyQt5 sudo apt-get install python3-pyqt5 2.安装qt-de</description>
+    </item>
+    
+    <item>
+      <title>目标检测相关资料汇总</title>
+      <link>https://sanbuphy.github.io/p/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E6%B1%87%E6%80%BB/</link>
       <pubDate>Tue, 08 Feb 2022 15:28:17 +0800</pubDate>
       
-      <guid>https://sanbuphy.github.io/p/opencv%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E5%85%B6%E9%93%BE%E6%8E%A5/</guid>
-      <description>推荐参考： 基于Python的Opencv全系列速成课 3天建立计算机视觉移动应用程序-支持iOS与Android 无人机编程与Python教学 项</description>
+      <guid>https://sanbuphy.github.io/p/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E6%B1%87%E6%80%BB/</guid>
+      <description>备注:我正在写一份目标检测&amp;amp;图像异常检测的综述slides，如果有兴趣可以等我出！欢迎邮件催更提建议：physicoada@gmai</description>
     </item>
     
     <item>

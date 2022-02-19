@@ -6,13 +6,77 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 08 Feb 2022 15:28:17 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Opencv基础教程及其链接</title>
-        <link>https://sanbuphy.github.io/p/opencv%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E5%85%B6%E9%93%BE%E6%8E%A5/</link>
+        <lastBuildDate>Sat, 19 Feb 2022 20:45:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>完美安装paddle、PPOCRLabel、eiseg(linux)</title>
+        <link>https://sanbuphy.github.io/p/%E5%AE%8C%E7%BE%8E%E5%AE%89%E8%A3%85paddleppocrlabeleiseglinux/</link>
+        <pubDate>Sat, 19 Feb 2022 20:45:40 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E5%AE%8C%E7%BE%8E%E5%AE%89%E8%A3%85paddleppocrlabeleiseglinux/</guid>
+        <description>&lt;p&gt;中心思想：遇事不决，降低版本 （numpy,paddlepaddle,opencv）&lt;/p&gt;
+&lt;h3 id=&#34;以防万一的操作&#34;&gt;以防万一的操作&lt;/h3&gt;
+&lt;p&gt;1.安装PyQt5&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo apt-get install python3-pyqt5&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;2.安装qt-designer&lt;/p&gt;
+&lt;p&gt;&lt;code&gt; sudo apt-get install qt5-default qttools5-dev-tools&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#命令行输入designer可测试是否安装成功&lt;/p&gt;
+&lt;h2 id=&#34;推荐安装流程从新建虚拟环境到安装一条龙服务&#34;&gt;推荐安装流程（从新建虚拟环境到安装一条龙服务）&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;请严格按照顺序！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;#[装错了想卸载重装，把install改成uninstall 不要加包括-i在内后面的信息即可]&lt;/p&gt;
+&lt;p&gt;#创建虚拟环境&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;conda create -n 改成你的虚拟环境名字 python=3.7&lt;/code&gt;   【3.7别打3.9】&lt;/p&gt;
+&lt;p&gt;#进入虚拟环境&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;conda activate 改成刚才你的虚拟环境名字&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#装坏了想炸掉虚拟环境（&lt;strong&gt;慎重&lt;/strong&gt;别打错了）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;conda remove -n 你的虚拟环境名字 --all&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#此时你能看到终端左侧显示环境名，接下来安装各类程序&lt;/p&gt;
+&lt;p&gt;#注：这里采用百度源作为示范，你也可以使用清华源：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt; -i https://pypi.tuna.tsinghua.edu.cn/simple&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#升级pip&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip install --upgrade pip -i https://mirror.baidu.com/pypi/simple	&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#以防万一的操作&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip install qtpy -i https://mirror.baidu.com/pypi/simple &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip install pyqt5 -i https://mirror.baidu.com/pypi/simple &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#安装paddle &lt;a class=&#34;link&#34; href=&#34;https://github.com/PaddlePaddle/Paddle&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;github主页面&lt;/a&gt; 【这里采用的是cpu，如果要gpu详细安装过程参考&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/431985052&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;gpu怎么看&lt;/a&gt;】&lt;/p&gt;
+&lt;p&gt;（如果出现问题可以在paddlepaddle后面加上==2.1.0安装旧版本）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;python -m pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#安装PPOCRLabel（OCR）  &lt;a class=&#34;link&#34; href=&#34;https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/PPOCRLabel/README_ch.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;github主页面&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt; pip install PPOCRLabel -i https://mirror.baidu.com/pypi/simple&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt; pip install  trash-cli -i https://mirror.baidu.com/pypi/simple&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#安装EISeg（图像处理） &lt;a class=&#34;link&#34; href=&#34;https://github.com/PaddlePaddle/PaddleSeg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;github主页面&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​	&lt;code&gt;pip install eiseg -i https://mirror.baidu.com/pypi/simple &lt;/code&gt;  #只输入这个就行&lt;/p&gt;
+&lt;p&gt;​	&lt;code&gt;pip install paddleseg -i https://mirror.baidu.com/pypi/simple &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#【最后】安装旧版本opencv（如果装了请先卸载）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt; pip install opencv-python==4.2.0.32 -i https://mirror.baidu.com/pypi/simple&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#接着测试ocr和eiseg：首先输入&lt;code&gt;PPOCRLabel --lang ch&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;#如果此时出现一段加载过程，最后出现界面，就说明你安装成功了！！&lt;/p&gt;
+&lt;p&gt;#再次输入： &lt;code&gt;eiseg&lt;/code&gt; 这时候大概率已经成功打开！&lt;/p&gt;
+&lt;h3 id=&#34;倒霉人请看这&#34;&gt;倒霉人请看这&lt;/h3&gt;
+&lt;p&gt;如果eiseg打开不成功可以尝试曲线方案（先安装这些依赖库）：&lt;/p&gt;
+&lt;p&gt;(pip不成功就改成conda)&lt;/p&gt;
+&lt;p&gt;#首先先把paddleseg的整个项目clone到本地  （以下安装还打不开可以这么做）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;conda install gdal&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip install qtpy&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip instal pyqt5&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip install easydict&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip install scikit-image&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这时候再进入即可！  （如果你还是打不开，就clone后进入eiseg子文件，按照&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/435111803&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;这个帖子&lt;/a&gt;运行exe.py	）&lt;/p&gt;
+&lt;p&gt;最后使用conda deactivate退出虚拟环境！！&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>目标检测相关资料汇总</title>
+        <link>https://sanbuphy.github.io/p/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E6%B1%87%E6%80%BB/</link>
         <pubDate>Tue, 08 Feb 2022 15:28:17 +0800</pubDate>
         
-        <guid>https://sanbuphy.github.io/p/opencv%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E5%8F%8A%E5%85%B6%E9%93%BE%E6%8E%A5/</guid>
-        <description>&lt;p&gt;推荐参考：
+        <guid>https://sanbuphy.github.io/p/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E6%B1%87%E6%80%BB/</guid>
+        <description>&lt;p&gt;备注:我正在写一份目标检测&amp;amp;图像异常检测的综述slides，如果有兴趣可以等我出！欢迎邮件催更提建议：physicoada@gmail.com&lt;/p&gt;
+&lt;h2 id=&#34;opencv基础&#34;&gt;opencv基础：&lt;/h2&gt;
+&lt;p&gt;推荐参考：
 &lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV12V411q7Sp/?spm_id_from=333.788&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;基于Python的Opencv全系列速成课&lt;/a&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1Hm4y1X7s9/?spm_id_from=333.788&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -20,6 +84,76 @@
 &lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV11X4y1N7cQ/?spm_id_from=333.788&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;无人机编程与Python教学&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;项目地址：https://github.com/jasmcaus/opencv-course&lt;/p&gt;
+&lt;h2 id=&#34;几个大型综述&#34;&gt;几个大型综述&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;http://arxiv.org/abs/1905.05055&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Object Detection in 20 Years: A Survey&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;相关笔记：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/192362333&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/192362333&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_29462849/article/details/118231407&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;综述：目标检测二十年（2001-2021）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/ciao/articles/10892921.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;目标检测近5年发展历程概述，从R-CNN到RFBNet（2013&amp;ndash;2018）&lt;/a&gt; (韩国人整的)&lt;/li&gt;
+&lt;li&gt;目标检测：Anchor-Free时代 - 陀飞轮的文章 - 知乎 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/62103812&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/62103812&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;CVPR 2021 论文大盘点-目标检测篇 - 我爱计算机视觉的文章 - 知乎 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/387510116&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/387510116&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;目标检测的精进路径 - mileistone的文章 - 知乎 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/266648028&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/266648028&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;目标检测入门，看这篇就够了（上） - 最刚烈的文章 - 知乎 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/60120331&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/60120331&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;国内做深度学习目标检测的有哪些大牛和厉害的课题组？ - Amusi的回答 - 知乎 &lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/question/330390445/answer/723973941&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.zhihu.com/question/330390445/answer/723973941&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;iccv-2021-结果出炉最新200篇iccv2021论文分方向汇总更新中&#34;&gt;ICCV 2021 结果出炉！最新200篇ICCV2021论文分方向汇总（更新中）&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/392575669&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/392575669&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/354043252&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/354043252&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;7cvpr2021论文分方向盘点&#34;&gt;7.CVPR2021论文分方向盘点&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/extreme-assistant/CVPR2021-Paper-Code-Interpretation#7&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/extreme-assistant/CVPR2021-Paper-Code-Interpretation#7&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一文看尽 27 篇 CVPR2021 2D 目标检测论文 &lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/Ho7qtrpF9FhHGaamkQo6Lw&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mp.weixin.qq.com/s/Ho7qtrpF9FhHGaamkQo6Lw&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CVPR 2020 论文大盘点-目标检测篇&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://bbs.cvmart.net/articles/2732&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://bbs.cvmart.net/articles/2732&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;《目标检测》-第24章-YOLO系列的又一集大成者：YOLOX！&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/391396921&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/391396921&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;目标检测可以先从成熟框架开始上手，比如mmdetection和detectron2。 如果基础。。。。。。目标检测该怎么学呀，目前研一，老师啥也不会，感觉毕不了业了？ - 小小将的回答 - 知乎 &lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/question/510784176/answer/2305603811&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.zhihu.com/question/510784176/answer/2305603811&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;系统地学习目标检测可以遵从下面的学习路线：
+1.&lt;strong&gt;学习经典工作&lt;/strong&gt;。经典工作包括RCNN系列（RCNN、Fast RCNN、Faster RCNN），宏观上可以学习到什么是目标检测、目标检测是做什么的，微观上可以学习到诸如Region Proposal Network（后续one-stage工作的基础）、Anchor box等基础技术。这个系列后来被划定为“two-stage”工作，检测精度好、速度要慢一些。随后，再学习早期的YOLO系列工作（YOLOv1、YOLOv2），宏观上可以学习到什么是one-stage目标检测方法、如何进行端到端的训练和推理，同时，学习SSD，可以初次接触到多级检测方法——使用更多的&lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/search?q=%e7%89%b9%e5%be%81%e5%9b%be&amp;amp;search_source=Entity&amp;amp;hybrid_search_source=Entity&amp;amp;hybrid_search_extra=%7b%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2305881442%7d&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;特征图&lt;/a&gt;去检测不同大小的物体。最后，学习FPN、YOLOv3以及RetinaNet（Focal loss），掌握当下主流检测框架“分而治之”方法。学习玩这些经典工作，最好能从中挑选出一至两个工作，进行复现，那么，目标检测就入门了。目标检测该怎么学呀，目前研一，老师啥也不会，感觉毕不了业了？ - Kissrabbit的回答 - 知乎 &lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/question/510784176/answer/2305881442&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.zhihu.com/question/510784176/answer/2305881442&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;目标检测（Object Detection）入门概要&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/f290131665/article/details/81012556&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/f290131665/article/details/81012556&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/112640903&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;目标检测位置回归损失函数整理&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/104236411&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;目标检测回归损失函数简介：SmoothL1/IoU/GIoU/DIoU/CIoU Loss&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/zijin0802034/article/details/77685438&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;边框回归(Bounding Box Regression)详解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/yangyehuisw/article/details/114918951&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Faster RCNN 中检测框位置回归是怎么做的&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/27467369&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;目标检测（1）-Selective Search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/zyly/p/9259392.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;第三十三节，目标检测之选择性搜索-Selective Search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/u011974639/article/details/78053203?locationNum=7&amp;amp;fps=1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Object Detection&amp;ndash;RCNN,SPPNet,Fast RCNN，FasterRCNN论文详解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.sohu.com/a/364671359_100007727&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;什么是anchor-based 和anchor free？ &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         <item>
