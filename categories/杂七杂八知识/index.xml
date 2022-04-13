@@ -6,7 +6,16 @@
     <description>Recent content in 杂七杂八知识 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 19 Feb 2022 20:45:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Mar 2022 16:28:01 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C/C&#43;&#43;在Windows下的环境配置流程和运行方法</title>
+      <link>https://sanbuphy.github.io/p/c/c-%E5%9C%A8windows%E4%B8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%92%8C%E8%BF%90%E8%A1%8C%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sun, 20 Mar 2022 16:28:01 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/c/c-%E5%9C%A8windows%E4%B8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%92%8C%E8%BF%90%E8%A1%8C%E6%96%B9%E6%B3%95/</guid>
+      <description>笔者因为要使用opencv c++版的需求，需要给家里的电脑配c/cpp的运行环境， 如果是Linux无脑Clion即可，windows上稍微有</description>
+    </item>
+    
     <item>
       <title>完美安装paddle、PPOCRLabel、eiseg(linux)</title>
       <link>https://sanbuphy.github.io/p/%E5%AE%8C%E7%BE%8E%E5%AE%89%E8%A3%85paddleppocrlabeleiseglinux/</link>

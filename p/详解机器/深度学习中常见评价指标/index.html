@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Pre、ACC、Recall、F1、RPC、Roc、AUC、IOU、AP、mAP'><title>详解机器/深度学习中常见评价指标</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='详解机器/深度学习中常见评价指标'>
+<meta property='og:description' content='Pre、ACC、Recall、F1、RPC、Roc、AUC、IOU、AP、mAP'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Machine learning' /><meta property='article:tag' content='Deep learning' /><meta property='article:published_time' content='2022-04-12T20:53:41&#43;08:00'/><meta property='article:modified_time' content='2022-04-12T20:53:41&#43;08:00'/>
+<meta name="twitter:title" content="详解机器/深度学习中常见评价指标">
+<meta name="twitter:description" content="Pre、ACC、Recall、F1、RPC、Roc、AUC、IOU、AP、mAP">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" >
+                机器学习
+            </a>
+        
+            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" >
+                深度学习
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">详解机器/深度学习中常见评价指标</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        Pre、ACC、Recall、F1、RPC、Roc、AUC、IOU、AP、mAP
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 12, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>待进一步完善&hellip;龟速填坑中</p>
+<h1 id="评价指标的基石">评价指标的基石</h1>
+<p>所有复杂问题都是简单问题的重复， <br>
+为了理解所有指标，首先需了解“四大天王”与“三大护法”</p>
+<h2 id="四大天王tpfp-tnfn">四大天王——TP|FP TN|FN</h2>
+<p>我们认为positive代表了阳性（或者说正样本），   <br>
+而Negative代表了阴性（负样本)，那么在二分类中我们根据猜测的对错很容易排列出2x2种情况：   </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>True</th>
+<th>False</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Positive</td>
+<td>TP(猜对了阳)</td>
+<td>FP(猜错了阳)</td>
+</tr>
+<tr>
+<td>Negative</td>
+<td>TN(猜对了阴)</td>
+<td>FN(猜错了阴)</td>
+</tr>
+</tbody>
+</table>
+<p>其中<strong>左半边</strong>表示真值和我的猜测一致（猜对了），<strong>右半边</strong>表示真值和我的猜测不一致（猜错了）；<br>
+<strong>上半边</strong>表示猜测阳性的全体 $P$，<strong>下半边</strong>表示猜测阴性的全体$N$。<br>
+<strong>TP+FN</strong>表示真值阳性的全体，<strong>TN+FP</strong>表示真值阴性的全体。</p>
+<h2 id="三大护法preaccrecall">三大护法——Pre、ACC、Recall</h2>
+<p>根据四大金刚，我们容易得出常见模型中的三个评价指标，
+(为什么不能只看一个呢？因为容易被“浮云遮望眼”)</p>
+<h3 id="preprecision-精确率又称查准率">Pre(Precision 精确率又称查准率)</h3>
+<p>精确和准确在中文上看起来是一个意思，但实际上有微小的区别；   <br>
+我们可以通过投标的例子来理解什么是精确，什么是准确。     <br>
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 108; 
+			flex-basis: 259px"
+	>
+	<a href="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre.png" data-size="443x410">
+		<img src="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre.png"
+			width="443"
+			height="410"
+			srcset="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre_hu293cc79c30269c7ee26490aff220e369_50239_480x0_resize_box_3.png 480w, /p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre_hu293cc79c30269c7ee26490aff220e369_50239_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="精确率是度量信噪的一种方式，是对偏差程度的反应（标准差大就不精确）">
+	</a>
+	
+	<figcaption>精确率是度量信噪的一种方式，是对偏差程度的反应（标准差大就不精确）</figcaption>
+	
+</figure>
+从上图可知，精确率高的数据其标准差较小，也就是“我投中了，投中的差别不大”;在二分类中或者说判断是否阳性中，我们关注的重点是在我对阳性的判断中，是否判断对了(存不存在错判阳性的偏差）；如果精确率高，就说明我预测阳性偏差小，阳性就是真的阳性，较少出差错。     <br>
+总结来说，精确率高指的是“我对正例判断出差错（偏差）的情况怎么样？”，也就是： <br>
+$$
+Precision = \frac{TP}{P} = \frac{TP}{TP+FP}
+$$ <br>
+精确率越高，说明我对正例/阳性判断的偏差越小，也就是TP占总判断阳性中的比例越大。
+这时候可能会有聪明的同学问了，那为什么我们不考虑对负例判断的偏差呢，比如构建一个TN/TN+FN的指标？ <br>
+其实是有的，一般的，Pre还有更深入的名字叫“positive predictive value (PPV)”，显然也有对应的“Negative predictive value (NPV) ” 只是因为负样本通常较少，正样本较多；所以把PPV作为一个更常用的指标，归为精确率。</p>
+<h3 id="accaccuracy-准确率">ACC(Accuracy 准确率)</h3>
+<p>为什么说精准但“精确不一定准确呢”？<br>
+你可以这么想，精密仪器显然是为了误差小，那精密仪器一定能得到准确结果吗？————答案是不一定，比如你没有调零!(做过大物实验的朋友都知道~)     <br>
+没有调零就好像y=kx+b中多了一个b，也就是投标图像中的“整体偏移真值” （下图的上半部分）    <br>
+虽然很精确，但很不准确！！   <br>
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 159; 
+			flex-basis: 383px"
+	>
+	<a href="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc.png" data-size="651x407">
+		<img src="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc.png"
+			width="651"
+			height="407"
+			srcset="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc_hu8a5893a2dc9a5dc60e3917fd76bdb1c7_115874_480x0_resize_box_3.png 480w, /p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc_hu8a5893a2dc9a5dc60e3917fd76bdb1c7_115874_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="左半侧更不准确，右半侧更准确">
+	</a>
+	
+	<figcaption>左半侧更不准确，右半侧更准确</figcaption>
+	
+</figure>
+准确率更容易理解，准确率考虑的是更“全局”的结果是否正确， <br>
+也就是在我所有预测的结果中，我到底预测的“好不好”，
+即：
+$$
+Accuracy = \frac{TP+TN}{所有预测} = \frac{TP+TN}{TP+FP+TN+FN}
+$$</p>
+<h3 id="recall召回率又称查全率">Recall(召回率又称查全率)</h3>
+<p>顾名思义，查全的意思就是“我查的全不全”，我是否把所有的阳性覆盖到了（阳性全体为P），</p>
+<p>$$
+Recall =  \frac{TP}{阳性全体}=  \frac{TP}{TP+FN}
+$$
+<strong>有时候查全率很高，但精确率很低。</strong>     <br>
+比如我有3个阳性，97个阴性。我预测100个全为阳性（此时P=100且TP=3，FP=97），0个阴性；此时查全率为：3/3=100% ！<br>
+但此时精确率为：3%。。。。。这显然是没有意义的。   <br>
+<strong>有时候精确率很高，但查全率很低。</strong>     <br>
+比如我还是有3个阳性，97个阴性。我刚好预测对某1个为阳性（此时P=1且TP=1，FP=0），99个阴性；此时精确率为：100% ！   <br>
+但此时查全率为：33.333%。。。。。这显然也是意义不大的。  <br>
+<strong>查全率与精确率存在互逆关系</strong><br>
+我们能够隐约发现查全率和精确率的互逆关系，但究竟是为什么呢？ <br>
+仔细观察可以发现，Recall和Pre只在分母有差别，其中Recall的分母是TP+FN【不变量】，而Pre的分母是TP+FP【可变量】。<br>
+为了提高Recall，我们需要增大TP，而分母不变； <br>
+但Pre中如果TP增加了FP也会跟着增加（我需要判断的东西变多了，精确率会下降，错误的概率会变大），分子的TP增加小于分母的TP+FP总体的增加。所以查全率和精确率是互逆的。</p>
+<h2 id="f1rpcrocauc">F1、RPC、Roc、AUC</h2>
+<p>在充分了解了四大金刚与三大护法后，我们进一步来研究他们的衍生变体：</p>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a class="link" href="https://blog.csdn.net/xys430381_1/article/details/90770520"  target="_blank" rel="noopener"
+    >机器学习基础&mdash;分类与检测的评价指标&mdash;AP，mAP，PRC曲线</a></li>
+<li><a class="link" href="https://zhuanlan.zhihu.com/p/240435991"  target="_blank" rel="noopener"
+    >分类问题中的一些指标概念-Roc|AUC|Pre|Recall|ACC|AP|mAP|F1总结</a></li>
+<li><a class="link" href="https://www.pianshen.com/article/4398957319/"  target="_blank" rel="noopener"
+    >分类器的ROC曲线及相关指标（ROC、AUC、ACC）详解</a></li>
+<li><a class="link" href="https://mp.weixin.qq.com/s/DOwFP4Qk4A415N8t8ibhAw"  target="_blank" rel="noopener"
+    >MCC — 机器学习中优于F1-score和accuracy的一个性能评价指标</a></li>
+<li><a class="link" href="https://towardsdatascience.com/should-i-look-at-precision-recall-or-specificity-sensitivity-3946158aace1"  target="_blank" rel="noopener"
+    >Data Science in Medicine — Precision &amp; Recall or Specificity &amp; Sensitivity?</a></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/machine-learning/">Machine learning</a>
+        
+            <a href="/tags/deep-learning/">Deep learning</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/_hu994d601531656c23f7e611d455c8d878_8153127_559361b0bf15c67b5cc95028d00571c3.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 小猫也能看懂的反向传播算法"
+                        
+                        data-hash="md5-4qKZZmbuA0Uc93DjL3/U4Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">小猫也能看懂的反向传播算法</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/_hu05be89c43654817bfc3a6d1d1f1925fe_2269278_8ef6f3da06f90875df4fa94970343871.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 机器学习中的信息论基础"
+                        
+                        data-hash="md5-I4tq5bCqkvQkOs5ljsw&#43;bg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的信息论基础</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">《机器学习》西瓜书笔记(二)</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">《机器学习》西瓜书笔记(一)</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">矩阵求导简易入门手册</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (DISQUS) {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#四大天王tpfp-tnfn">四大天王——TP|FP TN|FN</a></li>
+    <li><a href="#三大护法preaccrecall">三大护法——Pre、ACC、Recall</a>
+      <ol>
+        <li><a href="#preprecision-精确率又称查准率">Pre(Precision 精确率又称查准率)</a></li>
+        <li><a href="#accaccuracy-准确率">ACC(Accuracy 准确率)</a></li>
+        <li><a href="#recall召回率又称查全率">Recall(召回率又称查全率)</a></li>
+      </ol>
+    </li>
+    <li><a href="#f1rpcrocauc">F1、RPC、Roc、AUC</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -6,7 +6,306 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 19 Feb 2022 20:45:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 12 Apr 2022 20:53:41 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>详解机器/深度学习中常见评价指标</title>
+        <link>https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</link>
+        <pubDate>Tue, 12 Apr 2022 20:53:41 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</guid>
+        <description>&lt;p&gt;待进一步完善&amp;hellip;龟速填坑中&lt;/p&gt;
+&lt;h1 id=&#34;评价指标的基石&#34;&gt;评价指标的基石&lt;/h1&gt;
+&lt;p&gt;所有复杂问题都是简单问题的重复， &lt;br&gt;
+为了理解所有指标，首先需了解“四大天王”与“三大护法”&lt;/p&gt;
+&lt;h2 id=&#34;四大天王tpfp-tnfn&#34;&gt;四大天王——TP|FP TN|FN&lt;/h2&gt;
+&lt;p&gt;我们认为positive代表了阳性（或者说正样本），   &lt;br&gt;
+而Negative代表了阴性（负样本)，那么在二分类中我们根据猜测的对错很容易排列出2x2种情况：   &lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;True&lt;/th&gt;
+&lt;th&gt;False&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Positive&lt;/td&gt;
+&lt;td&gt;TP(猜对了阳)&lt;/td&gt;
+&lt;td&gt;FP(猜错了阳)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Negative&lt;/td&gt;
+&lt;td&gt;TN(猜对了阴)&lt;/td&gt;
+&lt;td&gt;FN(猜错了阴)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;其中&lt;strong&gt;左半边&lt;/strong&gt;表示真值和我的猜测一致（猜对了），&lt;strong&gt;右半边&lt;/strong&gt;表示真值和我的猜测不一致（猜错了）；&lt;br&gt;
+&lt;strong&gt;上半边&lt;/strong&gt;表示猜测阳性的全体 $P$，&lt;strong&gt;下半边&lt;/strong&gt;表示猜测阴性的全体$N$。&lt;br&gt;
+&lt;strong&gt;TP+FN&lt;/strong&gt;表示真值阳性的全体，&lt;strong&gt;TN+FP&lt;/strong&gt;表示真值阴性的全体。&lt;/p&gt;
+&lt;h2 id=&#34;三大护法preaccrecall&#34;&gt;三大护法——Pre、ACC、Recall&lt;/h2&gt;
+&lt;p&gt;根据四大金刚，我们容易得出常见模型中的三个评价指标，
+(为什么不能只看一个呢？因为容易被“浮云遮望眼”)&lt;/p&gt;
+&lt;h3 id=&#34;preprecision-精确率又称查准率&#34;&gt;Pre(Precision 精确率又称查准率)&lt;/h3&gt;
+&lt;p&gt;精确和准确在中文上看起来是一个意思，但实际上有微小的区别；   &lt;br&gt;
+我们可以通过投标的例子来理解什么是精确，什么是准确。     &lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 108; 
+			flex-basis: 259px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre.png&#34; data-size=&#34;443x410&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre.png&#34;
+			width=&#34;443&#34;
+			height=&#34;410&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre_hu293cc79c30269c7ee26490aff220e369_50239_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre_hu293cc79c30269c7ee26490aff220e369_50239_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;精确率是度量信噪的一种方式，是对偏差程度的反应（标准差大就不精确）&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;精确率是度量信噪的一种方式，是对偏差程度的反应（标准差大就不精确）&lt;/figcaption&gt;
+	
+&lt;/figure&gt;
+从上图可知，精确率高的数据其标准差较小，也就是“我投中了，投中的差别不大”;在二分类中或者说判断是否阳性中，我们关注的重点是在我对阳性的判断中，是否判断对了(存不存在错判阳性的偏差）；如果精确率高，就说明我预测阳性偏差小，阳性就是真的阳性，较少出差错。     &lt;br&gt;
+总结来说，精确率高指的是“我对正例判断出差错（偏差）的情况怎么样？”，也就是： &lt;br&gt;
+$$
+Precision = \frac{TP}{P} = \frac{TP}{TP+FP}
+$$ &lt;br&gt;
+精确率越高，说明我对正例/阳性判断的偏差越小，也就是TP占总判断阳性中的比例越大。
+这时候可能会有聪明的同学问了，那为什么我们不考虑对负例判断的偏差呢，比如构建一个TN/TN+FN的指标？ &lt;br&gt;
+其实是有的，一般的，Pre还有更深入的名字叫“positive predictive value (PPV)”，显然也有对应的“Negative predictive value (NPV) ” 只是因为负样本通常较少，正样本较多；所以把PPV作为一个更常用的指标，归为精确率。&lt;/p&gt;
+&lt;h3 id=&#34;accaccuracy-准确率&#34;&gt;ACC(Accuracy 准确率)&lt;/h3&gt;
+&lt;p&gt;为什么说精准但“精确不一定准确呢”？&lt;br&gt;
+你可以这么想，精密仪器显然是为了误差小，那精密仪器一定能得到准确结果吗？————答案是不一定，比如你没有调零!(做过大物实验的朋友都知道~)     &lt;br&gt;
+没有调零就好像y=kx+b中多了一个b，也就是投标图像中的“整体偏移真值” （下图的上半部分）    &lt;br&gt;
+虽然很精确，但很不准确！！   &lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 159; 
+			flex-basis: 383px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc.png&#34; data-size=&#34;651x407&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc.png&#34;
+			width=&#34;651&#34;
+			height=&#34;407&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc_hu8a5893a2dc9a5dc60e3917fd76bdb1c7_115874_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc_hu8a5893a2dc9a5dc60e3917fd76bdb1c7_115874_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;左半侧更不准确，右半侧更准确&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;左半侧更不准确，右半侧更准确&lt;/figcaption&gt;
+	
+&lt;/figure&gt;
+准确率更容易理解，准确率考虑的是更“全局”的结果是否正确， &lt;br&gt;
+也就是在我所有预测的结果中，我到底预测的“好不好”，
+即：
+$$
+Accuracy = \frac{TP+TN}{所有预测} = \frac{TP+TN}{TP+FP+TN+FN}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;recall召回率又称查全率&#34;&gt;Recall(召回率又称查全率)&lt;/h3&gt;
+&lt;p&gt;顾名思义，查全的意思就是“我查的全不全”，我是否把所有的阳性覆盖到了（阳性全体为P），&lt;/p&gt;
+&lt;p&gt;$$
+Recall =  \frac{TP}{阳性全体}=  \frac{TP}{TP+FN}
+$$
+&lt;strong&gt;有时候查全率很高，但精确率很低。&lt;/strong&gt;     &lt;br&gt;
+比如我有3个阳性，97个阴性。我预测100个全为阳性（此时P=100且TP=3，FP=97），0个阴性；此时查全率为：3/3=100% ！&lt;br&gt;
+但此时精确率为：3%。。。。。这显然是没有意义的。   &lt;br&gt;
+&lt;strong&gt;有时候精确率很高，但查全率很低。&lt;/strong&gt;     &lt;br&gt;
+比如我还是有3个阳性，97个阴性。我刚好预测对某1个为阳性（此时P=1且TP=1，FP=0），99个阴性；此时精确率为：100% ！   &lt;br&gt;
+但此时查全率为：33.333%。。。。。这显然也是意义不大的。  &lt;br&gt;
+&lt;strong&gt;查全率与精确率存在互逆关系&lt;/strong&gt;&lt;br&gt;
+我们能够隐约发现查全率和精确率的互逆关系，但究竟是为什么呢？ &lt;br&gt;
+仔细观察可以发现，Recall和Pre只在分母有差别，其中Recall的分母是TP+FN【不变量】，而Pre的分母是TP+FP【可变量】。&lt;br&gt;
+为了提高Recall，我们需要增大TP，而分母不变； &lt;br&gt;
+但Pre中如果TP增加了FP也会跟着增加（我需要判断的东西变多了，精确率会下降，错误的概率会变大），分子的TP增加小于分母的TP+FP总体的增加。所以查全率和精确率是互逆的。&lt;/p&gt;
+&lt;h2 id=&#34;f1rpcrocauc&#34;&gt;F1、RPC、Roc、AUC&lt;/h2&gt;
+&lt;p&gt;在充分了解了四大金刚与三大护法后，我们进一步来研究他们的衍生变体：&lt;/p&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/xys430381_1/article/details/90770520&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;机器学习基础&amp;mdash;分类与检测的评价指标&amp;mdash;AP，mAP，PRC曲线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/240435991&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;分类问题中的一些指标概念-Roc|AUC|Pre|Recall|ACC|AP|mAP|F1总结&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.pianshen.com/article/4398957319/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;分类器的ROC曲线及相关指标（ROC、AUC、ACC）详解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/DOwFP4Qk4A415N8t8ibhAw&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCC — 机器学习中优于F1-score和accuracy的一个性能评价指标&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://towardsdatascience.com/should-i-look-at-precision-recall-or-specificity-sensitivity-3946158aace1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Data Science in Medicine — Precision &amp;amp; Recall or Specificity &amp;amp; Sensitivity?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>C/C&#43;&#43;在Windows下的环境配置流程和运行方法</title>
+        <link>https://sanbuphy.github.io/p/c/c-%E5%9C%A8windows%E4%B8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%92%8C%E8%BF%90%E8%A1%8C%E6%96%B9%E6%B3%95/</link>
+        <pubDate>Sun, 20 Mar 2022 16:28:01 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/c/c-%E5%9C%A8windows%E4%B8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%92%8C%E8%BF%90%E8%A1%8C%E6%96%B9%E6%B3%95/</guid>
+        <description>&lt;p&gt;笔者因为要使用opencv c++版的需求，需要给家里的电脑配c/cpp的运行环境，    &lt;br&gt;
+如果是Linux无脑Clion即可，windows上稍微有一些麻烦，附上全流程：&lt;/p&gt;
+&lt;p&gt;首先请按照这个博主的安装教程走一遍流程&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/77645306&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;c++ c语言安装流程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如果顺利的安装好环境，接下来就是运行环节，首先随便新建一个C或者cpp文件，可参考；     &lt;br&gt;
+C语言的版本：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;windows.h&amp;gt;
+int main()
+{
+ printf(&amp;quot;Hello World\n&amp;quot;);
+ system(&amp;quot;pause&amp;quot;);
+ return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;C++的版本：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt; 
+using namespace std;  
+
+int main()
+{    
+    cout &amp;lt;&amp;lt; &amp;quot;Hello Vscode&amp;quot; &amp;lt;&amp;lt; endl;  
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;接下来就是最重要的部分，我们有两种办法编译好文件运行，   &lt;br&gt;
+第一种办法（直接编译）：     &lt;br&gt;
+在终端中进入对应文件夹，输入gcc xxx.c   或者g++ xxxx.cpp     &lt;br&gt;
+即可将文件编译成exe，然后直接终端中输入exe文件名字即可查看效果！         &lt;br&gt;
+如果你想运行后直接看跳出的结果，可以按照开头知乎链接的答主方法操作。&lt;/p&gt;
+&lt;p&gt;第二种方法（间接编译）：     &lt;br&gt;
+我们要做两件事：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先在上面菜单栏找到终端，选择配置生成任务，选择对应的文件（gcc或者g++  有可能只显示c++ 但点进去后会出现gcc)&lt;/li&gt;
+&lt;li&gt;左侧找到运行与调试在上面框框中点开，然后选择工作区对应的文件夹添加配置（会生成.vscode文件夹，内部就是配置文件！），或者直接运行中找到添加配置，然后同样找到对应gcc g++即可（gcc或者g++  有可能只显示c++ 但点进去后会出现gcc)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果第二种方法配置出现问题了（launch或者task），你可以把.vscode文件夹删除，重新配置即可。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>考研，找工作的那些事</title>
+        <link>https://sanbuphy.github.io/p/%E8%80%83%E7%A0%94%E6%89%BE%E5%B7%A5%E4%BD%9C%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+        <pubDate>Mon, 21 Feb 2022 21:18:24 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E8%80%83%E7%A0%94%E6%89%BE%E5%B7%A5%E4%BD%9C%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+        <description>&lt;h2 id=&#34;找工作的怪象与形成的本源最重要的&#34;&gt;找工作的怪象与形成的本源【最重要的】&lt;/h2&gt;
+&lt;h3 id=&#34;产业分布我该去哪&#34;&gt;产业分布——我该去哪？&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;一线：互联网企业、高新技术企业   ————  房价很高 容不下肉身  
+二三线：事业单位、国企、各种你懂编制（研究所、老师。。。。。）  —————— 房价不算特别高 可能容不下灵魂    
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;建议对自己想去的地方有个目的性，趁早考虑。&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&#34;学校和社会生活的差距&#34;&gt;学校和社会生活的差距&lt;/h2&gt;
+&lt;h3 id=&#34;思想上的准备落后&#34;&gt;思想上的准备落后&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;   1. 考公务员
+   2. 当老师
+   3. 事业单位  。。。。。  其实是对找工作没有概念 【学校和社会生活的差距导致围城】 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;社会上温情确实更少一些&#34;&gt;社会上温情确实更少一些&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;    1.抱大腿？大腿你遇不到，小腿不想理你
+    2.跨部门的事情，基本是踢皮球
+    3. *在外面很难找女朋友* 1. 考虑现实 2.考虑远近 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;中心思想：你要真正断奶，为自己负责，为自己选择（来自家里人的建议，来自老师的建议，来自同学的建议）。&lt;/p&gt;
+&lt;h3 id=&#34;一个毛病追求生活的最优解&#34;&gt;一个毛病————追求生活的最优解&lt;/h3&gt;
+&lt;p&gt;——————不可能！   生活其实没有最优解，只有不同阶段的局部最优
+——————追随心的声音&lt;/p&gt;
+&lt;h4 id=&#34;问题我们应该用现在的回报去估计将来的收入曲线吗&#34;&gt;问题：我们应该用现在的回报去估计将来的收入曲线吗？&lt;/h4&gt;
+&lt;p&gt;预测基本不可能——————追随心的声音&lt;/p&gt;
+&lt;h2 id=&#34;怎么更好的获得回报获得资料工作岗位的需求&#34;&gt;怎么更好的获得回报/获得资料(工作岗位的需求)&lt;/h2&gt;
+&lt;p&gt;假设：现在我要去追求二线的某某工作：
+1、我要转行吗？做什么？怎么做？
+我是电子信息硕士生，不转行&lt;/p&gt;
+&lt;p&gt;2、我要做本行吗？做什么？怎么做？&lt;/p&gt;
+&lt;h3 id=&#34;第一步信息获取&#34;&gt;第一步：信息获取&lt;/h3&gt;
+&lt;p&gt;【获得信息是第一步的关键！】&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;我导师研究的是什么，我的老师有什么资源——（学术的资源、人脉的资源（公司的联系））
+【我能获得什么？】&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;获得对应的学识&lt;/li&gt;
+&lt;li&gt;获得对应公司的内推机会&lt;/li&gt;
+&lt;li&gt;获得学长学姐的信息&lt;/li&gt;
+&lt;li&gt;了解公司的内部好坏和福利（比如宁德时代的一些黑历史）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;学长学姐和历年就业去向表————找出最优秀的学长学姐 问他们是怎么过的，怎么努力的，怎么去获取资源的（可以请咖啡或者约面谈或者邮件或者微信，相信同校的学长学姐！）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第二步选择方向避免最坏的情况追求好一些的情况但不存在最好的情况&#34;&gt;第二步：选择方向（避免最坏的情况，追求好一些的情况，但不存在最好的情况）&lt;/h3&gt;
+&lt;p&gt;电气工程师？做算法工程师？去国家电网？还是去当小学老师？&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;给出可能的几个方向&lt;/li&gt;
+&lt;li&gt;求交集&lt;/li&gt;
+&lt;li&gt;各种找工作的网站 按照  1、关键词 2、城市 遍历每一家公司的招工需求—————获得待遇情况，或者是去搜索待遇曲线以及和学长学姐信息对比。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;第三步根据方向-努力获取信息后努力&#34;&gt;第三步：根据方向 努力！获取信息后努力！&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;【根据社招的要求，去做校招，千万不要沦落到社招！】&lt;/em&gt;
+&lt;em&gt;【现在的国情就是校招yyds，应届生yyds，请搞清楚应届生有什么福利（落户政策，人才引进)!!!!!!!!!!!!!!!!!!!!】&lt;/em&gt;
+&lt;em&gt;【必须利用好应届生的身份，否则会后悔一辈子】&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;自己做个文档（工作方需要什么经历，看重学生的什么素质，招工需要什么技术栈(ASIC\会验证会测试\会FPGA\会python使用EDA验证等）
+举个例子：
+岗位职责： 1、深入了解ASIC设计及验证流程，可根据芯片设计规格书，编写验证需求，可搭建验证平台并完成验证用例和回归; 2、执行验证计划，编写验证用例，开展递归测试，完成问题的调试和修复； 3、负责芯片IP集成验证以及IP模块验证，有高速接口验证经验者优先; 4、负责SOC系统级验证，并收集、分析和提高验证覆盖率; 5、熟悉FPGA芯片架构，可协助测试工程师完成芯片测试工作。 任职要求： 1、微电子电子工程通信计算机等相关专业硕士及以上学历； 2、熟悉system *** 、OVMUVM等能独立搭建可重用的系统验证平台; 3、熟练掌握perl 、python等脚本语言熟练使用EDA验证工具(如VCS、NCsim等)； 工作认真、积极主动、严谨、敬业、有较强的沟通能力与团队组织协调能力。福利待遇：国企福利，六险二金，做五休二，餐费补助，交通补助，全勤奖，项目津贴，年终奖，健身房，羽乒馆等&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;针对技术栈去努力提高，顺便找志同道合的人【群友、交流群、学长学姐（拉学弟学妹下水）】&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第四步社交同样重要&#34;&gt;第四步：社交同样重要！&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;学长学姐&lt;/li&gt;
+&lt;li&gt;交流群 群友。。。。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;为什么要实习&#34;&gt;为什么要实习&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;面试造火箭——实际上拧螺丝 【台积电的例子】&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果在小厂。。。你可能要一个人干三个人的活&lt;/li&gt;
+&lt;li&gt;如果在大厂。。。拧螺丝！&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;公司需要的是啥（什么价值？需要你产生什么价值，给公司带来什么，自己的可替代性强不强）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;弥补学校与社会的鸿沟&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;攒经验，刷履历&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;向小朱学习！！！&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;舔狗的艺术&#34;&gt;舔狗的艺术&lt;/h2&gt;
+&lt;p&gt;（找一切机会向优秀的大佬们学习）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;比起以后不能多请老婆喝一杯奶茶的委屈，比起以后不能多给儿子买一根棒棒糖的委屈，自己舔狗又有什么委屈的？&lt;/li&gt;
+&lt;li&gt;说不定就舔到了呢？  都是小概率事件，值得尝试！&lt;/li&gt;
+&lt;li&gt;不被理睬才是最正常的现象，如果有就带上感谢！没有也没关系，这很正常！&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;面子的问题怎么解决反正几十年后大家都入土了没什么好怕的&#34;&gt;面子的问题怎么解决————反正几十年后大家都入土了，没什么好怕的&lt;/h4&gt;
+&lt;h2 id=&#34;战胜遗忘的方法&#34;&gt;战胜遗忘的方法：&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;复习&lt;/li&gt;
+&lt;li&gt;复习&lt;/li&gt;
+&lt;li&gt;复习
+（推荐一款app  memory helper 根据遗忘曲线安排你应该什么时候复习什么 免费！）&lt;/li&gt;
+&lt;li&gt;干中学为什么忘得慢？ 因为你天天都得干&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;做这些的目的是&#34;&gt;做这些的目的是。。。？&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;青春一去不复返！&lt;/li&gt;
+&lt;li&gt;获得更好的报酬&lt;/li&gt;
+&lt;li&gt;看到更好的自己&lt;/li&gt;
+&lt;li&gt;活在短暂未来的自己&lt;/li&gt;
+&lt;li&gt;比起炒股，你能做好的也就是这些了&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
         <title>完美安装paddle、PPOCRLabel、eiseg(linux)</title>
         <link>https://sanbuphy.github.io/p/%E5%AE%8C%E7%BE%8E%E5%AE%89%E8%A3%85paddleppocrlabeleiseglinux/</link>
         <pubDate>Sat, 19 Feb 2022 20:45:40 +0800</pubDate>

@@ -6,7 +6,34 @@
     <description>Recent content in Posts on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 19 Feb 2022 20:45:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 12 Apr 2022 20:53:41 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>详解机器/深度学习中常见评价指标</title>
+      <link>https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</link>
+      <pubDate>Tue, 12 Apr 2022 20:53:41 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</guid>
+      <description>待进一步完善&amp;hellip;龟速填坑中 评价指标的基石 所有复杂问题都是简单问题的重复， 为了理解所有指标，首先需了解“四大天王”与“三大护法” 四</description>
+    </item>
+    
+    <item>
+      <title>C/C&#43;&#43;在Windows下的环境配置流程和运行方法</title>
+      <link>https://sanbuphy.github.io/p/c/c-%E5%9C%A8windows%E4%B8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%92%8C%E8%BF%90%E8%A1%8C%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sun, 20 Mar 2022 16:28:01 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/c/c-%E5%9C%A8windows%E4%B8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%92%8C%E8%BF%90%E8%A1%8C%E6%96%B9%E6%B3%95/</guid>
+      <description>笔者因为要使用opencv c++版的需求，需要给家里的电脑配c/cpp的运行环境， 如果是Linux无脑Clion即可，windows上稍微有</description>
+    </item>
+    
+    <item>
+      <title>考研，找工作的那些事</title>
+      <link>https://sanbuphy.github.io/p/%E8%80%83%E7%A0%94%E6%89%BE%E5%B7%A5%E4%BD%9C%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+      <pubDate>Mon, 21 Feb 2022 21:18:24 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E8%80%83%E7%A0%94%E6%89%BE%E5%B7%A5%E4%BD%9C%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+      <description>找工作的怪象与形成的本源【最重要的】 产业分布——我该去哪？ 一线：互联网企业、高新技术企业 ———— 房价很高 容不下肉身 二三线：事业单位、国企、各</description>
+    </item>
+    
     <item>
       <title>完美安装paddle、PPOCRLabel、eiseg(linux)</title>
       <link>https://sanbuphy.github.io/p/%E5%AE%8C%E7%BE%8E%E5%AE%89%E8%A3%85paddleppocrlabeleiseglinux/</link>
