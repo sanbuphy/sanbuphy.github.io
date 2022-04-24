@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='多进程线程的优劣分别是什么？如何开启适当的进程或线程？鲁棒性如何控制'><title>python中多进程、多线程概念的进阶探讨</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/python%E4%B8%AD%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A6%82%E5%BF%B5%E7%9A%84%E8%BF%9B%E9%98%B6%E6%8E%A2%E8%AE%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='python中多进程、多线程概念的进阶探讨'>
+<meta property='og:description' content='多进程线程的优劣分别是什么？如何开启适当的进程或线程？鲁棒性如何控制'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/python%E4%B8%AD%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A6%82%E5%BF%B5%E7%9A%84%E8%BF%9B%E9%98%B6%E6%8E%A2%E8%AE%A8/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='多线程' /><meta property='article:tag' content='多进程' /><meta property='article:tag' content='并发' /><meta property='article:tag' content='python进阶' /><meta property='article:published_time' content='2022-04-24T19:23:03&#43;08:00'/><meta property='article:modified_time' content='2022-04-24T19:23:03&#43;08:00'/>
+<meta name="twitter:title" content="python中多进程、多线程概念的进阶探讨">
+<meta name="twitter:description" content="多进程线程的优劣分别是什么？如何开启适当的进程或线程？鲁棒性如何控制">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/python%E7%BC%96%E7%A8%8B%E8%BF%9B%E9%98%B6/" >
+                python编程进阶
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/python%E4%B8%AD%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A6%82%E5%BF%B5%E7%9A%84%E8%BF%9B%E9%98%B6%E6%8E%A2%E8%AE%A8/">python中多进程、多线程概念的进阶探讨</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        多进程线程的优劣分别是什么？如何开启适当的进程或线程？鲁棒性如何控制
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 24, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>// TODO: <br>
+//加入协程相关内容     <br>
+// 资源安全性<br>
+//         进程、线程间通信方式  <br>
+// 如何捕获子线程异常</p>
+<h2 id="进程和线程">进程和线程</h2>
+<h3 id="什么是进程">什么是进程</h3>
+<p><strong>一个任务就是一个进程，是操作系统资源分配的基本单位。</strong><br>
+例如打开浏览器，打开word，打开游戏、QQ等等，都是独立的任务，它们各自为一个或者多个进程。<br>
+这里要注意的是，同一种任务打开多个，分别属于不同进程，例如chrome打开多个标签，实际上它创建了多个进程。</p>
+<h3 id="什么是线程">什么是线程</h3>
+<p><strong>线程可以看作一个任务的各项子任务，是操作系统直接的执行单元。</strong><br>
+例如播放器，既要解码视频、也要解码音频，所以在进程下存在多线程。在一个进程下一定存在一个线程，可以称它为主线程。</p>
+<h3 id="小结">小结</h3>
+<p>操作系统创建进程时，会单独为每一个进程分配各自的资源，进程与进程之间相互隔离。进程在执行过程中拥有独立的内存单元，而多个线程共享内存。    <br>
+可见，操作系统执行的粒度是线程，分配资源的粒度是进程，我们的多任务操作系统，在单核CPU上是在各个线程上不断切换而达到目的，而在多核CPU上则多个任务可以创建多个进程来完成，同时也可以创建多个线程来完成，线程是操作系统直接的执行单元。能同时执行多个线程任务。 <br>
+值得注意的是，在python中，由于全局解释器锁的存在，线程并没有发挥并行计算的作用，而是提供了并发的能力。（只能在一个cpu核上运行）</p>
+<h2 id="进程与线程的比较">进程与线程的比较</h2>
+<h3 id="进程的优缺点">进程的优缺点</h3>
+<p>多进程的优点是稳定性好，一个子进程崩溃了，不会影响主进程以及其余进程。   <br>
+但是缺点是<strong>创建进程的代价非常大</strong> ，因为操作系统要给每个进程分配固定的资源，并且，操作系统对进程的总数会有一定的限制，若进程过多，<strong>操作系统调度都会存在问题，会造成假死状态。</strong>。不过，进程与进程之间是完全隔离的，进程A崩溃了完全不会影响到进程B。</p>
+<h3 id="线程的优缺点">线程的优缺点</h3>
+<p>多线程优点是效率较高一些，但是致命的缺点是<strong>任何一个线程崩溃都可能造成整个进程的崩</strong>溃，因为它们共享了进程的内存资源池，没有自己单独的内存地址空间，指针数据的错误可以导致任何同地址空间内其他线程的崩溃，包括进程。</p>
+<h2 id="python中的gil全局解释器锁">python中的GIL全局解释器锁</h2>
+<p>TODO:</p>
+<h2 id="检查个人电脑的最大进程线程数">检查个人电脑的最大进程、线程数</h2>
+<p>不同电脑的配置状况决定了一个系统能够运行多少进程以及对应的线程数，简单粗暴的方法是用实例代码来检测到底能运行多少进程和线程：（一般情况下不要过于离谱即可）   <br>
+不过需要注意的是，不同任务处理所需要占用的内存和cpu使用率是不同的，需要具体情况具体分析，但通常情况下的使用不会出现大问题（除非你考虑到数据共享安全性，想让一组线程执行完后再启动下一轮，那就要根据实际情况设计最大线程并加上线程锁；等到获取到的这些数据处理后才能继续处理下一轮数据；或者使用大小限定队列与线程池）
+<strong>多线程测试代码</strong><br>
+首先，你可以用这个语句（linux与mac）进行直接查看:<code>ubuntu&gt; ps aux | wc -l</code>,如果查询失败或者想要看到更直观的结果可以使用以下代码：</p>
+<pre tabindex="0"><code>#!/usr/bin/python
+ 
+import os
+import sys
+import re
+import threading
+import signal
+import time
+ 
+g_exit = 0
+num  = 0
+ 
+def sig_process(sig, frame):
+	global g_exit
+	g_exit = 1
+ 
+def sub_process(data):
+	while not g_exit:
+		time.sleep(1)
+		print data
+ 
+def process():
+	num = int(sys.argv[1])
+	all_process = []
+ 
+	for i in range(num):
+		try:
+			pid = os.fork()
+		except:
+			pid = -1
+ 
+		if pid &lt; 0:
+			print 'error in fork'
+			all_process.append(-1)
+		elif 0 == pid:
+			sub_process(i)
+			os._exit(0)
+		else:
+			all_process.append(pid)
+ 
+	while not g_exit:
+		time.sleep(100)
+ 
+	for i in range(num):
+		if -1 == all_process[i]:
+			continue
+		os.waitpid(all_process[i], 0)
+ 
+def main():
+	if len(sys.argv) != 2:
+		print 'wrong number parameter'
+		return 0
+ 
+	signal.signal(signal.SIGINT, sig_process)
+	process()
+ 
+if __name__ == '__main__':
+	main()
+</code></pre><p><strong>多线程测试代码</strong></p>
+<pre tabindex="0"><code>#!/usr/bin/python
+ 
+import os
+import sys
+import re
+import threading
+import signal
+import time
+ 
+g_exit = 0
+num  = 0
+ 
+def sig_process(sig, frame):
+	global g_exit
+	g_exit = 1
+ 
+def sub_process(data):
+	while not g_exit:
+		time.sleep(1)
+		print data
+ 
+def process():
+	num = int(sys.argv[1])
+	all_thread = []
+ 
+	for i in range(num):
+		try:
+			td = threading.Thread(target = sub_process, args=(i,))
+			td.start()
+		except:
+			all_thread.append(-1)
+			continue
+ 
+		all_thread.append(td)
+ 
+	while not g_exit:
+		time.sleep(100)
+ 
+	for i in range(num):
+		if isinstance(all_thread[i], int):
+			continue
+		all_thread[i].join()
+ 
+def main():
+	if len(sys.argv) != 2:
+		print 'wrong number parameter'
+		return 0
+ 
+	signal.signal(signal.SIGINT, sig_process)
+	process()
+ 
+ 
+if __name__ == '__main__':
+	main()
+</code></pre><h2 id="reference">Reference</h2>
+<ul>
+<li><a class="link" href="https://blog.csdn.net/soyabean555999/article/details/79108680"  target="_blank" rel="noopener"
+    >Python多线程与多进程学习&mdash;-概念</a></li>
+<li><a class="link" href="https://blog.csdn.net/weixin_43540515/article/details/114793287"  target="_blank" rel="noopener"
+    >操作系统，进程，线程</a></li>
+<li><a class="link" href="https://www.zhihu.com/question/22397613?sort=created"  target="_blank" rel="noopener"
+    >线程崩溃是否会造成进程崩溃</a></li>
+<li><a class="link" href="https://blog.csdn.net/feixiaoxing/article/details/78565542"  target="_blank" rel="noopener"
+    >python编程（你的电脑能够执行多少线程和进程）</a></li>
+<li><a class="link" href="https://blog.csdn.net/weixin_45621200/article/details/120905195"  target="_blank" rel="noopener"
+    >python主线程捕获子线程异常</a></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+        
+            <a href="/tags/%E5%A4%9A%E8%BF%9B%E7%A8%8B/">多进程</a>
+        
+            <a href="/tags/%E5%B9%B6%E5%8F%91/">并发</a>
+        
+            <a href="/tags/python%E8%BF%9B%E9%98%B6/">python进阶</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">详解机器/深度学习中常见评价指标</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/_hu994d601531656c23f7e611d455c8d878_8153127_559361b0bf15c67b5cc95028d00571c3.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 小猫也能看懂的反向传播算法"
+                        
+                        data-hash="md5-4qKZZmbuA0Uc93DjL3/U4Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">小猫也能看懂的反向传播算法</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/_hu05be89c43654817bfc3a6d1d1f1925fe_2269278_8ef6f3da06f90875df4fa94970343871.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 机器学习中的信息论基础"
+                        
+                        data-hash="md5-I4tq5bCqkvQkOs5ljsw&#43;bg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的信息论基础</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">《机器学习》西瓜书笔记(二)</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">矩阵求导简易入门手册</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (DISQUS) {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#进程和线程">进程和线程</a>
+      <ol>
+        <li><a href="#什么是进程">什么是进程</a></li>
+        <li><a href="#什么是线程">什么是线程</a></li>
+        <li><a href="#小结">小结</a></li>
+      </ol>
+    </li>
+    <li><a href="#进程与线程的比较">进程与线程的比较</a>
+      <ol>
+        <li><a href="#进程的优缺点">进程的优缺点</a></li>
+        <li><a href="#线程的优缺点">线程的优缺点</a></li>
+      </ol>
+    </li>
+    <li><a href="#python中的gil全局解释器锁">python中的GIL全局解释器锁</a></li>
+    <li><a href="#检查个人电脑的最大进程线程数">检查个人电脑的最大进程、线程数</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
