@@ -6,7 +6,25 @@
     <description>Recent content in Tags on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 24 Apr 2022 19:23:03 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 12 May 2022 22:25:38 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deep learning</title>
+      <link>https://sanbuphy.github.io/tags/deep-learning/</link>
+      <pubDate>Thu, 12 May 2022 22:25:38 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://sanbuphy.github.io/tags/python/</link>
+      <pubDate>Thu, 12 May 2022 22:25:38 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>python进阶</title>
       <link>https://sanbuphy.github.io/tags/python%E8%BF%9B%E9%98%B6/</link>
@@ -44,15 +62,6 @@
     </item>
     
     <item>
-      <title>Deep learning</title>
-      <link>https://sanbuphy.github.io/tags/deep-learning/</link>
-      <pubDate>Tue, 12 Apr 2022 20:53:41 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/tags/deep-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Machine learning</title>
       <link>https://sanbuphy.github.io/tags/machine-learning/</link>
       <pubDate>Tue, 12 Apr 2022 20:53:41 +0800</pubDate>
@@ -76,15 +85,6 @@
       <pubDate>Wed, 12 Jan 2022 21:54:58 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/tags/%E7%AC%94%E8%AE%B0/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>python</title>
-      <link>https://sanbuphy.github.io/tags/python/</link>
-      <pubDate>Fri, 31 Dec 2021 19:48:48 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/tags/python/</guid>
       <description></description>
     </item>
     
