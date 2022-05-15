@@ -167,6 +167,20 @@
 <li>hugo命令<code>hugo  --baseUrl=&quot;https://改为你的名字.github.io/&quot;</code>执行完后，会生成一个public文件夹，在public文件中执行1.操作即可推送。</li>
 <li>用git推送的时候<code>git pull --rebase origin master</code>语句可能会出错显示没有文件，不用担心，这是因为此时目标仓库是空的，直接下一步    <br>
 最后，你只需要输入对应网址，即可看到自己的宝贝博客了！</li>
+<li>*（可选）如果你想给博客加上评论系统，请参考这样的流程:<figure 
+	>
+	<a href="https://waline.js.org/guide/get-started.html#html-%E5%BC%95%E5%85%A5-%E5%AE%A2%E6%88%B7%E7%AB%AF" >
+		<img src="https://waline.js.org/guide/get-started.html#html-%E5%BC%95%E5%85%A5-%E5%AE%A2%E6%88%B7%E7%AB%AF"
+			
+			
+			
+			loading="lazy"
+			alt="WALINE">
+	</a>
+	
+	<figcaption>WALINE</figcaption>
+	
+</figure>且记得修改config.yaml配置文件中的commit和对应waline项即可</li>
 </ol>
 <h2 id="更新你的博客">更新你的博客</h2>
 <ol>
@@ -323,46 +337,21 @@ Mathjax的日文文档：https://www.eng.niigata-u.ac.jp/~nomoto/download/mathja
      
     
         
-    <div class="disqus-container">
-    <div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
-
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
 <style>
-    .disqus-container {
+    .waline-container {
         background-color: var(--card-background);
         border-radius: var(--card-border-radius);
         box-shadow: var(--shadow-l1);
         padding: var(--card-padding);
     }
-</style>
-
-<script>
-    window.addEventListener('onColorSchemeChange', (e) => {
-        if (DISQUS) {
-            DISQUS.reset({
-                reload: true
-            });
-        }
-    })
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
 </script>
 
     

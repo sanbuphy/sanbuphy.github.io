@@ -1968,6 +1968,20 @@ Hi mackerel7! You&#39;ve successfully authenticated, but GitHub does not provide
 &lt;li&gt;hugo命令&lt;code&gt;hugo  --baseUrl=&amp;quot;https://改为你的名字.github.io/&amp;quot;&lt;/code&gt;执行完后，会生成一个public文件夹，在public文件中执行1.操作即可推送。&lt;/li&gt;
 &lt;li&gt;用git推送的时候&lt;code&gt;git pull --rebase origin master&lt;/code&gt;语句可能会出错显示没有文件，不用担心，这是因为此时目标仓库是空的，直接下一步    &lt;br&gt;
 最后，你只需要输入对应网址，即可看到自己的宝贝博客了！&lt;/li&gt;
+&lt;li&gt;*（可选）如果你想给博客加上评论系统，请参考这样的流程:&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://waline.js.org/guide/get-started.html#html-%E5%BC%95%E5%85%A5-%E5%AE%A2%E6%88%B7%E7%AB%AF&#34; &gt;
+		&lt;img src=&#34;https://waline.js.org/guide/get-started.html#html-%E5%BC%95%E5%85%A5-%E5%AE%A2%E6%88%B7%E7%AB%AF&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			alt=&#34;WALINE&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;WALINE&lt;/figcaption&gt;
+	
+&lt;/figure&gt;且记得修改config.yaml配置文件中的commit和对应waline项即可&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;更新你的博客&#34;&gt;更新你的博客&lt;/h2&gt;
 &lt;ol&gt;
