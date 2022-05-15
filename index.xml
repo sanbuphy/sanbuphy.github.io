@@ -12,7 +12,7 @@
         <pubDate>Thu, 12 May 2022 22:25:38 +0800</pubDate>
         
         <guid>https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/</guid>
-        <description>&lt;img src="https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry.png" alt="Featured image of post Disco Diffusion关键字大赏" /&gt;&lt;p&gt;长话短说，直接贴图！     &lt;br&gt;
+        <description>&lt;img src="https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry2.png" alt="Featured image of post Disco Diffusion关键字大赏" /&gt;&lt;p&gt;长话短说，直接贴图！     &lt;br&gt;
 [部分收集自b站]    &lt;br&gt;
 以下是图片及其对应生成输入（因为图片命名更改了格式，含有&#39;_&amp;lsquo;字样，请自行处理一下或者写一个 str.replace()方法替换成空格,且吧末尾的200去除）&lt;/p&gt;
 &lt;p&gt;&lt;figure 
@@ -148,7 +148,7 @@
 	&lt;figcaption&gt;A_Moonlit_Night_On_The_Spring_River_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
 	
 &lt;/figure&gt;&lt;br&gt;
-ps:你可能难以想象，他的英文出自《春江花月夜》 &lt;br&gt;
+ps:你可能难以想象，他的英文出自《春江花月夜》↑&lt;br&gt;
 &lt;figure 
 	
 		class=&#34;gallery-image&#34; 
@@ -168,7 +168,7 @@ ps:你可能难以想象，他的英文出自《春江花月夜》 &lt;br&gt;
 	&lt;figcaption&gt;The_peach_blossom_lover_plants_peach_trees_in_days_fine_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
 	
 &lt;/figure&gt;&lt;br&gt;
-ps:你可能难以想象，他的英文出自唐寅的《桃花庵歌》“桃花仙人种桃树”&lt;br&gt;
+ps:你可能难以想象，他的英文出自唐寅的《桃花庵歌》“桃花仙人种桃树” ↑&lt;br&gt;
 &lt;figure 
 	
 		class=&#34;gallery-image&#34; 
@@ -188,14 +188,19 @@ ps:你可能难以想象，他的英文出自唐寅的《桃花庵歌》“桃�
 	&lt;figcaption&gt;A_Moonlit_Night_On_The_Spring_Riverromantic_In_the_morning_Greg_Rutkowski_James_Gurney_Artstation_160&lt;/figcaption&gt;
 	
 &lt;/figure&gt;&lt;br&gt;
-ps:你可能难以想象，他的英文出自《春江花月夜》 &lt;br&gt;
+ps:你可能难以想象，他的英文出自《春江花月夜》↑ &lt;br&gt;
 &lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 167; 
+			flex-basis: 401px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/renjian_200.png&#34; &gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/renjian_200.png&#34;
-			
-			
-			
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/renjian.png&#34; data-size=&#34;739x442&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/renjian.png&#34;
+			width=&#34;739&#34;
+			height=&#34;442&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/renjian_hu3cf4696608d098394a7d787ab0891042_528197_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/renjian_hu3cf4696608d098394a7d787ab0891042_528197_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;Change_is_the_WayGreat_seas_have_turned_into_fieldsTrending_on_artstation_200&#34;&gt;
 	&lt;/a&gt;
@@ -203,7 +208,7 @@ ps:你可能难以想象，他的英文出自《春江花月夜》 &lt;br&gt;
 	&lt;figcaption&gt;Change_is_the_WayGreat_seas_have_turned_into_fieldsTrending_on_artstation_200&lt;/figcaption&gt;
 	
 &lt;/figure&gt;&lt;br&gt;
-ps:你可能难以想象，他的英文出自【人间正道是沧桑】&lt;br&gt;
+ps:你可能难以想象，他的英文出自【人间正道是沧桑】↑&lt;br&gt;
 &lt;figure 
 	
 		class=&#34;gallery-image&#34; 
@@ -1968,20 +1973,8 @@ Hi mackerel7! You&#39;ve successfully authenticated, but GitHub does not provide
 &lt;li&gt;hugo命令&lt;code&gt;hugo  --baseUrl=&amp;quot;https://改为你的名字.github.io/&amp;quot;&lt;/code&gt;执行完后，会生成一个public文件夹，在public文件中执行1.操作即可推送。&lt;/li&gt;
 &lt;li&gt;用git推送的时候&lt;code&gt;git pull --rebase origin master&lt;/code&gt;语句可能会出错显示没有文件，不用担心，这是因为此时目标仓库是空的，直接下一步    &lt;br&gt;
 最后，你只需要输入对应网址，即可看到自己的宝贝博客了！&lt;/li&gt;
-&lt;li&gt;*（可选）如果你想给博客加上评论系统，请参考这样的流程:&lt;figure 
-	&gt;
-	&lt;a href=&#34;https://waline.js.org/guide/get-started.html#html-%E5%BC%95%E5%85%A5-%E5%AE%A2%E6%88%B7%E7%AB%AF&#34; &gt;
-		&lt;img src=&#34;https://waline.js.org/guide/get-started.html#html-%E5%BC%95%E5%85%A5-%E5%AE%A2%E6%88%B7%E7%AB%AF&#34;
-			
-			
-			
-			loading=&#34;lazy&#34;
-			alt=&#34;WALINE&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;WALINE&lt;/figcaption&gt;
-	
-&lt;/figure&gt;且记得修改config.yaml配置文件中的commit和对应waline项即可&lt;/li&gt;
+&lt;li&gt;*（可选）如果你想给博客加上评论系统，请参考这样的流程:&lt;a class=&#34;link&#34; href=&#34;https://waline.js.org/guide/get-started.html#html-%E5%BC%95%E5%85%A5-%E5%AE%A2%E6%88%B7%E7%AB%AF&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WALINE&lt;/a&gt;且记得修改config.yaml配置文件中的commit和对应waline项即可&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;更新你的博客&#34;&gt;更新你的博客&lt;/h2&gt;
 &lt;ol&gt;
