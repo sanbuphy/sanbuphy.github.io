@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='从预处理到链接过程的来龙去脉'><title>c语言编译过程简介</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='c语言编译过程简介'>
+<meta property='og:description' content='从预处理到链接过程的来龙去脉'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C语言' /><meta property='article:tag' content='基本功' /><meta property='article:published_time' content='2022-05-18T13:24:37&#43;08:00'/><meta property='article:modified_time' content='2022-05-18T13:24:37&#43;08:00'/>
+<meta name="twitter:title" content="c语言编译过程简介">
+<meta name="twitter:description" content="从预处理到链接过程的来龙去脉">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/c%E8%AF%AD%E8%A8%80/" >
+                C语言
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/">c语言编译过程简介</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        从预处理到链接过程的来龙去脉
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 18, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h2 id="最直接的编译过程">最直接的编译过程</h2>
+<p>初始.c文件通过预处理器、编译器、汇编器、链接器得到最后的可执行程序（比如linux系统下的a.out）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 580; 
+			flex-basis: 1392px"
+	>
+	<a href="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5lokPRa2gQ.png" data-size="702x121">
+		<img src="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5lokPRa2gQ.png"
+			width="702"
+			height="121"
+			srcset="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5lokPRa2gQ_hu6ef559bff2296e82b1d747cbc7b9b303_75989_480x0_resize_box_3.png 480w, /p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5lokPRa2gQ_hu6ef559bff2296e82b1d747cbc7b9b303_75989_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>hello.i：hello.c经预处理生成的文本文件。</p>
+<p>hello.s：hello.i经编译生成的汇编语言文件。</p>
+<p>hello.o：hello.s经汇编生成的可重定位目标文件。</p>
+<p>hello：hello.o经链接生成的可执行目标文件。 </p>
+<p>在经过不同处理阶段的程序到底是怎么样的呢？让我们用gcc分步调试即可：</p>
+<p>你可以使用这个命令获得所有输出：****</p>
+<h2 id="一预处理过程">一、预处理过程</h2>
+<p>在预处理阶段，编译器主要完成了这几件事：</p>
+<ul>
+<li>
+<p>去掉所有的注释</p>
+</li>
+<li>
+<p>展开所有的宏定义（也就是做字符替换）</p>
+</li>
+<li>
+<p>插入#include文件的内容</p>
+</li>
+<li>
+<p>处理所有的条件编译（形如#ifndef的语句，详见<a class="link" href="https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170"  title="https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170"
+     target="_blank" rel="noopener"
+    >https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170</a>）</p>
+</li>
+</ul>
+<p>如果想要获得.i的预处理文件，需要输入 <code>gcc -E main.c -o main.i</code>  ，<code>-E</code>选项保留预处理器的输出文件，但默认输出到标准输出流，你需要<code>-o</code>指定一个输出文件。</p>
+<p>因为头文件可能相当大，如果源文件包括了多个头文件，那么它的预处理器输出可能会庞杂难读。使用<code>-C</code>选项会很有帮助，这个选项可以阻止预处理器删除源文件和头文件中的注释：<code>gcc -E -C main.c -o main.c</code></p>
+<p>测试效果如下，我们能确实看到上述几件事情的发生：（可以使用<code>cat main.i</code>或者<code>vim main.i</code>查看结果）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 99; 
+			flex-basis: 238px"
+	>
+	<a href="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_-Ur0teQruS.png" data-size="831x837">
+		<img src="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_-Ur0teQruS.png"
+			width="831"
+			height="837"
+			srcset="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_-Ur0teQruS_hu1ea939da5f8587b60a3db6abf686e2b0_83722_480x0_resize_box_3.png 480w, /p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_-Ur0teQruS_hu1ea939da5f8587b60a3db6abf686e2b0_83722_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<ul>
+<li>有关预编译，如果想知道更多信息，可以参考</li>
+</ul>
+<p>[预编译器](<a class="link" href="https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170"  title="https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170"
+     target="_blank" rel="noopener"
+    >https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170</a>) </p>
+<ul>
+<li>标准输出流默认是显示器，但理论上通过控制stdout的实现来源dup可以修改成文件或者其他可写空间</li>
+</ul>
+<h2 id="二编译过程">二、编译过程</h2>
+<p>编译能够将hello.i 文件编译生成汇编语言程序 hello.s，为之后的汇编过程做铺垫。汇编语言程序中的每条语句都以一种标准的文本格式确切地描述了一条低级机器语言指令，汇编语言为不同高级语言的不同编译器提供了通用的输出语言。如果想看懂他们，可以去看看csapp的第三章。</p>
+<p>使用<code>gcc -S main.i -o main.s </code>或者 <code>gcc -S main.c</code>生成汇编程序，即可看到效果：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 68; 
+			flex-basis: 164px"
+	>
+	<a href="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5Jrln9qA38.png" data-size="576x841">
+		<img src="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5Jrln9qA38.png"
+			width="576"
+			height="841"
+			srcset="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5Jrln9qA38_hueb4ee5983f8388013ee1a0ffbe847c36_66558_480x0_resize_box_3.png 480w, /p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5Jrln9qA38_hueb4ee5983f8388013ee1a0ffbe847c36_66558_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<ul>
+<li>如果你尝试不同代码，你会发现汇编代码逻辑比起源代码逻辑发生了简化甚至更换位置，这是因为编译器会自动对程序的汇编实现进行优化，编译器是很聪明的。但如果你想获得原汁原味结构的汇编代码，可以使用<code>gcc -0g -E main.c</code>获得符合结构的优化等级（如果要获得较好的优化一般需要把<code>-0g</code>改为<code>-01</code>或者<code>-01</code>）</li>
+</ul>
+<h2 id="三汇编过程">三、汇编过程</h2>
+<p>接下来，汇编器将hello.s翻译成机器语言指令，把这些指令打包成一种叫做可重定位目标程序的格式，并将结果保存在目标文件main.o中。</p>
+<p>使用<code>gcc -c main.s -o main.o</code>或者<code>gcc -c main.c</code>得到main.o目标文件。main.o文件是一个二进制文件，它的字节编码是机器语言指令而不是字符，如果vim强制打开main.o文件，看到的将是一堆乱码：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 210; 
+			flex-basis: 504px"
+	>
+	<a href="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_wk6JTo08Bs.png" data-size="1527x727">
+		<img src="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_wk6JTo08Bs.png"
+			width="1527"
+			height="727"
+			srcset="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_wk6JTo08Bs_hu2726989d3d99956272074790433e9d76_118441_480x0_resize_box_3.png 480w, /p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_wk6JTo08Bs_hu2726989d3d99956272074790433e9d76_118441_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>如果想看他的汇编代码，可以用反汇编器来查看它的编码：<code>objdump –d main.o</code></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 89; 
+			flex-basis: 215px"
+	>
+	<a href="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_7aliivaPsO.png" data-size="706x785">
+		<img src="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_7aliivaPsO.png"
+			width="706"
+			height="785"
+			srcset="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_7aliivaPsO_hu906d14d1537abae3f635bec25f8f137d_92797_480x0_resize_box_3.png 480w, /p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_7aliivaPsO_hu906d14d1537abae3f635bec25f8f137d_92797_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<ul>
+<li>实际上，二进制文件也能直接改，在jyy操作系统课程中你能学到这种有趣的操作</li>
+</ul>
+<h2 id="四链接过程">四、链接过程</h2>
+<p>链接器（ld）负责将多个可重定位的目标文件（.o文件）合并为一个可执行文件，虽然前面已经得到了机器语言文件，但我们还需要把目标文件、操作系统的启动代码和用到的库文件进行组织得到最后的执行文件（比如printf就是从别的库文件来的）。</p>
+<p>我们将通过链接过程将main.o变为可执行文件，使用<code>gcc main.c -o main</code>或者<code>gcc main.c</code></p>
+<p>由于这里用到了其他文件的函数（实际上尝试实现了一个静态库，如果是单文件就按照前面的方法即可）需要使用<code>gcc main.c get_minus.c -o run</code> ，可以看到最后生成了run，使用<code>./run</code>即可看到结果：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 715; 
+			flex-basis: 1716px"
+	>
+	<a href="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_T5cDkpVB4w.png" data-size="808x113">
+		<img src="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_T5cDkpVB4w.png"
+			width="808"
+			height="113"
+			srcset="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_T5cDkpVB4w_hu89c4c874b6604e17e9d4d63aec332f0c_22232_480x0_resize_box_3.png 480w, /p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_T5cDkpVB4w_hu89c4c874b6604e17e9d4d63aec332f0c_22232_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>如果直接进行<code>gcc main.c</code>的操作，得到的将是a.out文件，用同样的方法可以运行得到结果。</p>
+<p>通过<code>ls -l</code>我们可以将.o文件与最后可执行文件进行大小比较，可以发现最后的执行文件大小还是大很多的。</p>
+<ul>
+<li>
+<p>如果你想用gdb进行调试，你需要这样对文件进行编译：<code>gcc main.c -o main -g</code></p>
+</li>
+<li>
+<p>如果你想进一步学习怎么生成自己的静态链接库与动态链接库，你可以参考：<a class="link" href="https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/"  title="https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/"
+     target="_blank" rel="noopener"
+    >https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/</a></p>
+</li>
+</ul>
+<h2 id="reference">Reference</h2>
+<p><a class="link" href="https://blog.csdn.net/Shrimp_millet/article/details/94574406"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/Shrimp_millet/article/details/94574406</a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/307730265"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/307730265</a></p>
+<p><a class="link" href="https://blog.csdn.net/u012184539/article/details/81348529"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/u012184539/article/details/81348529</a></p>
+<p><a class="link" href="https://www.runoob.com/cprogramming/c-examples.html"  target="_blank" rel="noopener"
+    >https://www.runoob.com/cprogramming/c-examples.html</a></p>
+<p><a class="link" href="https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/"  target="_blank" rel="noopener"
+    >https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/</a></p>
+<p><a class="link" href="https://www.runoob.com/cprogramming/c-functions.html"  target="_blank" rel="noopener"
+    >https://www.runoob.com/cprogramming/c-functions.html</a></p>
+<p><a class="link" href="http://c.biancheng.net/view/2375.html"  target="_blank" rel="noopener"
+    >http://c.biancheng.net/view/2375.html</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+            <a href="/tags/%E5%9F%BA%E6%9C%AC%E5%8A%9F/">基本功</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#最直接的编译过程">最直接的编译过程</a></li>
+    <li><a href="#一预处理过程">一、预处理过程</a></li>
+    <li><a href="#二编译过程">二、编译过程</a></li>
+    <li><a href="#三汇编过程">三、汇编过程</a></li>
+    <li><a href="#四链接过程">四、链接过程</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

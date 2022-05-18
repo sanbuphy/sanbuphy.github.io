@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C语言 on 散步的小屋</title>
+    <link>https://sanbuphy.github.io/categories/c%E8%AF%AD%E8%A8%80/</link>
+    <description>Recent content in C语言 on 散步的小屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 18 May 2022 13:24:37 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>c语言编译过程简介</title>
+      <link>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/</link>
+      <pubDate>Wed, 18 May 2022 13:24:37 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/</guid>
+      <description>最直接的编译过程 初始.c文件通过预处理器、编译器、汇编器、链接器得到最后的可执行程序（比如linux系统下的a.out） hello.i：he</description>
+    </item>
+    
+  </channel>
+</rss>

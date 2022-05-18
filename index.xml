@@ -6,7 +6,207 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 12 May 2022 22:25:38 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 18 May 2022 13:24:37 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>c语言编译过程简介</title>
+        <link>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/</link>
+        <pubDate>Wed, 18 May 2022 13:24:37 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/</guid>
+        <description>&lt;h2 id=&#34;最直接的编译过程&#34;&gt;最直接的编译过程&lt;/h2&gt;
+&lt;p&gt;初始.c文件通过预处理器、编译器、汇编器、链接器得到最后的可执行程序（比如linux系统下的a.out）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 580; 
+			flex-basis: 1392px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5lokPRa2gQ.png&#34; data-size=&#34;702x121&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5lokPRa2gQ.png&#34;
+			width=&#34;702&#34;
+			height=&#34;121&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5lokPRa2gQ_hu6ef559bff2296e82b1d747cbc7b9b303_75989_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5lokPRa2gQ_hu6ef559bff2296e82b1d747cbc7b9b303_75989_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;hello.i：hello.c经预处理生成的文本文件。&lt;/p&gt;
+&lt;p&gt;hello.s：hello.i经编译生成的汇编语言文件。&lt;/p&gt;
+&lt;p&gt;hello.o：hello.s经汇编生成的可重定位目标文件。&lt;/p&gt;
+&lt;p&gt;hello：hello.o经链接生成的可执行目标文件。 &lt;/p&gt;
+&lt;p&gt;在经过不同处理阶段的程序到底是怎么样的呢？让我们用gcc分步调试即可：&lt;/p&gt;
+&lt;p&gt;你可以使用这个命令获得所有输出：****&lt;/p&gt;
+&lt;h2 id=&#34;一预处理过程&#34;&gt;一、预处理过程&lt;/h2&gt;
+&lt;p&gt;在预处理阶段，编译器主要完成了这几件事：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;去掉所有的注释&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;展开所有的宏定义（也就是做字符替换）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;插入#include文件的内容&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;处理所有的条件编译（形如#ifndef的语句，详见&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170&#34;  title=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170&lt;/a&gt;）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果想要获得.i的预处理文件，需要输入 &lt;code&gt;gcc -E main.c -o main.i&lt;/code&gt;  ，&lt;code&gt;-E&lt;/code&gt;选项保留预处理器的输出文件，但默认输出到标准输出流，你需要&lt;code&gt;-o&lt;/code&gt;指定一个输出文件。&lt;/p&gt;
+&lt;p&gt;因为头文件可能相当大，如果源文件包括了多个头文件，那么它的预处理器输出可能会庞杂难读。使用&lt;code&gt;-C&lt;/code&gt;选项会很有帮助，这个选项可以阻止预处理器删除源文件和头文件中的注释：&lt;code&gt;gcc -E -C main.c -o main.c&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;测试效果如下，我们能确实看到上述几件事情的发生：（可以使用&lt;code&gt;cat main.i&lt;/code&gt;或者&lt;code&gt;vim main.i&lt;/code&gt;查看结果）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 99; 
+			flex-basis: 238px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_-Ur0teQruS.png&#34; data-size=&#34;831x837&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_-Ur0teQruS.png&#34;
+			width=&#34;831&#34;
+			height=&#34;837&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_-Ur0teQruS_hu1ea939da5f8587b60a3db6abf686e2b0_83722_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_-Ur0teQruS_hu1ea939da5f8587b60a3db6abf686e2b0_83722_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;有关预编译，如果想知道更多信息，可以参考&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[预编译器](&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170&#34;  title=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170&lt;/a&gt;) &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;标准输出流默认是显示器，但理论上通过控制stdout的实现来源dup可以修改成文件或者其他可写空间&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;二编译过程&#34;&gt;二、编译过程&lt;/h2&gt;
+&lt;p&gt;编译能够将hello.i 文件编译生成汇编语言程序 hello.s，为之后的汇编过程做铺垫。汇编语言程序中的每条语句都以一种标准的文本格式确切地描述了一条低级机器语言指令，汇编语言为不同高级语言的不同编译器提供了通用的输出语言。如果想看懂他们，可以去看看csapp的第三章。&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;gcc -S main.i -o main.s &lt;/code&gt;或者 &lt;code&gt;gcc -S main.c&lt;/code&gt;生成汇编程序，即可看到效果：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 68; 
+			flex-basis: 164px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5Jrln9qA38.png&#34; data-size=&#34;576x841&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5Jrln9qA38.png&#34;
+			width=&#34;576&#34;
+			height=&#34;841&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5Jrln9qA38_hueb4ee5983f8388013ee1a0ffbe847c36_66558_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_5Jrln9qA38_hueb4ee5983f8388013ee1a0ffbe847c36_66558_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果你尝试不同代码，你会发现汇编代码逻辑比起源代码逻辑发生了简化甚至更换位置，这是因为编译器会自动对程序的汇编实现进行优化，编译器是很聪明的。但如果你想获得原汁原味结构的汇编代码，可以使用&lt;code&gt;gcc -0g -E main.c&lt;/code&gt;获得符合结构的优化等级（如果要获得较好的优化一般需要把&lt;code&gt;-0g&lt;/code&gt;改为&lt;code&gt;-01&lt;/code&gt;或者&lt;code&gt;-01&lt;/code&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;三汇编过程&#34;&gt;三、汇编过程&lt;/h2&gt;
+&lt;p&gt;接下来，汇编器将hello.s翻译成机器语言指令，把这些指令打包成一种叫做可重定位目标程序的格式，并将结果保存在目标文件main.o中。&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;gcc -c main.s -o main.o&lt;/code&gt;或者&lt;code&gt;gcc -c main.c&lt;/code&gt;得到main.o目标文件。main.o文件是一个二进制文件，它的字节编码是机器语言指令而不是字符，如果vim强制打开main.o文件，看到的将是一堆乱码：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 210; 
+			flex-basis: 504px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_wk6JTo08Bs.png&#34; data-size=&#34;1527x727&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_wk6JTo08Bs.png&#34;
+			width=&#34;1527&#34;
+			height=&#34;727&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_wk6JTo08Bs_hu2726989d3d99956272074790433e9d76_118441_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_wk6JTo08Bs_hu2726989d3d99956272074790433e9d76_118441_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;如果想看他的汇编代码，可以用反汇编器来查看它的编码：&lt;code&gt;objdump –d main.o&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 89; 
+			flex-basis: 215px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_7aliivaPsO.png&#34; data-size=&#34;706x785&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_7aliivaPsO.png&#34;
+			width=&#34;706&#34;
+			height=&#34;785&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_7aliivaPsO_hu906d14d1537abae3f635bec25f8f137d_92797_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_7aliivaPsO_hu906d14d1537abae3f635bec25f8f137d_92797_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实际上，二进制文件也能直接改，在jyy操作系统课程中你能学到这种有趣的操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;四链接过程&#34;&gt;四、链接过程&lt;/h2&gt;
+&lt;p&gt;链接器（ld）负责将多个可重定位的目标文件（.o文件）合并为一个可执行文件，虽然前面已经得到了机器语言文件，但我们还需要把目标文件、操作系统的启动代码和用到的库文件进行组织得到最后的执行文件（比如printf就是从别的库文件来的）。&lt;/p&gt;
+&lt;p&gt;我们将通过链接过程将main.o变为可执行文件，使用&lt;code&gt;gcc main.c -o main&lt;/code&gt;或者&lt;code&gt;gcc main.c&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;由于这里用到了其他文件的函数（实际上尝试实现了一个静态库，如果是单文件就按照前面的方法即可）需要使用&lt;code&gt;gcc main.c get_minus.c -o run&lt;/code&gt; ，可以看到最后生成了run，使用&lt;code&gt;./run&lt;/code&gt;即可看到结果：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 715; 
+			flex-basis: 1716px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_T5cDkpVB4w.png&#34; data-size=&#34;808x113&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_T5cDkpVB4w.png&#34;
+			width=&#34;808&#34;
+			height=&#34;113&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_T5cDkpVB4w_hu89c4c874b6604e17e9d4d63aec332f0c_22232_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/image/image_T5cDkpVB4w_hu89c4c874b6604e17e9d4d63aec332f0c_22232_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;如果直接进行&lt;code&gt;gcc main.c&lt;/code&gt;的操作，得到的将是a.out文件，用同样的方法可以运行得到结果。&lt;/p&gt;
+&lt;p&gt;通过&lt;code&gt;ls -l&lt;/code&gt;我们可以将.o文件与最后可执行文件进行大小比较，可以发现最后的执行文件大小还是大很多的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如果你想用gdb进行调试，你需要这样对文件进行编译：&lt;code&gt;gcc main.c -o main -g&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果你想进一步学习怎么生成自己的静态链接库与动态链接库，你可以参考：&lt;a class=&#34;link&#34; href=&#34;https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/&#34;  title=&#34;https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/Shrimp_millet/article/details/94574406&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/Shrimp_millet/article/details/94574406&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/307730265&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/307730265&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/u012184539/article/details/81348529&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/u012184539/article/details/81348529&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.runoob.com/cprogramming/c-examples.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.runoob.com/cprogramming/c-examples.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.runoob.com/cprogramming/c-functions.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.runoob.com/cprogramming/c-functions.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://c.biancheng.net/view/2375.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://c.biancheng.net/view/2375.html&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>shell脚本中变量无法读取空格的解决方法</title>
+        <link>https://sanbuphy.github.io/p/shell%E8%84%9A%E6%9C%AC%E4%B8%AD%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%A9%BA%E6%A0%BC%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+        <pubDate>Sun, 15 May 2022 09:29:20 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/shell%E8%84%9A%E6%9C%AC%E4%B8%AD%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%A9%BA%E6%A0%BC%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Disco Diffusion关键字大赏</title>
         <link>https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/</link>
         <pubDate>Thu, 12 May 2022 22:25:38 +0800</pubDate>
