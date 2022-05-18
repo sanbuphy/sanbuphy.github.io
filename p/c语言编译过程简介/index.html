@@ -142,9 +142,9 @@
 <p>hello.i：hello.c经预处理生成的文本文件。</p>
 <p>hello.s：hello.i经编译生成的汇编语言文件。</p>
 <p>hello.o：hello.s经汇编生成的可重定位目标文件。</p>
-<p>hello：hello.o经链接生成的可执行目标文件。 </p>
+<p>hello：hello.o经链接生成的可执行目标文件。</p>
 <p>在经过不同处理阶段的程序到底是怎么样的呢？让我们用gcc分步调试即可：</p>
-<p>你可以使用这个命令获得所有输出：****</p>
+<p>你可以使用这个命令获得所有输出：<code>gcc -save-temps main.c –o main</code></p>
 <h2 id="一预处理过程">一、预处理过程</h2>
 <p>在预处理阶段，编译器主要完成了这几件事：</p>
 <ul>
@@ -158,9 +158,8 @@
 <p>插入#include文件的内容</p>
 </li>
 <li>
-<p>处理所有的条件编译（形如#ifndef的语句，详见<a class="link" href="https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170"  title="https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170"
-     target="_blank" rel="noopener"
-    >https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170</a>）</p>
+<p>处理所有的条件编译（形如#ifndef的语句，详见 <a class="link" href="https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170"  target="_blank" rel="noopener"
+    >条件编译</a></p>
 </li>
 </ul>
 <p>如果想要获得.i的预处理文件，需要输入 <code>gcc -E main.c -o main.i</code>  ，<code>-E</code>选项保留预处理器的输出文件，但默认输出到标准输出流，你需要<code>-o</code>指定一个输出文件。</p>
@@ -184,13 +183,13 @@
 	
 </figure></p>
 <ul>
-<li>有关预编译，如果想知道更多信息，可以参考</li>
-</ul>
-<p>[预编译器](<a class="link" href="https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170"  title="https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170"
-     target="_blank" rel="noopener"
-    >https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170</a>) </p>
-<ul>
-<li>标准输出流默认是显示器，但理论上通过控制stdout的实现来源dup可以修改成文件或者其他可写空间</li>
+<li>
+<p>有关预编译，如果想知道更多信息，可以参考 <a class="link" href="https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170"  target="_blank" rel="noopener"
+    >预编译器</a></p>
+</li>
+<li>
+<p>标准输出流默认是显示器，但理论上通过控制stdout的实现来源dup可以修改成文件或者其他可写空间</p>
+</li>
 </ul>
 <h2 id="二编译过程">二、编译过程</h2>
 <p>编译能够将hello.i 文件编译生成汇编语言程序 hello.s，为之后的汇编过程做铺垫。汇编语言程序中的每条语句都以一种标准的文本格式确切地描述了一条低级机器语言指令，汇编语言为不同高级语言的不同编译器提供了通用的输出语言。如果想看懂他们，可以去看看csapp的第三章。</p>
@@ -258,7 +257,7 @@
 </ul>
 <h2 id="四链接过程">四、链接过程</h2>
 <p>链接器（ld）负责将多个可重定位的目标文件（.o文件）合并为一个可执行文件，虽然前面已经得到了机器语言文件，但我们还需要把目标文件、操作系统的启动代码和用到的库文件进行组织得到最后的执行文件（比如printf就是从别的库文件来的）。</p>
-<p>我们将通过链接过程将main.o变为可执行文件，使用<code>gcc main.c -o main</code>或者<code>gcc main.c</code></p>
+<p>通过链接过程将main.o变为可执行文件，使用<code>gcc main.c -o main</code>或者<code>gcc main.c</code></p>
 <p>由于这里用到了其他文件的函数（实际上尝试实现了一个静态库，如果是单文件就按照前面的方法即可）需要使用<code>gcc main.c get_minus.c -o run</code> ，可以看到最后生成了run，使用<code>./run</code>即可看到结果：</p>
 <p><figure 
 	
@@ -281,12 +280,11 @@
 <p>通过<code>ls -l</code>我们可以将.o文件与最后可执行文件进行大小比较，可以发现最后的执行文件大小还是大很多的。</p>
 <ul>
 <li>
-<p>如果你想用gdb进行调试，你需要这样对文件进行编译：<code>gcc main.c -o main -g</code></p>
+<p>如果想用gdb进行调试，你需要这样对文件进行编译：<code>gcc main.c -o main -g</code></p>
 </li>
 <li>
-<p>如果你想进一步学习怎么生成自己的静态链接库与动态链接库，你可以参考：<a class="link" href="https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/"  title="https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/"
-     target="_blank" rel="noopener"
-    >https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/</a></p>
+<p>如果想进一步学习怎么生成自己的静态链接库与动态链接库，可以参考：<a class="link" href="https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/"  target="_blank" rel="noopener"
+    >静态链接库与动态链接库</a></p>
 </li>
 </ul>
 <h2 id="reference">Reference</h2>

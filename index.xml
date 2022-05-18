@@ -34,9 +34,9 @@
 &lt;p&gt;hello.i：hello.c经预处理生成的文本文件。&lt;/p&gt;
 &lt;p&gt;hello.s：hello.i经编译生成的汇编语言文件。&lt;/p&gt;
 &lt;p&gt;hello.o：hello.s经汇编生成的可重定位目标文件。&lt;/p&gt;
-&lt;p&gt;hello：hello.o经链接生成的可执行目标文件。 &lt;/p&gt;
+&lt;p&gt;hello：hello.o经链接生成的可执行目标文件。&lt;/p&gt;
 &lt;p&gt;在经过不同处理阶段的程序到底是怎么样的呢？让我们用gcc分步调试即可：&lt;/p&gt;
-&lt;p&gt;你可以使用这个命令获得所有输出：****&lt;/p&gt;
+&lt;p&gt;你可以使用这个命令获得所有输出：&lt;code&gt;gcc -save-temps main.c –o main&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id=&#34;一预处理过程&#34;&gt;一、预处理过程&lt;/h2&gt;
 &lt;p&gt;在预处理阶段，编译器主要完成了这几件事：&lt;/p&gt;
 &lt;ul&gt;
@@ -50,9 +50,8 @@
 &lt;p&gt;插入#include文件的内容&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;处理所有的条件编译（形如#ifndef的语句，详见&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170&#34;  title=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;处理所有的条件编译（形如#ifndef的语句，详见 &lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/hash-if-hash-elif-hash-else-and-hash-endif-directives-c-cpp?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;条件编译&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;如果想要获得.i的预处理文件，需要输入 &lt;code&gt;gcc -E main.c -o main.i&lt;/code&gt;  ，&lt;code&gt;-E&lt;/code&gt;选项保留预处理器的输出文件，但默认输出到标准输出流，你需要&lt;code&gt;-o&lt;/code&gt;指定一个输出文件。&lt;/p&gt;
@@ -76,13 +75,13 @@
 	
 &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;有关预编译，如果想知道更多信息，可以参考&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;[预编译器](&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170&#34;  title=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170&lt;/a&gt;) &lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;标准输出流默认是显示器，但理论上通过控制stdout的实现来源dup可以修改成文件或者其他可写空间&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;有关预编译，如果想知道更多信息，可以参考 &lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/preprocessor/preprocessor-directives?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;预编译器&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;标准输出流默认是显示器，但理论上通过控制stdout的实现来源dup可以修改成文件或者其他可写空间&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;二编译过程&#34;&gt;二、编译过程&lt;/h2&gt;
 &lt;p&gt;编译能够将hello.i 文件编译生成汇编语言程序 hello.s，为之后的汇编过程做铺垫。汇编语言程序中的每条语句都以一种标准的文本格式确切地描述了一条低级机器语言指令，汇编语言为不同高级语言的不同编译器提供了通用的输出语言。如果想看懂他们，可以去看看csapp的第三章。&lt;/p&gt;
@@ -150,7 +149,7 @@
 &lt;/ul&gt;
 &lt;h2 id=&#34;四链接过程&#34;&gt;四、链接过程&lt;/h2&gt;
 &lt;p&gt;链接器（ld）负责将多个可重定位的目标文件（.o文件）合并为一个可执行文件，虽然前面已经得到了机器语言文件，但我们还需要把目标文件、操作系统的启动代码和用到的库文件进行组织得到最后的执行文件（比如printf就是从别的库文件来的）。&lt;/p&gt;
-&lt;p&gt;我们将通过链接过程将main.o变为可执行文件，使用&lt;code&gt;gcc main.c -o main&lt;/code&gt;或者&lt;code&gt;gcc main.c&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;通过链接过程将main.o变为可执行文件，使用&lt;code&gt;gcc main.c -o main&lt;/code&gt;或者&lt;code&gt;gcc main.c&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;由于这里用到了其他文件的函数（实际上尝试实现了一个静态库，如果是单文件就按照前面的方法即可）需要使用&lt;code&gt;gcc main.c get_minus.c -o run&lt;/code&gt; ，可以看到最后生成了run，使用&lt;code&gt;./run&lt;/code&gt;即可看到结果：&lt;/p&gt;
 &lt;p&gt;&lt;figure 
 	
@@ -173,12 +172,11 @@
 &lt;p&gt;通过&lt;code&gt;ls -l&lt;/code&gt;我们可以将.o文件与最后可执行文件进行大小比较，可以发现最后的执行文件大小还是大很多的。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;如果你想用gdb进行调试，你需要这样对文件进行编译：&lt;code&gt;gcc main.c -o main -g&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果想用gdb进行调试，你需要这样对文件进行编译：&lt;code&gt;gcc main.c -o main -g&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;如果你想进一步学习怎么生成自己的静态链接库与动态链接库，你可以参考：&lt;a class=&#34;link&#34; href=&#34;https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/&#34;  title=&#34;https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如果想进一步学习怎么生成自己的静态链接库与动态链接库，可以参考：&lt;a class=&#34;link&#34; href=&#34;https://wangjunstf.github.io/2021/09/30/jing-tai-ku-he-dong-tai-ku-zhi-zuo/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;静态链接库与动态链接库&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
