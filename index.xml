@@ -6,7 +6,227 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 18 May 2022 13:24:37 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 11 Jun 2022 22:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>NJU计算机课程基础实验 PA1笔记</title>
+        <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Sat, 11 Jun 2022 22:50:40 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;p&gt;PA0比较简单，就不再重复说明。&lt;/p&gt;
+&lt;h1 id=&#34;pa1rtfsc&#34;&gt;PA1.RTFSC&lt;/h1&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apt-get install ccache
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;which gcc
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以把gcc编译结果缓存，可跳过重复的编译过程&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;make -nB&lt;/code&gt;, 它会让 &lt;code&gt;make&lt;/code&gt;程序以&amp;quot;只输出命令但不执行&amp;quot;的方式强制构建目标&lt;/p&gt;
+&lt;p&gt;llvm推荐用PA里面说到的11先试试看，实在不行想要升级可参考：https://blog.csdn.net/weixin_44200757/article/details/122725577&lt;/p&gt;
+&lt;p&gt;最简单的计算机称为&amp;quot;图灵机&amp;quot;(Turing Machine, TRM)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;结构上, TRM有存储器, 有PC, 有寄存器, 有加法器&lt;/li&gt;
+&lt;li&gt;工作方式上, TRM不断地重复以下过程: 从PC指示的存储器位置取出指令, 执行指令, 然后更新PC&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;BIOS是固化在ROM/Flash中的, 它们都是非易失性的存储介质, BIOS中的内容不会因为断电而丢失.&lt;/p&gt;
+&lt;p&gt;因此在真实的计算机系统中, 计算机启动后首先会把控制权交给BIOS, BIOS经过一系列初始化工作之后, 再从磁盘中将有意义的程序读入内存中执行. 对这个过程的模拟需要了解很多超出本课程范围的细节, 我们在PA中做了简化: 采取约定的方式让CPU直接从约定的内存位置开始执行.&lt;/p&gt;
+&lt;p&gt;在GNU/Linux中, 你可以很容易得知操作系统在背后做了些什么. 键入 &lt;code&gt;sudo dmesg&lt;/code&gt;, 就可以输出操作系统的启动日志, 操作系统的行为一览无余.&lt;/p&gt;
+&lt;p&gt;你需要结合PA1 RTFSC内容来NEMU的框架代码.&lt;/p&gt;
+&lt;p&gt;如果你不知道&amp;quot;怎么才算是看懂了框架代码&amp;quot;, 你可以先尝试进行后面的任务. 如果发现不知道如何下手, 再回来仔细阅读这一节&lt;/p&gt;
+&lt;h2 id=&#34;cpu&#34;&gt;cpu&lt;/h2&gt;
+&lt;p&gt;先驱为CPU创造了一个特殊的计数器, 叫&amp;quot;程序计数器&amp;quot;(Program Counter, PC). 在x86中, 它有一个特殊的名字, 叫 &lt;code&gt;EIP&lt;/code&gt;(Extended Instruction Pointer).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;err&#34;&gt;从&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PC指示的存储器位置取出指令&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;err&#34;&gt;执行指令&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;err&#34;&gt;更新&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PC&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;第一项工作就是将一个内置的客户程序读入到内存中&#34;&gt;第一项工作就是将一个内置的客户程序读入到内存中&lt;/h2&gt;
+&lt;p&gt;先打开：&lt;code&gt;nemu/src/isa/$ISA/init.c&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;monitor会调用 &lt;code&gt;init_isa()&lt;/code&gt;函数(在 &lt;code&gt;nemu/src/isa/$ISA/init.c&lt;/code&gt;中定义), 来进行一些ISA相关的初始化工作.&lt;/p&gt;
+&lt;p&gt;第一项工作就是将一个内置的客户程序读入到内存中.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;内存是什么？C语言中我们就很自然地使用一个 &lt;code&gt;uint8_t&lt;/code&gt;类型的数组来对内存进行模拟. NEMU默认为客户计算机提供128MB的物理内存(见 &lt;code&gt;nemu/src/memory/paddr.c&lt;/code&gt;中定义的 &lt;code&gt;pmem&lt;/code&gt;(如果找不到看看.h内有128*1024*1024)&lt;/li&gt;
+&lt;li&gt;需要将客户程序读入到内存的什么位置？我们需要一种方式让客户计算机的CPU知道客户程序的位置. 我们采取一种最简单的方式: 约定. 具体地, 我们让monitor直接把客户程序读入到一个固定的内存位置&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;init_isa的第二项任务是初始化寄存器&#34;&gt;&lt;code&gt;init_isa()&lt;/code&gt;的第二项任务是初始化寄存器&lt;/h2&gt;
+&lt;p&gt;CPU中, 寄存器是一个结构化特征较强的存储部件, 在C语言中我们就很自然地使用相应的结构体来描述CPU的寄存器结构. 不同ISA的寄存器结构也各不相同, 为此我们把寄存器结构体 &lt;code&gt;CPU_state&lt;/code&gt;的定义放在 &lt;code&gt;nemu/src/isa/$ISA/include/isa-def.h&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;初始化寄存器的一个重要工作就是设置 &lt;code&gt;cpu.pc&lt;/code&gt;的初值, 我们需要将它设置成刚才加载客户程序的内存位置, 这样就可以让CPU从我们约定的内存位置开始执行客户程序了. 对于mips32和riscv32, 它们的0号寄存器总是存放 &lt;code&gt;0&lt;/code&gt;, 因此我们也需要对其进行初始化.&lt;/p&gt;
+&lt;p&gt;CONFIG_MBASE：物理内存起始地址    RESET_VECTOR：客户程序读入的固定位置&lt;/p&gt;
+&lt;h3 id=&#34;物理内存的起始地址&#34;&gt;物理内存的起始地址&lt;/h3&gt;
+&lt;p&gt;x86的物理内存是从0开始编址的, 但对于一些ISA来说却不是这样, 例如mips32和riscv32的物理地址均从 &lt;code&gt;0x80000000&lt;/code&gt;开始. 因此对于mips32和riscv32, 其 &lt;code&gt;CONFIG_MBASE&lt;/code&gt;将会被定义成 &lt;code&gt;0x80000000&lt;/code&gt;. 将来CPU访问内存时, 我们会将CPU将要访问的内存地址映射到 &lt;code&gt;pmem&lt;/code&gt;中的相应偏移位置, 这是通过 &lt;code&gt;nemu/src/memory/paddr.c&lt;/code&gt;中的 &lt;code&gt;guest_to_host()&lt;/code&gt;函数实现的. 例如如果mips32的CPU打算访问内存地址 &lt;code&gt;0x80000000&lt;/code&gt;, 我们会让它最终访问 &lt;code&gt;pmem[0]&lt;/code&gt;, 从而可以正确访问客户程序的第一条指令. 这种机制有一个专门的名字, 叫地址映射, 在后续的PA中我们还会再遇到它.x86的物理内存是从0开始编址的, 但对于一些ISA来说却不是这样, 例如mips32和riscv32的物理地址均从0x80000000开始. 因此对于mips32和riscv32, 其CONFIG_MBASE将会被定义成0x8000000&lt;/p&gt;
+&lt;p&gt;Monitor读入客户程序并对寄存器进行初始化后, 这时内存的布局如下:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;pmem:
+
+CONFIG_MBASE      RESET_VECTOR
+      |                 |
+      v                 v
+      -----------------------------------------------
+      |                 |                  |
+      |                 |    guest prog    |
+      |                 |                  |
+      -----------------------------------------------
+                        ^
+                        |
+                       pc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;NEMU返回到 &lt;code&gt;init_monitor()&lt;/code&gt;函数中, 继续调用 &lt;code&gt;load_img()&lt;/code&gt;函数 (在 &lt;code&gt;nemu/src/monitor/monitor.c&lt;/code&gt;中定义). 这个函数会将一个有意义的客户程序从&lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Disk_image&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;镜像文件&lt;/a&gt;读入到内存, 覆盖刚才的内置客户程序.&lt;/p&gt;
+&lt;p&gt;如果运行NEMU的时候没有给出这个参数, NEMU将会运行内置客户程序.&lt;/p&gt;
+&lt;h3 id=&#34;思考题1-1参数&#34;&gt;思考题1：-1参数&lt;/h3&gt;
+&lt;p&gt;在 &lt;code&gt;cmd_c()&lt;/code&gt;函数中, 调用 &lt;code&gt;cpu_exec()&lt;/code&gt;的时候传入了参数 &lt;code&gt;-1&lt;/code&gt;, 你知道这是什么意思吗?&lt;/p&gt;
+&lt;p&gt;答:参数为uint64,无符号64位整型，-1表示取最大值（整数用补码表示，负数的补码为=反码+1，正数的补码就是其原码；负数的反码为符号位不变，数值位按位&lt;a class=&#34;link&#34; href=&#34;https://so.csdn.net/so/search?q=%E5%8F%96%E5%8F%8D&amp;amp;spm=1001.2101.3001.7020&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;取反&lt;/a&gt;。-1的原码：1,000&amp;hellip;0001，因此，-1的补码为1,111&amp;hellip;111。）&lt;/p&gt;
+&lt;h3 id=&#34;思考题2谁来指示程序的结束&#34;&gt;思考题2：谁来指示程序的结束?&lt;/h3&gt;
+&lt;p&gt;在程序设计课上老师告诉你, 当程序执行到 &lt;code&gt;main()&lt;/code&gt;函数返回处的时候, 程序就退出了, 你对此深信不疑. 但你是否怀疑过, 凭什么程序执行到 &lt;code&gt;main()&lt;/code&gt;函数的返回处就结束了?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;main()函数结束，如何再执行代码？&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;strong&gt;atexit()&lt;/strong&gt; 函数，来执行相关的“ 清理 ”工作The function pointed by func is automatically called without arguments when the program terminates normally.A zero value is returned if the function was successfully registered.
+If it failed, a non-zero value is returned.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;几种退出函数：https://blog.csdn.net/jinchaoh/article/details/50340743&lt;/p&gt;
+&lt;p&gt;exit()函数用于在程序运行的过程中随时结束程序，其原型为：
+void exit(int state);
+exit的参数state是返回给操作系统或当前程序的调用程序，返回0表示程序正常结束，非0表示程序非正常结束。main函数结束时也会隐式地调用exit()函数。exit()函数运行时首先会执行由atexit()函数登记的函数，然后会做一些自身的清理工作，同时刷新所有输出流、关闭所有打开的流并且关闭通过标准I/O函数tmpfile()创建的临时文件。&lt;/p&gt;
+&lt;p&gt;atexit() 用于注册终止函数(即main执行结束后调用的函数)，其原型为：
+int atexit(void (*function)(void));
+很多时候我们需要在程序退出的时候做一些诸如释放资源的操作，但程序退出的方式有很多种，比如main()函数运行结束、在程序的某个地方用exit()结束程序、用户通过Ctrl+C或Ctrl+break操作来终止程序等等，因此需要有一种与程序退出方式无关的方法来进行程序退出时的必要处理。方法就是用atexit()函数来注册程序正常终止时要被调用的函数。&lt;/p&gt;
+&lt;h3 id=&#34;额外思考main是怎么开始的&#34;&gt;额外思考：main是怎么开始的?&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://wen00072.github.io/blog/2015/02/14/main-linux-whos-going-to-call-in-c-language/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://wen00072.github.io/blog/2015/02/14/main-linux-whos-going-to-call-in-c-language/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;三个对调试有用的宏在-nemuincludedebugh中定义&#34;&gt;三个对调试有用的宏(在 &lt;code&gt;nemu/include/debug.h&lt;/code&gt;中定义)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Log()&lt;/code&gt;是 &lt;code&gt;printf()&lt;/code&gt;的升级版, 专门用来输出调试信息, 同时还会输出使用 &lt;code&gt;Log()&lt;/code&gt;所在的源文件, 行号和函数. 当输出的调试信息过多的时候, 可以很方便地定位到代码中的相关位置&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Assert()&lt;/code&gt;是 &lt;code&gt;assert()&lt;/code&gt;的升级版, 当测试条件为假时, 在assertion fail之前可以输出一些信息&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;panic()&lt;/code&gt;用于输出信息并结束程序, 相当于无条件的assertion fail&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;内存通过在 &lt;code&gt;nemu/src/memory/paddr.c&lt;/code&gt;中定义的大数组 &lt;code&gt;pmem&lt;/code&gt;来模拟. 在客户程序运行的过程中, 总是使用 &lt;code&gt;vaddr_read()&lt;/code&gt;和 &lt;code&gt;vaddr_write()&lt;/code&gt; (在 &lt;code&gt;nemu/src/memory/vaddr.c&lt;/code&gt;中定义)来访问模拟的内存.&lt;/p&gt;
+&lt;p&gt;vaddr, paddr分别代表虚拟地址和物理地址.&lt;/p&gt;
+&lt;h2 id=&#34;pa1简易调试器&#34;&gt;PA1.简易调试器&lt;/h2&gt;
+&lt;p&gt;简易调试器(Simple Debugger, sdb)是NEMU中一项非常重要的基础设施.&lt;/p&gt;
+&lt;p&gt;我们知道NEMU是一个用来执行其它客户程序的程序, 这意味着, NEMU可以随时了解客户程序执行的所有信息. 然而这些信息对外面的调试器(例如GDB)来说, 是不容易获取的. 例如在通过GDB调试NEMU的时候, 你将很难在NEMU中运行的客户程序中设置断点, 但对于NEMU来说, 这是一件不太困难的事情.&lt;/p&gt;
+&lt;p&gt;为了提高调试的效率, 同时也作为熟悉框架代码的练习, 我们需要在monitor中实现一个具有如下功能的简易调试器:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;(1) 命令已实现&lt;/li&gt;
+&lt;li&gt;(2) 与GDB相比, 我们在这里做了简化, 更改了命令的格式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;命令&lt;/th&gt;
+&lt;th&gt;格式&lt;/th&gt;
+&lt;th&gt;使用举例&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;帮助(1)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;打印命令的帮助信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;继续运行(1)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;c&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;c&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;继续运行被暂停的程序&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;退出(1)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;q&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;q&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;退出NEMU&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;单步执行&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;si [N]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;si 10&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;让程序单步执行 &lt;code&gt;N&lt;/code&gt;条指令后暂停执行,``当 &lt;code&gt;N&lt;/code&gt;没有给出时, 缺省为 &lt;code&gt;1&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;打印程序状态&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;info SUBCMD&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;info rinfo w&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;打印寄存器状态``打印监视点信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;扫描内存(2)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;x N EXPR&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;x 10 $esp&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;求出表达式 &lt;code&gt;EXPR&lt;/code&gt;的值, 将结果作为起始内存``地址, 以十六进制形式输出连续的 &lt;code&gt;N&lt;/code&gt;个4字节&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;表达式求值&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;p EXPR&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;p $eax + 1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;求出表达式 &lt;code&gt;EXPR&lt;/code&gt;的值, &lt;code&gt;EXPR&lt;/code&gt;支持的``运算请见&lt;a class=&#34;link&#34; href=&#34;https://nju-projectn.github.io/ics-pa-gitbook/ics2021/1.6.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;调试中的表达式求值&lt;/a&gt;小节&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;设置监视点&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;w EXPR&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;w *0x2000&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;当表达式 &lt;code&gt;EXPR&lt;/code&gt;的值发生变化时, 暂停程序执行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除监视点&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;d N&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;d 2&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;删除序号为 &lt;code&gt;N&lt;/code&gt;的监视点&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;你需要在实现一个功能之后对它进行充分的测试. 随着时间的推移, 发现同一个bug所需要的代价会越来越大.&lt;/p&gt;
+&lt;p&gt;实现步骤：&lt;/p&gt;
+&lt;p&gt;从键盘上读入命令后, NEMU需要解析该命令——利用框架代码调用单步执行——打印寄存器——扫描内存&lt;/p&gt;
+&lt;p&gt;（NEMU默认会把单步执行的指令打印出来(这里面埋了一些坑, 你需要RTFSC看看指令是在哪里被打印的), 这样你就可以验证单步执行的效果了.）&lt;/p&gt;
+&lt;h3 id=&#34;读入并解析&#34;&gt;读入并解析&lt;/h3&gt;
+&lt;p&gt;NEMU通过 &lt;code&gt;readline&lt;/code&gt;库与用户交互&lt;/p&gt;
+&lt;p&gt;解析命令的工作是通过一系列的字符串处理函数来完成的, 例如框架代码中的 &lt;code&gt;strtok()&lt;/code&gt;、&lt;code&gt;strlen()&lt;/code&gt;, &lt;code&gt;strcpy()&lt;/code&gt;、sscanf()等&lt;/p&gt;
+&lt;p&gt;readline：（使用了系统库要记得-lreadline链接）&lt;/p&gt;
+&lt;p&gt;strtok:要注意两个参数，第二个参数会被他替换成\0，第一个字符串读出后接下来的第一个参数就要用NULL替换&lt;/p&gt;
+&lt;p&gt;strtok不能保证字符串的完整，要保持字符串的完整可以用strchr和sscanf的组合。&lt;/p&gt;
+&lt;h2 id=&#34;reference-重点&#34;&gt;Reference 【重点】&lt;/h2&gt;
+&lt;h3 id=&#34;gdb-layout窗口&#34;&gt;gdb layout窗口&lt;/h3&gt;
+&lt;p&gt;(其实也可以直接gdb xxx -tui)&lt;/p&gt;
+&lt;p&gt;layout：用于分割窗口，可以一边查看代码，一边测试。主要有以下几种用法：
+layout src：显示源代码窗口
+layout asm：显示汇编窗口
+layout regs：显示源代码/汇编和寄存器窗口
+layout split：显示源代码和汇编窗口
+layout next：显示下一个layout
+layout prev：显示上一个layout
+Ctrl + L：刷新窗口
+Ctrl + x，再按1：单窗口模式，显示一个窗口
+Ctrl + x，再按2：双窗口模式，显示两个窗口
+Ctrl + x，再按a：回到传统模式，即退出layout，回到执行layout之前的调试窗口。&lt;/p&gt;
+&lt;h3 id=&#34;gdb快捷键&#34;&gt;GDB快捷键&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wizardforcel.gitbooks.io/100-gdb-tips/content/step-and-next-function.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;100个gdb&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;常见的命令：&lt;/p&gt;
+&lt;p&gt;记住run和start的区别！&lt;/p&gt;
+&lt;p&gt;如何打印变量的值？(print var)&lt;/p&gt;
+&lt;p&gt;如何打印变量的地址？(print &amp;amp;var)
+如何打印地址的数据值？(print *address)
+如何查看当前运行的文件和行？(backtrace)
+如何查看指定文件的代码？(list file:N)
+如果程序是多文件的，怎样定位到指定文件的指定行或者函数？(list file:N)
+如果循环次数很多，如何执行完当前的循环？(until)&lt;/p&gt;
+&lt;p&gt;如何跳过不感兴趣的函数（n）&lt;/p&gt;
+&lt;p&gt;gdb中跳入函数的命令是step，相当于Visual Studio中的快捷键F11，
+gdb中跳出函数的命令是finish，相当于Visual Studio中的快捷键Shift+F11，函数完整执行后返回&lt;/p&gt;
+&lt;p&gt;gdb中还有一个直接返回的命令是return，它会跳过当前函数后面的语句直接返回，返回值可以自定义，紧跟在return命令后面即可&lt;/p&gt;
+&lt;p&gt;进阶命令：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如何打印内存？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;gdb中使用“&lt;code&gt;x&lt;/code&gt;”命令来打印内存的值，格式为“&lt;code&gt;x/nfu addr&lt;/code&gt;”。含义为以 &lt;code&gt;f&lt;/code&gt;格式打印从 &lt;code&gt;addr&lt;/code&gt;开始的 &lt;code&gt;n&lt;/code&gt;个长度单元为 &lt;code&gt;u&lt;/code&gt;的内存值。参数具体含义如下：
+a）n：输出单元的个数。
+b）f：是输出格式。比如 &lt;code&gt;x&lt;/code&gt;是以16进制形式输出，&lt;code&gt;o&lt;/code&gt;是以8进制形式输出,等等。
+c）u：标明一个单元的长度。&lt;code&gt;b&lt;/code&gt;是一个 &lt;code&gt;byte&lt;/code&gt;，&lt;code&gt;h&lt;/code&gt;是两个 &lt;code&gt;byte&lt;/code&gt;（halfword），&lt;code&gt;w&lt;/code&gt;是四个 &lt;code&gt;byte&lt;/code&gt;（word），&lt;code&gt;g&lt;/code&gt;是八个 &lt;code&gt;byte&lt;/code&gt;（giant word）&lt;/p&gt;
+&lt;p&gt;比如：以16进制格式打印数组前 &lt;code&gt;a&lt;/code&gt;16个byte的值： x/16xb a&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如何打印堆栈信息？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用gdb调试程序时，可以使用“&lt;code&gt;i frame&lt;/code&gt;”命令（&lt;code&gt;i&lt;/code&gt;是 &lt;code&gt;info&lt;/code&gt;命令缩写）显示函数堆栈帧信息。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>c语言编译过程简介</title>
         <link>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/</link>
         <pubDate>Wed, 18 May 2022 13:24:37 +0800</pubDate>
@@ -1115,7 +1335,10 @@ int main()
         <pubDate>Sat, 29 Jan 2022 16:18:00 +0800</pubDate>
         
         <guid>https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</guid>
-        <description>&lt;img src="https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/jeff-rodgers-DaPabnoYMKc-unsplash.jpg" alt="Featured image of post 小猫也能看懂的反向传播算法" /&gt;&lt;p&gt;在介绍具体的算法之前，我们得先认识一下神经网络以及为什么要构造这样的神经网络。
+        <description>&lt;img src="https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/jeff-rodgers-DaPabnoYMKc-unsplash.jpg" alt="Featured image of post 小猫也能看懂的反向传播算法" /&gt;&lt;p&gt;todo:https://www.cnblogs.com/charlotte77/p/5629865.html
+TODO:https://blog.csdn.net/Serins/article/details/121508468
+TODO:https://www.bilibili.com/video/BV16x411V7Qg?spm_id_from=333.337.search-card.all.click&lt;/p&gt;
+&lt;p&gt;在介绍具体的算法之前，我们得先认识一下神经网络以及为什么要构造这样的神经网络。
 注，如果你对神经网络的发展史感兴趣，可参考&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/subconscious/p/5058741.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;神经网络浅讲：从神经元到深度学习&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;神经网络基础&#34;&gt;神经网络基础&lt;/h2&gt;

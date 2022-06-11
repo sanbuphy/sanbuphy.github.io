@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='开始接受PA的折磨之路'><title>NJU计算机课程基础实验 PA1笔记</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='NJU计算机课程基础实验 PA1笔记'>
+<meta property='og:description' content='开始接受PA的折磨之路'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C语言' /><meta property='article:published_time' content='2022-06-11T22:50:40&#43;08:00'/><meta property='article:modified_time' content='2022-06-11T22:50:40&#43;08:00'/>
+<meta name="twitter:title" content="NJU计算机课程基础实验 PA1笔记">
+<meta name="twitter:description" content="开始接受PA的折磨之路">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/" >
+                南京大学PA
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/">NJU计算机课程基础实验 PA1笔记</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        开始接受PA的折磨之路
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 11, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 11 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>PA0比较简单，就不再重复说明。</p>
+<h1 id="pa1rtfsc">PA1.RTFSC</h1>
+<pre tabindex="0"><code>apt-get install ccache
+</code></pre><pre tabindex="0"><code>which gcc
+</code></pre><p>可以把gcc编译结果缓存，可跳过重复的编译过程</p>
+<p><code>make -nB</code>, 它会让 <code>make</code>程序以&quot;只输出命令但不执行&quot;的方式强制构建目标</p>
+<p>llvm推荐用PA里面说到的11先试试看，实在不行想要升级可参考：https://blog.csdn.net/weixin_44200757/article/details/122725577</p>
+<p>最简单的计算机称为&quot;图灵机&quot;(Turing Machine, TRM)</p>
+<ul>
+<li>结构上, TRM有存储器, 有PC, 有寄存器, 有加法器</li>
+<li>工作方式上, TRM不断地重复以下过程: 从PC指示的存储器位置取出指令, 执行指令, 然后更新PC</li>
+</ul>
+<p>BIOS是固化在ROM/Flash中的, 它们都是非易失性的存储介质, BIOS中的内容不会因为断电而丢失.</p>
+<p>因此在真实的计算机系统中, 计算机启动后首先会把控制权交给BIOS, BIOS经过一系列初始化工作之后, 再从磁盘中将有意义的程序读入内存中执行. 对这个过程的模拟需要了解很多超出本课程范围的细节, 我们在PA中做了简化: 采取约定的方式让CPU直接从约定的内存位置开始执行.</p>
+<p>在GNU/Linux中, 你可以很容易得知操作系统在背后做了些什么. 键入 <code>sudo dmesg</code>, 就可以输出操作系统的启动日志, 操作系统的行为一览无余.</p>
+<p>你需要结合PA1 RTFSC内容来NEMU的框架代码.</p>
+<p>如果你不知道&quot;怎么才算是看懂了框架代码&quot;, 你可以先尝试进行后面的任务. 如果发现不知道如何下手, 再回来仔细阅读这一节</p>
+<h2 id="cpu">cpu</h2>
+<p>先驱为CPU创造了一个特殊的计数器, 叫&quot;程序计数器&quot;(Program Counter, PC). 在x86中, 它有一个特殊的名字, 叫 <code>EIP</code>(Extended Instruction Pointer).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+  <span class="err">从</span><span class="n">PC指示的存储器位置取出指令</span><span class="p">;</span>
+  <span class="err">执行指令</span><span class="p">;</span>
+  <span class="err">更新</span><span class="n">PC</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="第一项工作就是将一个内置的客户程序读入到内存中">第一项工作就是将一个内置的客户程序读入到内存中</h2>
+<p>先打开：<code>nemu/src/isa/$ISA/init.c</code></p>
+<p>monitor会调用 <code>init_isa()</code>函数(在 <code>nemu/src/isa/$ISA/init.c</code>中定义), 来进行一些ISA相关的初始化工作.</p>
+<p>第一项工作就是将一个内置的客户程序读入到内存中.</p>
+<ol>
+<li>内存是什么？C语言中我们就很自然地使用一个 <code>uint8_t</code>类型的数组来对内存进行模拟. NEMU默认为客户计算机提供128MB的物理内存(见 <code>nemu/src/memory/paddr.c</code>中定义的 <code>pmem</code>(如果找不到看看.h内有128*1024*1024)</li>
+<li>需要将客户程序读入到内存的什么位置？我们需要一种方式让客户计算机的CPU知道客户程序的位置. 我们采取一种最简单的方式: 约定. 具体地, 我们让monitor直接把客户程序读入到一个固定的内存位置</li>
+</ol>
+<h2 id="init_isa的第二项任务是初始化寄存器"><code>init_isa()</code>的第二项任务是初始化寄存器</h2>
+<p>CPU中, 寄存器是一个结构化特征较强的存储部件, 在C语言中我们就很自然地使用相应的结构体来描述CPU的寄存器结构. 不同ISA的寄存器结构也各不相同, 为此我们把寄存器结构体 <code>CPU_state</code>的定义放在 <code>nemu/src/isa/$ISA/include/isa-def.h</code></p>
+<p>初始化寄存器的一个重要工作就是设置 <code>cpu.pc</code>的初值, 我们需要将它设置成刚才加载客户程序的内存位置, 这样就可以让CPU从我们约定的内存位置开始执行客户程序了. 对于mips32和riscv32, 它们的0号寄存器总是存放 <code>0</code>, 因此我们也需要对其进行初始化.</p>
+<p>CONFIG_MBASE：物理内存起始地址    RESET_VECTOR：客户程序读入的固定位置</p>
+<h3 id="物理内存的起始地址">物理内存的起始地址</h3>
+<p>x86的物理内存是从0开始编址的, 但对于一些ISA来说却不是这样, 例如mips32和riscv32的物理地址均从 <code>0x80000000</code>开始. 因此对于mips32和riscv32, 其 <code>CONFIG_MBASE</code>将会被定义成 <code>0x80000000</code>. 将来CPU访问内存时, 我们会将CPU将要访问的内存地址映射到 <code>pmem</code>中的相应偏移位置, 这是通过 <code>nemu/src/memory/paddr.c</code>中的 <code>guest_to_host()</code>函数实现的. 例如如果mips32的CPU打算访问内存地址 <code>0x80000000</code>, 我们会让它最终访问 <code>pmem[0]</code>, 从而可以正确访问客户程序的第一条指令. 这种机制有一个专门的名字, 叫地址映射, 在后续的PA中我们还会再遇到它.x86的物理内存是从0开始编址的, 但对于一些ISA来说却不是这样, 例如mips32和riscv32的物理地址均从0x80000000开始. 因此对于mips32和riscv32, 其CONFIG_MBASE将会被定义成0x8000000</p>
+<p>Monitor读入客户程序并对寄存器进行初始化后, 这时内存的布局如下:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown">pmem:
+
+CONFIG_MBASE      RESET_VECTOR
+      |                 |
+      v                 v
+      -----------------------------------------------
+      |                 |                  |
+      |                 |    guest prog    |
+      |                 |                  |
+      -----------------------------------------------
+                        ^
+                        |
+                       pc
+</code></pre></div><p>NEMU返回到 <code>init_monitor()</code>函数中, 继续调用 <code>load_img()</code>函数 (在 <code>nemu/src/monitor/monitor.c</code>中定义). 这个函数会将一个有意义的客户程序从<a class="link" href="https://en.wikipedia.org/wiki/Disk_image"  target="_blank" rel="noopener"
+    >镜像文件</a>读入到内存, 覆盖刚才的内置客户程序.</p>
+<p>如果运行NEMU的时候没有给出这个参数, NEMU将会运行内置客户程序.</p>
+<h3 id="思考题1-1参数">思考题1：-1参数</h3>
+<p>在 <code>cmd_c()</code>函数中, 调用 <code>cpu_exec()</code>的时候传入了参数 <code>-1</code>, 你知道这是什么意思吗?</p>
+<p>答:参数为uint64,无符号64位整型，-1表示取最大值（整数用补码表示，负数的补码为=反码+1，正数的补码就是其原码；负数的反码为符号位不变，数值位按位<a class="link" href="https://so.csdn.net/so/search?q=%E5%8F%96%E5%8F%8D&amp;spm=1001.2101.3001.7020"  target="_blank" rel="noopener"
+    >取反</a>。-1的原码：1,000&hellip;0001，因此，-1的补码为1,111&hellip;111。）</p>
+<h3 id="思考题2谁来指示程序的结束">思考题2：谁来指示程序的结束?</h3>
+<p>在程序设计课上老师告诉你, 当程序执行到 <code>main()</code>函数返回处的时候, 程序就退出了, 你对此深信不疑. 但你是否怀疑过, 凭什么程序执行到 <code>main()</code>函数的返回处就结束了?</p>
+<p><strong>main()函数结束，如何再执行代码？</strong></p>
+<ul>
+<li>使用 <strong>atexit()</strong> 函数，来执行相关的“ 清理 ”工作The function pointed by func is automatically called without arguments when the program terminates normally.A zero value is returned if the function was successfully registered.
+If it failed, a non-zero value is returned.</li>
+</ul>
+<p>几种退出函数：https://blog.csdn.net/jinchaoh/article/details/50340743</p>
+<p>exit()函数用于在程序运行的过程中随时结束程序，其原型为：
+void exit(int state);
+exit的参数state是返回给操作系统或当前程序的调用程序，返回0表示程序正常结束，非0表示程序非正常结束。main函数结束时也会隐式地调用exit()函数。exit()函数运行时首先会执行由atexit()函数登记的函数，然后会做一些自身的清理工作，同时刷新所有输出流、关闭所有打开的流并且关闭通过标准I/O函数tmpfile()创建的临时文件。</p>
+<p>atexit() 用于注册终止函数(即main执行结束后调用的函数)，其原型为：
+int atexit(void (*function)(void));
+很多时候我们需要在程序退出的时候做一些诸如释放资源的操作，但程序退出的方式有很多种，比如main()函数运行结束、在程序的某个地方用exit()结束程序、用户通过Ctrl+C或Ctrl+break操作来终止程序等等，因此需要有一种与程序退出方式无关的方法来进行程序退出时的必要处理。方法就是用atexit()函数来注册程序正常终止时要被调用的函数。</p>
+<h3 id="额外思考main是怎么开始的">额外思考：main是怎么开始的?</h3>
+<p><a class="link" href="http://wen00072.github.io/blog/2015/02/14/main-linux-whos-going-to-call-in-c-language/"  target="_blank" rel="noopener"
+    >http://wen00072.github.io/blog/2015/02/14/main-linux-whos-going-to-call-in-c-language/</a></p>
+<h2 id="三个对调试有用的宏在-nemuincludedebugh中定义">三个对调试有用的宏(在 <code>nemu/include/debug.h</code>中定义)</h2>
+<ul>
+<li><code>Log()</code>是 <code>printf()</code>的升级版, 专门用来输出调试信息, 同时还会输出使用 <code>Log()</code>所在的源文件, 行号和函数. 当输出的调试信息过多的时候, 可以很方便地定位到代码中的相关位置</li>
+<li><code>Assert()</code>是 <code>assert()</code>的升级版, 当测试条件为假时, 在assertion fail之前可以输出一些信息</li>
+<li><code>panic()</code>用于输出信息并结束程序, 相当于无条件的assertion fail</li>
+</ul>
+<p>内存通过在 <code>nemu/src/memory/paddr.c</code>中定义的大数组 <code>pmem</code>来模拟. 在客户程序运行的过程中, 总是使用 <code>vaddr_read()</code>和 <code>vaddr_write()</code> (在 <code>nemu/src/memory/vaddr.c</code>中定义)来访问模拟的内存.</p>
+<p>vaddr, paddr分别代表虚拟地址和物理地址.</p>
+<h2 id="pa1简易调试器">PA1.简易调试器</h2>
+<p>简易调试器(Simple Debugger, sdb)是NEMU中一项非常重要的基础设施.</p>
+<p>我们知道NEMU是一个用来执行其它客户程序的程序, 这意味着, NEMU可以随时了解客户程序执行的所有信息. 然而这些信息对外面的调试器(例如GDB)来说, 是不容易获取的. 例如在通过GDB调试NEMU的时候, 你将很难在NEMU中运行的客户程序中设置断点, 但对于NEMU来说, 这是一件不太困难的事情.</p>
+<p>为了提高调试的效率, 同时也作为熟悉框架代码的练习, 我们需要在monitor中实现一个具有如下功能的简易调试器:</p>
+<ul>
+<li>(1) 命令已实现</li>
+<li>(2) 与GDB相比, 我们在这里做了简化, 更改了命令的格式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>格式</th>
+<th>使用举例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帮助(1)</td>
+<td><code>help</code></td>
+<td><code>help</code></td>
+<td>打印命令的帮助信息</td>
+</tr>
+<tr>
+<td>继续运行(1)</td>
+<td><code>c</code></td>
+<td><code>c</code></td>
+<td>继续运行被暂停的程序</td>
+</tr>
+<tr>
+<td>退出(1)</td>
+<td><code>q</code></td>
+<td><code>q</code></td>
+<td>退出NEMU</td>
+</tr>
+<tr>
+<td>单步执行</td>
+<td><code>si [N]</code></td>
+<td><code>si 10</code></td>
+<td>让程序单步执行 <code>N</code>条指令后暂停执行,``当 <code>N</code>没有给出时, 缺省为 <code>1</code></td>
+</tr>
+<tr>
+<td>打印程序状态</td>
+<td><code>info SUBCMD</code></td>
+<td><code>info rinfo w</code></td>
+<td>打印寄存器状态``打印监视点信息</td>
+</tr>
+<tr>
+<td>扫描内存(2)</td>
+<td><code>x N EXPR</code></td>
+<td><code>x 10 $esp</code></td>
+<td>求出表达式 <code>EXPR</code>的值, 将结果作为起始内存``地址, 以十六进制形式输出连续的 <code>N</code>个4字节</td>
+</tr>
+<tr>
+<td>表达式求值</td>
+<td><code>p EXPR</code></td>
+<td><code>p $eax + 1</code></td>
+<td>求出表达式 <code>EXPR</code>的值, <code>EXPR</code>支持的``运算请见<a class="link" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2021/1.6.html"  target="_blank" rel="noopener"
+    >调试中的表达式求值</a>小节</td>
+</tr>
+<tr>
+<td>设置监视点</td>
+<td><code>w EXPR</code></td>
+<td><code>w *0x2000</code></td>
+<td>当表达式 <code>EXPR</code>的值发生变化时, 暂停程序执行</td>
+</tr>
+<tr>
+<td>删除监视点</td>
+<td><code>d N</code></td>
+<td><code>d 2</code></td>
+<td>删除序号为 <code>N</code>的监视点</td>
+</tr>
+</tbody>
+</table>
+<p>你需要在实现一个功能之后对它进行充分的测试. 随着时间的推移, 发现同一个bug所需要的代价会越来越大.</p>
+<p>实现步骤：</p>
+<p>从键盘上读入命令后, NEMU需要解析该命令——利用框架代码调用单步执行——打印寄存器——扫描内存</p>
+<p>（NEMU默认会把单步执行的指令打印出来(这里面埋了一些坑, 你需要RTFSC看看指令是在哪里被打印的), 这样你就可以验证单步执行的效果了.）</p>
+<h3 id="读入并解析">读入并解析</h3>
+<p>NEMU通过 <code>readline</code>库与用户交互</p>
+<p>解析命令的工作是通过一系列的字符串处理函数来完成的, 例如框架代码中的 <code>strtok()</code>、<code>strlen()</code>, <code>strcpy()</code>、sscanf()等</p>
+<p>readline：（使用了系统库要记得-lreadline链接）</p>
+<p>strtok:要注意两个参数，第二个参数会被他替换成\0，第一个字符串读出后接下来的第一个参数就要用NULL替换</p>
+<p>strtok不能保证字符串的完整，要保持字符串的完整可以用strchr和sscanf的组合。</p>
+<h2 id="reference-重点">Reference 【重点】</h2>
+<h3 id="gdb-layout窗口">gdb layout窗口</h3>
+<p>(其实也可以直接gdb xxx -tui)</p>
+<p>layout：用于分割窗口，可以一边查看代码，一边测试。主要有以下几种用法：
+layout src：显示源代码窗口
+layout asm：显示汇编窗口
+layout regs：显示源代码/汇编和寄存器窗口
+layout split：显示源代码和汇编窗口
+layout next：显示下一个layout
+layout prev：显示上一个layout
+Ctrl + L：刷新窗口
+Ctrl + x，再按1：单窗口模式，显示一个窗口
+Ctrl + x，再按2：双窗口模式，显示两个窗口
+Ctrl + x，再按a：回到传统模式，即退出layout，回到执行layout之前的调试窗口。</p>
+<h3 id="gdb快捷键">GDB快捷键</h3>
+<p><a class="link" href="https://wizardforcel.gitbooks.io/100-gdb-tips/content/step-and-next-function.html"  target="_blank" rel="noopener"
+    >100个gdb</a></p>
+<p>常见的命令：</p>
+<p>记住run和start的区别！</p>
+<p>如何打印变量的值？(print var)</p>
+<p>如何打印变量的地址？(print &amp;var)
+如何打印地址的数据值？(print *address)
+如何查看当前运行的文件和行？(backtrace)
+如何查看指定文件的代码？(list file:N)
+如果程序是多文件的，怎样定位到指定文件的指定行或者函数？(list file:N)
+如果循环次数很多，如何执行完当前的循环？(until)</p>
+<p>如何跳过不感兴趣的函数（n）</p>
+<p>gdb中跳入函数的命令是step，相当于Visual Studio中的快捷键F11，
+gdb中跳出函数的命令是finish，相当于Visual Studio中的快捷键Shift+F11，函数完整执行后返回</p>
+<p>gdb中还有一个直接返回的命令是return，它会跳过当前函数后面的语句直接返回，返回值可以自定义，紧跟在return命令后面即可</p>
+<p>进阶命令：</p>
+<ul>
+<li>如何打印内存？</li>
+</ul>
+<p>gdb中使用“<code>x</code>”命令来打印内存的值，格式为“<code>x/nfu addr</code>”。含义为以 <code>f</code>格式打印从 <code>addr</code>开始的 <code>n</code>个长度单元为 <code>u</code>的内存值。参数具体含义如下：
+a）n：输出单元的个数。
+b）f：是输出格式。比如 <code>x</code>是以16进制形式输出，<code>o</code>是以8进制形式输出,等等。
+c）u：标明一个单元的长度。<code>b</code>是一个 <code>byte</code>，<code>h</code>是两个 <code>byte</code>（halfword），<code>w</code>是四个 <code>byte</code>（word），<code>g</code>是八个 <code>byte</code>（giant word）</p>
+<p>比如：以16进制格式打印数组前 <code>a</code>16个byte的值： x/16xb a</p>
+<ul>
+<li>如何打印堆栈信息？</li>
+</ul>
+<p>使用gdb调试程序时，可以使用“<code>i frame</code>”命令（<code>i</code>是 <code>info</code>命令缩写）显示函数堆栈帧信息。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/python%E4%B8%AD%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A6%82%E5%BF%B5%E7%9A%84%E8%BF%9B%E9%98%B6%E6%8E%A2%E8%AE%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">python中多进程、多线程概念的进阶探讨</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">详解机器/深度学习中常见评价指标</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/_hu994d601531656c23f7e611d455c8d878_8153127_559361b0bf15c67b5cc95028d00571c3.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 小猫也能看懂的反向传播算法"
+                        
+                        data-hash="md5-4qKZZmbuA0Uc93DjL3/U4Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">小猫也能看懂的反向传播算法</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/_hu05be89c43654817bfc3a6d1d1f1925fe_2269278_8ef6f3da06f90875df4fa94970343871.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 机器学习中的信息论基础"
+                        
+                        data-hash="md5-I4tq5bCqkvQkOs5ljsw&#43;bg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的信息论基础</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">《机器学习》西瓜书笔记(二)</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#cpu">cpu</a></li>
+    <li><a href="#第一项工作就是将一个内置的客户程序读入到内存中">第一项工作就是将一个内置的客户程序读入到内存中</a></li>
+    <li><a href="#init_isa的第二项任务是初始化寄存器"><code>init_isa()</code>的第二项任务是初始化寄存器</a>
+      <ol>
+        <li><a href="#物理内存的起始地址">物理内存的起始地址</a></li>
+        <li><a href="#思考题1-1参数">思考题1：-1参数</a></li>
+        <li><a href="#思考题2谁来指示程序的结束">思考题2：谁来指示程序的结束?</a></li>
+        <li><a href="#额外思考main是怎么开始的">额外思考：main是怎么开始的?</a></li>
+      </ol>
+    </li>
+    <li><a href="#三个对调试有用的宏在-nemuincludedebugh中定义">三个对调试有用的宏(在 <code>nemu/include/debug.h</code>中定义)</a></li>
+    <li><a href="#pa1简易调试器">PA1.简易调试器</a>
+      <ol>
+        <li><a href="#读入并解析">读入并解析</a></li>
+      </ol>
+    </li>
+    <li><a href="#reference-重点">Reference 【重点】</a>
+      <ol>
+        <li><a href="#gdb-layout窗口">gdb layout窗口</a></li>
+        <li><a href="#gdb快捷键">GDB快捷键</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

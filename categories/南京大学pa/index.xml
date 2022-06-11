@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>南京大学PA on 散步的小屋</title>
+    <link>https://sanbuphy.github.io/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/</link>
+    <description>Recent content in 南京大学PA on 散步的小屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 11 Jun 2022 22:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NJU计算机课程基础实验 PA1笔记</title>
+      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sat, 11 Jun 2022 22:50:40 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/</guid>
+      <description>PA0比较简单，就不再重复说明。 PA1.RTFSC apt-get install ccache which gcc 可以把gcc编译结果缓存，可跳过重复的编译过程 make -nB, 它会让 make程序以&amp;quot;只输出命令但不</description>
+    </item>
+    
+  </channel>
+</rss>
