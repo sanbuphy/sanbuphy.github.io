@@ -13,7 +13,27 @@
         
         <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/</guid>
         <description>&lt;p&gt;PA0比较简单，就不再重复说明。&lt;/p&gt;
-&lt;h1 id=&#34;pa1rtfsc&#34;&gt;PA1.RTFSC&lt;/h1&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 144; 
+			flex-basis: 345px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/pa1.png&#34; data-size=&#34;775x538&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/pa1.png&#34;
+			width=&#34;775&#34;
+			height=&#34;538&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/pa1_hu6de49b169942b2f356730423a411cfeb_82146_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/pa1_hu6de49b169942b2f356730423a411cfeb_82146_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;PA1的任务&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;PA1的任务&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;从图上可以知道，我们的关键是要从Mon读取Mem和Reg的信息&lt;/p&gt;
+&lt;h2 id=&#34;pa1rtfsc&#34;&gt;PA1.RTFSC&lt;/h2&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apt-get install ccache
 &lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;which gcc
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以把gcc编译结果缓存，可跳过重复的编译过程&lt;/p&gt;
@@ -29,14 +49,14 @@
 &lt;p&gt;在GNU/Linux中, 你可以很容易得知操作系统在背后做了些什么. 键入 &lt;code&gt;sudo dmesg&lt;/code&gt;, 就可以输出操作系统的启动日志, 操作系统的行为一览无余.&lt;/p&gt;
 &lt;p&gt;你需要结合PA1 RTFSC内容来NEMU的框架代码.&lt;/p&gt;
 &lt;p&gt;如果你不知道&amp;quot;怎么才算是看懂了框架代码&amp;quot;, 你可以先尝试进行后面的任务. 如果发现不知道如何下手, 再回来仔细阅读这一节&lt;/p&gt;
-&lt;h2 id=&#34;cpu&#34;&gt;cpu&lt;/h2&gt;
+&lt;h3 id=&#34;cpu&#34;&gt;cpu&lt;/h3&gt;
 &lt;p&gt;先驱为CPU创造了一个特殊的计数器, 叫&amp;quot;程序计数器&amp;quot;(Program Counter, PC). 在x86中, 它有一个特殊的名字, 叫 &lt;code&gt;EIP&lt;/code&gt;(Extended Instruction Pointer).&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
   &lt;span class=&#34;err&#34;&gt;从&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PC指示的存储器位置取出指令&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
   &lt;span class=&#34;err&#34;&gt;执行指令&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
   &lt;span class=&#34;err&#34;&gt;更新&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PC&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;第一项工作就是将一个内置的客户程序读入到内存中&#34;&gt;第一项工作就是将一个内置的客户程序读入到内存中&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;第一项工作就是将一个内置的客户程序读入到内存中&#34;&gt;第一项工作就是将一个内置的客户程序读入到内存中&lt;/h3&gt;
 &lt;p&gt;先打开：&lt;code&gt;nemu/src/isa/$ISA/init.c&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;monitor会调用 &lt;code&gt;init_isa()&lt;/code&gt;函数(在 &lt;code&gt;nemu/src/isa/$ISA/init.c&lt;/code&gt;中定义), 来进行一些ISA相关的初始化工作.&lt;/p&gt;
 &lt;p&gt;第一项工作就是将一个内置的客户程序读入到内存中.&lt;/p&gt;
@@ -44,7 +64,7 @@
 &lt;li&gt;内存是什么？C语言中我们就很自然地使用一个 &lt;code&gt;uint8_t&lt;/code&gt;类型的数组来对内存进行模拟. NEMU默认为客户计算机提供128MB的物理内存(见 &lt;code&gt;nemu/src/memory/paddr.c&lt;/code&gt;中定义的 &lt;code&gt;pmem&lt;/code&gt;(如果找不到看看.h内有128*1024*1024)&lt;/li&gt;
 &lt;li&gt;需要将客户程序读入到内存的什么位置？我们需要一种方式让客户计算机的CPU知道客户程序的位置. 我们采取一种最简单的方式: 约定. 具体地, 我们让monitor直接把客户程序读入到一个固定的内存位置&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;init_isa的第二项任务是初始化寄存器&#34;&gt;&lt;code&gt;init_isa()&lt;/code&gt;的第二项任务是初始化寄存器&lt;/h2&gt;
+&lt;h3 id=&#34;init_isa的第二项任务是初始化寄存器&#34;&gt;&lt;code&gt;init_isa()&lt;/code&gt;的第二项任务是初始化寄存器&lt;/h3&gt;
 &lt;p&gt;CPU中, 寄存器是一个结构化特征较强的存储部件, 在C语言中我们就很自然地使用相应的结构体来描述CPU的寄存器结构. 不同ISA的寄存器结构也各不相同, 为此我们把寄存器结构体 &lt;code&gt;CPU_state&lt;/code&gt;的定义放在 &lt;code&gt;nemu/src/isa/$ISA/include/isa-def.h&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;初始化寄存器的一个重要工作就是设置 &lt;code&gt;cpu.pc&lt;/code&gt;的初值, 我们需要将它设置成刚才加载客户程序的内存位置, 这样就可以让CPU从我们约定的内存位置开始执行客户程序了. 对于mips32和riscv32, 它们的0号寄存器总是存放 &lt;code&gt;0&lt;/code&gt;, 因此我们也需要对其进行初始化.&lt;/p&gt;
 &lt;p&gt;CONFIG_MBASE：物理内存起始地址    RESET_VECTOR：客户程序读入的固定位置&lt;/p&gt;
@@ -67,11 +87,11 @@ CONFIG_MBASE      RESET_VECTOR
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;NEMU返回到 &lt;code&gt;init_monitor()&lt;/code&gt;函数中, 继续调用 &lt;code&gt;load_img()&lt;/code&gt;函数 (在 &lt;code&gt;nemu/src/monitor/monitor.c&lt;/code&gt;中定义). 这个函数会将一个有意义的客户程序从&lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Disk_image&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;镜像文件&lt;/a&gt;读入到内存, 覆盖刚才的内置客户程序.&lt;/p&gt;
 &lt;p&gt;如果运行NEMU的时候没有给出这个参数, NEMU将会运行内置客户程序.&lt;/p&gt;
-&lt;h3 id=&#34;思考题1-1参数&#34;&gt;思考题1：-1参数&lt;/h3&gt;
+&lt;h4 id=&#34;思考题1-1参数&#34;&gt;思考题1：-1参数&lt;/h4&gt;
 &lt;p&gt;在 &lt;code&gt;cmd_c()&lt;/code&gt;函数中, 调用 &lt;code&gt;cpu_exec()&lt;/code&gt;的时候传入了参数 &lt;code&gt;-1&lt;/code&gt;, 你知道这是什么意思吗?&lt;/p&gt;
 &lt;p&gt;答:参数为uint64,无符号64位整型，-1表示取最大值（整数用补码表示，负数的补码为=反码+1，正数的补码就是其原码；负数的反码为符号位不变，数值位按位&lt;a class=&#34;link&#34; href=&#34;https://so.csdn.net/so/search?q=%E5%8F%96%E5%8F%8D&amp;amp;spm=1001.2101.3001.7020&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;取反&lt;/a&gt;。-1的原码：1,000&amp;hellip;0001，因此，-1的补码为1,111&amp;hellip;111。）&lt;/p&gt;
-&lt;h3 id=&#34;思考题2谁来指示程序的结束&#34;&gt;思考题2：谁来指示程序的结束?&lt;/h3&gt;
+&lt;h4 id=&#34;思考题2谁来指示程序的结束&#34;&gt;思考题2：谁来指示程序的结束?&lt;/h4&gt;
 &lt;p&gt;在程序设计课上老师告诉你, 当程序执行到 &lt;code&gt;main()&lt;/code&gt;函数返回处的时候, 程序就退出了, 你对此深信不疑. 但你是否怀疑过, 凭什么程序执行到 &lt;code&gt;main()&lt;/code&gt;函数的返回处就结束了?&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;main()函数结束，如何再执行代码？&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -85,16 +105,17 @@ exit的参数state是返回给操作系统或当前程序的调用程序，返�
 &lt;p&gt;atexit() 用于注册终止函数(即main执行结束后调用的函数)，其原型为：
 int atexit(void (*function)(void));
 很多时候我们需要在程序退出的时候做一些诸如释放资源的操作，但程序退出的方式有很多种，比如main()函数运行结束、在程序的某个地方用exit()结束程序、用户通过Ctrl+C或Ctrl+break操作来终止程序等等，因此需要有一种与程序退出方式无关的方法来进行程序退出时的必要处理。方法就是用atexit()函数来注册程序正常终止时要被调用的函数。&lt;/p&gt;
-&lt;h3 id=&#34;额外思考main是怎么开始的&#34;&gt;额外思考：main是怎么开始的?&lt;/h3&gt;
+&lt;h4 id=&#34;额外思考main是怎么开始的&#34;&gt;额外思考：main是怎么开始的?&lt;/h4&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://wen00072.github.io/blog/2015/02/14/main-linux-whos-going-to-call-in-c-language/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;http://wen00072.github.io/blog/2015/02/14/main-linux-whos-going-to-call-in-c-language/&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;三个对调试有用的宏在-nemuincludedebugh中定义&#34;&gt;三个对调试有用的宏(在 &lt;code&gt;nemu/include/debug.h&lt;/code&gt;中定义)&lt;/h2&gt;
+&lt;h3 id=&#34;三个对调试有用的宏在-nemuincludedebugh中定义&#34;&gt;三个对调试有用的宏(在 &lt;code&gt;nemu/include/debug.h&lt;/code&gt;中定义)&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Log()&lt;/code&gt;是 &lt;code&gt;printf()&lt;/code&gt;的升级版, 专门用来输出调试信息, 同时还会输出使用 &lt;code&gt;Log()&lt;/code&gt;所在的源文件, 行号和函数. 当输出的调试信息过多的时候, 可以很方便地定位到代码中的相关位置&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Log()&lt;/code&gt;是 &lt;code&gt;printf()&lt;/code&gt;的升级版, 专门用来输出调试信息, 同时还会输出使用 &lt;code&gt;Log()&lt;/code&gt;所在的源文件, 行号和函数. 当输出的调试信息过多的时候, 可以很方便地定位到代码中的相关位置（非常好用！！！！非常推荐）&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;Assert()&lt;/code&gt;是 &lt;code&gt;assert()&lt;/code&gt;的升级版, 当测试条件为假时, 在assertion fail之前可以输出一些信息&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;panic()&lt;/code&gt;用于输出信息并结束程序, 相当于无条件的assertion fail&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;内存通过在 &lt;code&gt;nemu/src/memory/paddr.c&lt;/code&gt;中定义的大数组 &lt;code&gt;pmem&lt;/code&gt;来模拟. 在客户程序运行的过程中, 总是使用 &lt;code&gt;vaddr_read()&lt;/code&gt;和 &lt;code&gt;vaddr_write()&lt;/code&gt; (在 &lt;code&gt;nemu/src/memory/vaddr.c&lt;/code&gt;中定义)来访问模拟的内存.&lt;/p&gt;
+&lt;p&gt;内存通过在 &lt;code&gt;nemu/src/memory/paddr.c&lt;/code&gt;中定义的大数组 &lt;code&gt;pmem&lt;/code&gt;来模拟.&lt;/p&gt;
+&lt;p&gt;在客户程序运行的过程中, 总是使用 &lt;code&gt;vaddr_read()&lt;/code&gt;和 &lt;code&gt;vaddr_write()&lt;/code&gt; (在 &lt;code&gt;nemu/src/memory/vaddr.c&lt;/code&gt;中定义)来访问模拟的内存.（这里已经告诉了你下面涉及问题的答案！）&lt;/p&gt;
 &lt;p&gt;vaddr, paddr分别代表虚拟地址和物理地址.&lt;/p&gt;
 &lt;h2 id=&#34;pa1简易调试器&#34;&gt;PA1.简易调试器&lt;/h2&gt;
 &lt;p&gt;简易调试器(Simple Debugger, sdb)是NEMU中一项非常重要的基础设施.&lt;/p&gt;
@@ -136,7 +157,7 @@ int atexit(void (*function)(void));
 &lt;td&gt;单步执行&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;si [N]&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;si 10&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;让程序单步执行 &lt;code&gt;N&lt;/code&gt;条指令后暂停执行,``当 &lt;code&gt;N&lt;/code&gt;没有给出时, 缺省为 &lt;code&gt;1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;让程序单步执行&lt;code&gt;N&lt;/code&gt;条指令后暂停执行,``当 &lt;code&gt;N&lt;/code&gt;没有给出时, 缺省为 &lt;code&gt;1&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;打印程序状态&lt;/td&gt;
@@ -148,26 +169,26 @@ int atexit(void (*function)(void));
 &lt;td&gt;扫描内存(2)&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;x N EXPR&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;x 10 $esp&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;求出表达式 &lt;code&gt;EXPR&lt;/code&gt;的值, 将结果作为起始内存``地址, 以十六进制形式输出连续的 &lt;code&gt;N&lt;/code&gt;个4字节&lt;/td&gt;
+&lt;td&gt;求出表达式&lt;code&gt;EXPR&lt;/code&gt;的值, 将结果作为起始内存``地址, 以十六进制形式输出连续的 &lt;code&gt;N&lt;/code&gt;个4字节&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;表达式求值&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;p EXPR&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;p $eax + 1&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;求出表达式 &lt;code&gt;EXPR&lt;/code&gt;的值, &lt;code&gt;EXPR&lt;/code&gt;支持的``运算请见&lt;a class=&#34;link&#34; href=&#34;https://nju-projectn.github.io/ics-pa-gitbook/ics2021/1.6.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;td&gt;求出表达式&lt;code&gt;EXPR&lt;/code&gt;的值, &lt;code&gt;EXPR&lt;/code&gt;支持的``运算请见&lt;a class=&#34;link&#34; href=&#34;https://nju-projectn.github.io/ics-pa-gitbook/ics2021/1.6.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;调试中的表达式求值&lt;/a&gt;小节&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;设置监视点&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;w EXPR&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;w *0x2000&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;当表达式 &lt;code&gt;EXPR&lt;/code&gt;的值发生变化时, 暂停程序执行&lt;/td&gt;
+&lt;td&gt;当表达式&lt;code&gt;EXPR&lt;/code&gt;的值发生变化时, 暂停程序执行&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;删除监视点&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;d N&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;d 2&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;删除序号为 &lt;code&gt;N&lt;/code&gt;的监视点&lt;/td&gt;
+&lt;td&gt;删除序号为&lt;code&gt;N&lt;/code&gt;的监视点&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -224,6 +245,10 @@ c）u：标明一个单元的长度。&lt;code&gt;b&lt;/code&gt;是一个 &lt;co
 &lt;li&gt;如何打印堆栈信息？&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;使用gdb调试程序时，可以使用“&lt;code&gt;i frame&lt;/code&gt;”命令（&lt;code&gt;i&lt;/code&gt;是 &lt;code&gt;info&lt;/code&gt;命令缩写）显示函数堆栈帧信息。&lt;/p&gt;
+&lt;h3 id=&#34;参考文档&#34;&gt;参考文档&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;余子濠  从mov指令到仙剑：通过NEMU构建简单完整的计算机系统&lt;/li&gt;
+&lt;/ol&gt;
 </description>
         </item>
         <item>

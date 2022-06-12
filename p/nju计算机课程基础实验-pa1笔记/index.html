@@ -125,7 +125,27 @@
 
     <section class="article-content">
     <p>PA0比较简单，就不再重复说明。</p>
-<h1 id="pa1rtfsc">PA1.RTFSC</h1>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 144; 
+			flex-basis: 345px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/pa1.png" data-size="775x538">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/pa1.png"
+			width="775"
+			height="538"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/pa1_hu6de49b169942b2f356730423a411cfeb_82146_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/pa1_hu6de49b169942b2f356730423a411cfeb_82146_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="PA1的任务">
+	</a>
+	
+	<figcaption>PA1的任务</figcaption>
+	
+</figure></p>
+<p>从图上可以知道，我们的关键是要从Mon读取Mem和Reg的信息</p>
+<h2 id="pa1rtfsc">PA1.RTFSC</h2>
 <pre tabindex="0"><code>apt-get install ccache
 </code></pre><pre tabindex="0"><code>which gcc
 </code></pre><p>可以把gcc编译结果缓存，可跳过重复的编译过程</p>
@@ -141,14 +161,14 @@
 <p>在GNU/Linux中, 你可以很容易得知操作系统在背后做了些什么. 键入 <code>sudo dmesg</code>, 就可以输出操作系统的启动日志, 操作系统的行为一览无余.</p>
 <p>你需要结合PA1 RTFSC内容来NEMU的框架代码.</p>
 <p>如果你不知道&quot;怎么才算是看懂了框架代码&quot;, 你可以先尝试进行后面的任务. 如果发现不知道如何下手, 再回来仔细阅读这一节</p>
-<h2 id="cpu">cpu</h2>
+<h3 id="cpu">cpu</h3>
 <p>先驱为CPU创造了一个特殊的计数器, 叫&quot;程序计数器&quot;(Program Counter, PC). 在x86中, 它有一个特殊的名字, 叫 <code>EIP</code>(Extended Instruction Pointer).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
   <span class="err">从</span><span class="n">PC指示的存储器位置取出指令</span><span class="p">;</span>
   <span class="err">执行指令</span><span class="p">;</span>
   <span class="err">更新</span><span class="n">PC</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre></div><h2 id="第一项工作就是将一个内置的客户程序读入到内存中">第一项工作就是将一个内置的客户程序读入到内存中</h2>
+</code></pre></div><h3 id="第一项工作就是将一个内置的客户程序读入到内存中">第一项工作就是将一个内置的客户程序读入到内存中</h3>
 <p>先打开：<code>nemu/src/isa/$ISA/init.c</code></p>
 <p>monitor会调用 <code>init_isa()</code>函数(在 <code>nemu/src/isa/$ISA/init.c</code>中定义), 来进行一些ISA相关的初始化工作.</p>
 <p>第一项工作就是将一个内置的客户程序读入到内存中.</p>
@@ -156,7 +176,7 @@
 <li>内存是什么？C语言中我们就很自然地使用一个 <code>uint8_t</code>类型的数组来对内存进行模拟. NEMU默认为客户计算机提供128MB的物理内存(见 <code>nemu/src/memory/paddr.c</code>中定义的 <code>pmem</code>(如果找不到看看.h内有128*1024*1024)</li>
 <li>需要将客户程序读入到内存的什么位置？我们需要一种方式让客户计算机的CPU知道客户程序的位置. 我们采取一种最简单的方式: 约定. 具体地, 我们让monitor直接把客户程序读入到一个固定的内存位置</li>
 </ol>
-<h2 id="init_isa的第二项任务是初始化寄存器"><code>init_isa()</code>的第二项任务是初始化寄存器</h2>
+<h3 id="init_isa的第二项任务是初始化寄存器"><code>init_isa()</code>的第二项任务是初始化寄存器</h3>
 <p>CPU中, 寄存器是一个结构化特征较强的存储部件, 在C语言中我们就很自然地使用相应的结构体来描述CPU的寄存器结构. 不同ISA的寄存器结构也各不相同, 为此我们把寄存器结构体 <code>CPU_state</code>的定义放在 <code>nemu/src/isa/$ISA/include/isa-def.h</code></p>
 <p>初始化寄存器的一个重要工作就是设置 <code>cpu.pc</code>的初值, 我们需要将它设置成刚才加载客户程序的内存位置, 这样就可以让CPU从我们约定的内存位置开始执行客户程序了. 对于mips32和riscv32, 它们的0号寄存器总是存放 <code>0</code>, 因此我们也需要对其进行初始化.</p>
 <p>CONFIG_MBASE：物理内存起始地址    RESET_VECTOR：客户程序读入的固定位置</p>
@@ -179,11 +199,11 @@ CONFIG_MBASE      RESET_VECTOR
 </code></pre></div><p>NEMU返回到 <code>init_monitor()</code>函数中, 继续调用 <code>load_img()</code>函数 (在 <code>nemu/src/monitor/monitor.c</code>中定义). 这个函数会将一个有意义的客户程序从<a class="link" href="https://en.wikipedia.org/wiki/Disk_image"  target="_blank" rel="noopener"
     >镜像文件</a>读入到内存, 覆盖刚才的内置客户程序.</p>
 <p>如果运行NEMU的时候没有给出这个参数, NEMU将会运行内置客户程序.</p>
-<h3 id="思考题1-1参数">思考题1：-1参数</h3>
+<h4 id="思考题1-1参数">思考题1：-1参数</h4>
 <p>在 <code>cmd_c()</code>函数中, 调用 <code>cpu_exec()</code>的时候传入了参数 <code>-1</code>, 你知道这是什么意思吗?</p>
 <p>答:参数为uint64,无符号64位整型，-1表示取最大值（整数用补码表示，负数的补码为=反码+1，正数的补码就是其原码；负数的反码为符号位不变，数值位按位<a class="link" href="https://so.csdn.net/so/search?q=%E5%8F%96%E5%8F%8D&amp;spm=1001.2101.3001.7020"  target="_blank" rel="noopener"
     >取反</a>。-1的原码：1,000&hellip;0001，因此，-1的补码为1,111&hellip;111。）</p>
-<h3 id="思考题2谁来指示程序的结束">思考题2：谁来指示程序的结束?</h3>
+<h4 id="思考题2谁来指示程序的结束">思考题2：谁来指示程序的结束?</h4>
 <p>在程序设计课上老师告诉你, 当程序执行到 <code>main()</code>函数返回处的时候, 程序就退出了, 你对此深信不疑. 但你是否怀疑过, 凭什么程序执行到 <code>main()</code>函数的返回处就结束了?</p>
 <p><strong>main()函数结束，如何再执行代码？</strong></p>
 <ul>
@@ -197,16 +217,17 @@ exit的参数state是返回给操作系统或当前程序的调用程序，返�
 <p>atexit() 用于注册终止函数(即main执行结束后调用的函数)，其原型为：
 int atexit(void (*function)(void));
 很多时候我们需要在程序退出的时候做一些诸如释放资源的操作，但程序退出的方式有很多种，比如main()函数运行结束、在程序的某个地方用exit()结束程序、用户通过Ctrl+C或Ctrl+break操作来终止程序等等，因此需要有一种与程序退出方式无关的方法来进行程序退出时的必要处理。方法就是用atexit()函数来注册程序正常终止时要被调用的函数。</p>
-<h3 id="额外思考main是怎么开始的">额外思考：main是怎么开始的?</h3>
+<h4 id="额外思考main是怎么开始的">额外思考：main是怎么开始的?</h4>
 <p><a class="link" href="http://wen00072.github.io/blog/2015/02/14/main-linux-whos-going-to-call-in-c-language/"  target="_blank" rel="noopener"
     >http://wen00072.github.io/blog/2015/02/14/main-linux-whos-going-to-call-in-c-language/</a></p>
-<h2 id="三个对调试有用的宏在-nemuincludedebugh中定义">三个对调试有用的宏(在 <code>nemu/include/debug.h</code>中定义)</h2>
+<h3 id="三个对调试有用的宏在-nemuincludedebugh中定义">三个对调试有用的宏(在 <code>nemu/include/debug.h</code>中定义)</h3>
 <ul>
-<li><code>Log()</code>是 <code>printf()</code>的升级版, 专门用来输出调试信息, 同时还会输出使用 <code>Log()</code>所在的源文件, 行号和函数. 当输出的调试信息过多的时候, 可以很方便地定位到代码中的相关位置</li>
+<li><code>Log()</code>是 <code>printf()</code>的升级版, 专门用来输出调试信息, 同时还会输出使用 <code>Log()</code>所在的源文件, 行号和函数. 当输出的调试信息过多的时候, 可以很方便地定位到代码中的相关位置（非常好用！！！！非常推荐）</li>
 <li><code>Assert()</code>是 <code>assert()</code>的升级版, 当测试条件为假时, 在assertion fail之前可以输出一些信息</li>
 <li><code>panic()</code>用于输出信息并结束程序, 相当于无条件的assertion fail</li>
 </ul>
-<p>内存通过在 <code>nemu/src/memory/paddr.c</code>中定义的大数组 <code>pmem</code>来模拟. 在客户程序运行的过程中, 总是使用 <code>vaddr_read()</code>和 <code>vaddr_write()</code> (在 <code>nemu/src/memory/vaddr.c</code>中定义)来访问模拟的内存.</p>
+<p>内存通过在 <code>nemu/src/memory/paddr.c</code>中定义的大数组 <code>pmem</code>来模拟.</p>
+<p>在客户程序运行的过程中, 总是使用 <code>vaddr_read()</code>和 <code>vaddr_write()</code> (在 <code>nemu/src/memory/vaddr.c</code>中定义)来访问模拟的内存.（这里已经告诉了你下面涉及问题的答案！）</p>
 <p>vaddr, paddr分别代表虚拟地址和物理地址.</p>
 <h2 id="pa1简易调试器">PA1.简易调试器</h2>
 <p>简易调试器(Simple Debugger, sdb)是NEMU中一项非常重要的基础设施.</p>
@@ -248,7 +269,7 @@ int atexit(void (*function)(void));
 <td>单步执行</td>
 <td><code>si [N]</code></td>
 <td><code>si 10</code></td>
-<td>让程序单步执行 <code>N</code>条指令后暂停执行,``当 <code>N</code>没有给出时, 缺省为 <code>1</code></td>
+<td>让程序单步执行<code>N</code>条指令后暂停执行,``当 <code>N</code>没有给出时, 缺省为 <code>1</code></td>
 </tr>
 <tr>
 <td>打印程序状态</td>
@@ -260,26 +281,26 @@ int atexit(void (*function)(void));
 <td>扫描内存(2)</td>
 <td><code>x N EXPR</code></td>
 <td><code>x 10 $esp</code></td>
-<td>求出表达式 <code>EXPR</code>的值, 将结果作为起始内存``地址, 以十六进制形式输出连续的 <code>N</code>个4字节</td>
+<td>求出表达式<code>EXPR</code>的值, 将结果作为起始内存``地址, 以十六进制形式输出连续的 <code>N</code>个4字节</td>
 </tr>
 <tr>
 <td>表达式求值</td>
 <td><code>p EXPR</code></td>
 <td><code>p $eax + 1</code></td>
-<td>求出表达式 <code>EXPR</code>的值, <code>EXPR</code>支持的``运算请见<a class="link" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2021/1.6.html"  target="_blank" rel="noopener"
+<td>求出表达式<code>EXPR</code>的值, <code>EXPR</code>支持的``运算请见<a class="link" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2021/1.6.html"  target="_blank" rel="noopener"
     >调试中的表达式求值</a>小节</td>
 </tr>
 <tr>
 <td>设置监视点</td>
 <td><code>w EXPR</code></td>
 <td><code>w *0x2000</code></td>
-<td>当表达式 <code>EXPR</code>的值发生变化时, 暂停程序执行</td>
+<td>当表达式<code>EXPR</code>的值发生变化时, 暂停程序执行</td>
 </tr>
 <tr>
 <td>删除监视点</td>
 <td><code>d N</code></td>
 <td><code>d 2</code></td>
-<td>删除序号为 <code>N</code>的监视点</td>
+<td>删除序号为<code>N</code>的监视点</td>
 </tr>
 </tbody>
 </table>
@@ -336,6 +357,10 @@ c）u：标明一个单元的长度。<code>b</code>是一个 <code>byte</code>�
 <li>如何打印堆栈信息？</li>
 </ul>
 <p>使用gdb调试程序时，可以使用“<code>i frame</code>”命令（<code>i</code>是 <code>info</code>命令缩写）显示函数堆栈帧信息。</p>
+<h3 id="参考文档">参考文档</h3>
+<ol>
+<li>余子濠  从mov指令到仙剑：通过NEMU构建简单完整的计算机系统</li>
+</ol>
 
 </section>
 
@@ -621,17 +646,21 @@ c）u：标明一个单元的长度。<code>b</code>是一个 <code>byte</code>�
                 <div class="widget--toc">
                     <nav id="TableOfContents">
   <ol>
-    <li><a href="#cpu">cpu</a></li>
-    <li><a href="#第一项工作就是将一个内置的客户程序读入到内存中">第一项工作就是将一个内置的客户程序读入到内存中</a></li>
-    <li><a href="#init_isa的第二项任务是初始化寄存器"><code>init_isa()</code>的第二项任务是初始化寄存器</a>
+    <li><a href="#pa1rtfsc">PA1.RTFSC</a>
       <ol>
-        <li><a href="#物理内存的起始地址">物理内存的起始地址</a></li>
-        <li><a href="#思考题1-1参数">思考题1：-1参数</a></li>
-        <li><a href="#思考题2谁来指示程序的结束">思考题2：谁来指示程序的结束?</a></li>
-        <li><a href="#额外思考main是怎么开始的">额外思考：main是怎么开始的?</a></li>
+        <li><a href="#cpu">cpu</a></li>
+        <li><a href="#第一项工作就是将一个内置的客户程序读入到内存中">第一项工作就是将一个内置的客户程序读入到内存中</a></li>
+        <li><a href="#init_isa的第二项任务是初始化寄存器"><code>init_isa()</code>的第二项任务是初始化寄存器</a></li>
+        <li><a href="#物理内存的起始地址">物理内存的起始地址</a>
+          <ol>
+            <li><a href="#思考题1-1参数">思考题1：-1参数</a></li>
+            <li><a href="#思考题2谁来指示程序的结束">思考题2：谁来指示程序的结束?</a></li>
+            <li><a href="#额外思考main是怎么开始的">额外思考：main是怎么开始的?</a></li>
+          </ol>
+        </li>
+        <li><a href="#三个对调试有用的宏在-nemuincludedebugh中定义">三个对调试有用的宏(在 <code>nemu/include/debug.h</code>中定义)</a></li>
       </ol>
     </li>
-    <li><a href="#三个对调试有用的宏在-nemuincludedebugh中定义">三个对调试有用的宏(在 <code>nemu/include/debug.h</code>中定义)</a></li>
     <li><a href="#pa1简易调试器">PA1.简易调试器</a>
       <ol>
         <li><a href="#读入并解析">读入并解析</a></li>
@@ -641,6 +670,7 @@ c）u：标明一个单元的长度。<code>b</code>是一个 <code>byte</code>�
       <ol>
         <li><a href="#gdb-layout窗口">gdb layout窗口</a></li>
         <li><a href="#gdb快捷键">GDB快捷键</a></li>
+        <li><a href="#参考文档">参考文档</a></li>
       </ol>
     </li>
   </ol>

@@ -13,7 +13,7 @@
       <pubDate>Sat, 11 Jun 2022 22:50:40 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/</guid>
-      <description>PA0比较简单，就不再重复说明。 PA1.RTFSC apt-get install ccache which gcc 可以把gcc编译结果缓存，可跳过重复的编译过程 make -nB, 它会让 make程序以&amp;quot;只输出命令但不</description>
+      <description>PA0比较简单，就不再重复说明。 PA1的任务 从图上可以知道，我们的关键是要从Mon读取Mem和Reg的信息 PA1.RTFSC apt-get install ccache which gcc 可以把gcc编译结果缓</description>
     </item>
     
     <item>
