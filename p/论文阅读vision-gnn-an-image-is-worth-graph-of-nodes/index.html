@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='有关一种新式图像识别/检测的方法（利用GNN网络）'><title>论文阅读：Vision GNN: An Image is Worth Graph of Nodes</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='论文阅读：Vision GNN: An Image is Worth Graph of Nodes'>
+<meta property='og:description' content='有关一种新式图像识别/检测的方法（利用GNN网络）'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-06-18T11:56:50&#43;08:00'/><meta property='article:modified_time' content='2022-06-18T11:56:50&#43;08:00'/><meta property='og:image' content='https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A.png' />
+<meta name="twitter:title" content="论文阅读：Vision GNN: An Image is Worth Graph of Nodes">
+<meta name="twitter:description" content="有关一种新式图像识别/检测的方法（利用GNN网络）"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A.png' />
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hub4b3fac45b1eb5fa4580fdf8af87568b_123914_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍰</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">散步的小屋</a></h1>
+        <h2 class="site-description">天気がいいから、散歩しましょう</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:physicoada@gmail.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-messages" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+  <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/sanbuphy'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' target="_blank">
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/">
+                <img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A_hue88e56843ed6b1870c9b31fdca73cbf5_282168_800x0_resize_box_3.png"
+                        srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A_hue88e56843ed6b1870c9b31fdca73cbf5_282168_800x0_resize_box_3.png 800w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A_hue88e56843ed6b1870c9b31fdca73cbf5_282168_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="323" 
+                        loading="lazy"
+                        alt="Featured image of post 论文阅读：Vision GNN: An Image is Worth Graph of Nodes" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" >
+                论文阅读
+            </a>
+        
+            <a href="/categories/computer-vision/" >
+                computer vision
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/">论文阅读：Vision GNN: An Image is Worth Graph of Nodes</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        有关一种新式图像识别/检测的方法（利用GNN网络）
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 18, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h1 id="vision-gnn-an-image-is-worth-graph-of-nodes">Vision GNN: An Image is Worth Graph of Nodes</h1>
+<p>论文链接： <a class="link" href="https://arxiv.org/abs/2206.00272"  target="_blank" rel="noopener"
+    >https://arxiv.org/abs/2206.00272</a></p>
+<p>代码开源链接（暂无）：https://github.com/sanbuphy/CV-Backbones</p>
+<p>最近都在关注GNN在图像识别上的应用，发现已经被Huawei Noah’s Ark Lab做完了。。。</p>
+<p>但我很好奇他们是怎么处理训练集本身（loss是什么），对拆分后图结构的标注应该也是一个相对大的工程，这点需要等开源后仔细研究（也许还需要多读几遍<strong>Graph Representation of Image</strong>以及VIG BLock）</p>
+<p>该文基于图像的图表示（graph representation）提出了 vision graph neural network (ViG)。该文应该是首次将图神经网络用于视觉任务，同时取得很好的效果，在 ImageNet 分类任务上超过了 CNN (ResNet), MLP (CycleMLP) 和 transformer (Swin-T)</p>
+<p>These parts linked by joints naturally form a graph structure. By analyzing the graph.</p>
+<p>通过图结构分解，各部分间的连接显得更加紧密：（相似的语义能够互相跨区域关联）</p>
+<p>“we are able to recognize the human. <strong>Moreover, graph is a generalized data structure that grid and
+sequence can be viewed as a special case of graph.</strong> Viewing an image as a graph is more flexible and effective for visual perception”</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 247; 
+			flex-basis: 594px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A.png" data-size="1242x501">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A.png"
+			width="1242"
+			height="501"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A_hue88e56843ed6b1870c9b31fdca73cbf5_282168_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A_hue88e56843ed6b1870c9b31fdca73cbf5_282168_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 239; 
+			flex-basis: 574px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_EhZIW3W81C.png" data-size="1331x556">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_EhZIW3W81C.png"
+			width="1331"
+			height="556"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_EhZIW3W81C_hu7bcaa21a92ebac0349b32f3d9d01e8bf_217483_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_EhZIW3W81C_hu7bcaa21a92ebac0349b32f3d9d01e8bf_217483_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="vig-block">VIG Block</h2>
+<p>Huawei Noah’s Ark Lab提出了一个特殊的VIG块结构，相比GCNs可以提高特征的多样性，减少因网络深度加强导致的特征减少现象。ViG 块是构成 ViG 网络的基本构建单元，其由Grapher 模块和 FFN 模块叠加而成的。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 166; 
+			flex-basis: 400px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_xAuAFW6L1j.png" data-size="1046x627">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_xAuAFW6L1j.png"
+			width="1046"
+			height="627"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_xAuAFW6L1j_hu710747dadc3c1417cdecf005033dbd08_182473_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_xAuAFW6L1j_hu710747dadc3c1417cdecf005033dbd08_182473_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 220; 
+			flex-basis: 528px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_KfsF1D4RJY.png" data-size="1063x483">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_KfsF1D4RJY.png"
+			width="1063"
+			height="483"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_KfsF1D4RJY_hu311ba6a7f922d66c2afc5c53c5eaa4de_108793_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_KfsF1D4RJY_hu311ba6a7f922d66c2afc5c53c5eaa4de_108793_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>如何避免Feature diversity of nodes as layer changes 降低，即：</p>
+<p>“The over-smoothing phenomenon in deep GCNs  will decrease the distinctiveness of node features and lead to performance degradation for visual recognition,”</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 103; 
+			flex-basis: 248px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_7gKSxA15lf.png" data-size="427x412">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_7gKSxA15lf.png"
+			width="427"
+			height="412"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_7gKSxA15lf_hu0ca460f294028f2282e9d046d1289414_35588_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_7gKSxA15lf_hu0ca460f294028f2282e9d046d1289414_35588_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 423; 
+			flex-basis: 1016px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_sBWzbMHeo3.png" data-size="1042x246">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_sBWzbMHeo3.png"
+			width="1042"
+			height="246"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_sBWzbMHeo3_hu52c75e34672b78ce5664f3e1b6844d8a_73026_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_sBWzbMHeo3_hu52c75e34672b78ce5664f3e1b6844d8a_73026_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>他们还提供了两种结构用于构建VIG，分别为各向同性与金字塔型：</p>
+<p>”we build two kinds of network architectures for ViG, i.e., isotropic architecture and pyramid architecture“</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 248; 
+			flex-basis: 595px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_qHc-Hk-d9c.png" data-size="1033x416">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_qHc-Hk-d9c.png"
+			width="1033"
+			height="416"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_qHc-Hk-d9c_huca6f27d18180486f94cc91a7e939d469_110607_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_qHc-Hk-d9c_huca6f27d18180486f94cc91a7e939d469_110607_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 126; 
+			flex-basis: 303px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_poMH8ITmnn.png" data-size="772x610">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_poMH8ITmnn.png"
+			width="772"
+			height="610"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_poMH8ITmnn_hu0d492a778fc3612d909754a229a5ba56_134865_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_poMH8ITmnn_hu0d492a778fc3612d909754a229a5ba56_134865_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 364; 
+			flex-basis: 874px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_9-mM5JNGud.png" data-size="1316x361">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_9-mM5JNGud.png"
+			width="1316"
+			height="361"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_9-mM5JNGud_hudfa5be39ab44ec4ac06584e86227b3c0_101816_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_9-mM5JNGud_hudfa5be39ab44ec4ac06584e86227b3c0_101816_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>验证数据集：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 547; 
+			flex-basis: 1314px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wBU5LSPrC-.png" data-size="1325x242">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wBU5LSPrC-.png"
+			width="1325"
+			height="242"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wBU5LSPrC-_hu6ff8641e22524f0064049f24627d8a3b_101062_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wBU5LSPrC-_hu6ff8641e22524f0064049f24627d8a3b_101062_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>跑数据集的设置：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 177; 
+			flex-basis: 425px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_zS0gG4eIxu.png" data-size="1297x732">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_zS0gG4eIxu.png"
+			width="1297"
+			height="732"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_zS0gG4eIxu_hu3d3688ce73f08033f56fc2dc8c5fab5e_274069_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_zS0gG4eIxu_hu3d3688ce73f08033f56fc2dc8c5fab5e_274069_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>最后结果展示：</p>
+<p>Isotropic ViG：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 207; 
+			flex-basis: 497px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_Js5lSPEJNA.png" data-size="1100x531">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_Js5lSPEJNA.png"
+			width="1100"
+			height="531"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_Js5lSPEJNA_hu8cb2c90540bd25dfb4548e1542ac8a2e_119302_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_Js5lSPEJNA_hu8cb2c90540bd25dfb4548e1542ac8a2e_119302_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>Pyramid ViG</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 94; 
+			flex-basis: 227px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AluQut1z-C.png" data-size="757x797">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AluQut1z-C.png"
+			width="757"
+			height="797"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AluQut1z-C_hu499fe3a159da6b0a8c8ebc455adc2238_208815_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AluQut1z-C_hu499fe3a159da6b0a8c8ebc455adc2238_208815_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>在目标检测的效果：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 201; 
+			flex-basis: 482px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_jenq3F8_Mr.png" data-size="1076x535">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_jenq3F8_Mr.png"
+			width="1076"
+			height="535"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_jenq3F8_Mr_hu21625e84881a2b19fb792c678aad7401_153557_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_jenq3F8_Mr_hu21625e84881a2b19fb792c678aad7401_153557_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>Ablation Study测试的结果（关闭一些配件）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 389; 
+			flex-basis: 935px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wvgTM-8Sfn.png" data-size="1056x271">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wvgTM-8Sfn.png"
+			width="1056"
+			height="271"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wvgTM-8Sfn_hubba24396e9be55c3a9bb2f5e668ca83a_32960_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wvgTM-8Sfn_hubba24396e9be55c3a9bb2f5e668ca83a_32960_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>过程的可视化：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 150; 
+			flex-basis: 361px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_na_2SQ1yDV.png" data-size="1036x687">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_na_2SQ1yDV.png"
+			width="1036"
+			height="687"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_na_2SQ1yDV_hue1475e7fd66ae20ed5497fc126270cdd_760405_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_na_2SQ1yDV_hue1475e7fd66ae20ed5497fc126270cdd_760405_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure>
+通过上图可以看到，浅层网络的跨区域图只是结合了颜色或形状等一些表象语义；</p>
+<p>而深层网络的图结构则更加专注于细化特征本身“比如鱼就是鱼，人就是人”</p>
+<p>The pentagram is the center node, and the nodes with the same color are its neighbors</p>
+<p>Two center nodes are visualized as drawing all the edges will be messy.</p>
+<p>We can observe that our model can select the
+<strong>content-related nodes</strong> as the first order neighbors,</p>
+<p>In the shallow layer, the neighbor nodes tend to be selected based on low-level and local features( such as color and texture)</p>
+<p>In the deep layer, the neighbors of the center nodes are more semantic and belong to the same categor.</p>
+<p>以下是伪代码：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 237; 
+			flex-basis: 570px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_v8dCLn3A0L.png" data-size="1323x557">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_v8dCLn3A0L.png"
+			width="1323"
+			height="557"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_v8dCLn3A0L_hu1fac75b9c6c521c1e304d38499c8c552_121731_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_v8dCLn3A0L_hu1fac75b9c6c521c1e304d38499c8c552_121731_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 195; 
+			flex-basis: 470px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_VWvyfi4fD0.png" data-size="1101x562">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_VWvyfi4fD0.png"
+			width="1101"
+			height="562"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_VWvyfi4fD0_hu8c40a0442b051ea69d084f5e0a0bbb76_102894_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_VWvyfi4fD0_hu8c40a0442b051ea69d084f5e0a0bbb76_102894_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 340; 
+			flex-basis: 816px"
+	>
+	<a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_s4RfDBf05P.png" data-size="1106x325">
+		<img src="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_s4RfDBf05P.png"
+			width="1106"
+			height="325"
+			srcset="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_s4RfDBf05P_hu202182aab60aa5b1b2eec9035a49ea37_64972_480x0_resize_box_3.png 480w, /p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_s4RfDBf05P_hu202182aab60aa5b1b2eec9035a49ea37_64972_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

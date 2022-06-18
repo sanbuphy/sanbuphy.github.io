@@ -6,7 +6,372 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 11 Jun 2022 22:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 18 Jun 2022 11:56:50 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>论文阅读：Vision GNN: An Image is Worth Graph of Nodes</title>
+        <link>https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/</link>
+        <pubDate>Sat, 18 Jun 2022 11:56:50 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/</guid>
+        <description>&lt;img src="https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A.png" alt="Featured image of post 论文阅读：Vision GNN: An Image is Worth Graph of Nodes" /&gt;&lt;h1 id=&#34;vision-gnn-an-image-is-worth-graph-of-nodes&#34;&gt;Vision GNN: An Image is Worth Graph of Nodes&lt;/h1&gt;
+&lt;p&gt;论文链接： &lt;a class=&#34;link&#34; href=&#34;https://arxiv.org/abs/2206.00272&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://arxiv.org/abs/2206.00272&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;代码开源链接（暂无）：https://github.com/sanbuphy/CV-Backbones&lt;/p&gt;
+&lt;p&gt;最近都在关注GNN在图像识别上的应用，发现已经被Huawei Noah’s Ark Lab做完了。。。&lt;/p&gt;
+&lt;p&gt;但我很好奇他们是怎么处理训练集本身（loss是什么），对拆分后图结构的标注应该也是一个相对大的工程，这点需要等开源后仔细研究（也许还需要多读几遍&lt;strong&gt;Graph Representation of Image&lt;/strong&gt;以及VIG BLock）&lt;/p&gt;
+&lt;p&gt;该文基于图像的图表示（graph representation）提出了 vision graph neural network (ViG)。该文应该是首次将图神经网络用于视觉任务，同时取得很好的效果，在 ImageNet 分类任务上超过了 CNN (ResNet), MLP (CycleMLP) 和 transformer (Swin-T)&lt;/p&gt;
+&lt;p&gt;These parts linked by joints naturally form a graph structure. By analyzing the graph.&lt;/p&gt;
+&lt;p&gt;通过图结构分解，各部分间的连接显得更加紧密：（相似的语义能够互相跨区域关联）&lt;/p&gt;
+&lt;p&gt;“we are able to recognize the human. &lt;strong&gt;Moreover, graph is a generalized data structure that grid and
+sequence can be viewed as a special case of graph.&lt;/strong&gt; Viewing an image as a graph is more flexible and effective for visual perception”&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 247; 
+			flex-basis: 594px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A.png&#34; data-size=&#34;1242x501&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A.png&#34;
+			width=&#34;1242&#34;
+			height=&#34;501&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A_hue88e56843ed6b1870c9b31fdca73cbf5_282168_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AfAe9Ctp8A_hue88e56843ed6b1870c9b31fdca73cbf5_282168_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 239; 
+			flex-basis: 574px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_EhZIW3W81C.png&#34; data-size=&#34;1331x556&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_EhZIW3W81C.png&#34;
+			width=&#34;1331&#34;
+			height=&#34;556&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_EhZIW3W81C_hu7bcaa21a92ebac0349b32f3d9d01e8bf_217483_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_EhZIW3W81C_hu7bcaa21a92ebac0349b32f3d9d01e8bf_217483_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;vig-block&#34;&gt;VIG Block&lt;/h2&gt;
+&lt;p&gt;Huawei Noah’s Ark Lab提出了一个特殊的VIG块结构，相比GCNs可以提高特征的多样性，减少因网络深度加强导致的特征减少现象。ViG 块是构成 ViG 网络的基本构建单元，其由Grapher 模块和 FFN 模块叠加而成的。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 166; 
+			flex-basis: 400px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_xAuAFW6L1j.png&#34; data-size=&#34;1046x627&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_xAuAFW6L1j.png&#34;
+			width=&#34;1046&#34;
+			height=&#34;627&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_xAuAFW6L1j_hu710747dadc3c1417cdecf005033dbd08_182473_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_xAuAFW6L1j_hu710747dadc3c1417cdecf005033dbd08_182473_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 220; 
+			flex-basis: 528px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_KfsF1D4RJY.png&#34; data-size=&#34;1063x483&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_KfsF1D4RJY.png&#34;
+			width=&#34;1063&#34;
+			height=&#34;483&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_KfsF1D4RJY_hu311ba6a7f922d66c2afc5c53c5eaa4de_108793_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_KfsF1D4RJY_hu311ba6a7f922d66c2afc5c53c5eaa4de_108793_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;如何避免Feature diversity of nodes as layer changes 降低，即：&lt;/p&gt;
+&lt;p&gt;“The over-smoothing phenomenon in deep GCNs  will decrease the distinctiveness of node features and lead to performance degradation for visual recognition,”&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 103; 
+			flex-basis: 248px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_7gKSxA15lf.png&#34; data-size=&#34;427x412&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_7gKSxA15lf.png&#34;
+			width=&#34;427&#34;
+			height=&#34;412&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_7gKSxA15lf_hu0ca460f294028f2282e9d046d1289414_35588_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_7gKSxA15lf_hu0ca460f294028f2282e9d046d1289414_35588_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 423; 
+			flex-basis: 1016px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_sBWzbMHeo3.png&#34; data-size=&#34;1042x246&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_sBWzbMHeo3.png&#34;
+			width=&#34;1042&#34;
+			height=&#34;246&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_sBWzbMHeo3_hu52c75e34672b78ce5664f3e1b6844d8a_73026_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_sBWzbMHeo3_hu52c75e34672b78ce5664f3e1b6844d8a_73026_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;他们还提供了两种结构用于构建VIG，分别为各向同性与金字塔型：&lt;/p&gt;
+&lt;p&gt;”we build two kinds of network architectures for ViG, i.e., isotropic architecture and pyramid architecture“&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 248; 
+			flex-basis: 595px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_qHc-Hk-d9c.png&#34; data-size=&#34;1033x416&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_qHc-Hk-d9c.png&#34;
+			width=&#34;1033&#34;
+			height=&#34;416&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_qHc-Hk-d9c_huca6f27d18180486f94cc91a7e939d469_110607_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_qHc-Hk-d9c_huca6f27d18180486f94cc91a7e939d469_110607_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 126; 
+			flex-basis: 303px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_poMH8ITmnn.png&#34; data-size=&#34;772x610&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_poMH8ITmnn.png&#34;
+			width=&#34;772&#34;
+			height=&#34;610&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_poMH8ITmnn_hu0d492a778fc3612d909754a229a5ba56_134865_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_poMH8ITmnn_hu0d492a778fc3612d909754a229a5ba56_134865_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 364; 
+			flex-basis: 874px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_9-mM5JNGud.png&#34; data-size=&#34;1316x361&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_9-mM5JNGud.png&#34;
+			width=&#34;1316&#34;
+			height=&#34;361&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_9-mM5JNGud_hudfa5be39ab44ec4ac06584e86227b3c0_101816_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_9-mM5JNGud_hudfa5be39ab44ec4ac06584e86227b3c0_101816_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;验证数据集：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 547; 
+			flex-basis: 1314px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wBU5LSPrC-.png&#34; data-size=&#34;1325x242&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wBU5LSPrC-.png&#34;
+			width=&#34;1325&#34;
+			height=&#34;242&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wBU5LSPrC-_hu6ff8641e22524f0064049f24627d8a3b_101062_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wBU5LSPrC-_hu6ff8641e22524f0064049f24627d8a3b_101062_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;跑数据集的设置：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 177; 
+			flex-basis: 425px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_zS0gG4eIxu.png&#34; data-size=&#34;1297x732&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_zS0gG4eIxu.png&#34;
+			width=&#34;1297&#34;
+			height=&#34;732&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_zS0gG4eIxu_hu3d3688ce73f08033f56fc2dc8c5fab5e_274069_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_zS0gG4eIxu_hu3d3688ce73f08033f56fc2dc8c5fab5e_274069_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;最后结果展示：&lt;/p&gt;
+&lt;p&gt;Isotropic ViG：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 207; 
+			flex-basis: 497px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_Js5lSPEJNA.png&#34; data-size=&#34;1100x531&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_Js5lSPEJNA.png&#34;
+			width=&#34;1100&#34;
+			height=&#34;531&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_Js5lSPEJNA_hu8cb2c90540bd25dfb4548e1542ac8a2e_119302_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_Js5lSPEJNA_hu8cb2c90540bd25dfb4548e1542ac8a2e_119302_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Pyramid ViG&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 94; 
+			flex-basis: 227px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AluQut1z-C.png&#34; data-size=&#34;757x797&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AluQut1z-C.png&#34;
+			width=&#34;757&#34;
+			height=&#34;797&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AluQut1z-C_hu499fe3a159da6b0a8c8ebc455adc2238_208815_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_AluQut1z-C_hu499fe3a159da6b0a8c8ebc455adc2238_208815_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;在目标检测的效果：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 201; 
+			flex-basis: 482px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_jenq3F8_Mr.png&#34; data-size=&#34;1076x535&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_jenq3F8_Mr.png&#34;
+			width=&#34;1076&#34;
+			height=&#34;535&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_jenq3F8_Mr_hu21625e84881a2b19fb792c678aad7401_153557_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_jenq3F8_Mr_hu21625e84881a2b19fb792c678aad7401_153557_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Ablation Study测试的结果（关闭一些配件）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 389; 
+			flex-basis: 935px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wvgTM-8Sfn.png&#34; data-size=&#34;1056x271&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wvgTM-8Sfn.png&#34;
+			width=&#34;1056&#34;
+			height=&#34;271&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wvgTM-8Sfn_hubba24396e9be55c3a9bb2f5e668ca83a_32960_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_wvgTM-8Sfn_hubba24396e9be55c3a9bb2f5e668ca83a_32960_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;过程的可视化：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 150; 
+			flex-basis: 361px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_na_2SQ1yDV.png&#34; data-size=&#34;1036x687&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_na_2SQ1yDV.png&#34;
+			width=&#34;1036&#34;
+			height=&#34;687&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_na_2SQ1yDV_hue1475e7fd66ae20ed5497fc126270cdd_760405_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_na_2SQ1yDV_hue1475e7fd66ae20ed5497fc126270cdd_760405_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;
+通过上图可以看到，浅层网络的跨区域图只是结合了颜色或形状等一些表象语义；&lt;/p&gt;
+&lt;p&gt;而深层网络的图结构则更加专注于细化特征本身“比如鱼就是鱼，人就是人”&lt;/p&gt;
+&lt;p&gt;The pentagram is the center node, and the nodes with the same color are its neighbors&lt;/p&gt;
+&lt;p&gt;Two center nodes are visualized as drawing all the edges will be messy.&lt;/p&gt;
+&lt;p&gt;We can observe that our model can select the
+&lt;strong&gt;content-related nodes&lt;/strong&gt; as the first order neighbors,&lt;/p&gt;
+&lt;p&gt;In the shallow layer, the neighbor nodes tend to be selected based on low-level and local features( such as color and texture)&lt;/p&gt;
+&lt;p&gt;In the deep layer, the neighbors of the center nodes are more semantic and belong to the same categor.&lt;/p&gt;
+&lt;p&gt;以下是伪代码：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 237; 
+			flex-basis: 570px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_v8dCLn3A0L.png&#34; data-size=&#34;1323x557&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_v8dCLn3A0L.png&#34;
+			width=&#34;1323&#34;
+			height=&#34;557&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_v8dCLn3A0L_hu1fac75b9c6c521c1e304d38499c8c552_121731_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_v8dCLn3A0L_hu1fac75b9c6c521c1e304d38499c8c552_121731_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 195; 
+			flex-basis: 470px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_VWvyfi4fD0.png&#34; data-size=&#34;1101x562&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_VWvyfi4fD0.png&#34;
+			width=&#34;1101&#34;
+			height=&#34;562&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_VWvyfi4fD0_hu8c40a0442b051ea69d084f5e0a0bbb76_102894_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_VWvyfi4fD0_hu8c40a0442b051ea69d084f5e0a0bbb76_102894_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 340; 
+			flex-basis: 816px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_s4RfDBf05P.png&#34; data-size=&#34;1106x325&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_s4RfDBf05P.png&#34;
+			width=&#34;1106&#34;
+			height=&#34;325&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_s4RfDBf05P_hu202182aab60aa5b1b2eec9035a49ea37_64972_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/image/image_s4RfDBf05P_hu202182aab60aa5b1b2eec9035a49ea37_64972_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>NJU计算机课程基础实验 PA1笔记</title>
         <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/</link>
         <pubDate>Sat, 11 Jun 2022 22:50:40 +0800</pubDate>
@@ -2377,11 +2742,11 @@ Hi mackerel7! You&#39;ve successfully authenticated, but GitHub does not provide
     &gt;GitHub Desktop 的使用教程&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;认识hugo&#34;&gt;认识hugo&lt;/h2&gt;
-&lt;p&gt;Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。&lt;br&gt;
+&lt;p&gt;Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。
 中文文档地址：  &lt;a class=&#34;link&#34; href=&#34;https://www.gohugo.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.gohugo.org/&lt;/a&gt;&lt;br&gt;
+    &gt;https://www.gohugo.org/&lt;/a&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/shulei00/article/details/105611007&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;图文安装教程1&lt;/a&gt;&lt;br&gt;
+    &gt;图文安装教程1&lt;/a&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://blackstar.pro/posts/%E9%80%9A%E8%BF%87hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;图文安装教程2&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;hugo的结构&#34;&gt;hugo的结构&lt;/h2&gt;
@@ -2391,40 +2756,38 @@ Hi mackerel7! You&#39;ve successfully authenticated, but GitHub does not provide
     &gt;hugo中文帮助文档&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;皮肤下载&#34;&gt;皮肤下载&lt;/h3&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.gohugo.org/theme/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.gohugo.org/theme/&lt;/a&gt;&lt;br&gt;
+    &gt;https://www.gohugo.org/theme/&lt;/a&gt;
 注：我用的是&lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack/commits?author=hahwul&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;hahwul&lt;/a&gt;
 写的stack：  &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/CaiJimmy/hugo-theme-stack&lt;/a&gt;&lt;br&gt;
+    &gt;https://github.com/CaiJimmy/hugo-theme-stack&lt;/a&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://docs.stack.jimmycai.com/zh/configuration/custom-menu.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;主题手册&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;markdown语法检索&#34;&gt;markdown语法检索&lt;/h3&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.appinn.com/markdown/#%E5%AE%97%E6%97%A8&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.appinn.com/markdown/#%E5%AE%97%E6%97%A8&lt;/a&gt;  &lt;br&gt;
+    &gt;https://www.appinn.com/markdown/#%E5%AE%97%E6%97%A8&lt;/a&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://edward852.github.io/post/markdown%E6%94%AF%E6%8C%81%E6%83%85%E5%86%B5%E6%B5%8B%E8%AF%95/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;常见的markdown写法&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;创建你的第一个文章&#34;&gt;创建你的第一个文章&lt;/h2&gt;
-&lt;p&gt;使用  &lt;code&gt;hugo new xxxxx.md&lt;/code&gt;&lt;br&gt;
+&lt;p&gt;使用  &lt;code&gt;hugo new xxxxx.md&lt;/code&gt;
 注意命名时不可以空格，可以用-代替
 然后就可以使用 &lt;code&gt;hugo server &lt;/code&gt;来查看效果啦！&lt;/p&gt;
 &lt;h2 id=&#34;发布你的博客&#34;&gt;发布你的博客&lt;/h2&gt;
-&lt;p&gt;我们将使用github.io来代替服务器以及域名：&lt;br&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/cbb944131226/article/details/82940224&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;p&gt;我们将使用github.io来代替服务器以及域名：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/cbb944131226/article/details/82940224&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;推荐参考教程&lt;/a&gt;
 几个注意事项：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Git要上传或执行的文件可以在文件夹中，右键空白地区点git bash here从而实现目录内操作。&lt;/li&gt;
 &lt;li&gt;在linux操作中（比如git）粘贴操作是shift+insert或单击鼠标的滚轮。而复制只要选中即可。&lt;/li&gt;
 &lt;li&gt;**【非常重要】**github的域名地址与用户名必须一致，比如你的github名字叫sakura，那么域名必须是sakura.github.io。&lt;/li&gt;
-&lt;li&gt;hugo命令&lt;code&gt;hugo  --baseUrl=&amp;quot;https://改为你的名字.github.io/&amp;quot;&lt;/code&gt;执行完后，会生成一个public文件夹，在public文件中执行1.操作即可推送。&lt;/li&gt;
-&lt;li&gt;用git推送的时候&lt;code&gt;git pull --rebase origin master&lt;/code&gt;语句可能会出错显示没有文件，不用担心，这是因为此时目标仓库是空的，直接下一步    &lt;br&gt;
-最后，你只需要输入对应网址，即可看到自己的宝贝博客了！&lt;/li&gt;
+&lt;li&gt;hugo命令 &lt;code&gt;hugo  --baseUrl=&amp;quot;https://改为你的名字.github.io/&amp;quot;&lt;/code&gt;执行完后，会生成一个public文件夹，在public文件中执行1.操作即可推送。&lt;/li&gt;
+&lt;li&gt;用git推送的时候 &lt;code&gt;git pull --rebase origin master&lt;/code&gt;语句可能会出错显示没有文件，不用担心，这是因为此时目标仓库是空的，直接下一步最后，你只需要输入对应网址，即可看到自己的宝贝博客了！&lt;/li&gt;
 &lt;li&gt;*（可选）如果你想给博客加上评论系统，请参考这样的流程:&lt;a class=&#34;link&#34; href=&#34;https://waline.js.org/guide/get-started.html#html-%E5%BC%95%E5%85%A5-%E5%AE%A2%E6%88%B7%E7%AB%AF&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;WALINE&lt;/a&gt;且记得修改config.yaml配置文件中的commit和对应waline项即可&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;更新你的博客&#34;&gt;更新你的博客&lt;/h2&gt;
 &lt;ol&gt;
-&lt;li&gt;在博客目录下使用&lt;code&gt;hugo  --baseUrl=&amp;quot;https://改为你的名字.github.io/&amp;quot;&lt;/code&gt;覆盖原来的public文件夹&lt;/li&gt;
+&lt;li&gt;在博客目录下使用 &lt;code&gt;hugo  --baseUrl=&amp;quot;https://改为你的名字.github.io/&amp;quot;&lt;/code&gt;覆盖原来的public文件夹&lt;/li&gt;
 &lt;li&gt;进入public文件夹右键git bash&lt;/li&gt;
 &lt;li&gt;分别执行 git init // git add . // git commit -m &amp;lsquo;写你的备注&amp;rsquo; // git push&lt;/li&gt;
 &lt;/ol&gt;
@@ -2439,17 +2802,14 @@ Hi mackerel7! You&#39;ve successfully authenticated, but GitHub does not provide
 &lt;h3 id=&#34;文章看不到&#34;&gt;文章看不到&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;检查是否格式正确，使用了hugo new xxxx.md&lt;/li&gt;
-&lt;li&gt;检查是否包含了&lt;code&gt;draft: true&lt;/code&gt;，若有则删除或使用&lt;code&gt;hugo server -D&lt;/code&gt;，若草稿模式开启是看不到文章的&lt;/li&gt;
+&lt;li&gt;检查是否包含了 &lt;code&gt;draft: true&lt;/code&gt;，若有则删除或使用 &lt;code&gt;hugo server -D&lt;/code&gt;，若草稿模式开启是看不到文章的&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;数学公式不显示&#34;&gt;数学公式不显示&lt;/h3&gt;
 &lt;ol&gt;
-&lt;li&gt;是否使用了&lt;code&gt;math: true&lt;/code&gt;，或尝试导入MathJax包，可参考&lt;a class=&#34;link&#34; href=&#34;https://m0t0k1ch1st0ry.com/blog/2017/10/07/mathjax/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Hugo に MathJax を導入して数式を書けるようにする&lt;/a&gt;  &lt;br&gt;
-或者分离式的mathjax调用方法&lt;a class=&#34;link&#34; href=&#34;https://kenbannikki.com/notes/using-mathjax-with-hugo/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;HugoでMathJaxを使う&lt;/a&gt;       &lt;br&gt;
-MathJax的中文文档：https://www.gohugo.org/doc/tutorials/mathjax/ &lt;br&gt;
-Mathjax的日文文档：https://www.eng.niigata-u.ac.jp/~nomoto/download/mathjax.pdf&lt;/li&gt;
-&lt;li&gt;注意此时&lt;code&gt;\\&lt;/code&gt;换行不成功的话，用&lt;code&gt;\\\&lt;/code&gt;试试看，有些&lt;code&gt;\,&lt;/code&gt;的无效也可以用&lt;code&gt;\\,&lt;/code&gt;代替尝试。&lt;/li&gt;
+&lt;li&gt;是否使用了 &lt;code&gt;math: true&lt;/code&gt;，或尝试导入MathJax包，可参考&lt;a class=&#34;link&#34; href=&#34;https://m0t0k1ch1st0ry.com/blog/2017/10/07/mathjax/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Hugo に MathJax を導入して数式を書けるようにする&lt;/a&gt;或者分离式的mathjax调用方法&lt;a class=&#34;link&#34; href=&#34;https://kenbannikki.com/notes/using-mathjax-with-hugo/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;HugoでMathJaxを使う&lt;/a&gt;MathJax的中文文档：https://www.gohugo.org/doc/tutorials/mathjax/Mathjax的日文文档：https://www.eng.niigata-u.ac.jp/~nomoto/download/mathjax.pdf&lt;/li&gt;
+&lt;li&gt;注意此时 &lt;code&gt;\\&lt;/code&gt;换行不成功的话，用 &lt;code&gt;\\\&lt;/code&gt;试试看，有些 &lt;code&gt;\,&lt;/code&gt;的无效也可以用 &lt;code&gt;\\,&lt;/code&gt;代替尝试。&lt;/li&gt;
 &lt;li&gt;有时候数学公式正确也会显示不出来，此时你可以检查&lt;strong&gt;代码界面&lt;/strong&gt;或&lt;strong&gt;网页公式处&lt;/strong&gt;是否存在斜体如&amp;quot;&lt;em&gt;_j&lt;/em&gt;&amp;quot;，此时改为&amp;quot;_j&amp;quot;即可恢复正常，特别是_{}时要注意，可以把开始倾斜的代码（找到这里的&amp;quot;_&amp;quot;)改为_{}就可以正常显示。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;文章图片加载很慢&#34;&gt;文章图片加载很慢&lt;/h3&gt;
