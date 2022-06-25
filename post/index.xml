@@ -6,7 +6,34 @@
     <description>Recent content in Posts on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 18 Jun 2022 11:56:50 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Jun 2022 15:07:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Classes vs. Data Structures</title>
+      <link>https://sanbuphy.github.io/p/classes-vs.-data-structures/</link>
+      <pubDate>Sat, 25 Jun 2022 15:07:48 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/classes-vs.-data-structures/</guid>
+      <description>很多人根据数据结构的定义：&amp;ldquo;Data structure is a storage that is used to store and organize data. It is a way of arranging data on a computer so that it can be accessed and updated efficiently. Depending on your requirement and project, it is important to choose the right data structure</description>
+    </item>
+    
+    <item>
+      <title>系统逃生舱的必要性</title>
+      <link>https://sanbuphy.github.io/p/%E7%B3%BB%E7%BB%9F%E9%80%83%E7%94%9F%E8%88%B1%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</link>
+      <pubDate>Sat, 25 Jun 2022 14:50:08 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E7%B3%BB%E7%BB%9F%E9%80%83%E7%94%9F%E8%88%B1%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</guid>
+      <description>作为几个月内重装过不下十次电脑的炸机猛男，强烈建议大家应该建立一个自己的“母盘”,储备好常见需要安装的软件（Anaconda、vscode等</description>
+    </item>
+    
+    <item>
+      <title>Linux中sudo、su、su-的那些事</title>
+      <link>https://sanbuphy.github.io/p/linux%E4%B8%ADsudosusu-%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+      <pubDate>Sat, 25 Jun 2022 14:18:55 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/linux%E4%B8%ADsudosusu-%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+      <description>su 的作用是切换当前用户，需要的是切换后账户的名字，即“su 账户名称”，如果后面不加账户时系统默认为root账户 su有两种用法： su Username/ su - Use</description>
+    </item>
+    
     <item>
       <title>论文阅读：Vision GNN: An Image is Worth Graph of Nodes</title>
       <link>https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/</link>

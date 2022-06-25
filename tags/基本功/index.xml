@@ -6,7 +6,16 @@
     <description>Recent content in 基本功 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 18 May 2022 13:24:37 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/%E5%9F%BA%E6%9C%AC%E5%8A%9F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Jun 2022 15:07:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/%E5%9F%BA%E6%9C%AC%E5%8A%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Classes vs. Data Structures</title>
+      <link>https://sanbuphy.github.io/p/classes-vs.-data-structures/</link>
+      <pubDate>Sat, 25 Jun 2022 15:07:48 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/classes-vs.-data-structures/</guid>
+      <description>很多人根据数据结构的定义：&amp;ldquo;Data structure is a storage that is used to store and organize data. It is a way of arranging data on a computer so that it can be accessed and updated efficiently. Depending on your requirement and project, it is important to choose the right data structure</description>
+    </item>
+    
     <item>
       <title>c语言编译过程简介</title>
       <link>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/</link>

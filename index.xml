@@ -6,7 +6,130 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 18 Jun 2022 11:56:50 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 25 Jun 2022 15:07:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Classes vs. Data Structures</title>
+        <link>https://sanbuphy.github.io/p/classes-vs.-data-structures/</link>
+        <pubDate>Sat, 25 Jun 2022 15:07:48 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/classes-vs.-data-structures/</guid>
+        <description>&lt;p&gt;很多人根据数据结构的定义：&amp;ldquo;Data structure is a storage &lt;strong&gt;that is used to store and organize data&lt;/strong&gt;. It is a way of arranging data on a computer so that it can be accessed and updated efficiently. Depending on your requirement and project, it is important to choose the right data structure for your project. &amp;ldquo;觉得类当然也是一种数据结构，因为符合定义中提到的行为。然而，经过一番查资料外加看了下经典clean coder blog的描述，发现事情没这么简单。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 401; 
+			flex-basis: 963px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/1.png&#34; data-size=&#34;775x193&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/1.png&#34;
+			width=&#34;775&#34;
+			height=&#34;193&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/1_hu721536594cb69feaf0946e15168e3835_85501_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/classes-vs.-data-structures/image/1_hu721536594cb69feaf0946e15168e3835_85501_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 240; 
+			flex-basis: 576px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/2.png&#34; data-size=&#34;975x406&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/2.png&#34;
+			width=&#34;975&#34;
+			height=&#34;406&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/2_hu7a9605331c4838a932f61286f55bca42_106211_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/classes-vs.-data-structures/image/2_hu7a9605331c4838a932f61286f55bca42_106211_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;关键还是要看“ 看你抽象了多少、抽象层级、想要对外暴露什么”，并且分析的角度也不同。&lt;/p&gt;
+&lt;p&gt;潜在的标准答案&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.cleancoder.com/uncle-bob/2019/06/16/ObjectsAndDataStructures.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Classes vs. Data Structures&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 216; 
+			flex-basis: 520px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/cece.png&#34; data-size=&#34;884x408&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/cece.png&#34;
+			width=&#34;884&#34;
+			height=&#34;408&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/cece_hu0e14e68d72201e41848fff6f8e91ec84_82119_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/classes-vs.-data-structures/image/cece_hu0e14e68d72201e41848fff6f8e91ec84_82119_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 374; 
+			flex-basis: 897px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/image_zVyBRL2yt-.png&#34; data-size=&#34;1152x308&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/image_zVyBRL2yt-.png&#34;
+			width=&#34;1152&#34;
+			height=&#34;308&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/classes-vs.-data-structures/image/image_zVyBRL2yt-_hu329bd6553c90304bba1fb6658684e493_69399_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/classes-vs.-data-structures/image/image_zVyBRL2yt-_hu329bd6553c90304bba1fb6658684e493_69399_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>系统逃生舱的必要性</title>
+        <link>https://sanbuphy.github.io/p/%E7%B3%BB%E7%BB%9F%E9%80%83%E7%94%9F%E8%88%B1%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</link>
+        <pubDate>Sat, 25 Jun 2022 14:50:08 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E7%B3%BB%E7%BB%9F%E9%80%83%E7%94%9F%E8%88%B1%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</guid>
+        <description>&lt;p&gt;作为几个月内重装过不下十次电脑的炸机猛男，强烈建议大家应该建立一个自己的“母盘”,储备好常见需要安装的软件（Anaconda、vscode等等）&lt;/p&gt;
+&lt;p&gt;首先要保存一些常见的方法（当然可以类似鱼香ROS那样封装成为一个shell文件，自动换源并安装各种库）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/wxd1233/article/details/121779276&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;【环境配置】Ubuntu20.04如何更换国内源&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://www.javashuo.com/article/p-tnnayazt-wb.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;git clone速度太慢的解决办法技巧分享&lt;/a&gt;
+注：这里有个坑需要注意一下，当重置DNS的时候不要用文中方法（我是没有效用），你可以使用：&lt;code&gt;sudo service network-manager restart&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果你喜欢使用vim，建议你安装一键配置：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/438970816&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;vimplus&lt;/a&gt; 不过它的安装需要git clone，建议科学上网否则会出现大面积失败（常见功能还是能同步上的，就是非常非常慢。。。。）&lt;/p&gt;
+&lt;p&gt;TODO:有时间了根据鱼香ROS的一键shell做一个属于自己的一键shell&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Linux中sudo、su、su-的那些事</title>
+        <link>https://sanbuphy.github.io/p/linux%E4%B8%ADsudosusu-%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+        <pubDate>Sat, 25 Jun 2022 14:18:55 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/linux%E4%B8%ADsudosusu-%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+        <description>&lt;p&gt;su 的作用是切换当前用户，需要的是切换后账户的名字，即“su 账户名称”，如果后面不加账户时系统默认为root账户&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;su有两种用法： su Username/ su - Username，例子如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;su root  输入root密码后切换之root用户但是pwd目录不变&lt;/li&gt;
+&lt;li&gt;su - root  输入root密码后切换之root用户但是pwd目录/root&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;sudo 暂时切换到超级用户模式以执行超级用户权限，提示输入密码时该密码为当前用户的密码，而不是超级账户的密码&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;sudo should be read as &amp;quot;su do&amp;quot;, that is, &amp;quot;switch user and do this command&amp;quot;.&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;sudo -i root与sudo - root、sudo -i ,sudo - ，sudo root效果相同，提示输入密码时该密码为当前账户的密码  要求执行该命令的用户必须在sudoers中才可以&lt;/p&gt;
+&lt;p&gt;sudo su 运行sudo命令给su命令提权，运行su命令&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>论文阅读：Vision GNN: An Image is Worth Graph of Nodes</title>
         <link>https://sanbuphy.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBvision-gnn-an-image-is-worth-graph-of-nodes/</link>
         <pubDate>Sat, 18 Jun 2022 11:56:50 +0800</pubDate>
@@ -1409,11 +1532,12 @@ $$
         <pubDate>Sun, 20 Mar 2022 16:28:01 +0800</pubDate>
         
         <guid>https://sanbuphy.github.io/p/c/c-%E5%9C%A8windows%E4%B8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%92%8C%E8%BF%90%E8%A1%8C%E6%96%B9%E6%B3%95/</guid>
-        <description>&lt;p&gt;笔者因为要使用opencv c++版的需求，需要给家里的电脑配c/cpp的运行环境，    &lt;br&gt;
+        <description>&lt;p&gt;笔者因为要使用opencv c++版的需求，需要给家里的电脑配c/cpp的运行环境，
 如果是Linux无脑Clion即可，windows上稍微有一些麻烦，附上全流程：&lt;/p&gt;
+&lt;p&gt;【6月份回来看感到很搞笑，注：这是笔者刚开始玩c/cpp的纯粹青涩文章&amp;hellip;..】&lt;/p&gt;
 &lt;p&gt;首先请按照这个博主的安装教程走一遍流程&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/77645306&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;c++ c语言安装流程&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;如果顺利的安装好环境，接下来就是运行环节，首先随便新建一个C或者cpp文件，可参考；     &lt;br&gt;
+&lt;p&gt;如果顺利的安装好环境，接下来就是运行环节，首先随便新建一个C或者cpp文件，可参考；
 C语言的版本：&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 #include &amp;lt;windows.h&amp;gt;
@@ -1428,17 +1552,16 @@ int main()
 using namespace std;  
 
 int main()
-{    
+{  
     cout &amp;lt;&amp;lt; &amp;quot;Hello Vscode&amp;quot; &amp;lt;&amp;lt; endl;  
     return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;接下来就是最重要的部分，我们有两种办法编译好文件运行，   &lt;br&gt;
-第一种办法（直接编译）：     &lt;br&gt;
-在终端中进入对应文件夹，输入gcc xxx.c   或者g++ xxxx.cpp     &lt;br&gt;
-即可将文件编译成exe，然后直接终端中输入exe文件名字即可查看效果！         &lt;br&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;接下来就是最重要的部分，我们有两种办法编译好文件运行，
+第一种办法（直接编译）：
+在终端中进入对应文件夹，输入gcc xxx.c   或者g++ xxxx.cpp
+即可将文件编译成exe，然后直接终端中输入exe文件名字即可查看效果！
 如果你想运行后直接看跳出的结果，可以按照开头知乎链接的答主方法操作。&lt;/p&gt;
-&lt;p&gt;第二种方法（间接编译）：     &lt;br&gt;
-我们要做两件事：&lt;/p&gt;
+&lt;p&gt;第二种方法（间接编译）：我们要做两件事：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;首先在上面菜单栏找到终端，选择配置生成任务，选择对应的文件（gcc或者g++  有可能只显示c++ 但点进去后会出现gcc)&lt;/li&gt;
 &lt;li&gt;左侧找到运行与调试在上面框框中点开，然后选择工作区对应的文件夹添加配置（会生成.vscode文件夹，内部就是配置文件！），或者直接运行中找到添加配置，然后同样找到对应gcc g++即可（gcc或者g++  有可能只显示c++ 但点进去后会出现gcc)&lt;/li&gt;
@@ -1638,7 +1761,7 @@ int main()
         
         <guid>https://sanbuphy.github.io/p/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E6%B1%87%E6%80%BB/</guid>
         <description>&lt;p&gt;备注:我正在写一份目标检测&amp;amp;图像异常检测的综述slides，如果有兴趣可以等我出！欢迎邮件催更提建议：physicoada@gmail.com&lt;/p&gt;
-&lt;h2 id=&#34;opencv基础&#34;&gt;opencv基础：&lt;/h2&gt;
+&lt;h2 id=&#34;opencv基础&#34;&gt;opencv基础&lt;/h2&gt;
 &lt;p&gt;推荐参考：
 &lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV12V411q7Sp/?spm_id_from=333.788&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;基于Python的Opencv全系列速成课&lt;/a&gt;
@@ -1646,7 +1769,8 @@ int main()
     &gt;3天建立计算机视觉移动应用程序-支持iOS与Android&lt;/a&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV11X4y1N7cQ/?spm_id_from=333.788&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;无人机编程与Python教学&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;项目地址：https://github.com/jasmcaus/opencv-course&lt;/p&gt;
+&lt;p&gt;项目地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/jasmcaus/opencv-course&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/jasmcaus/opencv-course&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;几个大型综述&#34;&gt;几个大型综述&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;http://arxiv.org/abs/1905.05055&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -1715,7 +1839,7 @@ int main()
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/u011974639/article/details/78053203?locationNum=7&amp;amp;fps=1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Object Detection&amp;ndash;RCNN,SPPNet,Fast RCNN，FasterRCNN论文详解&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.sohu.com/a/364671359_100007727&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;什么是anchor-based 和anchor free？ &lt;/a&gt;&lt;/li&gt;
+    &gt;什么是anchor-based 和anchor free？&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         </item>

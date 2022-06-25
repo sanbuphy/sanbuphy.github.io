@@ -6,7 +6,34 @@
     <description>Recent content in Categories on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 18 Jun 2022 11:56:50 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Jun 2022 15:07:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>data structures</title>
+      <link>https://sanbuphy.github.io/categories/data-structures/</link>
+      <pubDate>Sat, 25 Jun 2022 15:07:48 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/data-structures/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>杂七杂八知识</title>
+      <link>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Sat, 25 Jun 2022 15:07:48 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://sanbuphy.github.io/categories/linux/</link>
+      <pubDate>Sat, 25 Jun 2022 14:18:55 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>computer vision</title>
       <link>https://sanbuphy.github.io/categories/computer-vision/</link>
@@ -49,15 +76,6 @@
       <pubDate>Wed, 18 May 2022 13:24:37 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/categories/c%E8%AF%AD%E8%A8%80/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>杂七杂八知识</title>
-      <link>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
-      <pubDate>Sun, 15 May 2022 09:29:20 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</guid>
       <description></description>
     </item>
     

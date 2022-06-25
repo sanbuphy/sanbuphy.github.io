@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on 散步的小屋</title>
+    <link>https://sanbuphy.github.io/categories/linux/</link>
+    <description>Recent content in Linux on 散步的小屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 25 Jun 2022 14:18:55 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux中sudo、su、su-的那些事</title>
+      <link>https://sanbuphy.github.io/p/linux%E4%B8%ADsudosusu-%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+      <pubDate>Sat, 25 Jun 2022 14:18:55 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/linux%E4%B8%ADsudosusu-%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+      <description>su 的作用是切换当前用户，需要的是切换后账户的名字，即“su 账户名称”，如果后面不加账户时系统默认为root账户 su有两种用法： su Username/ su - Use</description>
+    </item>
+    
+  </channel>
+</rss>
