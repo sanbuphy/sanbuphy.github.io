@@ -114,7 +114,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 11 分钟
+                    阅读时长: 12 分钟
                 </time>
             </div>
         
@@ -314,7 +314,22 @@ int atexit(void (*function)(void));
 <p>readline：（使用了系统库要记得-lreadline链接）</p>
 <p>strtok:要注意两个参数，第二个参数会被他替换成\0，第一个字符串读出后接下来的第一个参数就要用NULL替换</p>
 <p>strtok不能保证字符串的完整，要保持字符串的完整可以用strchr和sscanf的组合。</p>
+<h3 id="表达式的实现">表达式的实现</h3>
+<p>关键：</p>
+<ol>
+<li>常见的operator需要匹配</li>
+<li>留下两个冗余给指针解引用</li>
+</ol>
+<p>这里我花了几天重构了（相当于重写）了一遍求解表达式的逻辑。大概消耗了一周。</p>
+<p>第一个难点在于如何优雅的把字符串保留到token[].str中，你需要搞明白什么是结构体数组与指针（之后的静态链表也会用到！</p>
+<p>第二个难点在于op匹配的过程中，需要如何给出op（优先级排列），这里参考了一下别人的算法（我自己的bug很多）采用了一个设计大到小覆盖的方法，能保证保留“最大”标识的符号作为op，（你从尾部开始扫描也行，换个方向覆盖符号罢了）。</p>
+<p>第三个难点在于如何优雅的检查括号，如果你只在p和q边界检查，容易出现(1+1)+(1+1)的错误，我尝试了很多很多办法，最后用了一个i+-并且判断会不会“还没读完i就变0了”来避免这个错误。</p>
+<p>第四个难点在于负数和指针的拦截，你需要在别的地方进行拦截，检查之前的符号。</p>
+<h3 id="监视点的实现">监视点的实现</h3>
+<p>监视点：实际上这个是一个“能改大小”的静态链表，不需要malloc，熟悉了链表操作实际上不难（我花时间手写了一下动态链表再看这儿结构体数组一开始还有点诧异）</p>
+<p>另一个关键是要理解static的奥义所在，实际上都是为了将这个链表隔离在该作用范围内不要被其他文件访问，所以所有的操作都要在sdb和watchpoint里进行，不要对外暴露变量，只需要暴露函数能够使得他被调用即可。这也是程序隔离的重要性所在（一开始我觉得麻烦，但减小耦合的角度来说这非常重要，要做到职责分离），所有的数据结构访问和操作都在链表的C文件中执行，也不要对外暴露；而CPU每次执行完后的检查也是通过调用链表C的头文件进行函数执行（直接执行），做到职责分离和隔离。至于包一个宏，这个通过RTFC多多尝试即可得到结果。</p>
 <h2 id="reference-重点">Reference 【重点】</h2>
+<p>ps:最好可以掌握一些常用的C字符串标准库，如strcpy  strnpy</p>
 <h3 id="gdb-layout窗口">gdb layout窗口</h3>
 <p>(其实也可以直接gdb xxx -tui)</p>
 <p>layout：用于分割窗口，可以一边查看代码，一边测试。主要有以下几种用法：
@@ -424,6 +439,18 @@ c）u：标明一个单元的长度。<code>b</code>是一个 <code>byte</code>�
                 
                     
 <article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA2笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
     <a href="/p/python%E4%B8%AD%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A6%82%E5%BF%B5%E7%9A%84%E8%BF%9B%E9%98%B6%E6%8E%A2%E8%AE%A8/">
         
         
@@ -488,18 +515,6 @@ c）u：标明一个单元的长度。<code>b</code>是一个 <code>byte</code>�
 
         <div class="article-details">
             <h2 class="article-title">机器学习中的信息论基础</h2>
-        </div>
-    </a>
-</article>
-                
-                    
-<article class="">
-    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%BA%8C/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">《机器学习》西瓜书笔记(二)</h2>
         </div>
     </a>
 </article>
@@ -664,6 +679,8 @@ c）u：标明一个单元的长度。<code>b</code>是一个 <code>byte</code>�
     <li><a href="#pa1简易调试器">PA1.简易调试器</a>
       <ol>
         <li><a href="#读入并解析">读入并解析</a></li>
+        <li><a href="#表达式的实现">表达式的实现</a></li>
+        <li><a href="#监视点的实现">监视点的实现</a></li>
       </ol>
     </li>
     <li><a href="#reference-重点">Reference 【重点】</a>

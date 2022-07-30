@@ -6,7 +6,34 @@
     <description>Recent content in 杂七杂八知识 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 25 Jun 2022 15:07:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 30 Jul 2022 16:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>防止stack overflow——内存地址杀毒</title>
+      <link>https://sanbuphy.github.io/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/</link>
+      <pubDate>Sat, 30 Jul 2022 16:08:27 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/</guid>
+      <description>提问： 我们有什么检测手段（编译器或者操作系统自带检测）能防止stack overflow嘛？或者说防止出栈超界 程序中的内存地址规定好r但不给w</description>
+    </item>
+    
+    <item>
+      <title>有关fps计算——先有鸡还是先有蛋</title>
+      <link>https://sanbuphy.github.io/p/%E6%9C%89%E5%85%B3fps%E8%AE%A1%E7%AE%97%E5%85%88%E6%9C%89%E9%B8%A1%E8%BF%98%E6%98%AF%E5%85%88%E6%9C%89%E8%9B%8B/</link>
+      <pubDate>Sat, 30 Jul 2022 15:00:59 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E6%9C%89%E5%85%B3fps%E8%AE%A1%E7%AE%97%E5%85%88%E6%9C%89%E9%B8%A1%E8%BF%98%E6%98%AF%E5%85%88%E6%9C%89%E8%9B%8B/</guid>
+      <description>Q：众所周知，有时候我们读取本地的视频信息，他有可能不全（比如直播录像，某些文件内容被破坏或者干脆没有比如）这是一个先有鸡还是先有蛋的问题—</description>
+    </item>
+    
+    <item>
+      <title>shell脚本中变量无法读取空格的解决方法</title>
+      <link>https://sanbuphy.github.io/p/shell%E8%84%9A%E6%9C%AC%E4%B8%AD%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%A9%BA%E6%A0%BC%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sat, 30 Jul 2022 09:29:20 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/shell%E8%84%9A%E6%9C%AC%E4%B8%AD%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%A9%BA%E6%A0%BC%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+      <description>有一天遇到需要实现shell脚本中变量连着括号一起读取，实现方法如下： 如果不加双引号会翻车（你可以尝试去除不同的双引号看看效果） #!/bin/bash OLDIFS=IFS #IFS=`echo -e &amp;#34;\n&amp;#34;` f1=&amp;#34;DAFS</description>
+    </item>
+    
     <item>
       <title>Classes vs. Data Structures</title>
       <link>https://sanbuphy.github.io/p/classes-vs.-data-structures/</link>
@@ -23,15 +50,6 @@
       
       <guid>https://sanbuphy.github.io/p/%E7%B3%BB%E7%BB%9F%E9%80%83%E7%94%9F%E8%88%B1%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</guid>
       <description>作为几个月内重装过不下十次电脑的炸机猛男，强烈建议大家应该建立一个自己的“母盘”,储备好常见需要安装的软件（Anaconda、vscode等</description>
-    </item>
-    
-    <item>
-      <title>shell脚本中变量无法读取空格的解决方法</title>
-      <link>https://sanbuphy.github.io/p/shell%E8%84%9A%E6%9C%AC%E4%B8%AD%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%A9%BA%E6%A0%BC%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
-      <pubDate>Sun, 15 May 2022 09:29:20 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/p/shell%E8%84%9A%E6%9C%AC%E4%B8%AD%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%A9%BA%E6%A0%BC%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
-      <description></description>
     </item>
     
     <item>

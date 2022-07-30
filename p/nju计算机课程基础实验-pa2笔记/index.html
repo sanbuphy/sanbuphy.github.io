@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='冯诺依曼计算机'><title>NJU计算机课程基础实验 PA2笔记</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='NJU计算机课程基础实验 PA2笔记'>
+<meta property='og:description' content='冯诺依曼计算机'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C语言' /><meta property='article:published_time' content='2022-07-30T15:05:41&#43;08:00'/><meta property='article:modified_time' content='2022-07-30T15:05:41&#43;08:00'/>
+<meta name="twitter:title" content="NJU计算机课程基础实验 PA2笔记">
+<meta name="twitter:description" content="冯诺依曼计算机">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/" >
+                南京大学PA
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/">NJU计算机课程基础实验 PA2笔记</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        冯诺依曼计算机
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 30, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 16 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h1 id="pa2-冯诺依曼计算机">PA2 冯诺依曼计算机</h1>
+<p>写在前面：</p>
+<p>首先要感谢jyy群一直帮助我的pony小哥、17号小哥（还有很多帮助我的人，没写出来但我都很感谢！）</p>
+<p>没有你们我是不可能能这么快理解（甚至完全做不出）这一部分的。</p>
+<p>我的基础很薄弱，对于ISA真的一无所知，非常感谢帮助！</p>
+<p>注意，包老师的中文版手册有些地方是有错的，建议只看概念，具体的编码参考英文的资料，比如：<a class="link" href="https://msyksphinz-self.github.io/riscv-isadoc/html/rvi.html#fence-i"  title="https://msyksphinz-self.github.io/riscv-isadoc/html/rvi.html#fence-i"
+     target="_blank" rel="noopener"
+    >https://msyksphinz-self.github.io/riscv-isadoc/html/rvi.html#fence-i</a></p>
+<p>(前面都是纯粹的抄讲义阶段。。但是抄了后真的能比较好理解</p>
+<p>PA2一开始的任务是实现译码的流程，补充辅助译码函数（注意一下伪指令不用实现，函数体可以留空）
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 130; 
+			flex-basis: 313px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/pa2.png" data-size="786x601">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/pa2.png"
+			width="786"
+			height="601"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/pa2_hue1f05e8b01c1154d1c33b2e9d1436b13_109475_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/pa2_hue1f05e8b01c1154d1c33b2e9d1436b13_109475_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="PA2开始的任务">
+	</a>
+	
+	<figcaption>PA2开始的任务</figcaption>
+	
+</figure></p>
+<h2 id="rtfsc2">RTFSC(2)</h2>
+<p><strong>fetch_decode_exec_updatepc()： 取指, 译码, 执行, 更新PC</strong></p>
+<p>在cpu_exec——fetch_decode_exec_updatepc——fetch_decode</p>
+<p><code>fetch_decode_exec_updatepc()</code>接受一个<code>Decode</code>类型的结构体指针<code>s</code>, 这个结构体用于存放在执行一条指令过程中的译码和执行信息, 包括指令的PC, 执行方式, 以及操作数的信息. 还有一些信息是ISA相关的, NEMU用一个结构类型<code>ISADecodeInfo</code>来对这些信息进行抽象, 具体的定义在<code>nemu/src/isa/$ISA/include/isa-def.h</code>中. <code>fetch_decode_exec_updatepc()</code>首先会调用<code>fetch_decode()</code>进行取指和译码, <code>fetch_decode()</code>会先把当前的PC保存到<code>s</code>的成员<code>pc</code>和<code>snpc</code>中, 其中<code>s-&gt;pc</code>就是当前指令的PC, 而<code>s-&gt;snpc</code>则是下一条指令的PC, 这里的<code>snpc</code>是 <strong>&ldquo;static next PC&quot;的意思.</strong></p>
+<p>然后代码会调用<code>isa_fetch_decode()</code>函数(在<code>nemu/src/isa/$ISA/instr/decode.c</code>中定义), 这是因为取指译码的具体过程是和ISA相关的, 在这里我们先不深究<code>isa_fetch_decode()</code>的细节. 但可以说明的是, 它会随着取指的过程修改<code>s-&gt;snpc</code>的值, 使得从<code>isa_fetch_decode()</code>返回后<code>s-&gt;snpc</code>正好为下一条指令的PC. 接下来将会把<code>s-&gt;snpc</code>的值赋给<code>s-&gt;dnpc</code>, 这里的<code>dnpc</code><strong>是&quot;dynamic next PC&quot;的意思. 关于</strong>****<strong>和****的区别, 我们会在下文进行说明.</strong></p>
+<p>此外, <code>isa_fetch_decode()</code>还会返回一个编号<code>idx</code>, 用于对<code>g_exec_table</code>这一数组进行索引. <code>g_exec_table</code>是一个函数指针的数组, 数组中的每个元素都会指向一个用于模拟指令执行的函数, 我们把这样的函数称为&quot;执行辅助函数&rdquo;(execution helper function). 通过<code>idx</code>索引这个数组, 可以找到与一条指令相匹配的执行辅助函数, 并把它记录到<code>s-&gt;EHelper</code>中.</p>
+<p>忽略<code>fetch_decode()</code>中剩下与trace相关的代码, 我们就返回到<code>fetch_decode_exec_updatepc()</code>中. <strong><strong><strong>将会调用刚才记录到</strong></strong>的执行辅助函数, 来模拟指令执行的真正操作. 最后会更新PC, 让PC指向下一条指令.</strong></p>
+<p>显然, <code>fetch_decode_exec_updatepc()</code>函数覆盖了指令周期的所有阶段: <strong>取指, 译码, 执行, 更新PC.</strong> 在这些阶段中, 代码都可以对<code>s</code>进行记录和访问. 接下来我们来看看NEMU是如何实现指令周期的每一个阶段的.</p>
+<h3 id="取指instruction-fetch-if">取指(instruction fetch, IF)</h3>
+<p><code>isa_fetch_decode()</code>做的第一件事情就是取指令. 在NEMU中, 有一个函数<code>instr_fetch()</code>(在<code>nemu/include/cpu/ifetch.h</code>中定义)专门负责取指令的工作. <code>instr_fetch()</code>最终会根据参数<code>len</code>来调用<code>vaddr_ifetch()</code>(在<code>nemu/src/memory/vaddr.c</code>中定义), 而目前<code>vaddr_ifetch()</code>又会通过<code>paddr_read()</code>来访问物理内存中的内容. 因此, 取指操作的本质只不过就是一次内存的访问而已.</p>
+<p><code>isa_fetch_decode()</code>在调用<code>instr_fetch()</code>的时候传入了<code>s-&gt;snpc</code>的地址, 因此<code>instr_fetch()</code>最后还会根据<code>len</code>来更新<code>s-&gt;snpc</code>, 从而让<code>s-&gt;snpc</code>指向下一条指令.</p>
+<p>Motorola 68k系列的处理器都是大端架构的. 现在问题来了, 考虑以下两种情况:</p>
+<ul>
+<li>
+<p>假设我们需要将NEMU运行在Motorola 68k的机器上(把NEMU的源代码编译成Motorola 68k的机器码)</p>
+</li>
+<li>
+<p>假设我们需要把Motorola 68k作为一个新的ISA加入到NEMU中</p>
+</li>
+</ul>
+<p>在这两种情况下, 你需要注意些什么问题? 为什么会产生这些问题? 怎么解决它们?</p>
+<p>事实上不仅仅是立即数的访问, 长度大于1字节的内存访问都需要考虑类似的问题. 我们在这里把问题统一抛出来, 以后就不再单独讨论了.</p>
+<p>答：我猜想可以在memory的host.h处以及map.c的地方通过位置调整（改变addr指针的偏移）解决问题。有朋友提出可以固定len然后再拼起来，也有朋友建议可以了解一下ntohl和ntohs的现有转换库</p>
+<h3 id="译码instruction-decode-id">译码(instruction decode, ID)</h3>
+<p>译码的目的是得到指令的操作和操作对象, 这主要是通过查看指令的opcode来决定的. 不同ISA的opcode会出现在指令的不同位置, 我们只需要根据指令的编码格式, 从取出的指令中识别出相应的opcode即可.</p>
+<p>和YEMU相比, NEMU使用一种抽象层次更高的译码方式: 模式匹配, NEMU可以通过一个模式字符串来指定指令中opcode:(def_INSTR_IDTAB 在 decode.c)</p>
+<p>nemu/include/cpu/decode.h 定义了这些各种各样的宏，包括模式匹配规则。</p>
+<p>宏展开def的定义宏后是这样的：（根据def_INSTR_raw）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">do</span> <span class="p">{</span>
+
+<span class="kt">uint32_t</span> <span class="n">key</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">shift</span><span class="p">;</span>
+
+<span class="n">pattern_decode</span><span class="p">(</span><span class="s">&#34;??????? ????? ????? ??? ????? 01101 11&#34;</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">shift</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(((</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">isa</span><span class="p">.</span><span class="n">instr</span><span class="p">.</span><span class="n">val</span> <span class="o">&gt;&gt;</span> <span class="n">shift</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">)</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="n">decode_U</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="nf">table_lui</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</code></pre></div><p>操作对象(比如立即数是多少, 读入到哪个寄存器). 为了解决这个问题, 代码需要进行进一步的译码工作, 这是通过调用相应的<code>译码辅助函数</code>(decode helper function)来完成的. 译码辅助函数统一通过宏<code>def_DHelper</code>(在<code>nemu/include/cpu/decode.h</code>中定义)来定义</p>
+<p>每个译码辅助函数负责进行一种类型的操作数译码, 把指令中的操作数信息分别记录在译码信息<code>s</code>的<code>dest</code>成员, <code>src1</code>成员和<code>src2</code>成员中, 它们分别代表<strong>目的操作数和两个源操作数</strong>. <code>nemu/include/cpu/decode.h</code>中还定义了三个宏<code>id_dest</code>, <code>id_src1</code>和<code>id_src2</code>, 用于方便地访问它们.</p>
+<p>寄存器和立即数这些操作数, 其实是非常常见的操作数类型. 为了进一步实现操作数译码和指令译码的解耦, 框架代码对这些操作数的译码进行了抽象封装, 指令译码过程由若干<code>译码操作数辅助函数</code>(decode operand helper function)组成. 译码操作数辅助函数统一通过宏<code>def_DopHelper</code>来定义</p>
+<p>DopHelper带有一个<code>flag</code>参数, 不同的DopHelper可以用它来进行不同的处理. 例如寄存器的DopHelper可以通过<code>flag</code>来指示是否写入（可以参考def_DopHelper(r)实现中的）</p>
+<p><code> void concat(decode_op_, name) (Decode *s, Operand *op, word_t val, bool flag)</code>可以匹配decode_op_r和decode_op_i(<code>def_DopHelper(r)</code>, <code>def_DopHelper(i)</code> )</p>
+<p>DopHelper带有一个<code>flag</code>参数, 不同的DopHelper可以用它来进行不同的处理. 例如寄存器的DopHelper可以通过<code>flag</code>来指示是否写入（可参考<code>def_DopHelper(r)</code>中的实现）</p>
+<p>在mips和riscv中, 0号寄存器的值恒为0, 因此往0号寄存器的写入操作都会被硬件忽略. 为了实现这个功能, 上述代码会在译码的时候检查指令是否尝试往0号寄存器进行写入, 若是, 则把写入的目的修改成一个&quot;黑洞变量&quot;, 这个变量不会被其它代码读取, 从而实现&quot;往0号寄存器的写入操作都会被硬件忽略&quot;的效果.</p>
+<p>有了这些译码操作数辅助函数, 我们就可以用它们来编写译码辅助函数:<code>def_DHelper(I)</code>、</p>
+<p><code>def_DHelper(U)</code>、 <code>def_DHelper(S)</code></p>
+<blockquote>
+<p><strong>由于CISC指令变长的特性, x86指令长度和指令形式需要一边取指一边译码来确定, 而不像RISC指令集那样可以泾渭分明地处理取指和译码阶段, 因此你会在x86的译码操作数辅助函数中看到</strong>​<strong>的操作.</strong></p>
+</blockquote>
+<p>问：mips32和riscv32的指令长度只有32位, 因此它们不能像x86那样, 把C代码中的32位常数直接编码到一条指令中. 思考一下, mips32和riscv32应该如何解决这个问题?</p>
+<p>答：指令和储存分开，而且可以用两个拼成一个，把数据存在32位寄存器，或者变成几个寄存器加减结果。或者有朋友说的可以高位低位分开储存。</p>
+<p>回到<code>def_INSTR_IDTAB</code>的宏展开结果,：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">do</span> <span class="p">{</span>
+
+<span class="kt">uint32_t</span> <span class="n">key</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">shift</span><span class="p">;</span>
+
+<span class="n">pattern_decode</span><span class="p">(</span><span class="s">&#34;??????? ????? ????? ??? ????? 01101 11&#34;</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">shift</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(((</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">isa</span><span class="p">.</span><span class="n">instr</span><span class="p">.</span><span class="n">val</span> <span class="o">&gt;&gt;</span> <span class="n">shift</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">)</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="n">decode_U</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="nf">table_lui</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</code></pre></div><p>对于<code>lui</code>指令, 在译码辅助函数<code>decode_U()</code>执行结束后, 代码将会执行<code>table_lui()</code>. <code>table_lui()</code>的定义方式比较特殊, 部分宏展开后的定义:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">def_THelper</span><span class="p">(</span><span class="n">lui</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">EXEC_ID_lui</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>其中宏<code>def_THelper</code>(在<code>nemu/include/cpu/decode.h</code>中定义) 用于**统一定义&quot;表格辅助函数&quot;(table helper function). **<code>table_lui()</code>做的事情很简单, 它直接返回一个标识<code>lui</code>指令的唯一ID. 这个ID会作为译码结果的返回值, 在<code>fetch_decode()</code>中索引<code>g_exec_table</code>数组.</p>
+<p>事实上, 译码的过程可以看成是若干查表的操作, 每一条模式匹配的规则都可以看成是表格中的一个表项, 因此我们可以使用表格辅助函数来描述这些译码的规则. 以riscv为例:</p>
+<p>这一模式字符串只能通过<code>opcode</code>匹配到load类型的指令, 为了进一步确定是哪一条load指令, 我们还需要匹配<code>funct3</code>字段（具体查看riscv手册就直到为什么要匹配那三个了。）, 因此我们引入一个新的表格辅助函数<code>table_load()</code>, 匹配到load类型指令的时候, 会进一步调用<code>table_load()</code>, 然后在其中通过额外的模式字符串来匹配<code>funct3</code>字段, 例如: 以riscv为例:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">def_THelper</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">def_INSTR_TAB</span><span class="p">(</span><span class="s">&#34;??????? ????? ????? 010 ????? ????? ??&#34;</span><span class="p">,</span> <span class="n">lw</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">EXEC_ID_inv</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p><code>def_INSTR_TAB</code>也是一条字符串匹配规则, 但它<strong>并不需要调用译码辅助函数</strong>. </p>
+<p>这条规则描述了&quot;在load类型指令中, 如果<code>funct3</code>为<code>010</code>, 则为<code>lw</code>指令&quot;.</p>
+<p><strong>事实上, NEMU把译码时的如下情况都看作是查表过程:</strong></p>
+<ul>
+<li>
+<p>在<code>isa_fetch_decode()</code>中查主表(main decode table)</p>
+</li>
+<li>
+<p>在译码过程中分别匹配指令中的每一个域(如上文介绍的<code>table_load()</code></p>
+</li>
+<li>
+<p>译码出最终的指令时认为是一种特殊的查表操作, 直接返回标识该指令的唯一ID</p>
+</li>
+</ul>
+<p>如果所有模式匹配规则都无法成功匹配, 代码将会返回一个标识非法指令的ID.</p>
+<h2 id="执行execute-ex">执行(execute, EX)</h2>
+<p>之前的关键是<strong>译码辅助函数</strong>（decode_U）——译码辅助函数统一通过宏<code>def_DHelper</code>(在<code>nemu/include/cpu/decode.h</code>)来定义；以及&quot;<strong>表格辅助函数</strong>&quot;<code>def_THelper</code>(也在<code>nemu/include/cpu/decode.h</code>)，他返回一个标识<code>lui</code>指令的唯一ID. 这个ID会作为译码结果的返回值, 在<code>fetch_decode()</code>中索引<code>g_exec_table</code>数组。</p>
+<p>译码辅助函数和译码操作数辅助函数等机制, 它们的引入都是为了实现代码的解偶, 提升可维护性: 通过译码操作数辅助函数来实现译码辅助函数, 然后通过译码辅助函数来实现模式匹配的规则.</p>
+<p>一种好的做法是把译码, 执行和操作数宽度的相关代码分离来, 实现解耦. 在框架代码中, 实现译码和执行之间的解耦的是<code>isa_fetch_decode()</code>返回的编号, 这样我们就可以分别编写译码和执行的辅助函数, 然后进行组合:这很容易实现执行行为相同但译码方式不同的多条指令.</p>
+<p>现在我们需要注意的是<strong>执行辅助函数</strong><code>def_EHelper</code>（在g_exec_table）。</p>
+<p>译码过程结束之后, 接下来会返回到<code>fetch_decode()</code>中, 并通过返回的ID来从<code>g_exec_table</code>数组中选择相应的执行辅助函数(execution helper function), 然后记录到<code>s-&gt;EHelper</code>中. 返回到<code>fetch_decode_exec_updatepc()</code>后, 代码将会调用刚才记录的执行辅助函数. 执行辅助函数统一通过宏<code>def_EHelper</code>(在<code>nemu/include/cpu/exec.h</code>中定义)来定义</p>
+<p>（对x86来说, 大部分计算指令都可以访问内存, 来根据目的操作数类型的不同, 决定是写入寄存器还是写入内存; 对于mips32和riscv32, 访问内存只能通过特定的访存指令进行, 因此每条指令的目的操作数类型都是唯一的.）</p>
+<p>每个执行辅助函数都需要有一个标识该指令的ID以及一个表格辅助函数与之相对应, 通过一系列宏定义实现的. 在<code>nemu/src/isa/$ISA/include/isa-all-instr.h</code><strong>中定义用于表示指令列表的宏</strong><code>INSTR_LIST</code>, 它定义了NEMU支持的所有指令. 然后代码通过一种类似函数式编程的方式来定义如下相关的内容:</p>
+<ul>
+<li>在<code>nemu/include/cpu/decode.h</code>中为所有的执行辅助函数定义相应的ID. 以riscv32为例, 对<code>def_all_EXEC_ID()</code>进行宏展开后, 结果如下:</li>
+</ul>
+<p>#define def_all_EXEC_ID() enum { MAP(INSTR_LIST, def_EXEC_ID) TOTAL_INSTR }</p>
+<p>变为enum { EXEC_ID_lui, EXEC_ID_lw, EXEC_ID_sw, EXEC_ID_inv, EXEC_ID_nemu_trap, TOTAL_INSTR }</p>
+<p>其中<code>TOTAL_INSTR</code>的值正好为目前所有指令的总数</p>
+<p><strong>只需要维护</strong>​<strong>中的指令列表, 就可以正确维护执行辅助函数和译码之间的关系了.</strong></p>
+<h2 id="更新pc">更新PC</h2>
+<p>更新PC的操作非常简单, 在fetch_decode_exec_updatepc把<code>s-&gt;dnpc</code>赋值给<code>cpu.pc</code>即可. </p>
+<p>之前提到了<code>snpc</code>和<code>dnpc</code>, 它们的区别如下：</p>
+<p>在程序分析领域中, 静态指令是指程序代码中的指令, 动态指令是指程序运行过程中的指令</p>
+<p><code>snpc</code>是指代码中的下一条指令, 而<code>dnpc</code>是指程序运行过程中的下一条指令. 对于顺序执行的指令, 它们的<code>snpc</code>和<code>dnpc</code>是一样的; 但对于跳转指令, <code>snpc</code>和<code>dnpc</code>就会有所不同, <code>dnpc</code>应该指向跳转目标的指令. 显然, 我们应该使用<code>s-&gt;dnpc</code>来更新PC, 并且在执行辅助函数中正确维护<code>s-&gt;dnpc</code>.</p>
+<p>这里一定要注意，在指令集翻译时记住不要修改pc和snpc而是dnpc！！！！！否则后果你可以自己用si进行测试。</p>
+<h2 id="用rtl表示指令行为">用RTL表示指令行为</h2>
+<p>在NEMU中,使用<a class="link" href="https://en.wikipedia.org/wiki/Register_transfer_language"  title="RTL(寄存器传输语言)"
+     target="_blank" rel="noopener"
+    >RTL(寄存器传输语言)</a>来描述（先实现这些简单操作, 然后再用它们来实现指令）. </p>
+<p>RTL寄存器的定义. 在NEMU中, RTL寄存器统一使用<code>rtlreg_t</code>来定义, 而<code>rtlreg_t</code>(在<code>nemu/include/common.h</code>中定义)其实只是一个<code>word_t</code>类型:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="n">word_t</span> <span class="n">rtlreg_t</span><span class="p">;</span>
+</code></pre></div><p>在NEMU中的RTL寄存器：</p>
+<ul>
+<li>
+<p>不同ISA的通用寄存器(在<code>nemu/src/isa/$ISA/include/isa-def.h</code>中定义)</p>
+</li>
+<li>
+<p>临时寄存器<code>s0, s1, s2</code>和<code>t0</code>(在<code>nemu/include/rtl/rtl.h</code>中定义)</p>
+</li>
+<li>
+<p>零寄存器<code>rz</code>(在<code>nemu/include/rtl/rtl.h</code>中定义), 它的值总是0</p>
+</li>
+</ul>
+<h2 id="实现新指令">实现新指令</h2>
+<p><strong>对译码, 执行和操作数宽度的解耦实现以及RTL的引入, 对在NEMU中实现客户指令提供了很大的便利, 为了实现一条新指令, 只需要</strong></p>
+<ol>
+<li>
+<p>在<code>nemu/src/isa/$ISA/instr/decode.c</code>中添加正确的模式匹配规则</p>
+</li>
+<li>
+<p>用RTL实现正确的执行辅助函数, <strong>需要注意使用RTL伪指令时要遵守上文提到的小型调用约定</strong></p>
+</li>
+<li>
+<p>在<code>nemu/src/isa/$ISA/include/isa-all-instr.h</code>中把指令添加到<code>INSTR_LIST</code>中</p>
+</li>
+<li>
+<p>必要时在<code>nemu/src/isa/$ISA/include/isa-exec.h</code>中添加相应的头文件</p>
+</li>
+</ol>
+<blockquote>
+<p>请整理一条指令在NEMU中的执行过程.</p>
+</blockquote>
+<p>待补充：</p>
+<p>几个关键的头文件：</p>
+<p>几个关键的C文件：</p>
+<p>踩坑笔记：</p>
+<p>(注意，这里的叙述是有问题的，之后会说问题在哪)</p>
+<p>一开始实现li，最后才知道li原来是伪指令，所以关键是先实现R、S、U的基础指令（RTSM有关中文部分）。一开始怎么样都无法编译，原来是忘记了computer相关头文件的函数实现，顺带修改了一下isa-def当中的结构体，终于编译通过（后来改成了先实现addi也就是R型指令）</p>
+<p>编译通过后，si还是会报错，在确定def_DHelper(R)初始化后反复检查发现是def_THelper(main)模式匹配就没匹配到（还好Log大法好一个个检查。。）直接看前面的指令是不正确的（不太清楚原因，就是手册开头有整理好基础类型，我对照结尾填写），通过直接搜addi（决定看英文的手册）改正后能搜到了不会报错。</p>
+<p>解决了编译和报错问题，写了一段a0相关的相加代码，发现还是有问题；最后排查是自己不够理解RTL的实现，要深入pseudo.h理解相关函数作用，然后再理解功能的实现套用即可得到正确的结果（一开始还把src2的立即数写成了src1.imm闹了笑话）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 118; 
+			flex-basis: 283px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/image_fl0firQWz6.png" data-size="697x590">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/image_fl0firQWz6.png"
+			width="697"
+			height="590"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/image_fl0firQWz6_hu8003b93f47ebbec98fd9614c73504636_123679_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/image_fl0firQWz6_hu8003b93f47ebbec98fd9614c73504636_123679_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>这时候发现前面写的基础设施还是派上用场了</p>
+<p>一顿操作猛如虎，一样在做pa的朋友告诉我addi和lw一样都是I型，我一开始还不信（我以为相同低位表示一个类型）然后发现他们的低位不同也是I型（所以直接新增一个I类型的主表再同样的初始化后执行对应函数即可）&hellip;..只能重新阅读手册理解类型是怎么区别的：</p>
+<p>当然前面虽然不小心“造了轮子”，但也不是坏事，还是能派上用场的。</p>
+<p>最困难的部分——怎么了解立即数？</p>
+<p><a class="link" href="https://blog.csdn.net/qq_39507748/article/details/120150936"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/qq_39507748/article/details/120150936</a></p>
+<p><a class="link" href="https://www.cnblogs.com/mikewolf2002/p/11196680.html"  target="_blank" rel="noopener"
+    >https://www.cnblogs.com/mikewolf2002/p/11196680.html</a></p>
+<p>有朋友建议我看cs61b，于是我去翻了一下</p>
+<p><a class="link" href="https://inst.eecs.berkeley.edu/%5c~cs61c/su20/pdfs/lectures/lec08.pdf"  title="https://inst.eecs.berkeley.edu/\~cs61c/su20/pdfs/lectures/lec08.pdf"
+     target="_blank" rel="noopener"
+    >https://inst.eecs.berkeley.edu/~cs61c/su20/pdfs/lectures/lec08.pdf</a></p>
+<p>理解这张图的含义（看不懂就多读几遍，2.4是下面一张图）【关键是指令给了组成imm的部分，imm图展示了要从指令的哪儿拿】</p>
+<p>猜测：拿inst[31]是不是就是00000000000或者1111111111111，也是一种拓展</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 124; 
+			flex-basis: 299px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/1bd03668-bdc2-44d7-b2e1-e763b9f1fd04_-GztwomvPU.jpg" data-size="1217x976">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/1bd03668-bdc2-44d7-b2e1-e763b9f1fd04_-GztwomvPU.jpg"
+			width="1217"
+			height="976"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/1bd03668-bdc2-44d7-b2e1-e763b9f1fd04_-GztwomvPU_hu77ccd8e5472a1d3b2a20ba4d352dbeb5_269388_480x0_resize_q75_box.jpg 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/1bd03668-bdc2-44d7-b2e1-e763b9f1fd04_-GztwomvPU_hu77ccd8e5472a1d3b2a20ba4d352dbeb5_269388_1024x0_resize_q75_box.jpg 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>Q:为什么要左移？</p>
+<p>A:我的看法是，我们的立即数一开始都要移位才能组装成真正的编码好的立即数（都是从0开始，为了让他到拼接的地方 我们必须移位）然后拼好后的立即数都要是这样的（2.4中都是组装好的立即数）也就是符号位扩展的。为什么说符号位扩展了？比如有inst31 的就是都000000 或者111111</p>
+<p>注意：伪函数是不需要实现的，编译器会帮你选择，所以我们只需要留一个函数的位置就好，实现它真正的执行的函数即可。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 159; 
+			flex-basis: 382px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/image_HoccAudsE1.png" data-size="941x590">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/image_HoccAudsE1.png"
+			width="941"
+			height="590"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/image_HoccAudsE1_hu19954e5003bafd08a6d36fdd8e6360eb_144030_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/image/image_HoccAudsE1_hu19954e5003bafd08a6d36fdd8e6360eb_144030_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>完成最简单的开始后~接下来就需要运行除了dummy各种各样的C文件了，确保指令都实现（比如基础的add和ifelse）</p>
+<p>Q：如果不知道哪个指令没实现怎么办？</p>
+<p>A：想想有了内存地址后在什么情况下能让他显示指令</p>
+<h1 id="程序-运行时环境与am">程序, 运行时环境与AM</h1>
+<h1 id="reference">Reference</h1>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/506745127"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/506745127</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA1笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/python%E4%B8%AD%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A6%82%E5%BF%B5%E7%9A%84%E8%BF%9B%E9%98%B6%E6%8E%A2%E8%AE%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">python中多进程、多线程概念的进阶探讨</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">详解机器/深度学习中常见评价指标</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/_hu994d601531656c23f7e611d455c8d878_8153127_559361b0bf15c67b5cc95028d00571c3.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 小猫也能看懂的反向传播算法"
+                        
+                        data-hash="md5-4qKZZmbuA0Uc93DjL3/U4Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">小猫也能看懂的反向传播算法</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E8%AE%BA%E5%9F%BA%E7%A1%80/_hu05be89c43654817bfc3a6d1d1f1925fe_2269278_8ef6f3da06f90875df4fa94970343871.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 机器学习中的信息论基础"
+                        
+                        data-hash="md5-I4tq5bCqkvQkOs5ljsw&#43;bg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的信息论基础</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#rtfsc2">RTFSC(2)</a>
+      <ol>
+        <li><a href="#取指instruction-fetch-if">取指(instruction fetch, IF)</a></li>
+        <li><a href="#译码instruction-decode-id">译码(instruction decode, ID)</a></li>
+      </ol>
+    </li>
+    <li><a href="#执行execute-ex">执行(execute, EX)</a></li>
+    <li><a href="#更新pc">更新PC</a></li>
+    <li><a href="#用rtl表示指令行为">用RTL表示指令行为</a></li>
+    <li><a href="#实现新指令">实现新指令</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
