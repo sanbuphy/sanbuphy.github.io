@@ -6,7 +6,25 @@
     <description>Recent content in 杂七杂八知识 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 30 Jul 2022 16:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 31 Jul 2022 11:48:46 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>推荐尝试的小工具</title>
+      <link>https://sanbuphy.github.io/p/%E6%8E%A8%E8%8D%90%E5%B0%9D%E8%AF%95%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Sun, 31 Jul 2022 11:48:46 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E6%8E%A8%E8%8D%90%E5%B0%9D%E8%AF%95%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/</guid>
+      <description>一些小工具 让你能做出和jyy一样的优雅ppt：https://sli.dev/ 代替grep的超级命令行工具——ripgrep：https:/</description>
+    </item>
+    
+    <item>
+      <title>利用笔记本电脑进行推流</title>
+      <link>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/</link>
+      <pubDate>Sun, 31 Jul 2022 08:32:51 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/</guid>
+      <description>开始测试多线程的检测与英伟达板卡拉流压力测试，摄像头不够就用笔记本上。本文实现功能： 将本地摄像头作为设备获取图像，用电脑建立服务器推送rts</description>
+    </item>
+    
     <item>
       <title>防止stack overflow——内存地址杀毒</title>
       <link>https://sanbuphy.github.io/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/</link>

@@ -6,7 +6,217 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 30 Jul 2022 16:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 31 Jul 2022 11:48:46 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>推荐尝试的小工具</title>
+        <link>https://sanbuphy.github.io/p/%E6%8E%A8%E8%8D%90%E5%B0%9D%E8%AF%95%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/</link>
+        <pubDate>Sun, 31 Jul 2022 11:48:46 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E6%8E%A8%E8%8D%90%E5%B0%9D%E8%AF%95%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/</guid>
+        <description>&lt;h2 id=&#34;一些小工具&#34;&gt;一些小工具&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;让你能做出和&lt;a class=&#34;link&#34; href=&#34;http://jyywiki.cn/OS/2022/slides/1.slides#/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;jyy一样的优雅ppt&lt;/a&gt;：https://sli.dev/&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;代替grep的超级命令行工具——ripgrep：https://github.com/BurntSushi/ripgrep&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ripgrep is a line-oriented search tool that recursively searches the current directory for a regex pattern. By default, ripgrep will respect gitignore rules and automatically skip hidden files/directories and binary files. ripgrep has first class support on Windows, macOS and Linux, with binary downloads available for every release. ripgrep is similar to other popular search tools like The Silver Searcher, ack and grep.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;网络包分析——Wireshark：https://www.cnblogs.com/linyfeng/p/9496126.html&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;#########待更新&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>C语言标准IO的缓冲区介绍</title>
+        <link>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86io%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BB%8B%E7%BB%8D/</link>
+        <pubDate>Sun, 31 Jul 2022 11:33:06 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86io%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BB%8B%E7%BB%8D/</guid>
+        <description>&lt;p&gt;详细的缓冲区介绍请看这篇文章，非常详细   &lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/lanhaicode/p/10575049.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.cnblogs.com/lanhaicode/p/10575049.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;全缓冲：当缓冲区被填满以后才进行真正的输入输出操作&lt;/p&gt;
+&lt;p&gt;行缓冲：当在输入或者输出的过程中遇到换行符时，才执行真正的输入输出操作&lt;/p&gt;
+&lt;p&gt;无缓冲：没有缓冲区，立即进行输入输出&lt;/p&gt;
+&lt;p&gt;实际上printf是行缓冲，如果&lt;code&gt;printf(&amp;quot;hello&amp;quot;)&lt;/code&gt;而不加上&lt;code&gt;\n&lt;/code&gt;是不会出现结果的(之前在fork()的时候遇到这个问题)&lt;/p&gt;
+&lt;p&gt;但为什么我们直接看结果是会出现的呢？&lt;/p&gt;
+&lt;p&gt;原因是标准输出在程序正常退出的时候，会调用 fclose(stdout)，而 fclose 函数会调用 fflush。因此，如果你的程序提前崩溃了，那是看不到缓冲区中的内容打印到控制台上的。特别注意的是，exit（正常退出）的话会输出，exit在调用系统_exit 之前，首先调用退出处理函数，刷新I/O缓冲，关闭文件描述符，最后调用_exit 退出进程；_exit（立即终止进程）不会输出缓冲区。&lt;/p&gt;
+&lt;h2 id=&#34;待补充内容fork试验下printf失效的原理jyy某一课&#34;&gt;待补充内容：fork试验下printf失效的原理（jyy某一课&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/takashi77/article/details/108077328&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/takashi77/article/details/108077328&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;待补充内容常见io的缓冲分类&#34;&gt;待补充内容：常见IO的缓冲分类&lt;/h2&gt;
+</description>
+        </item>
+        <item>
+        <title>C位段/位域(bit field)的排序原理</title>
+        <link>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</link>
+        <pubDate>Sun, 31 Jul 2022 09:18:16 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</guid>
+        <description>&lt;p&gt;在做PA的过程中，发现这样的一段代码（模拟cpu的过程）：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 108; 
+			flex-basis: 261px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1.jpg&#34; data-size=&#34;719x661&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1.jpg&#34;
+			width=&#34;719&#34;
+			height=&#34;661&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1_hu1b1c0d6cd8681b981052b127d1d0b03a_89441_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1_hu1b1c0d6cd8681b981052b127d1d0b03a_89441_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;那么问题就来了——为什么这里op位段会自动匹配前面的部分？（为什么不匹配后面） 和大端法有关系吗？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我怀疑就是小端定义，但不明白原因，于是开始了漫长的搜索&amp;hellip;..&lt;/p&gt;
+&lt;p&gt;（直接看结果【不一定对，如果有疑问欢迎提出一起讨论，谢谢，我对编译器也不熟悉】）：&lt;br&gt;
+我认为bit field的反向读取本质上也是由于计算机结构大小端实现的，编译器会先看机器是否有定义当然也可以改变定义，C语言标准中本身没有定义。）&lt;/p&gt;
+&lt;p&gt;查到了也有人遇到类似的问题：
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 130; 
+			flex-basis: 312px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2.jpg&#34; data-size=&#34;719x552&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2.jpg&#34;
+			width=&#34;719&#34;
+			height=&#34;552&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2_hu49bc3661a9dae00847946ab189ada07c_41752_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2_hu49bc3661a9dae00847946ab189ada07c_41752_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;在一个&lt;a class=&#34;link&#34; href=&#34;https://downloads.ti.com/docs/esd/SPRUI04C/bit-fields-stdz0545438.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;编译器的网站&lt;/a&gt;下，我发现了这样一段话：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;For big-endian mode, bit fields are packed into registers from most significant bit (MSB) to least significant bit (LSB) in the order in which they are defined. Bit fields are packed in memory from most significant byte (MSbyte) to least significant byte (LSbyte). For little-endian mode, bit fields are packed into registers from the LSB to the MSB in the order in which they are defined, and packed in memory from LSbyte to MSbyte.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那此时我们知道确实可能和大小端法是有关的,至少在C语言上是这样的。而C++上只给了说明，没有为什么，只给出了定义。&lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 181; 
+			flex-basis: 434px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4.jpg&#34; data-size=&#34;1495x825&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4.jpg&#34;
+			width=&#34;1495&#34;
+			height=&#34;825&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4_hud4e476bde7169636115399407e5c21f1_125637_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4_hud4e476bde7169636115399407e5c21f1_125637_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;但问题又来了，一般机器中大小端看的是字节排序，但是我发的位域是对一个字节进行划分，一个字节内的bit也要遵循大小端排序吗？&lt;/p&gt;
+&lt;p&gt;在查阅C标准中我发现原来这个位域排布是&lt;strong&gt;implementation-dependent&lt;/strong&gt;的（也就是说不管怎么样，首先位域排布是C标准没有明确定义的，取决于编译器）
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 204; 
+			flex-basis: 489px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5.jpg&#34; data-size=&#34;800x392&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5.jpg&#34;
+			width=&#34;800&#34;
+			height=&#34;392&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5_hu51ea6bb6635ccaa3ade16a364cf44263_42036_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5_hu51ea6bb6635ccaa3ade16a364cf44263_42036_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 161; 
+			flex-basis: 386px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6.jpg&#34; data-size=&#34;1326x823&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6.jpg&#34;
+			width=&#34;1326&#34;
+			height=&#34;823&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6_hu8344c42327541e227437acab86c05c0c_137807_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6_hu8344c42327541e227437acab86c05c0c_137807_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Implementation dependent means that the standard says nothing about some occurance in C/C++ and leaves the choice up to the people who create compilers and operating systems. It means that what you use on one system/compiler may not work the same way on another, but the behavior is well defined for that particular implementation. For example, whether the result of a right bitwise shift on a signed variable results in a logical or arithmetic shift is implementation defined.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那么我们的检索范围就可以缩小了，只要知道这个行为是不是编译器规定的即可。&lt;/p&gt;
+&lt;p&gt;继续查看&lt;a class=&#34;link&#34; href=&#34;https://gcc.gnu.org/onlinedocs/gccint/Bit-Fields.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GCC的手册&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This represents a reference to a sign-extended bit-field contained or starting in loc (a memory or register reference). The bit-field is size bits wide and starts at bit pos. The compilation option BITS_BIG_ENDIAN says which end of the memory unit pos counts from.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;答案很接近了，我猜想只要知道BITS_BIG_ENDIAN是做什么的即可&lt;/p&gt;
+&lt;p&gt;同样继续查看&lt;a class=&#34;link&#34; href=&#34;https://www.cse.unr.edu/~sushil/class/cs202/help/man/gcc-2.7.0/gcc_181.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GCC的手册StorageLayout&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;BITS_BIG_ENDIAN&lt;/strong&gt; &lt;br&gt;
+Define this macro to have the value 1 if the most significant bit in a byte has the lowest number; otherwise define it to have the value zero. This means that bit-field instructions count from the most significant bit. If the machine has no bit-field instructions, then this must still be defined, but it doesn&amp;rsquo;t matter which value it is defined to. This macro need not be a constant. This macro does not affect the way structure fields are packed into bytes or words; that is controlled by BYTES_BIG_ENDIAN.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;里面出现了“If the machine has no bit-field instructions”，所以倾向于还是机器为准的。&lt;/p&gt;
+&lt;p&gt;综上所述，我认为bit field的反向读取本质上也是由于计算机结构大小端实现的，编译器会先看机器是否有定义当然也可以改变定义，C语言标准中本身没有定义。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>利用笔记本电脑进行推流</title>
+        <link>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/</link>
+        <pubDate>Sun, 31 Jul 2022 08:32:51 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/</guid>
+        <description>&lt;p&gt;开始测试多线程的检测与英伟达板卡拉流压力测试，摄像头不够就用笔记本上。本文实现功能：&lt;/p&gt;
+&lt;p&gt;将本地摄像头作为设备获取图像，用电脑建立服务器推送rtsp流并在其他同网段电脑下拉流。&lt;/p&gt;
+&lt;p&gt;使用软件:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FFmpeg(音视频编解码)&lt;/li&gt;
+&lt;li&gt;EasyDarwin(流媒体服务器)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;完整参考以下文章即可：（记得推送IP要改成指定的一个IP，而不是127那指的是本地IP）&lt;/p&gt;
+&lt;p&gt;如果不能连接，除了ping之外还要用curl ip:port或者telnet等检测，如果不行就把推流机的公共防火墙关闭。（之前我没有关闭防火墙是不能拉流的）&lt;/p&gt;
+&lt;p&gt;如果用的是ubuntu拉流，还要看看是不是虚拟网卡有所影响（虚拟网卡的ip不同可能访问策略优先）&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/NOWSHUT/article/details/108540109&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;流媒体服务器配置与管理——使用FFmpeg推流到EasyDarwin中再通过VLC观看&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_30455365/article/details/97686191&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;EasyDarwin+ffmpeg进行PC(摄像头+麦克风)流媒体直播服务&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/fkbiubiubiu/article/details/124028614&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;ffmpeg&amp;ndash;使用命令+EasyDarwin推流笔记本摄像头&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/EasyDarwin/EasyDarwin&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;EasyDarwin开源流媒体服务器&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>防止stack overflow——内存地址杀毒</title>
         <link>https://sanbuphy.github.io/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/</link>
         <pubDate>Sat, 30 Jul 2022 16:08:27 +0800</pubDate>
@@ -1121,7 +1331,8 @@ c）u：标明一个单元的长度。&lt;code&gt;b&lt;/code&gt;是一个 &lt;co
         <pubDate>Wed, 18 May 2022 13:24:37 +0800</pubDate>
         
         <guid>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/</guid>
-        <description>&lt;h2 id=&#34;最直接的编译过程&#34;&gt;最直接的编译过程&lt;/h2&gt;
+        <description>&lt;p&gt;如果想要了解更仔细地过程，建议看csapp或者《程序员的自我修养》&lt;/p&gt;
+&lt;h2 id=&#34;最直接的编译过程&#34;&gt;最直接的编译过程&lt;/h2&gt;
 &lt;p&gt;初始.c文件通过预处理器、编译器、汇编器、链接器得到最后的可执行程序（比如linux系统下的a.out）&lt;/p&gt;
 &lt;p&gt;&lt;figure 
 	
@@ -1943,7 +2154,8 @@ int main()
         <pubDate>Mon, 21 Feb 2022 21:18:24 +0800</pubDate>
         
         <guid>https://sanbuphy.github.io/p/%E8%80%83%E7%A0%94%E6%89%BE%E5%B7%A5%E4%BD%9C%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
-        <description>&lt;h2 id=&#34;找工作的怪象与形成的本源最重要的&#34;&gt;找工作的怪象与形成的本源【最重要的】&lt;/h2&gt;
+        <description>&lt;p&gt;本文源于和大学时期舍友分享毒打经验(被毒打)&lt;/p&gt;
+&lt;h2 id=&#34;找工作的怪象与形成的本源最重要的&#34;&gt;找工作的怪象与形成的本源【最重要的】&lt;/h2&gt;
 &lt;h3 id=&#34;产业分布我该去哪&#34;&gt;产业分布——我该去哪？&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;一线：互联网企业、高新技术企业   ————  房价很高 容不下肉身  
 二三线：事业单位、国企、各种你懂编制（研究所、老师。。。。。）  —————— 房价不算特别高 可能容不下灵魂    
@@ -1958,7 +2170,7 @@ int main()
 &lt;h3 id=&#34;社会上温情确实更少一些&#34;&gt;社会上温情确实更少一些&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;    1.抱大腿？大腿你遇不到，小腿不想理你
     2.跨部门的事情，基本是踢皮球
-    3. *在外面很难找女朋友* 1. 考虑现实 2.考虑远近 
+    3. *在外面很难找男/女朋友* 1. 考虑现实 2.考虑远近 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;中心思想：你要真正断奶，为自己负责，为自己选择（来自家里人的建议，来自老师的建议，来自同学的建议）。&lt;/p&gt;
 &lt;h3 id=&#34;一个毛病追求生活的最优解&#34;&gt;一个毛病————追求生活的最优解&lt;/h3&gt;

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='反向排列的原因是C编译器，还是机器？'><title>C位段/位域(bit field)的排序原理</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='C位段/位域(bit field)的排序原理'>
+<meta property='og:description' content='反向排列的原因是C编译器，还是机器？'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C语言' /><meta property='article:tag' content='基本功' /><meta property='article:published_time' content='2022-07-31T09:18:16&#43;08:00'/><meta property='article:modified_time' content='2022-07-31T09:18:16&#43;08:00'/>
+<meta name="twitter:title" content="C位段/位域(bit field)的排序原理">
+<meta name="twitter:description" content="反向排列的原因是C编译器，还是机器？">
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu79084d0730cad145cee4cdce6fae0d3a_74353_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍉</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">散步的小屋</a></h1>
+        <h2 class="site-description">不懂就问 不会就学</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:physicoada@gmail.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-messages" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+  <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/sanbuphy'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' target="_blank">
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/c/" style="background-color: #2a9d8f; color: #fff;">
+                C语言
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/">C位段/位域(bit field)的排序原理</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        反向排列的原因是C编译器，还是机器？
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 31, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>在做PA的过程中，发现这样的一段代码（模拟cpu的过程）：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 108; 
+			flex-basis: 261px"
+	>
+	<a href="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1.jpg" data-size="719x661">
+		<img src="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1.jpg"
+			width="719"
+			height="661"
+			srcset="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1_hu1b1c0d6cd8681b981052b127d1d0b03a_89441_480x0_resize_q75_box.jpg 480w, /p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1_hu1b1c0d6cd8681b981052b127d1d0b03a_89441_1024x0_resize_q75_box.jpg 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<blockquote>
+<p>那么问题就来了——为什么这里op位段会自动匹配前面的部分？（为什么不匹配后面） 和大端法有关系吗？</p>
+</blockquote>
+<p>我怀疑就是小端定义，但不明白原因，于是开始了漫长的搜索&hellip;..</p>
+<p>（直接看结果【不一定对，如果有疑问欢迎提出一起讨论，谢谢，我对编译器也不熟悉】）：<br>
+我认为bit field的反向读取本质上也是由于计算机结构大小端实现的，编译器会先看机器是否有定义当然也可以改变定义，C语言标准中本身没有定义。）</p>
+<p>查到了也有人遇到类似的问题：
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 130; 
+			flex-basis: 312px"
+	>
+	<a href="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2.jpg" data-size="719x552">
+		<img src="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2.jpg"
+			width="719"
+			height="552"
+			srcset="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2_hu49bc3661a9dae00847946ab189ada07c_41752_480x0_resize_q75_box.jpg 480w, /p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2_hu49bc3661a9dae00847946ab189ada07c_41752_1024x0_resize_q75_box.jpg 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>在一个<a class="link" href="https://downloads.ti.com/docs/esd/SPRUI04C/bit-fields-stdz0545438.html"  target="_blank" rel="noopener"
+    >编译器的网站</a>下，我发现了这样一段话：</p>
+<blockquote>
+<p>For big-endian mode, bit fields are packed into registers from most significant bit (MSB) to least significant bit (LSB) in the order in which they are defined. Bit fields are packed in memory from most significant byte (MSbyte) to least significant byte (LSbyte). For little-endian mode, bit fields are packed into registers from the LSB to the MSB in the order in which they are defined, and packed in memory from LSbyte to MSbyte.</p>
+</blockquote>
+<p>那此时我们知道确实可能和大小端法是有关的,至少在C语言上是这样的。而C++上只给了说明，没有为什么，只给出了定义。<br>
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 181; 
+			flex-basis: 434px"
+	>
+	<a href="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4.jpg" data-size="1495x825">
+		<img src="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4.jpg"
+			width="1495"
+			height="825"
+			srcset="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4_hud4e476bde7169636115399407e5c21f1_125637_480x0_resize_q75_box.jpg 480w, /p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4_hud4e476bde7169636115399407e5c21f1_125637_1024x0_resize_q75_box.jpg 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>但问题又来了，一般机器中大小端看的是字节排序，但是我发的位域是对一个字节进行划分，一个字节内的bit也要遵循大小端排序吗？</p>
+<p>在查阅C标准中我发现原来这个位域排布是<strong>implementation-dependent</strong>的（也就是说不管怎么样，首先位域排布是C标准没有明确定义的，取决于编译器）
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 204; 
+			flex-basis: 489px"
+	>
+	<a href="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5.jpg" data-size="800x392">
+		<img src="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5.jpg"
+			width="800"
+			height="392"
+			srcset="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5_hu51ea6bb6635ccaa3ade16a364cf44263_42036_480x0_resize_q75_box.jpg 480w, /p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5_hu51ea6bb6635ccaa3ade16a364cf44263_42036_1024x0_resize_q75_box.jpg 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure>
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 161; 
+			flex-basis: 386px"
+	>
+	<a href="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6.jpg" data-size="1326x823">
+		<img src="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6.jpg"
+			width="1326"
+			height="823"
+			srcset="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6_hu8344c42327541e227437acab86c05c0c_137807_480x0_resize_q75_box.jpg 480w, /p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6_hu8344c42327541e227437acab86c05c0c_137807_1024x0_resize_q75_box.jpg 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<blockquote>
+<p>Implementation dependent means that the standard says nothing about some occurance in C/C++ and leaves the choice up to the people who create compilers and operating systems. It means that what you use on one system/compiler may not work the same way on another, but the behavior is well defined for that particular implementation. For example, whether the result of a right bitwise shift on a signed variable results in a logical or arithmetic shift is implementation defined.</p>
+</blockquote>
+<p>那么我们的检索范围就可以缩小了，只要知道这个行为是不是编译器规定的即可。</p>
+<p>继续查看<a class="link" href="https://gcc.gnu.org/onlinedocs/gccint/Bit-Fields.html"  target="_blank" rel="noopener"
+    >GCC的手册</a></p>
+<blockquote>
+<p>This represents a reference to a sign-extended bit-field contained or starting in loc (a memory or register reference). The bit-field is size bits wide and starts at bit pos. The compilation option BITS_BIG_ENDIAN says which end of the memory unit pos counts from.</p>
+</blockquote>
+<p>答案很接近了，我猜想只要知道BITS_BIG_ENDIAN是做什么的即可</p>
+<p>同样继续查看<a class="link" href="https://www.cse.unr.edu/~sushil/class/cs202/help/man/gcc-2.7.0/gcc_181.html"  target="_blank" rel="noopener"
+    >GCC的手册StorageLayout</a></p>
+<blockquote>
+<p><strong>BITS_BIG_ENDIAN</strong> <br>
+Define this macro to have the value 1 if the most significant bit in a byte has the lowest number; otherwise define it to have the value zero. This means that bit-field instructions count from the most significant bit. If the machine has no bit-field instructions, then this must still be defined, but it doesn&rsquo;t matter which value it is defined to. This macro need not be a constant. This macro does not affect the way structure fields are packed into bytes or words; that is controlled by BYTES_BIG_ENDIAN.</p>
+</blockquote>
+<p>里面出现了“If the machine has no bit-field instructions”，所以倾向于还是机器为准的。</p>
+<p>综上所述，我认为bit field的反向读取本质上也是由于计算机结构大小端实现的，编译器会先看机器是否有定义当然也可以改变定义，C语言标准中本身没有定义。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+            <a href="/tags/%E5%9F%BA%E6%9C%AC%E5%8A%9F/">基本功</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">c语言编译过程简介</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86io%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BB%8B%E7%BB%8D/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C语言标准IO的缓冲区介绍</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA2笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA1笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/c/c-%E5%9C%A8windows%E4%B8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%92%8C%E8%BF%90%E8%A1%8C%E6%96%B9%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C/C&#43;&#43;在Windows下的环境配置流程和运行方法</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

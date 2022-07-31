@@ -6,7 +6,43 @@
     <description>Recent content in Posts on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 30 Jul 2022 16:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 31 Jul 2022 11:48:46 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>推荐尝试的小工具</title>
+      <link>https://sanbuphy.github.io/p/%E6%8E%A8%E8%8D%90%E5%B0%9D%E8%AF%95%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Sun, 31 Jul 2022 11:48:46 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E6%8E%A8%E8%8D%90%E5%B0%9D%E8%AF%95%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/</guid>
+      <description>一些小工具 让你能做出和jyy一样的优雅ppt：https://sli.dev/ 代替grep的超级命令行工具——ripgrep：https:/</description>
+    </item>
+    
+    <item>
+      <title>C语言标准IO的缓冲区介绍</title>
+      <link>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86io%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Sun, 31 Jul 2022 11:33:06 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86io%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BB%8B%E7%BB%8D/</guid>
+      <description>详细的缓冲区介绍请看这篇文章，非常详细 https://www.cnblogs.com/lanhaicode/p/10575049.html 全缓冲：当缓冲区被填满以后才进行真正的输入输出操作 行缓冲：当在输入或者输出的过程中遇到换行符时，才执</description>
+    </item>
+    
+    <item>
+      <title>C位段/位域(bit field)的排序原理</title>
+      <link>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Sun, 31 Jul 2022 09:18:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</guid>
+      <description>在做PA的过程中，发现这样的一段代码（模拟cpu的过程）： 那么问题就来了——为什么这里op位段会自动匹配前面的部分？（为什么不匹配后面） 和大</description>
+    </item>
+    
+    <item>
+      <title>利用笔记本电脑进行推流</title>
+      <link>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/</link>
+      <pubDate>Sun, 31 Jul 2022 08:32:51 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/</guid>
+      <description>开始测试多线程的检测与英伟达板卡拉流压力测试，摄像头不够就用笔记本上。本文实现功能： 将本地摄像头作为设备获取图像，用电脑建立服务器推送rts</description>
+    </item>
+    
     <item>
       <title>防止stack overflow——内存地址杀毒</title>
       <link>https://sanbuphy.github.io/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/</link>
@@ -94,7 +130,7 @@
       <pubDate>Wed, 18 May 2022 13:24:37 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/</guid>
-      <description>最直接的编译过程 初始.c文件通过预处理器、编译器、汇编器、链接器得到最后的可执行程序（比如linux系统下的a.out） hello.i：he</description>
+      <description>如果想要了解更仔细地过程，建议看csapp或者《程序员的自我修养》 最直接的编译过程 初始.c文件通过预处理器、编译器、汇编器、链接器得到最后的</description>
     </item>
     
     <item>
@@ -139,7 +175,7 @@
       <pubDate>Mon, 21 Feb 2022 21:18:24 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/p/%E8%80%83%E7%A0%94%E6%89%BE%E5%B7%A5%E4%BD%9C%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
-      <description>找工作的怪象与形成的本源【最重要的】 产业分布——我该去哪？ 一线：互联网企业、高新技术企业 ———— 房价很高 容不下肉身 二三线：事业单位、国企、各</description>
+      <description>本文源于和大学时期舍友分享毒打经验(被毒打) 找工作的怪象与形成的本源【最重要的】 产业分布——我该去哪？ 一线：互联网企业、高新技术企业 ————</description>
     </item>
     
     <item>
