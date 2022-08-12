@@ -6,7 +6,16 @@
     <description>Recent content in Posts on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 31 Jul 2022 11:48:46 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Aug 2022 21:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NJU计算机课程基础实验 PA2笔记</title>
+      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 12 Aug 2022 21:50:40 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/</guid>
+      <description>PA2 冯诺依曼计算机 写在前面： 首先要感谢jyy群一直帮助我的pony小哥、17号小哥、YSYX论坛（还有很多帮助我的人，没写出来但我都很感谢！）</description>
+    </item>
+    
     <item>
       <title>推荐尝试的小工具</title>
       <link>https://sanbuphy.github.io/p/%E6%8E%A8%E8%8D%90%E5%B0%9D%E8%AF%95%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/</link>
@@ -50,15 +59,6 @@
       
       <guid>https://sanbuphy.github.io/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/</guid>
       <description>提问： 我们有什么检测手段（编译器或者操作系统自带检测）能防止stack overflow嘛？或者说防止出栈超界 程序中的内存地址规定好r但不给w</description>
-    </item>
-    
-    <item>
-      <title>NJU计算机课程基础实验 PA2笔记</title>
-      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Sat, 30 Jul 2022 15:05:41 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/</guid>
-      <description>PA2 冯诺依曼计算机 写在前面： 首先要感谢jyy群一直帮助我的pony小哥、17号小哥（还有很多帮助我的人，没写出来但我都很感谢！） 没有你们我是不</description>
     </item>
     
     <item>
