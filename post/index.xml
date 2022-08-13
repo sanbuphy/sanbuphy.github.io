@@ -6,14 +6,41 @@
     <description>Recent content in Posts on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 12 Aug 2022 21:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 Aug 2022 12:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>NJU计算机课程基础实验 PA2笔记</title>
-      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/</link>
+      <title>我的计算机学习网站集合</title>
+      <link>https://sanbuphy.github.io/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/</link>
+      <pubDate>Sat, 13 Aug 2022 12:08:27 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/</guid>
+      <description>写在前面 真诚而实事求是地， 只收录了个人喜好觉得品味好的网站， 如果有其他好的建议也欢迎提出，非常感谢。 不定期更新 github开源仓库地址：ht</description>
+    </item>
+    
+    <item>
+      <title>python进阶 有关元类的派生</title>
+      <link>https://sanbuphy.github.io/p/python%E8%BF%9B%E9%98%B6-%E6%9C%89%E5%85%B3%E5%85%83%E7%B1%BB%E7%9A%84%E6%B4%BE%E7%94%9F/</link>
+      <pubDate>Sat, 13 Aug 2022 09:03:03 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/python%E8%BF%9B%E9%98%B6-%E6%9C%89%E5%85%B3%E5%85%83%E7%B1%BB%E7%9A%84%E6%B4%BE%E7%94%9F/</guid>
+      <description>一天看到有个群友问了这样一个问题： 为什么这个类没有看到继承于谁，但是在里面可以直接super？ 在这个栏目中我们先不谈有关__setattr_</description>
+    </item>
+    
+    <item>
+      <title>NJU计算机课程基础实验 PA2笔记（二）</title>
+      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
+      <pubDate>Sat, 13 Aug 2022 08:50:40 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
+      <description>基础设施(2)（还未全完成 trace系列暂时待填坑。。。。 NEMU是一个用来执行其它程序的程序. 在可计算理论中, 这种程序有一个专门的名词, 叫</description>
+    </item>
+    
+    <item>
+      <title>NJU计算机课程基础实验 PA2笔记（一）</title>
+      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
       <pubDate>Fri, 12 Aug 2022 21:50:40 +0800</pubDate>
       
-      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/</guid>
-      <description>PA2 冯诺依曼计算机 写在前面： 首先要感谢jyy群一直帮助我的pony小哥、17号小哥、YSYX论坛（还有很多帮助我的人，没写出来但我都很感谢！）</description>
+      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>PA2.1 冯诺依曼计算机 写在前面： 首先要感谢jyy群一直帮助我的pony小哥、17号小哥、YSYX论坛（还有很多帮助我的人，没写出来但我都很感谢！）</description>
     </item>
     
     <item>

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='C标准库函数的实现，设备读写下的超级玛丽'><title>NJU计算机课程基础实验 PA2笔记（二）</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='NJU计算机课程基础实验 PA2笔记（二）'>
+<meta property='og:description' content='C标准库函数的实现，设备读写下的超级玛丽'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C语言' /><meta property='article:published_time' content='2022-08-13T08:50:40&#43;08:00'/><meta property='article:modified_time' content='2022-08-13T08:50:40&#43;08:00'/>
+<meta name="twitter:title" content="NJU计算机课程基础实验 PA2笔记（二）">
+<meta name="twitter:description" content="C标准库函数的实现，设备读写下的超级玛丽">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/" style="background-color: #2a9d8f; color: #fff;">
+                NJU计算机基础实验
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+            <a href="/categories/c/" style="background-color: #2a9d8f; color: #fff;">
+                C语言
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/">NJU计算机课程基础实验 PA2笔记（二）</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        C标准库函数的实现，设备读写下的超级玛丽
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 13, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 23 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h2 id="基础设施2还未全完成">基础设施(2)（还未全完成</h2>
+<p>trace系列暂时待填坑。。。。</p>
+<p>NEMU是一个用来执行其它程序的程序. 在可计算理论中, 这种程序有一个专门的名词, 叫通用程序(Universal Program),</p>
+<p>NEMU和各种模拟器只不过是通用程序的实例化, 我们也可以毫不夸张地说, 计算机就是一个通用程序的实体化. 通用程序的存在性为计算机的出现奠定了理论基础, 是可计算理论中一个极其重要的结论,</p>
+<p>memset通过测试</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 251; 
+			flex-basis: 602px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_fPHJw8irIL.png" data-size="1025x408">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_fPHJw8irIL.png"
+			width="1025"
+			height="408"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_fPHJw8irIL_huec358530ccf3651fbceb2e310353de56_79393_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_fPHJw8irIL_huec358530ccf3651fbceb2e310353de56_79393_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="推荐阅读-计算的极限">推荐阅读 计算的极限：</h3>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/270155475"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/270155475</a></p>
+<h3 id="阅读相关makefile-尝试理解abstract-machine是如何生成native的可执行文件的">阅读相关Makefile, 尝试理解abstract-machine是如何生成native的可执行文件的.</h3>
+<p>待补充</p>
+<h3 id="奇怪的错误码">奇怪的错误码</h3>
+<p>为什么错误码是<code>1</code>呢? 你知道<code>make</code>程序是如何得到这个错误码的吗?</p>
+<p>别高兴太早了, 框架代码编译到<code>native</code>的时候默认链接到glibc, 我们需要把这些库函数的调用链接到我们编写的klib来进行测试. 我们可以通过在<code>abstract-machine/klib/include/klib.h</code> 中通过定义宏<code>__NATIVE_USE_KLIB__</code>来把库函数链接到klib. 如果不定义这个宏, 库函数将会链接到glibc, 可以作为正确的参考实现来进行对比.</p>
+<p>待补充</p>
+<h3 id="这是如何实现的">这是如何实现的?</h3>
+<p>为什么定义宏<code>__NATIVE_USE_KLIB__</code>之后就可以把<code>native</code>上的这些库函数链接到klib? 这具体是如何发生的? 尝试根据你在课堂上学习的链接相关的知识解释这一现象.</p>
+<p>待补充</p>
+<h2 id="输入输出">输入输出</h2>
+<h3 id="设备与cpu">设备与CPU</h3>
+<blockquote>
+<p>要向设备发送一些有意义的数字信号, 设备就会按照这些信号的含义来工作. 让一些信号来指导设备如何工作, 这不就像&quot;程序的指令指导CPU如何工作&quot;一样吗? <strong>恰恰就是这样!</strong> 设备也有自己的状态寄存器(相当于CPU的寄存器), 也有自己的功能部件(相当于CPU的运算器). 当然不同的设备有不同的功能部件, 例如<strong>键盘有一个把按键的模拟信号转换成扫描码的部件, 而VGA则有一个把像素颜色信息转换成显示器模拟信号的部件. 控制设备工作的信号称为&quot;命令字&quot;, 可以理解成</strong>【设备的指令】, 设备的工作就是负责接收命令字, 并进行译码和执行&hellip; 你已经知道CPU的工作方式, 这一切对你来说都太熟悉了.</p>
+<p>所谓的访问设备, 说白了就是从设备获取数据(输入), 比如从键盘控制器获取按键扫描码, 或者是向设备发送数据(输出), 比如向显存写入图像的颜色信息. 但是, 如果万一用户没有敲键盘, 或者是用户想调整屏幕的分辨率, 怎么办呢? 这说明, 除<strong>了纯粹的数据读写之外, 我们还需要对设备进行控制</strong>: 比如需要<strong>获取键盘控制器的状态</strong>, 查看当前是否有按键被按下; 或者是需要有方式可以<strong>查询或设置VGA控制器的分辨率</strong>. </p>
+<p>所以, 在程序看来,访问设备 = 读出数据 + 写入数据 + 控制状态.</p>
+<p>既然设备也有寄存器, 一种最简单的方法就是把设备的寄存器作为接口, 让CPU来访问这些寄存器. </p>
+<p>CPU要如何访问设备寄存器呢? 我们先来回顾一下CPU是如何访问CPU自己的寄存器的: 首先给这些寄存器编个号, 比如<code>eax</code>是<code>0</code>, <code>ecx</code>是<code>1</code>&hellip; 然后在指令中引用这些编号, 电路上会有相应的选择器, 来选择相应的寄存器并进行读写. 对设备寄存器的访问也是类似的: 我们也可以给设备中允许CPU访问的寄存器逐一编号, 然后通过指令来引用这些编号. 设备中可能会有一些私有寄存器, 它们是由设备自己维护的, 它们没有这样的编号, CPU不能直接访问它们.</p>
+<p>这些编号也称为设备的地址. 常用的编址方式有两种：<strong>端口I/O、內存映射I/O</strong></p>
+</blockquote>
+<h4 id="端口io">端口I/O</h4>
+<blockquote>
+<p>端口映射I/O(port-mapped I/O), CPU<strong>使用专门的I/O指令对设备进行访问, 并把设备的地址称作端口号</strong>. <strong>有了端口号以后, 在I/O指令中给出端口号, 就知道要访问哪一个设备寄存器了</strong>. 市场上的计算机绝大多数都是IBM PC兼容机, IBM PC兼容机对常见设备端口号的分配有<a class="link" href="http://en.wikipedia.org/wiki/Input/output_base_address"  title="专门的规定"
+     target="_blank" rel="noopener"
+    >专门的规定</a>.</p>
+<p>x86提供了<code>in</code>和<code>out</code>指令用于访问设备, 其中<code>in</code>指令用于将设备寄存器中的数据传输到CPU寄存器中, <code>out</code>指令用于将CPU寄存器中的数据传送到设备寄存器中.</p>
+<p>movl $0x41, %al</p>
+<p>movl $0x3f8, %edx</p>
+<p>outb %al, (%dx)</p>
+<p>上述代码把数据0x41传送到0x3f8号端口所对应的设备寄存器中. CPU执行上述代码后, 会将0x41这个数据传送到串口的一个寄存器中, 串口接收之后, 发现是要输出一个字符<code>A</code>; 但对CPU来说, 它并不关心设备会怎么处理0x41这个数据, 只会老老实实地把0x41传送到0x3f8号端口. 事实上, 设备的API及其行为都会在相应的文档里面有清晰的定义, 在PA中我们无需了解这些细节, 只需要知道, 驱动开发者可以通过RTFM, 来编写相应程序来访问设备即可.</p>
+<p><strong>API, 行为, RTFM&hellip; 没错, 我们又再次看到了计算机系统设计的一个例子: 设备向CPU暴露设备寄存器的接口, 把设备内部的复杂行为(甚至一些模拟电路的特性)进行抽象, CPU只需要使用这一接口访问设备, 就可以实现期望的功能.</strong> 计算机系统处处蕴含抽象的思想, 只要理解其中的原理, 再加上RTFM的技能, 你就能掌握计算机系统的全部!</p>
+</blockquote>
+<h4 id="內存映射io">內存映射I/O</h4>
+<blockquote>
+<p>端口映射I/O把端口号作为I/O指令的一部分, 这种方法很简单, 但同时也是它最大的缺点. 指令集为了兼容已经开发的程序, 是只能添加但不能修改的.这意味着, <strong>端口映射I/O所能访问的I/O地址空间的大小, 在设计I/O指令的那一刻就已经决定下来了.</strong> 所谓I/O地址空间, 其实就是所有能访问的设备的地址的集合. 随着设备越来越多, 功能也越来越复杂, I/O地址空间有限的端口映射I/O已经逐渐不能满足需求了. 有的设备需要让CPU访问一段较大的连续存储空间, 如VGA的显存, 24色加上Alpha通道的1024x768分辨率的显存就需要3MB的编址范围. 于是内存映射I/O(memory-mapped I/O, MMIO)应运而生.</p>
+<p>编址方式将一部分物理内存的访问&quot;重定向&quot;到I/O地址空间中, CPU尝试访问这部分物理内存的时候, 实际上最终是访问了相应的I/O设备,</p>
+<p>现代计算机都已经是64位计算机, 物理地址线都有48根,</p>
+</blockquote>
+<p>（注意64位并不需要2的64次方，而是48就够了，因为过大空间导致了资源浪费。32位的时候寻址是32次方。每个地址总线可以对两个存储单元寻址，确定两种状态（0或1）1GB是2的30次方Byte，1TB是2的40次方B，再乘上256即2的8次方即是）</p>
+<blockquote>
+<p>这意味着物理地址空间有256TB这么大, 从里面划出3MB的地址空间给显存, 根本就是不痛不痒. 正因为如此, 内存映射I/O成为了现代计算机主流的I/O编址方式: RISC架构只提供内存映射I/O的编址方式, 而PCI-e, 网卡, x86的APIC等主流设备, 都支持通过内存映射I/O来访问.</p>
+<p>作为RISC架构, mips32和riscv32都是采用内存映射I/O的编址方式. 对x86来说, 内存映射I/O的一个例子是NEMU中的物理地址区间<code>[0xa1000000, 0xa1800000)</code>. 这段物理地址区间被映射到VGA内部的显存, 读写这段物理地址区间就相当于对读写VGA显存的数据. 例如</p>
+<p><strong>memset((void *)0xa1000000, 0, SCR_SIZE);</strong>  </p>
+<p>会将显存中一个屏幕大小的数据清零, 即往整个屏幕写入黑色像素, 作用相当于清屏. 可以看到, 内存映射I/O的编程模型和普通的编程完全一样: 程序员可以直接把I/O设备当做内存来访问. 这一特性也是深受驱动开发者的喜爱.</p>
+</blockquote>
+<h3 id="状态机视角下的输入输出">状态机视角下的输入输出</h3>
+<p>我们可以把设备分成两部分, <strong>一部分是数字电路. <strong>我们刚才粗略地介绍了一些设备控制器的功能, 例如我们CPU可以从键盘控制器中读出按键信息. 既然是</strong>数字电路, 我们就可以把其中的时序逻辑电路看成是设备数字电路部分的状态D.</strong></p>
+<p><strong>但D比较特殊, 计算机只能通过端口I/O指令或者内存映射I/O的访存指令来访问和修改</strong>.​</p>
+<p>有意思的是<strong>设备的另一部分: 模拟电路, 它也可以改变D. 例如键盘通过检查按键位置的电容变化来判断是否有按键被按下,</strong> 若有, 则会将按键信息写入到键盘控制器的寄存器中. 而按键位置的电容是否发生变化, 又是由物理世界中的用户是否按下按键决定的. 所以我们会说, 设备是连接计算机和物理世界的桥梁.</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 328; 
+			flex-basis: 788px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_E-jt9oZc0s.png" data-size="808x246">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_E-jt9oZc0s.png"
+			width="808"
+			height="246"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_E-jt9oZc0s_hudf24d27b895a25a274a61d710b4db62b_22892_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_E-jt9oZc0s_hudf24d27b895a25a274a61d710b4db62b_22892_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>要对设备的状态和行为进行建模是一件很困难的事情, 除了设备本身的行为五花八门之外, 设备的状态还时时刻刻受到物理世界的影响. 于是, <strong>我们在对状态机模型的行为进行扩展的时候, 并不考虑将D加入到S中, 而是仅仅对输入输出相关指令的行为进行建模:</strong> ​</p>
+<h4 id="通过内存进行数据交互的输入输出">通过内存进行数据交互的输入输出</h4>
+<blockquote>
+<p>我们知道<code>S = &lt;R, M&gt;</code>, 上文介绍的端口I/O和内存映射I/O都是通过寄存器<code>R</code>来进行数据交互的. 很自然地, 我们可以考虑, <strong>有没有通过内存</strong>​<strong>来进行数据交互的输入输出方式呢?</strong></p>
+<p>其实是有的, 这种方式叫<a class="link" href="http://en.wikipedia.org/wiki/Direct_memory_access"  title="DMA"
+     target="_blank" rel="noopener"
+    >DMA</a>. 为了提高性能, 一些复杂的设备一般都会带有DMA的功能. 不过在NEMU中的设备都比较简单, 关于DMA的细节我们就不展开介绍了.</p>
+</blockquote>
+<h2 id="nemu中的输入输出">NEMU中的输入输出</h2>
+<p>终于进入紧张刺激的正式话题！</p>
+<p>NEMU的框架代码已经在<code>nemu/src/device/</code>目录下提供了设备相关的代码,</p>
+<h3 id="映射和io方式">映射和I/O方式</h3>
+<p>这部分蛮重要的，多读读原文把，可以在之后回头读。</p>
+<h3 id="设备">设备</h3>
+<blockquote>
+<p>NEMU使用SDL库来实现设备的模拟, <code>nemu/src/device/device.c</code>含有和SDL库相关的代码. <code>init_device()</code>函数主要进行以下工作:</p>
+<ul>
+<li>调用<code>init_map()</code>进行初始化.</li>
+</ul>
+<p> <code>cpu_exec()</code>在执行每条指令之后就会调用<code>device_update()</code>函数, <strong>这个函数首先会检查距离上次设备更新是否已经超过一定时间, 若是, 则会尝试刷新屏幕, 并进一步检查是否有按键按下/释放, 以及是否点击了窗口的</strong>​<strong>按钮; 否则则直接返回, 避免检查过于频繁, 因为上述事件发生的频率是很低的.</strong></p>
+</blockquote>
+<h2 id="将输入输出抽象成ioe">将输入输出抽象成IOE</h2>
+<blockquote>
+<p>设备访问的具体实现是架构相关的, 比如NEMU的VGA显存位于物理地址区间[0xa1000000, 0xa1080000), 但对native的程序来说, 这是一个不可访问的非法区间, 因此<strong>native程序需要通过别的方式来实现类似的功能. 自然地, 设备访问这一架构相关的功能, 应该归入AM中</strong>. 与TRM不同, <strong>设备访问是为计算机提供输入输出的功能, 因此我们把它们划入一类新的API, 名字叫IOE(I/O Extension).</strong></p>
+<p>访问设备其实想做什么: 访问设备 = 读出数据 + 写入数据 + 控制状态. <strong>进一步的, 控制状态本质上也是读/写设备寄存器的操作, 所以访问设备 = 读/写操作.</strong></p>
+<p>bool ioe_init();</p>
+<p>void ioe_read(int reg, void *buf);</p>
+<p>void ioe_write(int reg, void *buf);</p>
+<p>第一个API用于进行IOE相关的初始化操作. 后两个API分别用于从编号为<code>reg</code>的寄存器中读出内容到缓冲区<code>buf</code>中, 以及往编号为<code>reg</code>寄存器中写入缓冲区<code>buf</code>中的内容.</p>
+<p>【这里的<code>reg</code>寄存器并不是上文讨论的设备寄存器, 因为设备寄存器的编号是架构相关的.】</p>
+<blockquote>
+<p><code>abstract-machine/am/include/amdev.h</code>中定义了常见设备的&quot;抽象寄存器&quot;编号和相应的结构. 这些定义是架构无关的, 每个架构在实现各自的IOE API时, 都需要遵循这些定义(约定). </p>
+<p><strong>NEMU作为一个平台, 设备的行为是与ISA无关的</strong>, 只需要在<code>abstract-machine/am/src/platform/nemu/ioe/</code>目录下<strong>实现一份IOE, 来供NEMU平台的架构共享</strong>. 其中, <code>abstract-machine/am/src/platform/nemu/ioe/ioe.c</code>中实现了上述的三个IOE API, <code>ioe_read()</code>和<code>ioe_write()</code>都是<strong>通过抽象寄存器的编号索引到一个处理函数, 然后调用它. 处理函数的具体功能和寄存器编号相关, 下面我们来逐一介绍NEMU中每个设备的功能.</strong></p>
+</blockquote>
+</blockquote>
+<h2 id="一些重要的文件函数记录">一些重要的文件、函数记录</h2>
+<p>代码框架可参考：<a class="link" href="https://ysyx.oscc.cc/forum/topic/16/pa2-3-nemu-am-am-kernels%e5%85%b1%e5%90%8c%e6%9e%84%e5%bb%ba%e7%9a%84%e8%99%9a%e6%8b%9f%e4%b8%96%e7%95%8c%e6%a6%82%e5%bf%b5%e5%9b%be"  title="https://ysyx.oscc.cc/forum/topic/16/pa2-3-nemu-am-am-kernels共同构建的虚拟世界概念图"
+     target="_blank" rel="noopener"
+    >https://ysyx.oscc.cc/forum/topic/16/pa2-3-nemu-am-am-kernels共同构建的虚拟世界概念图</a></p>
+<p>随着代码复杂度越来越高，对框架的熟悉度要求指数上涨，必须开始记录每个框架的功能及其使用方式：</p>
+<h3 id="基础文件">基础文件</h3>
+<ul>
+<li>
+<p>指令集相关文件：</p>
+<ol>
+<li>
+<p>各类指令RTL调用函数实现部分：/home/physico/ics2021/nemu/src/isa/riscv32/instr/ *.h</p>
+</li>
+<li>
+<p>译码函数部分：/home/physico/ics2021/nemu/src/isa/riscv32/instr/decode.c</p>
+</li>
+<li>
+<p>函数名-宏展开需要部分：/home/physico/ics2021/nemu/src/isa/riscv32/include/isa-all-instr.h（旁边的isa-exec可以包括1提到的）</p>
+</li>
+<li>
+<p>ISADecodeInfo：/home/physico/ics2021/nemu/src/isa/riscv32/include/isa-def.h</p>
+</li>
+<li>
+<p>RTL实现相关：</p>
+<ol>
+<li>
+<p>/home/physico/ics2021/nemu/src/engine/interpreter/rtl-basic.h （def_rtl_compute_reg_imm）</p>
+</li>
+<li>
+<p>/home/physico/ics2021/nemu/src/engine/interpreter/c_op.h（c_add(a, b) ((a) + (b)) 以及 interpret_relop类似RELOP_NE）</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="调试测试用指令与文件我以自己的路径为准">调试测试用指令与文件（我以自己的路径为准）</h3>
+<ul>
+<li>
+<p><strong>IOE（包括时间等）：</strong></p>
+<p>地址：/home/physico/ics2021/am-kernels/tests/am-tests</p>
+<p>测试方式：make ARCH=riscv32-nemu run mainargs=t  （其他测试方式自行读代码）</p>
+</li>
+<li>
+<p><strong>benchmark测试：</strong></p>
+<p>地址：/home/physico/ics2021/am-kernels/benchmarks/microbench</p>
+<p>测试方式：make ARCH=riscv32-nemu run （其他benchmark同样方法可测）</p>
+</li>
+<li>
+<p><strong>马里奥测试：</strong></p>
+<p>地址：home/physico/ics2021/fceux-am</p>
+<p>测试方式： make ARCH=riscv32-nemu run mainargs=mario</p>
+</li>
+</ul>
+<h3 id="设备相关文件">设备相关文件：</h3>
+<ul>
+<li>
+<p>时钟：</p>
+<ul>
+<li>
+<p>AM的相关实现：</p>
+<ol>
+<li>/home/physico/ics2021/abstract-machine/am/src/platform/nemu/ioe/timer.c （需要实现）</li>
+</ol>
+</li>
+<li>
+<p>native的相关实现</p>
+<ol>
+<li>/home/physico/ics2021/abstract-machine/am/src/native/ioe/timer.c</li>
+</ol>
+</li>
+<li>
+<p>nemu的相关实现：</p>
+<ol>
+<li>
+<p>/home/physico/ics2021/nemu/src/device/timer.c</p>
+</li>
+<li>
+<p>/home/physico/ics2021/nemu/src/utils/timer.c</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="串口">串口</h3>
+<blockquote>
+<p><code>nemu/src/device/serial.c</code>模拟了串口的功能. 其大部分功能也被简化, <strong>只保留了数据寄存器.</strong> 串口初始化时会分别注册<code>0x3F8</code>处长度为8个字节的端口, 以及<code>0xa00003F8</code>处长度为8字节的MMIO空间, 它们都会映射到串口的数据寄存器. </p>
+<p>由于NEMU串行模拟计算机系统的工作, 串口的状态寄存器可以一直处于空闲状态; 每当CPU往数据寄存器中写入数据时, 串口会将数据传送到主机的标准错误流进行输出.</p>
+<p><code>abstract-machine/am/src/platform/nemu/trm.c</code>中的<code>putch()</code>会将字符输出到串口.</p>
+</blockquote>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 130; 
+			flex-basis: 312px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_JmykngWSPV.png" data-size="591x454">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_JmykngWSPV.png"
+			width="591"
+			height="454"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_JmykngWSPV_hu798079399d6dcfc4e2f1a670248e3bf8_75079_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_JmykngWSPV_hu798079399d6dcfc4e2f1a670248e3bf8_75079_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>可以配合vsprintf做成Printf。</p>
+<h4 id="理解mainargs">理解mainargs</h4>
+<p>请你通过RTFSC理解这个参数是如何从<code>make</code>命令中传递到<code>hello</code>程序中的, <code>$ISA-nemu</code>和<code>native</code>采用了不同的传递方法, 都值得你去了解一下.</p>
+<p>答：</p>
+<p>ISA-NEMU通过ics2021/abstract-machine/scripts/platform/nemu.mk中的宏定义：-D</p>
+<p>CFLAGS += -DMAINARGS=\&quot;$(mainargs)\&ldquo;然后就在main（mainargs）</p>
+<h3 id="时钟埋了大坑">时钟【埋了大坑】</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 134; 
+			flex-basis: 323px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Sb6pxH3RgZ.png" data-size="598x444">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Sb6pxH3RgZ.png"
+			width="598"
+			height="444"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Sb6pxH3RgZ_hu82fd8750565bd6cb16432e82780786d6_77820_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Sb6pxH3RgZ_hu82fd8750565bd6cb16432e82780786d6_77820_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>有了时钟, 程序才可以提供时间相关的体验, 例如游戏的帧率, 程序的快慢等. <code>nemu/src/device/timer.c</code>模拟了i8253计时器的功能. 计时器的大部分功能都被简化, 只保留了&quot;发起时钟中断&quot;的功能(目前我们不会用到). 同时添加了一个自定义的时钟. i8253计时器初始化时会分别注册<code>0x48</code>处长度为8个字节的端口, 以及<code>0xa0000048</code>处长度为8字节的MMIO空间, 它们都会映射到RTC寄存器. CPU可以访问这两个寄存器来获得当前时间.</p>
+<p><code>abstract-machine/am/include/amdev.h</code>中为时钟的功能定义了两个抽象寄存器:</p>
+<ul>
+<li>
+<p><code>AM_TIMER_RTC</code>, AM实时时钟(RTC, Real Time Clock), 可读出当前的年月日时分秒. PA中暂不使用.</p>
+</li>
+<li>
+<p><code>AM_TIMER_UPTIME</code>, AM系统启动时间, 可读出系统启动后的微秒数.</p>
+</li>
+</ul>
+<blockquote>
+<p>实现IOE</p>
+<p>在<code>abstract-machine/am/src/platform/nemu/ioe/timer.c</code>中实现<code>AM_TIMER_UPTIME</code>的功能. 在<code>abstract-machine/am/src/platform/nemu/include/nemu.h</code>和 <code>abstract-machine/am/src/$ISA/$ISA.h</code>中有一些输入输出相关的代码供你使用.</p>
+<p>实现后, 在<code>$ISA-nemu</code>中运行<code>am-kernel/tests/am-tests</code>中的<code>real-time clock test</code>测试. 如果你的实现正确, 你将会看到程序每隔1秒往终端输出一行信息. 由于我们没有实现<code>AM_TIMER_RTC</code>, 测试总是输出1900年0月0日0时0分0秒, 这属于正常行为, 可以忽略.</p>
+<blockquote>
+<p><code>native</code>的IOE是基于SDL库实现的, 它们假设常用库函数的行为会符合glibc标准, 但我们自己实现的klib通常不能满足这一要求. 因此<code>__NATIVE_USE_KLIB__</code>仅供测试klib实现的时候使用, 我们不要求在定义<code>__NATIVE_USE_KLIB__</code>的情况下正确运行所有程序.</p>
+</blockquote>
+</blockquote>
+<p>这里我卡了一段时间（主要是跑分过高甚至有些跑不了。），我参考了一生一芯论坛某个大佬的思路：</p>
+<p><a class="link" href="https://ysyx.oscc.cc/forum/topic/56/pa2-3%e5%ae%9e%e7%8e%b0%e6%97%b6%e9%92%9f%e4%b8%ba%e4%be%8b%e7%9a%84%e4%b8%80%e4%ba%9brtsc%e6%80%9d%e8%b7%af"  title="https://ysyx.oscc.cc/forum/topic/56/pa2-3实现时钟为例的一些rtsc思路"
+     target="_blank" rel="noopener"
+    >https://ysyx.oscc.cc/forum/topic/56/pa2-3实现时钟为例的一些rtsc思路</a></p>
+<h3 id="解决时钟问题的钥匙理解更新过程">解决时钟问题的钥匙——理解更新过程</h3>
+<p>我们需要思考，内存映射的逻辑是什么，为什么我们通过学习类似abstract-machine/am/src/platform/nemu/ioe/timer.c 的方法能够读出数据？或者使用文档里让我们看文件中的读写方式能够读出时间数据？（具体可以看上面那个大佬的思路）关键在于——时间是被更新到地址上的，那么什么造成了地址对应数据的更新？讲义给出了答案，让我们反复阅读<strong>映射和IO方式</strong>： </p>
+<blockquote>
+<p>框架代码为映射定义了一个结构体类型<code>IOMap</code>(在<code>nemu/include/device/map.h</code>中定义), 包括名字, 映射的起始地址和结束地址, 映射的目标空间, 以及一个回调函数.</p>
+<p><code>nemu/src/device/io/map.c</code>实现了映射的管理, 包括I/O空间的分配及其映射, 还有映射的访问接口.</p>
+<p>其中<code>map_read()</code>和<code>map_write()</code>用于将地址<code>addr</code><strong>映射到</strong>​<strong>所指示的目标空间</strong>, 并进行访问. <strong>访问时, 可能会触发相应的回调函数, 对设备和目标空间的状态进行更新.</strong></p>
+</blockquote>
+<blockquote>
+<p><code>nemu/src/device/io/port-io.c</code>是对端口映射I/O的模拟. <code>add_pio_map()</code>函数<strong>用于为设备的初始化注册一个端口映射I/O的映射关系.</strong> <code>pio_read()</code>和<code>pio_write()</code>是面向CPU的端口I/O读写接口, 它们最终会调用<code>map_read()</code>和<code>map_write()</code>, <strong>对通过</strong>​<strong>注册的I/O空间进行访问.</strong></p>
+</blockquote>
+<p>这时候我们就会想到，这个对设备和目标空间状态更新的函数，对时钟来说，是什么呢？</p>
+<p>注意到———— nemu/src/device/timer.c模拟了i8253计时器的功能</p>
+<p>此时进入后会发现熟悉的add_pio_map，还有一个rtc_io_handler这里出现了gettime! 感觉是我们想要的答案，但此时会发现一个offset，那么这个offset到底是什么呢，让我们继续打开add_pio_map，继续一路寻找用到callback的地方会发现回到了map，其中的map_read的write告诉了我们原来在这里传入callback,其中offset也就不言而喻了。</p>
+<p>得知offset = addr - map-&gt;low后，我们再倒回去看某个函数就显得可疑了， addr 可以就是 map-&gt;low，也可以是low+4。那么哪个才是对的呢？让我们再复习这句话：</p>
+<blockquote>
+<p>其中<code>map_read()</code>和<code>map_write()</code>用于将地址<code>addr</code><strong>映射到</strong>​<strong>所指示的目标空间</strong>, 并进行访问. <strong>访问时, 可能会触发相应的回调函数, 对设备和目标空间的状态进行更新.</strong></p>
+</blockquote>
+<p>这时候问题就变成addr到底是等于什么的时候更新才是对的呢？我们怎么访问地址更新数据才是正确的？</p>
+<p>这个访问会对我们读取时钟数据有什么影响？我们读取地址上的时钟数据的时候是怎么做的？</p>
+<p>在反复阅读一下前面大佬分享的RTFC的过程，相信你能得到答案。</p>
+<h3 id="键盘">键盘</h3>
+<p>这部分只要弄懂了时钟，非常简单。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 131; 
+			flex-basis: 314px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_kkwo6gla7L.png" data-size="787x600">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_kkwo6gla7L.png"
+			width="787"
+			height="600"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_kkwo6gla7L_hud62c878b0f7197ce13a04b2eccd85dcb_147592_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_kkwo6gla7L_hud62c878b0f7197ce13a04b2eccd85dcb_147592_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="vga">VGA</h3>
+<p>现代的显示器一般都支持24位的颜色(R, G, B各占8个bit, 共有<code>2^8*2^8*2^8</code>约1600万种颜色)</p>
+<p>为了让屏幕显示不同的颜色成为可能, 在8位颜色深度时会使用调色板的概念. 调色板是一个颜色信息的数组, 每一个元素占4个字节, 分别代表R(red), G(green), B(blue), A(alpha)的值</p>
+<p>一个像素存储的就不再是颜色的信息, 而是一个调色板的索引</p>
+<p>要得到一个像素的颜色信息, 就要把它的值当作下标, 在调色板这个数组中做下标运算, 取出相应的颜色信息. 因此, 只要使用不同的调色板, 就可以在不同的时刻使用不同的256种颜色了.</p>
+<p>Q：在一些90年代的游戏中(比如仙剑奇侠传), 很多渐出渐入效果都是通过调色板实现的, 聪明的你知道其中的玄机吗?</p>
+<p>A:通过线性改变索引？</p>
+<blockquote>
+<p>在NEMU中, GPU仅仅保留绘制像素的基本功能.</p>
+<p><code>abstract-machine/am/include/amdev.h</code>中为GPU定义了五个抽象寄存器, 在NEMU中只会用到其中的两个:</p>
+<ul>
+<li>
+<p><code>AM_GPU_CONFIG</code>, AM显示控制器信息, 可读出屏幕大小信息<code>width</code>和<code>height</code>. 另外AM假设系统在运行过程中, 屏幕大小不会发生变化.</p>
+</li>
+<li>
+<p><code>AM_GPU_FBDRAW</code>, AM帧缓冲控制器, 可写入绘图信息, 向屏幕<code>(x, y)</code>坐标处绘制<code>w*h</code>的矩形图像. <strong>图像像素按行优先方式</strong>存储在<code>pixels</code>中, 每个像素<strong>用32位整数</strong>以<code>00RRGGBB</code>的方式描述颜色. </p>
+</li>
+<li>
+<p><strong>若</strong><code>sync</code><strong>为</strong><code>true</code><strong>, 则马上将帧缓冲中的内容同步到屏幕上.</strong></p>
+</li>
+</ul>
+<p> VGA设备还有两个寄存器: 屏幕大小寄存器和同步寄存器.</p>
+<p> 屏幕大小寄存器的硬件(NEMU)功能已经实现, 但软件(AM)还没有去使用它;</p>
+<p> 同步寄存器软件(AM)已经实现了同步屏幕的功能, 但硬件(NEMU)尚未添加相应的支持.</p>
+</blockquote>
+<p>这里我卡的最久的是1、如何理解隐藏的同步信息  2、如何绘制像素。</p>
+<p><strong>针对第一个问题，</strong> 其实关键是不理解抽象寄存器是如何与实际硬件寄存器联系起来的。经过RTFSC我们能知道形如“_port_base”（在内存读取中参数为space）才是真正的寄存器位置，而且也在地址空间中开辟了对应的内存。(当然你不仅可以通过开辟的空间去猜测只有两个寄存器，因为你会找到一个newplace（8）；同时也可以找到SYNC_ADDR的地址，那里是同步的地址，再配合VGA本体映射的地址猜猜看即可；或者你也可以参考有一个叫做pixel *render的地方，那里也可以参考）</p>
+<p>（同时这里我也还不知道指针也可以直接取下标运算，我一直记着指针不等同数组，直到查阅知道了其实编译器中这是一个东西：</p>
+<blockquote>
+<p>除了优先级不同之外，下标表达式 array[ value ] 和间接访问表达式 *（array + ( value )） 是一样的。因此，下标不仅可以用作数组名，也可以用于指针表达式中。不过这样一来，编译器就很难检查下标的有效性。（斟酌）（意思是如果用指针加下标的方式来表达数组的元素，编译器无法检测到是否越界！）</p>
+<p><a class="link" href="https://blog.51cto.com/u_15338162/5206658"  title="https://blog.51cto.com/u_15338162/5206658"
+     target="_blank" rel="noopener"
+    >https://blog.51cto.com/u_15338162/5206658</a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/399327901"  title="https://zhuanlan.zhihu.com/p/399327901"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/399327901</a></p>
+</blockquote>
+<p>让我们回来继续思考问题，抽象寄存器的编号又是如何与实际寄存器的编号（比如5、6、7和具体的[0] [1]）联系起来的呢？</p>
+<p>所以，如果实现了AM的同步寄存器但没有硬件支持，说明硬件部分实际上缺少了一个对同步寄存器的读取，那么哪一个才是硬件同步寄存器呢？他在哪呢？这就需要RTFSC了。</p>
+<p><strong>针对第二个问题，</strong> 实际上pa2021的框架比2020的难，因为2021的native没有办法参考，而2020的native代码给出了绘制实现。这里我是参考了2020的native才做出来的。实际上要理解这一句话：</p>
+<blockquote>
+<p> 向屏幕<code>(x, y)</code>坐标处绘制<code>w*h</code>的矩形图像. 图像像素按行优先方式存储在<code>pixels</code>中</p>
+</blockquote>
+<p> 这个x y w h的含义，实际上是从绘制理解的。我们图像的绘制从左上角开始，也就是多维数组展平成一维数据一直画下去（你可以更改fb(i)=[i]的值和for范围查看），而一个好的理解方式是把x,y当做开始绘制的点。也就是说如果你要绘制一个小矩形框，本质是一个点“拖出来的”，因为本质是从一维数组从左到右画。那么我们知道了此时的x,y是基础偏移坐标（也就是绘制小矩形框的基础坐标），而我们绘制需要for循环表达的是i和j坐标也就是小矩形框的坐标，其中pixels是我们将要画的小矩形的像素信息。</p>
+<p>我们的目的是把小矩形的像素信息从行开始遍历一个个i和j,再通过fb绘制到大矩形框（gpu内存映射地址）上，所以你应该思考这个映射是怎么做的，如何表达“从某一行开始，一列列的画过去？”，具体的坐标信息该如何转换？这就是你应该思考的了。实在不行，你可以参考2020naitive有关gpu的相关实现。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 132; 
+			flex-basis: 318px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_RP0_t5brvH.png" data-size="787x593">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_RP0_t5brvH.png"
+			width="787"
+			height="593"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_RP0_t5brvH_hud2e09f0d8704a7975126f380f32e61b8_206093_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_RP0_t5brvH_hud2e09f0d8704a7975126f380f32e61b8_206093_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>实现完后你就可以跑马里奥等程序了，我的fps大概是25左右，好好享受自己的作品！</p>
+<h3 id="声卡部分">声卡部分</h3>
+<p>暂时坑了</p>
+<h2 id="做完pa2应该熟悉的代码待完成">【做完PA2应该熟悉的代码】（待完成</h2>
+<ul>
+<li>
+<p>NEMU中除了<code>fixdep</code>, <code>kconfig</code>, 以及没有选择的ISA之外的全部已有代码(包括Makefile)</p>
+</li>
+<li>
+<p><code>abstract-machine/am/</code>下与$ISA-nemu相关的, 除去CTE和VME之外的代码</p>
+</li>
+<li>
+<p><code>abstract-machine/klib/</code>中的所有代码</p>
+</li>
+<li>
+<p><code>abstract-machine/Makefile</code>和<code>abstract-machine/scripts/</code>中的所有代码</p>
+</li>
+<li>
+<p><code>am-kernels/tests/cpu-tests/</code>中的所有代码</p>
+</li>
+<li>
+<p><code>am-kernels/tests/am-tests/</code>中运行过的测试代码</p>
+</li>
+<li>
+<p><code>am-kernels/benchmarks/microbench/bench.c</code></p>
+</li>
+<li>
+<p><code>am-kernels/kernels/</code>中的<code>hello</code>, <code>slider</code>和<code>typing-game</code>的所有代码</p>
+</li>
+</ul>
+<p>如果你发现自己不能理解这些代码的行为, 就赶紧看看吧. 多看一个文件, bug少调几天, 到了PA3你就会领教到了. （这句话我还是非常相信的，所以宁愿慢一点一个个去看，慢就是快。）</p>
+<h2 id="你应该知道并理解的知识待完成">【你应该知道并理解的知识】（待完成</h2>
+<ul>
+<li>
+<p>程序是个状态机 理解YEMU的执行过程, 具体请参考<a class="link" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2021/2.1.html#%e7%90%86%e8%a7%a3yemu%e5%a6%82%e4%bd%95%e6%89%a7%e8%a1%8c%e7%a8%8b%e5%ba%8f"  title="这里"
+     target="_blank" rel="noopener"
+    >这里</a>.</p>
+</li>
+<li>
+<p>RTFSC 请整理一条指令在NEMU中的执行过程, 具体请参考<a class="link" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2021/2.2.html#rtfsc%e7%90%86%e8%a7%a3%e6%8c%87%e4%bb%a4%e6%89%a7%e8%a1%8c%e7%9a%84%e8%bf%87%e7%a8%8b"  title="这里"
+     target="_blank" rel="noopener"
+    >这里</a>.</p>
+</li>
+<li>
+<p>程序如何运行 理解打字小游戏如何运行, 具体请参考<a class="link" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2021/2.5.html#%e6%b8%b8%e6%88%8f%e6%98%af%e5%a6%82%e4%bd%95%e8%bf%90%e8%a1%8c%e7%9a%84"  title="这里"
+     target="_blank" rel="noopener"
+    >这里</a>.</p>
+</li>
+<li>
+<p>编译与链接 在<code>nemu/src/engine/interpreter/rtl-basic.h</code>中, 你会看到由<code>static inline</code>开头定义的各种RTL指令函数. 选择其中一个函数, 分别尝试去掉<code>static</code>, 去掉<code>inline</code>或去掉两者, 然后重新进行编译, 你可能会看到发生错误. 请分别解释为什么这些错误会发生/不发生? 你有办法证明你的想法吗?</p>
+</li>
+<li>
+<p>编译与链接</p>
+<ol>
+<li>
+<p>在<code>nemu/include/common.h</code>中添加一行<code>volatile static int dummy;</code> 然后重新编译NEMU. 请问重新编译后的NEMU含有多少个<code>dummy</code>变量的实体? 你是如何得到这个结果的?</p>
+</li>
+<li>
+<p>添加上题中的代码后, 再在<code>nemu/include/debug.h</code>中添加一行<code>volatile static int dummy;</code> 然后重新编译NEMU. 请问此时的NEMU含有多少个<code>dummy</code>变量的实体? 与上题中<code>dummy</code>变量实体数目进行比较, 并解释本题的结果.</p>
+</li>
+<li>
+<p>修改添加的代码, 为两处<code>dummy</code>变量进行初始化:<code>volatile static int dummy = 0;</code> 然后重新编译NEMU. 你发现了什么问题? 为什么之前没有出现这样的问题? (回答完本题后可以删除添加的代码.)</p>
+</li>
+</ol>
+</li>
+<li>
+<p>了解Makefile 请描述你在<code>am-kernels/kernels/hello/</code>目录下敲入<code>make ARCH=$ISA-nemu</code> 后, <code>make</code>程序如何组织.c和.h文件, 最终生成可执行文件<code>am-kernels/kernels/hello/build/hello-$ISA-nemu.elf</code>. (这个问题包括两个方面:<code>Makefile</code>的工作方式和编译链接的过程.) 关于<code>Makefile</code>工作方式的提示:</p>
+<ul>
+<li>
+<p><code>Makefile</code>中使用了变量, 包含文件等特性</p>
+</li>
+<li>
+<p><code>Makefile</code>运用并重写了一些implicit rules</p>
+</li>
+<li>
+<p>在<code>man make</code>中搜索<code>-n</code>选项, 也许会对你有帮助</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="reference">Reference</h1>
+<ul>
+<li>
+<p><a class="link" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2021"  title="https://nju-projectn.github.io/ics-pa-gitbook/ics2021"
+     target="_blank" rel="noopener"
+    >https://nju-projectn.github.io/ics-pa-gitbook/ics2021</a></p>
+</li>
+<li>
+<p>网络上搜到的一些细节，但由于学术诚信不予放出。</p>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA2笔记（一）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA1笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86io%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BB%8B%E7%BB%8D/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C语言标准IO的缓冲区介绍</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C位段/位域(bit field)的排序原理</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">c语言编译过程简介</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#基础设施2还未全完成">基础设施(2)（还未全完成</a>
+      <ol>
+        <li><a href="#推荐阅读-计算的极限">推荐阅读 计算的极限：</a></li>
+        <li><a href="#阅读相关makefile-尝试理解abstract-machine是如何生成native的可执行文件的">阅读相关Makefile, 尝试理解abstract-machine是如何生成native的可执行文件的.</a></li>
+        <li><a href="#奇怪的错误码">奇怪的错误码</a></li>
+        <li><a href="#这是如何实现的">这是如何实现的?</a></li>
+      </ol>
+    </li>
+    <li><a href="#输入输出">输入输出</a>
+      <ol>
+        <li><a href="#设备与cpu">设备与CPU</a>
+          <ol>
+            <li><a href="#端口io">端口I/O</a></li>
+            <li><a href="#內存映射io">內存映射I/O</a></li>
+          </ol>
+        </li>
+        <li><a href="#状态机视角下的输入输出">状态机视角下的输入输出</a>
+          <ol>
+            <li><a href="#通过内存进行数据交互的输入输出">通过内存进行数据交互的输入输出</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#nemu中的输入输出">NEMU中的输入输出</a>
+      <ol>
+        <li><a href="#映射和io方式">映射和I/O方式</a></li>
+        <li><a href="#设备">设备</a></li>
+      </ol>
+    </li>
+    <li><a href="#将输入输出抽象成ioe">将输入输出抽象成IOE</a></li>
+    <li><a href="#一些重要的文件函数记录">一些重要的文件、函数记录</a>
+      <ol>
+        <li><a href="#基础文件">基础文件</a></li>
+        <li><a href="#调试测试用指令与文件我以自己的路径为准">调试测试用指令与文件（我以自己的路径为准）</a></li>
+        <li><a href="#设备相关文件">设备相关文件：</a></li>
+        <li><a href="#串口">串口</a>
+          <ol>
+            <li><a href="#理解mainargs">理解mainargs</a></li>
+          </ol>
+        </li>
+        <li><a href="#时钟埋了大坑">时钟【埋了大坑】</a></li>
+        <li><a href="#解决时钟问题的钥匙理解更新过程">解决时钟问题的钥匙——理解更新过程</a></li>
+        <li><a href="#键盘">键盘</a></li>
+        <li><a href="#vga">VGA</a></li>
+        <li><a href="#声卡部分">声卡部分</a></li>
+      </ol>
+    </li>
+    <li><a href="#做完pa2应该熟悉的代码待完成">【做完PA2应该熟悉的代码】（待完成</a></li>
+    <li><a href="#你应该知道并理解的知识待完成">【你应该知道并理解的知识】（待完成</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

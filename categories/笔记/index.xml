@@ -6,14 +6,23 @@
     <description>Recent content in 笔记 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 12 Aug 2022 21:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 Aug 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>NJU计算机课程基础实验 PA2笔记</title>
-      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/</link>
+      <title>NJU计算机课程基础实验 PA2笔记（二）</title>
+      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
+      <pubDate>Sat, 13 Aug 2022 08:50:40 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
+      <description>基础设施(2)（还未全完成 trace系列暂时待填坑。。。。 NEMU是一个用来执行其它程序的程序. 在可计算理论中, 这种程序有一个专门的名词, 叫</description>
+    </item>
+    
+    <item>
+      <title>NJU计算机课程基础实验 PA2笔记（一）</title>
+      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
       <pubDate>Fri, 12 Aug 2022 21:50:40 +0800</pubDate>
       
-      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0/</guid>
-      <description>PA2 冯诺依曼计算机 写在前面： 首先要感谢jyy群一直帮助我的pony小哥、17号小哥、YSYX论坛（还有很多帮助我的人，没写出来但我都很感谢！）</description>
+      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>PA2.1 冯诺依曼计算机 写在前面： 首先要感谢jyy群一直帮助我的pony小哥、17号小哥、YSYX论坛（还有很多帮助我的人，没写出来但我都很感谢！）</description>
     </item>
     
     <item>
@@ -23,15 +32,6 @@
       
       <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/</guid>
       <description>PA0比较简单，就不再重复说明。 PA1的任务 从图上可以知道，我们的关键是要从Mon读取Mem和Reg的信息 PA1.RTFSC apt-get install ccache which gcc 可以把gcc编译结果缓</description>
-    </item>
-    
-    <item>
-      <title>python中多进程、多线程概念的进阶探讨</title>
-      <link>https://sanbuphy.github.io/p/python%E4%B8%AD%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A6%82%E5%BF%B5%E7%9A%84%E8%BF%9B%E9%98%B6%E6%8E%A2%E8%AE%A8/</link>
-      <pubDate>Sun, 24 Apr 2022 19:23:03 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/p/python%E4%B8%AD%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A6%82%E5%BF%B5%E7%9A%84%E8%BF%9B%E9%98%B6%E6%8E%A2%E8%AE%A8/</guid>
-      <description>// TODO: //加入协程相关内容 // 资源安全性 // 进程、线程间通信方式 // 如何捕获子线程异常 简单理解进程和线程 什么是进程 一个任务就是一个进程，是操作系统资</description>
     </item>
     
     <item>
