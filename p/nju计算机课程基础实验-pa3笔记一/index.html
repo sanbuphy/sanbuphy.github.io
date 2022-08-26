@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='穿越时空的旅程，批处理系统，基本的异常与syscall实现'><title>NJU计算机课程基础实验 PA3笔记（一）</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='NJU计算机课程基础实验 PA3笔记（一）'>
+<meta property='og:description' content='穿越时空的旅程，批处理系统，基本的异常与syscall实现'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C语言' /><meta property='article:published_time' content='2022-08-26T08:50:40&#43;08:00'/><meta property='article:modified_time' content='2022-08-26T08:50:40&#43;08:00'/>
+<meta name="twitter:title" content="NJU计算机课程基础实验 PA3笔记（一）">
+<meta name="twitter:description" content="穿越时空的旅程，批处理系统，基本的异常与syscall实现">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/" style="background-color: #2a9d8f; color: #fff;">
+                NJU计算机基础实验
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+            <a href="/categories/c/" style="background-color: #2a9d8f; color: #fff;">
+                C语言
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/">NJU计算机课程基础实验 PA3笔记（一）</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        穿越时空的旅程，批处理系统，基本的异常与syscall实现
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 26, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 34 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 129; 
+			flex-basis: 311px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_OJoXBv79xo.png" data-size="791x610">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_OJoXBv79xo.png"
+			width="791"
+			height="610"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_OJoXBv79xo_hu0890545de703375c2bfcf035e97c2059_86334_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_OJoXBv79xo_hu0890545de703375c2bfcf035e97c2059_86334_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>写在前面：感谢pony、杨婆婆等群友的讨论和帮助，让我对PA有了更深入的理解。</p>
+<p>关于问题部分：请遵守学术诚信，有关提问都要自己思考（笔记也不会涉及到任何直接给出代码的部分，有关自己的心得体会很可能是错的，请自己思考。遵守以下协议：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 169; 
+			flex-basis: 406px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_79louUpRWq.png" data-size="885x522">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_79louUpRWq.png"
+			width="885"
+			height="522"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_79louUpRWq_hu76b326673c9db4f94fe2a85d46dc5329_187133_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_79louUpRWq_hu76b326673c9db4f94fe2a85d46dc5329_187133_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="1最简单的操作系统">1、最简单的操作系统</h2>
+<p>Nanos-lite是运行在AM之上, AM的API在Nanos-lite中都是可用的. 虽然操作系统对我们来说是一个特殊的概念, 但在AM看来, 它只是一个调用AM API的普通C程序而已, </p>
+<blockquote>
+<p>Nanos-lite目前的行为:</p>
+<ol>
+<li>
+<p>打印Project-N的logo, 并通过<code>Log()</code>输出hello信息和编译时间. 在Nanos-lite中, <code>Log()</code>宏通过你在<code>klib</code>中编写的<code>printf()</code>输出, 最终会调用TRM的<code>putch()</code>.</p>
+</li>
+<li>
+<p>调用<code>init_device()</code>对设备进行一些初始化操作. 目前<code>init_device()</code>会直接调用<code>ioe_init()</code>.</p>
+</li>
+<li>
+<p>在NEMU中对磁盘进行模拟是一个略显复杂工作, 先让Nanos-lite把其中的一段内存作为磁盘来使用. 这样的磁盘有一个专门的名字, 叫ramdisk.</p>
+</li>
+<li>
+<p><code>init_fs()</code>和<code>init_proc()</code>, 分别用于初始化文件系统和创建进程, 目前它们均未进行有意义的操作, 可以忽略它们.</p>
+</li>
+<li>
+<p>调用<code>panic()</code>结束Nanos-lite的运行.</p>
+</li>
+</ol>
+</blockquote>
+<p>回顾历史, 要实现一个最简单的操作系统, 就要实现以下两点功能:</p>
+<ul>
+<li>
+<p>用户程序执行结束之后, 可以跳转到操作系统的代码继续执行</p>
+</li>
+<li>
+<p>操作系统可以加载一个新的用户程序来执行</p>
+</li>
+</ul>
+<p>（没错，就是fork与execve）</p>
+<blockquote>
+<p>为了操作系统的稳定性，我们所希望是一种可以限制入口的执行流切换方式,而不像用户程序那样可以随意切换PC跳转：</p>
+<p>i386：保护模式(protected mode)和特权级(privilege level)</p>
+<p>mips32处理器：内核模式和用户模式</p>
+<p>riscv32：机器模式(M-mode), 监控者模式(S-mode)和用户模式(U-mode)</p>
+<p>最厉害的是硬件检查：如mips32都是通过硬件检查，只要软件运行在硬件上面, 都无法逃出这一天网. 硬件保护机制使得恶意程序永远无法全身而退,</p>
+<p>在硬件中加入一些与特权级检查相关的门电路(例如比较器电路), 如果发现了非法操作, 就会抛出一个异常信号, 让CPU跳转到一个约定好的目标位置, 并进行后续处理.</p>
+</blockquote>
+<p>直接看看效果：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 126; 
+			flex-basis: 304px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_wl-aDRVg-_.png" data-size="1033x815">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_wl-aDRVg-_.png"
+			width="1033"
+			height="815"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_wl-aDRVg-__hu3ac6f6641bfe7bd113eaf496964a2185_127215_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_wl-aDRVg-__hu3ac6f6641bfe7bd113eaf496964a2185_127215_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>此时会出现异常，因为我们还没实现csrw伪指令，但要注意的是这里中文文档有个错误，从csrwi的可以推测这里应该是csrrw，也可以直接看英文文档的说明</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 399; 
+			flex-basis: 958px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_LDGP_9AfA6.png" data-size="1126x282">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_LDGP_9AfA6.png"
+			width="1126"
+			height="282"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_LDGP_9AfA6_hu2b6dde16788955947d1238f2cff20393_58027_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_LDGP_9AfA6_hu2b6dde16788955947d1238f2cff20393_58027_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 393; 
+			flex-basis: 943px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_X89OzgaJq5.png" data-size="1030x262">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_X89OzgaJq5.png"
+			width="1030"
+			height="262"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_X89OzgaJq5_hu11ac2d849f22d8082fecdbcb6ed8c8c9_101088_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_X89OzgaJq5_hu11ac2d849f22d8082fecdbcb6ed8c8c9_101088_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>这里我们发现了一个名词“控制状态寄存器”，应该如何理解呢？我们看看下文中对控制状态寄存器的解释。</p>
+<h2 id="2穿越时空的旅程">2、穿越时空的旅程</h2>
+<p>硬件需要提供一种可以限制入口的执行流切换方式. 这种方式就是自陷指令, </p>
+<p>程序执行自陷指令之后, 就会陷入到操作系统预先设置好的跳转目标. 这个跳转目标也称为异常入口地址.</p>
+<p>非法指令可以定义成&quot;不属于ISA手册描述范围的指令&quot;, 而自陷指令可以认为是一种特殊的无条件失败. </p>
+<blockquote>
+<p>riscv32提供<code>ecall</code>指令作为自陷指令, 并提供一个mtvec寄存器来存放异常入口地址. 为了保存程序当前的状态, <strong>riscv32提供了一些特殊的系统寄存器, 叫控制状态寄存器(CSR寄存器). 在PA中, 我们只使用如下3个CSR寄存器:</strong></p>
+<ul>
+<li>
+<p>**mepc寄存器 **- 存放触发异常的PC</p>
+</li>
+<li>
+<p><strong>mstatus寄存器</strong> - 存放处理器的状态</p>
+</li>
+<li>
+<p><strong>mcause寄存器</strong> - 存放触发异常的原因</p>
+</li>
+</ul>
+<p>riscv32触发异常后硬件的响应过程如下:</p>
+<ol>
+<li>
+<p>将当前PC值保存到mepc寄存器</p>
+</li>
+<li>
+<p>在mcause寄存器中设置异常号</p>
+</li>
+<li>
+<p>从mtvec寄存器中取出异常入口地址</p>
+</li>
+<li>
+<p>跳转到异常入口地址</p>
+<p>上述保存程序状态以及跳转到异常入口地址的工作, 都是硬件自动完成的</p>
+</li>
+</ol>
+</blockquote>
+<p>所以我们知道，如果要补全csrw指令，首先要能区分不同的控制状态寄存器，具体怎么区分呢，</p>
+<p>首先修复一下对应的指令，此时要注意的是CSR寄存器的实现方法。</p>
+<p>注意到：The standard RISC-V ISA sets aside a 12-bit encoding space (csr[11:0]) for up to 4,096 CSRs.</p>
+<p>此时需要查阅的是新手大礼包（具体是哪个需要自己RTFM）之Control and Status Registers——CSR Listing的Currently allocated RISC-V machine-level CSR addresses</p>
+<p>因为此时立即数位置对应的就是CSR地址，打印出来后发现是0x305查手册后发现也确实是mtvec——Machine trap-handler base address.</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 205; 
+			flex-basis: 492px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_TG38eGv2Kl.png" data-size="1020x497">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_TG38eGv2Kl.png"
+			width="1020"
+			height="497"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_TG38eGv2Kl_hude91585b3a5cb89f377fe46ccdfad849_95395_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_TG38eGv2Kl_hude91585b3a5cb89f377fe46ccdfad849_95395_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>根据手册的地址进行匹配并存入寄存器。</p>
+<h3 id="状态机视角下的异常响应机制">状态机视角下的异常响应机制</h3>
+<blockquote>
+<p>SR[mepc] &lt;- PC       （发生异常的pc）</p>
+<p>SR[mcause] &lt;- 一个描述失败原因的号码   </p>
+<p>PC &lt;- SR[mtvec]     （异常入口地址）</p>
+<p><code>fex: S -&gt; {0, 1}</code>, 给定状态机的任意状态<code>S</code>, <code>fex(S)</code>都可以唯一表示当前PC指向的指令是否可以成功执行</p>
+</blockquote>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 188; 
+			flex-basis: 453px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_LaO0TTipN2.png" data-size="839x444">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_LaO0TTipN2.png"
+			width="839"
+			height="444"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_LaO0TTipN2_hucceae6fd0b7a28d0bae33271b867248a_36835_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_LaO0TTipN2_hucceae6fd0b7a28d0bae33271b867248a_36835_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="将上下文管理抽象成cte">将上下文管理抽象成CTE</h2>
+<blockquote>
+<p>程序的状态, 在操作系统中有一个等价的术语, 叫&quot;上下文&quot;.AM的一类新的API中名字叫CTE(ConText Extension).</p>
+<p>与IOE一样, 上下文管理的具体实现也是架构相关的: 例如上文提到, x86/mips32/riscv32中分别通过<code>int</code>/<code>syscall</code>/<code>ecall</code>指令来进行自陷, <code>native</code>中甚至可以通过一些神奇的库函数来模拟相应的功能</p>
+<p>操作系统的处理过程其实需要哪些信息：</p>
+<ul>
+<li>
+<p>引发这次执行流切换的原因, 是程序除0, 非法指令, 还是触发断点, 又或者是程序自愿陷入操作系统? </p>
+</li>
+<li>
+<p>程序的上下文了（寄存器）</p>
+</li>
+</ul>
+<p>把这两点信息抽象成一种统一的表示方式, 就可以定义出CTE的API.</p>
+<p> 对于切换原因, 我们只需要定义一种统一的描述方式即可. CTE定义了名为&quot;事件&quot;的数据结构(见<code>abstract-machine/am/include/am.h</code>)</p>
+<p>其中<code>event</code>表示事件编号, <code>cause</code>和<code>ref</code>是一些描述事件的补充信息, <code>msg</code>是事件信息字符串, 我们在PA中只会用到<code>event</code>. 然后, 我们只要定义一些统一的事件编号(上述枚举常量), 让每个架构在实现各自的CTE API时, 都统一通过上述结构体来描述执行流切换的原因,</p>
+<p>对于上下文, 我们只能将描述上下文的结构体类型名统一成<code>Context</code>至于其中的具体内容, 就无法进一步进行抽象了. 这主要是因为不同架构之间上下文信息的差异过大（比如各种寄存器）,在AM中, <code>Context</code>的具体成员也是由不同的架构自己定义的, 比如<code>x86-nemu</code>的<code>Context</code>结构体在<code>abstract-machine/am/include/arch/x86-nemu.h</code></p>
+<p>不过大多数情况下, 操作系统并不需要单独访问<code>Context</code>结构中的成员. CTE也提供了一些的接口, 来让操作系统在必要的时候访问它们, 从而保证操作系统的相关代码与架构无关.</p>
+<p>最后还有另外两个统一的API:</p>
+<ul>
+<li>
+<p><code>bool cte_init(Context* (*handler)(Event ev, Context *ctx))</code>用于进行CTE相关的初始化操作. 其中它还<strong>接受一个来自操作系统的事件处理回调函数的指针,</strong> 当发生事件时,** CTE将会把事件和相关的上下文作为参数, 来调用这个回调函数, 交由操作系统进行后续处理**.</p>
+</li>
+<li>
+<p><code>void yield()</code>用于进行自陷操作, 会触发一个编号为<code>EVENT_YIELD</code>事件.** 不同的ISA会使用不同的自陷指令来触发自陷操作**,</p>
+</li>
+</ul>
+</blockquote>
+<p>Q：AM究竟给<strong>程序</strong>提供了多大的栈空间呢? 事实上, 如果你在PA2的时候尝试努力了解每一处细节, 你已经知道这个问题的答案了;</p>
+<p>A：</p>
+<p>_stack_top = ALIGN(0x1000);</p>
+<p>. = _stack_top + 0x8000;</p>
+<p>_stack_pointer = .;</p>
+<p>end = .;</p>
+<p>_end = .;</p>
+<p>_heap_start = ALIGN(0x1000);</p>
+<p>注意区别：</p>
+<p>/* Minimum stack size for a signal handler. */</p>
+<p>#define MINSIGSTKSZ 2048</p>
+<p>/* System default stack size. */</p>
+<p>#define SIGSTKSZ 8192</p>
+<h3 id="插播一个潜在大坑">插播一个潜在大坑</h3>
+<p>【发现者为jyyos群的杨婆婆，也是一位超神的大佬】：</p>
+<p>涉及到ra寄存器相关跳转的顺序问题，要严格按照这个顺序操作</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 484; 
+			flex-basis: 1163px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tXKZguEUsv.png" data-size="1023x211">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tXKZguEUsv.png"
+			width="1023"
+			height="211"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tXKZguEUsv_huc1adf31eaa12d9a76fb172ec326940d6_65743_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tXKZguEUsv_huc1adf31eaa12d9a76fb172ec326940d6_65743_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>为什么呢？原因是如果我们的源操作数和目的操作数寄存器刚好是同一个的时候（比如ra），重复写入会直接覆盖值，如果我们先用pc+4赋值，很可能再次使用的时候就会出大问题，值被提前覆盖了！！！</p>
+<h3 id="尝试在nanos-lite中触发一次自陷操作">尝试在Nanos-lite中触发一次自陷操作</h3>
+<h4 id="设置异常入口地址">设置异常入口地址</h4>
+<blockquote>
+<p>按照ISA的约定来设置异常入口地址, 将来切换执行流时才能跳转到正确的异常入口. 这显然是架构相关的行为, 因此我们把这一行为放入CTE中, 而不是让Nanos-lite直接来设置异常入口地址. </p>
+<p>你需要在<code>nanos-lite/include/common.h</code>中定义宏<code>HAS_CTE</code>, 这样以后, Nanos-lite会多进行一项初始化工作: 调用<code>init_irq()</code>函数, 这最终会调用位于<code>abstract-machine/am/src/nemu/isa/$ISA/cte.c</code>中的<code>cte_init()</code>函数. <code>cte_init()</code>函数会做两件事情, 第一件就是设置异常入口地址</p>
+<p><code>cte_init()</code>函数做的第二件事是注册一个事件处理回调函数, 这个回调函数由Nanos-lite提供,</p>
+</blockquote>
+<ul>
+<li>对于riscv32来说, 直接将异常入口地址设置到mtvec寄存器中即可.</li>
+</ul>
+<p>实现完各种指令框架后我们能看到</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 136; 
+			flex-basis: 327px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_-Iu7mDHnwA.png" data-size="1130x827">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_-Iu7mDHnwA.png"
+			width="1130"
+			height="827"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_-Iu7mDHnwA_hu92d90df7223698c84e42742f0b431ae0_154428_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_-Iu7mDHnwA_hu92d90df7223698c84e42742f0b431ae0_154428_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>这时还没完全实现ecall，进入实现过程：</p>
+<blockquote>
+<p>你需要实现上文提到的新指令, 并实现<code>isa_raise_intr()</code>函数. 然后阅读<code>cte_init()</code>的代码, 找出相应的异常入口地址.</p>
+<p>实现后, 重新运行Nanos-lite, 如果你发现NEMU确实跳转到你找到的异常入口地址, 说明你的实现正确</p>
+<p>你需要在自陷指令的辅助函数中调用<code>isa_raise_intr()</code></p>
+</blockquote>
+<p>此时先实现<code>isa_raise_intr</code>，模拟上文提到的异常响应机制：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 211; 
+			flex-basis: 507px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_mKFE5NXPxt.png" data-size="425x201">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_mKFE5NXPxt.png"
+			width="425"
+			height="201"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_mKFE5NXPxt_hudf79569b4fb48fb1c84991ce06cb5cf8_33105_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_mKFE5NXPxt_hudf79569b4fb48fb1c84991ce06cb5cf8_33105_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>会发现我们需要找到一个NO，而这个异常NO可以在yield的代码中“领略到怎么获取”，我们直接看他的汇编代码<code>asm volatile(&quot;li a7, -1; ecall&quot;)</code>; 可以猜想是不是和a7有关呢？这时候可以拿出a7看看。至于怎么拿出，这个就是基础操作了。（注意：这里其实是错误的，之后会说为什么）</p>
+<p>同时我们再看到<code>asm volatile(&quot;csrw mtvec, %0&quot; :  : &quot;r&quot;(__am_asm_trap));</code></p>
+<p>这是什么意思呢，首先我们能知道应该是把寄存器的值写入控制状态寄存器（有理由猜测这就是异常地址），那后面的&quot;r&quot;是什么意思呢？</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 171; 
+			flex-basis: 412px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_jBWMD2oFED.png" data-size="878x511">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_jBWMD2oFED.png"
+			width="878"
+			height="511"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_jBWMD2oFED_hucb0860e21a63e781bd45f2dcedb203c1_49164_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_jBWMD2oFED_hucb0860e21a63e781bd45f2dcedb203c1_49164_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>我们可以对照一下知道了那是输入操作数，我们有理由猜测这就是为了把trap相关的地址存到mtvec，在另外一个文件可以看到类似的东西</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 246; 
+			flex-basis: 590px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_uLAvhvpBAS.png" data-size="980x398">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_uLAvhvpBAS.png"
+			width="980"
+			height="398"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_uLAvhvpBAS_huf90e3e5ce73e39db45e3115b4a2f240d_75666_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_uLAvhvpBAS_huf90e3e5ce73e39db45e3115b4a2f240d_75666_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>此时大胆猜测这就是异常相关入口。</p>
+<p>一顿操作猛如虎实现了ecall调用，找了个地方加入了异常处理的寄存器：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 113; 
+			flex-basis: 272px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_L64lph05Y0.png" data-size="908x801">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_L64lph05Y0.png"
+			width="908"
+			height="801"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_L64lph05Y0_huedb4cb21fa9f62021371ee4203fa9457_160347_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_L64lph05Y0_huedb4cb21fa9f62021371ee4203fa9457_160347_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>开diff检查发现了问题：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 107; 
+			flex-basis: 257px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_XKNnHKIekD.png" data-size="777x725">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_XKNnHKIekD.png"
+			width="777"
+			height="725"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_XKNnHKIekD_hubf2b024b79d53d725028804e1675dcfa_65120_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_XKNnHKIekD_hubf2b024b79d53d725028804e1675dcfa_65120_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>为啥是b呢？我们发现这其实是mcause的返回值，难道不是前面的li a7 -1吗？？？</p>
+<p>经过搜索手册可以查到那其实表示一种environment call。</p>
+<p>经过查阅资料：</p>
+<blockquote>
+<p>RISC-V中系统调用通过（environment call）来实现。在U-mode、S-mode、M-mode下执行 <code>ecall</code>分别会触发environment-call-from-U-mode异常、environment-call-from-S-mode异常、environment-call-from-M-mode异常。在系统调用的实现中，我们通过在U-mode下执行 <code>ecall</code>触发environment-call-from-U-mode异常，并由S-mode中运行的内核处理这个异常。</p>
+<p>在head.S中内核boot阶段时，设置 medeleg 寄存器为用户模式系统调用添加异常委托。 在没有设置异常委托的情况下，<code>ecall</code>指令产生的异常由M-mode来处理，而不是交由内核所在的S-mode进行处理。通过 medeleg 中设置相应的位，可以将environment-call-from-U-mode异常直接交由S-mode处理。</p>
+<p>链接：<a class="link" href="https://www.zhihu.com/question/24960401/answer/2308952497"  title="https://www.zhihu.com/question/24960401/answer/2308952497"
+     target="_blank" rel="noopener"
+    >https://www.zhihu.com/question/24960401/answer/2308952497</a>  </p>
+<p>来源：知乎  </p>
+</blockquote>
+<p>那么里面的U,S,M是什么意思呢？以支持现代操作系统的RISC-V处理器为例, 它们存在M, S, U三个特权模式, 分别代表机器模式, 监管者模式和用户模式. M模式特权级最高, U模式特权级最低。所以我们知道了到底是什么调用。</p>
+<blockquote>
+<p>华中科技大学操作系统团队：<a class="link" href="https://gitee.com/hustos/pke-doc/blob/master/chapter1_riscv.md"  title="https://gitee.com/hustos/pke-doc/blob/master/chapter1_riscv.md"
+     target="_blank" rel="noopener"
+    >https://gitee.com/hustos/pke-doc/blob/master/chapter1_riscv.md</a></p>
+<p>系统发生中断（我们用中文的“中断”这个名词来指代广义的中断，并非以上的interrupt）时执行的这段程序，往往被称为<strong>中断例程</strong>（interrupt routine）。因为事件的多样性，系统可能有多个这样的中断例程，通常的做法是把这些例程的入口放在一张表中，而这张表一般称为<strong>中断向量表</strong>（interrupt table）。RV64G处理器在发生中断后，会将发生的中断类型、编号自动记录（硬件完成）到目标模式的CSR中。<strong>假设发生中断的目标模式为M模式，则中断的这些信息会记录到mcause寄存器。</strong> 表1.7列出了mcause的可能取值以及对应的中断信息</p>
+</blockquote>
+<p>那么a7到底是什么呢，从man syscall可以查到，原来只是用于存放syscall调用号的地方，并不是真正的mcause，只是为了触发自陷操作,不同ISA的实现不同的(可以全局搜索yield)</p>
+<p>（至于为什么是-1，和小伙伴讨论还是个迷）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 139; 
+			flex-basis: 334px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_jGFU-H3yDx.png" data-size="1225x880">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_jGFU-H3yDx.png"
+			width="1225"
+			height="880"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_jGFU-H3yDx_hu2a1373e3e8017b16d49f8611813f3de3_172961_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_jGFU-H3yDx_hu2a1373e3e8017b16d49f8611813f3de3_172961_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接下来目的就是找到正确的mcause，什么才是正确的呢？这里就需要你查手册理解PA有几种模式了，以及理解为什么说在后面我们会再次用到<code>isa_raise_intr()</code>函数。（想想<code>isa_raise_intr()</code>的翻译是什么？并不是异常指令）</p>
+<p>你可以用diff检查自己实现的对不对。</p>
+<p>通过diff检查：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 174; 
+			flex-basis: 419px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tFgyzY_Ye7.png" data-size="987x565">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tFgyzY_Ye7.png"
+			width="987"
+			height="565"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tFgyzY_Ye7_hu5cb4816abed766fd9b57d7f6ae056e7f_140748_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tFgyzY_Ye7_hu5cb4816abed766fd9b57d7f6ae056e7f_140748_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="保存上下文">保存上下文</h2>
+<blockquote>
+<p>现在的通用寄存器, 里面存放的都是执行流切换之前的内容. 这些内容也是上下文的一部分, 如果不保存就覆盖它们, 将来就无法恢复这一上下文了. 但通常硬件并不负责保存它们, 因此需要通过软件代码来保存它们的值. riscv32则通过<code>sw</code>指令将各个通用寄存器依次压栈.</p>
+<p>除了通用寄存器之外, 上下文还包括:</p>
+<ul>
+<li>
+<p>**触发异常时的PC和处理器状态. **epc/mepc和status/mstatus寄存器, 异常响应机制把它们保存在相应的系统寄存器中, 我们还需要将它们从系统寄存器中读出, 然后保存在堆栈上.</p>
+</li>
+<li>
+<p>**异常号. **异常号已经由硬件保存在cause/mcause寄存器中, 我们还需要将其保存在堆栈上.</p>
+</li>
+<li>
+<p><strong>地址空间.</strong> 这是为PA4准备的,将地址空间信息与0号寄存器共用存储空间, 反正0号寄存器的值总是0, 也不需要保存和恢复. 我们暂时不使用地址空间信息, 你目前可以忽略它们的含义.</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="问异常号的保存">问：异常号的保存</h4>
+<p>Q:x86通过软件来保存异常号, 没有类似cause的寄存器. mips32和riscv32也可以这样吗? 为什么?</p>
+<p>A：我认为可以，因为异常地址之类的都能保存到上下文信息，那么riscv也可以有。</p>
+<h4 id="重新组织context结构体">重新组织Context结构体</h4>
+<blockquote>
+<p>你的任务如下:</p>
+<ul>
+<li>
+<p>实现这一过程中的新指令, 详情请RTFM.</p>
+</li>
+<li>
+<p>理解上下文形成的过程并RTFSC, 然后重新组织<code>abstract-machine/am/include/arch/$ISA-nemu.h</code> 中定义的<code>Context</code>结构体的成员, 使得这些成员的定义顺序和 <code>abstract-machine/am/src/$ISA/nemu/trap.S</code>中构造的上下文保持一致.</p>
+</li>
+</ul>
+<p>需要注意的是, 虽然我们目前暂时不使用上文提到的地址空间信息, 但你在重新组织<code>Context</code>结构体时仍<strong>然需要正确地处理地址空间信息的位置,</strong> 否则你可能会在PA4中遇到难以理解的错误.</p>
+<p>实现之后, 你可以在<code>__am_irq_handle()</code>中通过<code>printf</code>输出上下文<code>c</code>的内容, 然后通过简易调试器观察触发自陷时的寄存器状态, 从而检查你的<code>Context</code>实现是否正确.</p>
+</blockquote>
+<p>这部分关键是理解结构体和汇编语言的关系，让我们看一段示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">test</span>
+<span class="p">{</span>
+        <span class="kt">char</span> <span class="n">ch</span><span class="p">;</span>
+        <span class="kt">short</span> <span class="n">s</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+        <span class="kt">long</span> <span class="n">l</span><span class="p">;</span>
+<span class="p">};</span>
+
+
+<span class="kt">int</span> <span class="nf">fun</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+        <span class="k">struct</span> <span class="n">test</span> <span class="n">tmp</span><span class="p">;</span>
+
+        <span class="n">ret</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+        <span class="n">tmp</span><span class="p">.</span><span class="n">ch</span><span class="o">=</span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
+        <span class="n">tmp</span><span class="p">.</span><span class="n">s</span><span class="o">=</span><span class="mi">123</span><span class="p">;</span>
+        <span class="n">tmp</span><span class="p">.</span><span class="n">i</span><span class="o">=</span><span class="mi">1234</span><span class="p">;</span>
+        <span class="n">tmp</span><span class="p">.</span><span class="n">l</span><span class="o">=</span><span class="mi">12345</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>汇编代码：</p>
+<pre tabindex="0"><code class="language-6502&#x20;assembly" data-lang="6502&#x20;assembly">  pushl   %ebp
+  movl    %esp, %ebp
+  subl    $16, %esp
+  //ret=0;
+  movl    $0, -16(%ebp)
+  //tmp.ch='a';
+  movb    $97, -12(%ebp)
+  //tmp.s=123;
+  movw    $123, -10(%ebp)
+  //tmp.i=1234;
+  movl    $1234, -8(%ebp)
+  //tmp.l=12345;
+  movl    $12345, -4(%ebp)
+  //返回值
+  movl    -16(%ebp), %eax
+  leave
+  ret
+</code></pre><p>从顺序上我们就知道根据压入栈该如何组织结构体了，同时我们也可以在handler处理后看到结果。</p>
+<h4 id="问必答题需要在实验报告中回答---理解上下文结构体的前世今生">问：必答题(需要在实验报告中回答) - 理解上下文结构体的前世今生</h4>
+<blockquote>
+<p>你会在<code>__am_irq_handle()</code>中看到有一个上下文结构指针<code>c</code>, <code>c</code>指向的上下文结构究竟在哪里? 这个上下文结构又是怎么来的? 具体地, 这个上下文结构有很多成员, 每一个成员究竟在哪里赋值的? <code>$ISA-nemu.h</code>, <code>trap.S</code>, 上述讲义文字, 以及你刚刚在NEMU中实现的新指令, 这四部分内容又有什么联系?</p>
+</blockquote>
+<p>答：本质是Context* (<em>user_handler)(Event, Context</em>)的结构体指针。其中定义在am.h，赋值在cte_init阶段初始化</p>
+<p>（怀疑就是为了软件存储上下文信息。所谓的保存到堆栈（S的过程））</p>
+<p>具体的Context是怎么被加载的？</p>
+<p>首先我们能在S中找到.globl __am_asm_trap，其中.globl关键字作用是</p>
+<p><figure 
+	>
+	<a href="/image/8%7dBZVLYNSMF-4G%7d-%5c%283DDGWJ_fbcT98jcT7.png" >
+		<img src="/image/8%7dBZVLYNSMF-4G%7d-%5c%283DDGWJ_fbcT98jcT7.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>能被链接后，就会和extern相对应，所以我们确定__am_irq_trap 是可以在链接过程打包到可执行文件的</p>
+<p><figure 
+	>
+	<a href="/image/%5c%297%60_%7d]WQ9IQ%5c%29%5c%29VWNP%5c%28CD%5c~DM_Drh4r0nTcu.png" >
+		<img src="/image/%5c%297%60_%7d]WQ9IQ%5c%29%5c%29VWNP%5c%28CD%5c~DM_Drh4r0nTcu.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 62; 
+			flex-basis: 150px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_bKSOwKodOu.png" data-size="447x715">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_bKSOwKodOu.png"
+			width="447"
+			height="715"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_bKSOwKodOu_hu4319e2fab4f40aac1430e6b1f9236ca9_111124_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_bKSOwKodOu_hu4319e2fab4f40aac1430e6b1f9236ca9_111124_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>再回顾S代码，我们发现这确实就是结构体的push过程。最开始是寄存器，最后是mepc。（我们可以通过打印结构体指针的讯息来看看是不是对应的位置（比如mepc）。）同时我们可以注意到jal __am_irq_handle，这里就真正跳转到了框架代码。但这个明明是Context <em>，哪来的Context</em>？</p>
+<p>可以合理猜测应该是mv a0,sp 中传入sp得到了context的指针信息Context *c，而结构体指针的第一个成员的地址也即是结构体指针的地址。</p>
+<h3 id="事件分发">事件分发</h3>
+<blockquote>
+<p><code>__am_irq_handle()</code>的代码会把执行流切换的原因打包成事件, 然后调用在<code>cte_init()</code>中注册的事件处理回调函数（<em>user_handler</em>）, 将事件交给Nanos-lite来处理</p>
+</blockquote>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 191; 
+			flex-basis: 459px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_yQGHt4UZNy.png" data-size="701x366">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_yQGHt4UZNy.png"
+			width="701"
+			height="366"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_yQGHt4UZNy_huf8d6eadf421d6d75c02b75f8429c7860_37428_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_yQGHt4UZNy_huf8d6eadf421d6d75c02b75f8429c7860_37428_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 222; 
+			flex-basis: 534px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_anE1Gr1k6B.png" data-size="1273x572">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_anE1Gr1k6B.png"
+			width="1273"
+			height="572"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_anE1Gr1k6B_hu416f69f5684d041696d431321b4579a1_78607_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_anE1Gr1k6B_hu416f69f5684d041696d431321b4579a1_78607_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>实现完成后发现卡在自现异常的死循环,之后会解决这个问题</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 153; 
+			flex-basis: 367px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_R3UC5okCSz.png" data-size="1128x737">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_R3UC5okCSz.png"
+			width="1128"
+			height="737"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_R3UC5okCSz_hu9f9828947a5c09800c2232b7caab3ac8_80600_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_R3UC5okCSz_hu9f9828947a5c09800c2232b7caab3ac8_80600_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="恢复上下文">恢复上下文</h2>
+<blockquote>
+<p>代码将会一路返回到<code>trap.S</code>的<code>__am_asm_trap()</code>中, 接下来的事情就是恢复程序的上下文. <code>__am_asm_trap()</code>将根据之前保存的上下文内容, 恢复程序的状态, 最后执行&quot;异常返回指令&quot;返回到程序触发异常之前的状态.</p>
+<p>需要注意之前自陷指令保存的PCr。iscv32的<code>ecall</code>, 保存的是自陷指令的PC, 因此需要在适当的地方对保存的PC加上4, 使得将来返回到自陷指令的下一条指令.</p>
+</blockquote>
+<p>什么叫做合适的地方？我们该想想什么叫做恢复上下文——用什么恢复？</p>
+<p>所以我们应该在恢复的地方将pc+4。</p>
+<h4 id="问从加4操作看cisc和risc">问：从加4操作看CISC和RISC</h4>
+<blockquote>
+<p>事实上, 自陷只是其中一种异常类型. 有一种故障类异常, 它们返回的PC和触发异常的PC是同一个, 例如缺页异常, 在系统将故障排除后, 将会重新执行相同的指令进行重试, 因此异常返回的PC无需加4. 所以根据异常类型的不同, 有时候需要加4, 有时候则不需要加.</p>
+<p>这时候, 我们就可以考虑这样的一个问题了: 决定要不要加4的, 是硬件还是软件呢? CISC和RISC的做法正好相反, CISC都交给硬件来做, 而RISC则交给软件来做. 思考一下, 这两种方案各有什么取舍? 你认为哪种更合理呢? 为什么?</p>
+</blockquote>
+<p>答：riscv不支持用硬件，只有一个，是因为pc要存在mepc里，mepc只有1个，x86执行到int指令后会直接把flags,cs,ip压栈。x86是硬件做的 (by pony)</p>
+<p>而且我倾向于x86放在硬件主要是指令太多，放在软件会拖慢速度而且可能会导致奇奇怪怪的问题。</p>
+<h4 id="问必答题需要在实验报告中回答---理解穿越时空的旅程">问：必答题(需要在实验报告中回答) - 理解穿越时空的旅程</h4>
+<blockquote>
+<p>从Nanos-lite调用<code>yield()</code>开始, 到从<code>yield()</code>返回的期间, 这一趟旅程具体经历了什么? 软(AM, Nanos-lite)硬(NEMU)件是如何相互协助来完成这趟旅程的? 你需要解释这一过程中的每一处细节, 包括涉及的每一行汇编代码/C代码的行为, 尤其是一些比较关键的指令/变量. 事实上, 上文的必答题&quot;理解上下文结构体的前世今生&quot;已经涵盖了这趟旅程中的一部分, 你可以把它的回答包含进来.</p>
+<p>别被&quot;每一行代码&quot;吓到了, 这个过程也就大约50行代码, 要完全理解透彻并不是不可能的. 我们之所以设置这道必答题, 是为了强迫你理解清楚这个过程中的每一处细节. 这一理解是如此重要, 以至于如果你缺少它, 接下来你面对bug几乎是束手无策</p>
+</blockquote>
+<p>答：暂时参考理解上下文结构体的前世今生</p>
+<h2 id="3用户程序和系统调用">3、用户程序和系统调用</h2>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 133; 
+			flex-basis: 320px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_BelyiKXswJ.png" data-size="886x663">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_BelyiKXswJ.png"
+			width="886"
+			height="663"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_BelyiKXswJ_huc7ce369b0152d87359697f021c2fdf44_133086_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_BelyiKXswJ_huc7ce369b0152d87359697f021c2fdf44_133086_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>这部分强烈推荐先看袁妈妈有关链接和可执行文件的讲解</p>
+<p>简直是手把手喂给你：</p>
+<p><a class="link" href="https://www.bilibili.com/video/BV1kE411X7S5"  title="https://www.bilibili.com/video/BV1kE411X7S5"
+     target="_blank" rel="noopener"
+    >https://www.bilibili.com/video/BV1kE411X7S5</a></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 141; 
+			flex-basis: 338px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_rbSAocB3uS.png" data-size="1261x894">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_rbSAocB3uS.png"
+			width="1261"
+			height="894"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_rbSAocB3uS_hu19e08bf6cefd7943bd8f7e2cf2fc2775_887649_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_rbSAocB3uS_hu19e08bf6cefd7943bd8f7e2cf2fc2775_887649_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="加载第一个用户程序">加载第一个用户程序</h3>
+<blockquote>
+<p>加载的过程就是把可执行文件中的代码和数据放置在正确的内存位置,</p>
+<p>然后跳转到程序入口, 程序就开始执行了. </p>
+<p>更具体的, 为了实现<code>loader()</code>函数, 我们需要解决以下问题:</p>
+<ul>
+<li>
+<p>可执行文件在哪里?</p>
+</li>
+<li>
+<p>代码和数据在可执行文件的哪个位置?</p>
+</li>
+<li>
+<p>代码和数据有多少?</p>
+</li>
+<li>
+<p>&ldquo;正确的内存位置&quot;在哪里?</p>
+</li>
+</ul>
+<p>其中, <code>navy-apps/libs/libc</code>中是一个名为<a class="link" href="https://sourceware.org/newlib/"  title="Newlib"
+     target="_blank" rel="noopener"
+    >Newlib</a>的项目, 它是一个专门为嵌入式系统提供的C库, 库中的函数对运行时环境的要求极低. </p>
+<p><strong>用户程序的入口位于</strong><code>navy-apps/libs/libos/src/crt0/start/$ISA.S</code>中的<code>_start()</code>函数, 这里的<code>crt</code>是<code>C RunTime</code>的缩写, <code>0</code>的含义表示最开始. <code>_start()</code>函数会调用<code>navy-apps/libs/libos/src/crt0/crt0.c</code>中的<code>call_main()</code>函数, 然后调用用户程序的<code>main()</code>函数, 从<code>main()</code>函数返回后会调用<code>exit()</code>结束运行.</p>
+<p>我们约定目前用户程序需要被链接到内存位置<code>0x83000000</code>附近, Navy已经设置好了相应的选项(见<code>navy-apps/scripts/$ISA.mk</code>中的<code>LDFLAGS</code>变量).</p>
+</blockquote>
+<p>注：这里我的电脑在make ISA=riscv32的时候出现了问题，我怀疑是交叉汇编环境冲突。。不明白(assert.h相关说undefined reference to `__assert_fail'）于是从另外一个电脑弄来了编译通过的文件。</p>
+<blockquote>
+<p>可执行文件位于ramdisk偏移为0处, 访问它就可以得到用户程序的第一个字节.</p>
+</blockquote>
+<h4 id="问堆和栈在哪里">问：堆和栈在哪里?</h4>
+<blockquote>
+<p>我们提到了代码和数据都在可执行文件里面, 但却没有提到堆(heap)和栈(stack). 为什么堆和栈的内容没有放入可执行文件里面? 那程序运行时刻用到的堆和栈又是怎么来的? AM的代码是否能给你带来一些启发?</p>
+</blockquote>
+<p>答：这些代码和数据本身都是静态的。程序要想运行，首先要OS负责为其创建进程，并在进程的虚拟地址空间中为其代码段和数据段建立映射。光有代码段和数据段是不够的，进程在运行过程中还要有其动态环境，其中最重要的就是堆栈。</p>
+<p>内核在创建进程的时候，在创建task_struct的同时，会为进程创建相应的堆栈。每个进程会有两个栈，一个用户栈，存在于用户空间，一个内核栈，存在于内核空间。</p>
+<h4 id="问如何识别不同格式的可执行文件">问：如何识别不同格式的可执行文件?</h4>
+<blockquote>
+<p>如果你在GNU/Linux下执行一个从Windows拷过来的可执行文件, 将会报告&quot;格式错误&rdquo;. 思考一下, GNU/Linux是如何知道&quot;格式错误&quot;的?</p>
+</blockquote>
+<p>答：</p>
+<p> 不同组织形式形成了不同格式的可执行文件, 例如Windows主流的可执行文件是<a class="link" href="http://en.wikipedia.org/wiki/Portable_Executable"  title="PE(Portable Executable)"
+     target="_blank" rel="noopener"
+    >PE(Portable Executable)</a>格式, 而GNU/Linux主要使用<a class="link" href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format"  title="ELF(Executable and Linkable Format)"
+     target="_blank" rel="noopener"
+    >ELF(Executable and Linkable Format)</a>格式. 因此一般情况下, 你不能在Windows下把一个可执行文件拷贝到GNU/Linux下执行, 反之亦然. ELF是GNU/Linux可执行文件的标准格式, 这是因为GNU/Linux遵循System V ABI(<a class="link" href="http://stackoverflow.com/questions/2171177/what-is-application-binary-interface-abi"  title="Application Binary Interface"
+     target="_blank" rel="noopener"
+    >Application Binary Interface</a>).</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 227; 
+			flex-basis: 547px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_hfRQXj7lxB.png" data-size="832x365">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_hfRQXj7lxB.png"
+			width="832"
+			height="365"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_hfRQXj7lxB_hu1c43725c804a27414cd3ee66ab31d317_469186_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_hfRQXj7lxB_hu1c43725c804a27414cd3ee66ab31d317_469186_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>E:可执行 L：链接</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 243; 
+			flex-basis: 583px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_iATXT8xti3.png" data-size="870x358">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_iATXT8xti3.png"
+			width="870"
+			height="358"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_iATXT8xti3_hu06c1c2e1ea9a5afccd677ac763adc274_165860_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_iATXT8xti3_hu06c1c2e1ea9a5afccd677ac763adc274_165860_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>通过解析数据结构可以得到信息。比如ELF头。</p>
+<blockquote>
+<p>ELF文件提供了两个视角来组织一个可执行文件,</p>
+<p>一个是面向链接过程的section视角, 这个视角提供了用于链接与重定位的信息(例如符号表); </p>
+<p>另一个是面向执行的segment视角, 这个视角提供了用于加载可执行文件的信息. </p>
+<p>可以参考这篇文章：<a class="link" href="https://blog.csdn.net/GoolyOh/article/details/119801160"  title="https://blog.csdn.net/GoolyOh/article/details/119801160"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/GoolyOh/article/details/119801160</a></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 183; 
+			flex-basis: 440px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_FaWhoqy3y-.png" data-size="529x288">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_FaWhoqy3y-.png"
+			width="529"
+			height="288"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_FaWhoqy3y-_hu52573777e025c4c7992f28a13b2ce878_94607_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_FaWhoqy3y-_hu52573777e025c4c7992f28a13b2ce878_94607_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p> 一个segment可能由0个或多个section组成, 但一个section可能不被包含于任何segment中.</p>
+<p><strong>program header table的一个表项</strong>描述了一个segment的所有属性, 包括类型, <strong>虚拟地址</strong>, 标志, 对齐方式, 以及<strong>文件内偏移量和segment大小.</strong></p>
+<p>加载一个可执行文件并不是加载它所包含的所有内容, 只要加载那些与运行时刻相关的内容就可以了, 例如调试信息和符号表就不必加载. </p>
+<p><strong>我们可以通过判断segment的</strong><code>Type</code>属性是否为<code>PT_LOAD</code>来判断一个segment是否需要加载.</p>
+</blockquote>
+<h4 id="问冗余的属性">问：冗余的属性?</h4>
+<blockquote>
+<p>使用<code>readelf</code>查看一个ELF文件的信息, 你会看到一个segment包含两个大小的属性, 分别是<code>FileSiz</code>和<code>MemSiz</code>, 这是为什么? 再仔细观察一下, 你会发现<code>FileSiz</code>通常不会大于相应的<code>MemSiz</code>, 这又是为什么?</p>
+</blockquote>
+<p>答： 相对文件偏移<code>Offset</code>指出<strong>相应segment的内容从ELF文件</strong>的第<code>Offset</code>字节开始,<strong>在文件中的大小</strong>为<code>FileSiz</code>, 它需要被分配到以<code>VirtAddr</code>为首地址的虚拟内存位置, <strong>在内存中它占用大小</strong>为<code>MemSiz</code>.</p>
+<p>这个segment使用的内存就是<code>[VirtAddr, VirtAddr + MemSiz)</code>这一连续区间, 然后将segment的内容从ELF文件中读入到这一内存区间, </p>
+<p>想想为什么要预留nobits的空间——本质是.bss相关。</p>
+<p>你需要找出每一个需要加载的segment的<code>Offset</code>, <code>VirtAddr</code>, <code>FileSiz</code>和<code>MemSiz</code>这些参数. 其中相对文件偏移<code>Offset</code>指出相应segment的内容从ELF文件的第<code>Offset</code>字节开始, 在文件中的大小为<code>FileSiz</code>, 它需要被分配到以<code>VirtAddr</code>为首地址的虚拟内存位置, 在内存中它占用大小为<code>MemSiz</code>. 也就是说, 这个segment使用的内存就是<code>[VirtAddr, VirtAddr + MemSiz)</code>这一连续区间, 然后将segment的内容从ELF文件中读入到这一内存区间, 并将<code>[VirtAddr + FileSiz, VirtAddr + MemSiz)</code>对应的物理区间清零.</p>
+<h4 id="问为什么要清零">问：为什么要清零?</h4>
+<p>为什么需要将 <code>[VirtAddr + FileSiz, VirtAddr + MemSiz)</code> 对应的物理区间清零?</p>
+<p>.bss清零的原因:(注意初始化为0的全局变量也在bss）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 138; 
+			flex-basis: 333px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_z90Ix8LOpx.png" data-size="1163x837">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_z90Ix8LOpx.png"
+			width="1163"
+			height="837"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_z90Ix8LOpx_hu8a7a4bcb602858122046c9a941b795ba_1003185_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_z90Ix8LOpx_hu8a7a4bcb602858122046c9a941b795ba_1003185_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<blockquote>
+<p>转载自：<a class="link" href="http://www.zhihu.com/question/23147702/answer/23738366"  title="http://www.zhihu.com/question/23147702/answer/23738366"
+     target="_blank" rel="noopener"
+    >http://www.zhihu.com/question/23147702/answer/23738366</a></p>
+<p>BSS段清零的原因是因为这个段是BSS  </p>
+<p>要说为什么要有BSS的话，历史就比较久远了。  </p>
+<p>BSS段我所知道的起源是Unix最初的时候（当然，不排除可能有更早的情况）。变量分两种：局部变量、全局变量。根据C语法的规定，局部变量不设置初始值的时候，其初始值是不确定的，局部变量（不含静态局部变量）的存储位置位于栈上，具体位置不固定。全局变量（和静态局部变量）有专门数据段存储，初始值是0，具体位置是固定的。其实说到底，就两种，一种是位置固定（数据段里），一种是位置不固定的（栈上）。  </p>
+<p>要知道，早期的计算机存储设备是很贵的，而很多时候，数据段里的全局变量都是0（或者没有初始值），那么存储这么多的0到目标文件里其实是没有必要的。所以为了节约空间，在生成目标文件的时候，就把没有初始值（实际就是0）的数据段里的变量都放到BSS段里，这样目标文件就不需要那么大的体积里（节约磁盘空间）。只有当目标文件被载入的时候，加载器负责把BSS段清零（一个循环就可以搞定）。  </p>
+<p>之后，这个规则慢慢的成为一个标准配置，大多数编译器也就都支持了BSS段。</p>
+<p>Q:如果BSS不清零可不可以？  </p>
+<p>A:可以，如果编译器规定BSS段不清零，也是可以的，但这样的话C语言语法就要改了：未初始化的全局变量和静态局部变量，其值是未知的。甚至其它语言也要跟着改语法。  </p>
+<p>所以，BSS段清零的原因是因为这个段是BSS</p>
+</blockquote>
+<h4 id="插播ld过程">插播ld过程：</h4>
+<p><a class="link" href="http://learn.lianglianglee.com/%e4%b8%93%e6%a0%8f/%e6%b7%b1%e5%85%a5%e6%b5%85%e5%87%ba%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bb%84%e6%88%90%e5%8e%9f%e7%90%86/08%20%20ELF%e5%92%8c%e9%9d%99%e6%80%81%e9%93%be%e6%8e%a5%ef%bc%9a%e4%b8%ba%e4%bb%80%e4%b9%88%e7%a8%8b%e5%ba%8f%e6%97%a0%e6%b3%95%e5%90%8c%e6%97%b6%e5%9c%a8Linux%e5%92%8cWindows%e4%b8%8b%e8%bf%90%e8%a1%8c%ef%bc%9f.md"  title="http://learn.lianglianglee.com/专栏/深入浅出计算机组成原理/08  ELF和静态链接：为什么程序无法同时在Linux和Windows下运行？.md"
+     target="_blank" rel="noopener"
+    >http://learn.lianglianglee.com/专栏/深入浅出计算机组成原理/08  ELF和静态链接：为什么程序无法同时在Linux和Windows下运行？.md</a></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 153; 
+			flex-basis: 367px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_11S_HDcVAv.png" data-size="3106x2026">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_11S_HDcVAv.png"
+			width="3106"
+			height="2026"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_11S_HDcVAv_hu31d239c5dffcdef5029307f3d14e9829_1131615_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_11S_HDcVAv_hu31d239c5dffcdef5029307f3d14e9829_1131615_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="自己的补充c语言的标准对于未初始化的数据是ub还是0">自己的补充：C语言的标准对于未初始化的数据是UB还是0</h4>
+<p><a class="link" href="https://stackoverflow.com/questions/1597405/what-happens-to-a-declared-uninitialized-variable-in-c-does-it-have-a-value"  title="https://stackoverflow.com/questions/1597405/what-happens-to-a-declared-uninitialized-variable-in-c-does-it-have-a-value"
+     target="_blank" rel="noopener"
+    >https://stackoverflow.com/questions/1597405/what-happens-to-a-declared-uninitialized-variable-in-c-does-it-have-a-value</a></p>
+<p><figure 
+	>
+	<a href="/image/N_U5X%5c%28VF@QS8%7b7Q8V-ARE5Q_iWbJj-ywv2.png" >
+		<img src="/image/N_U5X%5c%28VF@QS8%7b7Q8V-ARE5Q_iWbJj-ywv2.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/image/BQ%5c[%7d%6054A3D%5c~UU%605%7bI50H-%5c$9_slHPMz0vDW.png" >
+		<img src="/image/BQ%5c[%7d%6054A3D%5c~UU%605%7bI50H-%5c$9_slHPMz0vDW.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="自己的补充why-are-global-and-static-variables-initialized-to-their-default-values">自己的补充：Why are global and static variables initialized to their default values</h4>
+<blockquote>
+<p><a class="link" href="https://stackoverflow.com/questions/2091499/why-are-global-and-static-variables-initialized-to-their-default-values/2091505#2091505"  title="https://stackoverflow.com/questions/2091499/why-are-global-and-static-variables-initialized-to-their-default-values/2091505#2091505"
+     target="_blank" rel="noopener"
+    >https://stackoverflow.com/questions/2091499/why-are-global-and-static-variables-initialized-to-their-default-values/2091505#2091505</a></p>
+<ol>
+<li>
+<p><em><strong>Security</strong></em>: leaving memory alone would leak information from other processes or the kernel.</p>
+</li>
+<li>
+<p><em><strong>Efficiency</strong></em>: the values are useless until initialized to something, and it&rsquo;s more efficient to zero them in a block with unrolled loops. The OS can even zero freelist pages when the system is otherwise idle, rather than when some client or user is waiting for the program to start.</p>
+</li>
+<li>
+<p><em><strong>Reproducibility</strong></em>: leaving the values alone would make program behavior non-repeatable, making bugs really hard to find.</p>
+</li>
+<li>
+<p><em><strong>Elegance</strong></em>: it&rsquo;s cleaner if programs can start from 0 without having to clutter the code with default initializers.</p>
+</li>
+</ol>
+<p>One might then wonder why the <code>auto</code> storage class <em>does</em> start as garbage. The answer is two-fold:</p>
+<ol>
+<li>
+<p><strong>It doesn&rsquo;t,</strong> in a sense. The very first stack frame page at each level (i.e., every new page added to the stack) does receive zero values. The &ldquo;garbage&rdquo;, or &ldquo;uninitialized&rdquo; values that subsequent function instances at the same stack level see are really the previous values left by other method instances of your own program and its library.</p>
+</li>
+<li>
+<p>There might be a quadratic (or whatever) <strong>runtime performance penalty</strong> associated with initializing <code>auto</code> (function locals) to anything. A function might not use any or all of a large array, say, on any given call, and it could be invoked thousands or millions of times. The initialization of statics and globals, OTOH, only needs to happen once.</p>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>当操作系统将控制权交给它的时候, 计算机把它解释成指令并逐条执行. loader让计算机的生命周期突破程序的边界: 一个程序结束并不意味着计算机停止工作, 计算机将终其一生履行执行程序的使命.</p>
+</blockquote>
+<h4 id="实现loader">实现loader</h4>
+<blockquote>
+<p>你需要在Nanos-lite中实现loader的功能, 来把用户程序加载到正确的内存位置, 然后执行用户程序. <code>loader()</code>函数在<code>nanos-lite/src/loader.c</code>中定义, 其中的<code>pcb</code>参数目前暂不使用, 可以忽略, 而因为ramdisk中目前只有一个文件, <code>filename</code>参数也可以忽略. 在下一个阶段实现文件系统之后, <code>filename</code>就派上用场了.</p>
+<p>实现后, 在<code>init_proc()</code>中调用<code>naive_uload(NULL, NULL)</code>, 它会调用你实现的loader来加载第一个用户程序, 然后跳转到用户程序中执行. 如果你的实现正确, 你会看到执行<code>dummy</code>程序时在Nanos-lite中触发了一个未处理的4号事件. 这说明loader已经成功加载dummy, 并且成功地跳转到dummy中执行了. 关于未处理的事件, 我们会在下文进行说明.</p>
+</blockquote>
+<p>这里我犯傻了一下。。。实际上读取的都是整数类型，我在那一直打印字符串数据格式就说一直怎么不对- -。。。习惯了char * arr[]直接打印arr而不习惯普通int arr[]需要取数值了233333&hellip;</p>
+<p>直接调用函数可以打印出魔数</p>
+<p><figure 
+	>
+	<a href="/image/4Q%5c%29]5XFRXIIKBD186XDEI8G_aplRYGibwG.png" >
+		<img src="/image/4Q%5c%29]5XFRXIIKBD186XDEI8G_aplRYGibwG.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>和我们dump出来的结果是一致的：</p>
+<p><figure 
+	>
+	<a href="/image/CQ%5c%28DCNMO_B6WF]8H%7d@%5c%29OPB2_Zd7NRHA0bl.png" >
+		<img src="/image/CQ%5c%28DCNMO_B6WF]8H%7d@%5c%29OPB2_Zd7NRHA0bl.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>把用户程序加载到正确的内存位置,这意味着我们要获取程序开始地址以及程序头表（段头表），具体是什么需要自己RTFM，看了袁妈的视频就会觉得这并不难。</p>
+<p>返回开始地址和读取elf头很简单，段头的处理有一点点操作，主要是注意我们只需要读取LOAD相关段，需要做一个拦截（最好有个数组），然后根据讲义说的：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 323; 
+			flex-basis: 776px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_TDNCsr74_4.png" data-size="877x271">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_TDNCsr74_4.png"
+			width="877"
+			height="271"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_TDNCsr74_4_hu975045d4be4bf4662c607e9d489c985a_70644_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_TDNCsr74_4_hu975045d4be4bf4662c607e9d489c985a_70644_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>然后注意一下我们要写入到virtaddr的位置要用指针（也就是这个地址本身指针）</p>
+<p>此时发现进入死循环（别紧张，其实是对的。。。。可以接下去看讲义，我们发现调用了两次ecall。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 194; 
+			flex-basis: 465px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tkqeRmL18j.png" data-size="916x472">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tkqeRmL18j.png"
+			width="916"
+			height="472"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tkqeRmL18j_hu804333b32914439ffdea1993f9f90864_96784_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_tkqeRmL18j_hu804333b32914439ffdea1993f9f90864_96784_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="diff大坑的解说memcpy">DIFF大坑的解说【memcpy】</h3>
+<p>(本问题有不少群友都遇到了，提出解决方法的是pony哥）</p>
+<p>在loader实现阶段，你可能会用diff遇到pc漂移diff出错很离谱的神奇状况，甚至在之后也会遇到（但仍然有结果不会陷入奇怪的循环等等）也许你需要考虑这个问题：</p>
+<h3 id="操作系统的运行时环境">操作系统的运行时环境</h3>
+<blockquote>
+<p> 程序的运行需要运行时环境的支撑. 而操作系统希望加载并运行程序, 自然有责任来提供运行时环境的功能.</p>
+<p>需要有一个角色来对系统中的资源进行统一的管理: 程序不能擅自使用资源了, 使用的时候需要向资源管理者提出申请. 既然操作系统位于高特权级, 享受着至高无上的权利, 自然地它也需要履行相应的义务: 作为资源管理者管理着系统中的所有资源, 操作系统还需要为用户程序提供相应的服务. 这些服务需要以一种统一的接口来呈现, 用户程序也只能通过这一接口来请求服务.</p>
+<p>这一接口就是系统调用. 这是操作系统从诞生那一刻就被赋予的使命: </p>
+<p>我们之前提到GM-NAA I/O的一个主要任务就是加载新程序, 而它的另一个主要功能, 就是为程序提供输入输出的公共接口. GM-NAA I/O所提供的公共接口, 可以认为是系统调用的初原形态.</p>
+</blockquote>
+<h4 id="问系统调用的必要性">问：系统调用的必要性</h4>
+<p>对于批处理系统来说, 系统调用是必须的吗? 如果直接把AM的API暴露给批处理系统中的程序, 会不会有问题呢?</p>
+<p>答：可能会有各种奇怪的并发资源竞争问题，而且会被恶意程序利用</p>
+<blockquote>
+<p>系统调用把整个运行时环境分成两部分, 一部分是操作系统内核区, 另一部分是用户区. 那些会访问系统资源的功能会放到内核区中实现, 而用户区则保留一些无需使用系统资源的功能(比如strcpy()), 以及用于请求系统资源相关服务的系统调用接口.</p>
+<p>在这个模型之下, 用户程序只能在用户区安分守己地&quot;计算&quot;, 任何超越纯粹计算能力之外的任务, 都需要通过系统调用向操作系统请求服务. 如果用户程序尝试进行任何非法操作, CPU就会向操作系统抛出一个异常信号, 让非法操作的指令执行&quot;失败&quot;, 并交由操作系统进行处理. 对, 这就是之前介绍的硬件保护机制, 操作系统需要借助这一天然屏障来阻挡程序的恶意行为.</p>
+<p>虽然操作系统需要为用户程序服务, 但这并不意味着操作系统需要把所有信息都暴露给用户程序. 有些信息是用户进程没有必要知道的, 也永远不应该知道, 例如一些与内存管理相关的数据结构. 如果一个恶意程序获得了这些信息, 可能会为恶意攻击提供了信息基础. 因此, 通常不存在一个系统调用来获取这些操作系统的私有数据.</p>
+</blockquote>
+<h3 id="系统调用">系统调用</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 130; 
+			flex-basis: 313px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_X4u4Mt9KJd.png" data-size="893x683">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_X4u4Mt9KJd.png"
+			width="893"
+			height="683"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_X4u4Mt9KJd_hud017a677d2e77736734c46dda9142da6_163027_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_X4u4Mt9KJd_hud017a677d2e77736734c46dda9142da6_163027_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<blockquote>
+<p>系统调用的过程：用户程序通过一种方法描述自己的需求, 然后告诉操作系统。</p>
+<p>&ldquo;告诉操作系统&rdquo;, 这是通过自陷指令来实现的。</p>
+<p>在GNU/Linux中, 用户程序通过自陷指令来触发系统调用, Nanos-lite也沿用这个约定. CTE中的<code>yield()</code>也是通过自陷指令来实现,</p>
+<p>对用户程序来说, 用来向操作系统描述需求的最方便手段就是使用通用寄存器了, 因为执行自陷指令之后, 执行流就会马上切换到事先设置好的入口, 通用寄存器也会作为上下文的一部分被保存起来. 系<strong>统调用处理函数只需要从上下文中获取必要的信息, 就能知道用户程序发出的服务请求是什么了.</strong></p>
+<p>目前<code>dummy</code>已经通过<code>_syscall_()</code>直接触发系统调用, 你需要让Nanos-lite识别出系统调用事件<code>EVENT_SYSCALL</code>.</p>
+<ol>
+<li>
+<p>在<code>abstract-machine/am/include/arch/$ISA-nemu.h</code>中实现正确的<code>GPR?</code>宏, 让它们从上下文<code>c</code>中获得正确的系统调用参数寄存器.</p>
+</li>
+<li>
+<p>添加<code>SYS_yield</code>系统调用.</p>
+</li>
+<li>
+<p>设置系统调用的返回值.</p>
+</li>
+</ol>
+<p>处理系统调用的最后一件事就是设置系统调用的返回值. 对于不同的ISA, 系统调用的返回值存放在不同的寄存器中, 宏<code>GPRx</code>用于实现这一抽象, 所以我们通过<code>GPRx</code>来进行设置系统调用返回值即可.</p>
+<p>经过CTE, 执行流会从<code>do_syscall()</code>一路返回到用户程序的<code>_syscall_()</code>函数中. 代码最后会从相应寄存器中取出系统调用的返回值, 并返回给<code>_syscall_()</code>的调用者,</p>
+<p>重新运行dummy程序, 如果你的实现正确, 你会看到dummy程序又触发了一个号码为<code>0</code>的系统调用. 查看<code>nanos-lite/src/syscall.h</code>, 你会发现它是一个<code>SYS_exit</code>系统调用. 这说明之前的<code>SYS_yield</code>已经成功返回, 触发<code>SYS_exit</code>是因为dummy已经执行完毕, 准备退出了.</p>
+<p>你需要实现<code>SYS_exit</code>系统调用, 它会接收一个退出状态的参数. 为了方便测试, 我们目前先直接使用这个参数调用<code>halt()</code>. 实现成功后, 再次运行dummy程序, 你会看到<code>HIT GOOD TRAP</code>的信息.</p>
+</blockquote>
+<p>【你需要阅读上面提到的所有函数，这样就能完成所需内容。】</p>
+<h4 id="问risc-v系统调用号的传递">问：RISC-V系统调用号的传递</h4>
+<p>如果你选择的是RISC-V, 你会发现它并不是通过<code>a0</code>来传递系统调用号. 事实上, 我们参考了RISC-V Linux的系统调用参数传递的约定: 即在RISC-V Linux上也是通过这个寄存器来传递系统调用号的. 你觉得RISC-V Linux为什么没有使用<code>a0</code>来传递系统调用号呢?</p>
+<p>答：</p>
+<p>经过一顿操作猛如虎补充好了对应内容。（认真看讲义即可）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 145; 
+			flex-basis: 348px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_PpJHgLc8AC.png" data-size="921x635">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_PpJHgLc8AC.png"
+			width="921"
+			height="635"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_PpJHgLc8AC_hu2ebc1caaf177a0e9d92ef0813323e040_126788_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_PpJHgLc8AC_hu2ebc1caaf177a0e9d92ef0813323e040_126788_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="操作系统之上的trm">操作系统之上的TRM</h3>
+<p>我们需要构造os的运行时环境</p>
+<blockquote>
+<p>用户程序还可以做什么呢? 最基本的,  为了满足程序的基本计算能力, 需要有这些条件:</p>
+<ul>
+<li>
+<p>机器提供基本的运算指令  （机器提供了）</p>
+</li>
+<li>
+<p>能输出字符 </p>
+</li>
+<li>
+<p>有堆区可以动态申请内存</p>
+</li>
+<li>
+<p>可以结束运行 （sys_exit）</p>
+</li>
+</ul>
+<p> 为了向用户程序提供输出字符和内存动态申请的功能, 我们需要实现更多的系统调用.</p>
+</blockquote>
+<h4 id="write实现">write实现</h4>
+<p>简单实现一下write： 发现打印不全</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 141; 
+			flex-basis: 338px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image__nY7sYc5IA.png" data-size="833x590">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image__nY7sYc5IA.png"
+			width="833"
+			height="590"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image__nY7sYc5IA_hu3b5d16cc8f54c8456186c3bde4f8a56d_151225_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image__nY7sYc5IA_hu3b5d16cc8f54c8456186c3bde4f8a56d_151225_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>其实这是后面提到的：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 403; 
+			flex-basis: 968px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_-4dIQXf6Nb.png" data-size="973x241">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_-4dIQXf6Nb.png"
+			width="973"
+			height="241"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_-4dIQXf6Nb_hu0d567b71e1686c910261f513f493ffc1_79548_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_-4dIQXf6Nb_hu0d567b71e1686c910261f513f493ffc1_79548_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="堆区管理">堆区管理</h4>
+<blockquote>
+<p>调整堆区大小是通过<code>sbrk()</code>库函数来实现的,用于将用户程序的program break增长<strong>increment</strong>字节, 其中<code>increment</code>可为负数.</p>
+<p><code>malloc()</code>被第一次调用的时候, 会通过<code>sbrk(0)</code>来查询用户程序当前program break的位置, 之后就可以通过后续的<code>sbrk()</code>调用来动态调整用户程序program break的位置了</p>
+<p>在Navy的Newlib中, <code>sbrk()</code>最终会调用<code>_sbrk()</code>, 它在<code>navy-apps/libs/libos/src/syscall.c</code>中定义. 框架代码让<code>_sbrk()</code>总是返回<code>-1</code>, 表示堆区调整失败, </p>
+<p>事实上,** 用户程序在第一次调用**<code>printf()</code>的时候会尝试通过<code>malloc()</code><strong>申请一片缓冲区, 来存放格式化的内容.</strong> <strong>若申请失败, 就会逐个字符进行输出</strong>.</p>
+<p>我们还需要提供一个用于设置堆区大小的系统调用. 在GNU/Linux中, 这个系统调用是<code>SYS_brk</code>, 它接收一个参数<code>addr</code>, 用于<strong>指示新的program break的位置</strong>. <code>_sbrk()</code>通过记录的方式来对用户程序的program break位置进行管理, 其工作方式如下:</p>
+<ol>
+<li>
+<p>program break一开始的位置位于<code>_end</code></p>
+</li>
+<li>
+<p>被调用时, 根据记录的<strong>program break位置</strong>和参数<code>increment</code>, 计算出新program break</p>
+</li>
+<li>
+<p>通过<code>SYS_brk</code>系统调用来让操作系统设置新program break</p>
+</li>
+<li>
+<p>若<code>SYS_brk</code>系统调用成功, 该系统调用会返回<code>0</code>, 此时更新之前记录的program break的位置, 并将旧program break的位置作为<code>_sbrk()</code>的返回值返回</p>
+</li>
+<li>
+<p>若该系统调用失败, <code>_sbrk()</code>会返回<code>-1</code></p>
+</li>
+</ol>
+<p>上述代码是在用户层的库函数中实现的, 我们还需要在Nanos-lite中实现<code>SYS_brk</code>的功能. 由于目前Nanos-lite还是一个单任务操作系统, 空闲的内存都可以让用户程序自由使用, 因此我们只需要让<code>SYS_brk</code>系统调用总是返回<code>0</code>即可, 表示堆区大小的调整总是成功. 在PA4中, 我们会对这一系统调用进行修改, 实现真正的内存分配.</p>
+<blockquote>
+<p>根据上述内容在Nanos-lite中实现<code>SYS_brk</code>系统调用, 然后在用户层实现<code>_sbrk()</code>. 你可以通过<code>man 2 sbrk</code>来查阅libc中<code>brk()</code>和<code>sbrk()</code>的行为, 另外通过<code>man 3 end</code>来查阅如何使用<code>_end</code>符号.</p>
+<p>需要注意的是, 调试的时候不要在<code>_sbrk()</code>中通过<code>printf()</code>进行输出, 这是因为<code>printf()</code>还是会尝试通过<code>malloc()</code>来申请缓冲区, 最终会再次调用<code>_sbrk()</code>, 造成死递归. 你可以通过<code>sprintf()</code>先把调试信息输出到一个字符串缓冲区中, 然后通过<code>_write()</code>进行输出.</p>
+</blockquote>
+</blockquote>
+<p>这里按照一步步操作就好，其实就是pa2的malloc的稍微改写。至于end怎么拿看man就懂了。</p>
+<p>（这里其实有个坑，要注意堆分配的作用域。不然多次堆分配就没有意义了）</p>
+<p>这里其实我不太理解一个问题，那就是“malloc的系统调用失败”，怎么算失败呢？访问到不可访问的内存应该会直接panic，或者出界也会直接panic。也许应该有机制会在pa自己panic的情况前拦截（比如再次提前检查地址是否出界）</p>
+<p>然后我发现了一个乱码问题（检查了很多次应该不是堆的问题）</p>
+<p>后面突然想到是不是缓冲区的问题（没有遇到\n就暂停），修改了write逻辑后恢复正常：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 126; 
+			flex-basis: 302px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_Yn6Ma-eb3b.png" data-size="803x637">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_Yn6Ma-eb3b.png"
+			width="803"
+			height="637"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_Yn6Ma-eb3b_hu48afed5a30e2a1900b729b5b640e0caa_156351_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/image_Yn6Ma-eb3b_hu48afed5a30e2a1900b729b5b640e0caa_156351_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<blockquote>
+<p>如果通过系统调用千辛万苦地陷入操作系统只是为了输出区区一个字符, 那就太不划算了. 于是有了批处理(batching)的技术: 将一些简单的任务累积起来, 然后再一次性进行处理. 缓冲区是批处理技术的核心, libc中的<code>fread()</code>和<code>fwrite()</code>正是通过缓冲区来将数据累积起来, 然后再通过一次系统调用进行处理. 例如通过一个1024字节的缓冲区, 就可以通过一次系统调用直接输出1024个字符, 而不需要通过1024次系统调用来逐个字符地输出. 显然, 后者的开销比前者大得多.</p>
+<p>有兴趣的同学可以在GNU/Linux上编写相应的程序, 来粗略测试一下一次<code>write()</code>系统调用的开销, 然后和<a class="link" href="http://arkanis.de/weblog/2017-01-05-measurements-of-system-call-performance-and-overhead"  title="这篇文章"
+     target="_blank" rel="noopener"
+    >这篇文章</a>对比一下</p>
+<p> <code>printf()</code>打印的字符不一定会马上通过<code>write()</code>系统调用输出, 但遇到<code>\n</code>时可以强行将缓冲区中的内容进行输出. 有兴趣的同学可以阅读<code>navy-apps/libs/libc/src/stdio/wbuf.c</code>, 这个文件实现了缓冲区的功能.</p>
+</blockquote>
+<h4 id="必答题---hello程序是什么-它从而何来-要到哪里去">必答题 - hello程序是什么, 它从而何来, 要到哪里去</h4>
+<p>到此为止, PA中的所有组件已经全部亮相, 整个计算机系统也开始趋于完整. 你也已经在这个自己创造的计算机系统上跑起了hello这个第一个还说得过去的用户程序 (dummy是给大家热身用的, 不算), 好消息是, 我们已经距离运行仙剑奇侠传不远了(下一个阶段就是啦).</p>
+<p>不过按照PA的传统, 光是跑起来还是不够的, 你还要明白它究竟怎么跑起来才行. 于是来回答这道必答题吧:</p>
+<blockquote>
+<p>我们知道<code>navy-apps/tests/hello/hello.c</code>只是一个C源文件, 它会被编译链接成一个ELF文件. 那么, </p>
+<blockquote>
+<p>hello程序一开始在哪里?</p>
+<p>它是怎么出现内存中的? </p>
+<p>为什么会出现在目前的内存位置? </p>
+<p>它的第一条指令在哪里? </p>
+<p>究竟是怎么执行到它的第一条指令的?</p>
+<p> hello程序在不断地打印字符串, 每一个字符又是经历了什么才会最终出现在终端上?</p>
+</blockquote>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA2笔记（二）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA2笔记（一）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA1笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86io%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BB%8B%E7%BB%8D/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C语言标准IO的缓冲区介绍</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C位段/位域(bit field)的排序原理</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1最简单的操作系统">1、最简单的操作系统</a></li>
+    <li><a href="#2穿越时空的旅程">2、穿越时空的旅程</a>
+      <ol>
+        <li><a href="#状态机视角下的异常响应机制">状态机视角下的异常响应机制</a></li>
+      </ol>
+    </li>
+    <li><a href="#将上下文管理抽象成cte">将上下文管理抽象成CTE</a>
+      <ol>
+        <li><a href="#插播一个潜在大坑">插播一个潜在大坑</a></li>
+        <li><a href="#尝试在nanos-lite中触发一次自陷操作">尝试在Nanos-lite中触发一次自陷操作</a>
+          <ol>
+            <li><a href="#设置异常入口地址">设置异常入口地址</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#保存上下文">保存上下文</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#问异常号的保存">问：异常号的保存</a></li>
+            <li><a href="#重新组织context结构体">重新组织Context结构体</a></li>
+            <li><a href="#问必答题需要在实验报告中回答---理解上下文结构体的前世今生">问：必答题(需要在实验报告中回答) - 理解上下文结构体的前世今生</a></li>
+          </ol>
+        </li>
+        <li><a href="#事件分发">事件分发</a></li>
+      </ol>
+    </li>
+    <li><a href="#恢复上下文">恢复上下文</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#问从加4操作看cisc和risc">问：从加4操作看CISC和RISC</a></li>
+            <li><a href="#问必答题需要在实验报告中回答---理解穿越时空的旅程">问：必答题(需要在实验报告中回答) - 理解穿越时空的旅程</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#3用户程序和系统调用">3、用户程序和系统调用</a>
+      <ol>
+        <li><a href="#加载第一个用户程序">加载第一个用户程序</a>
+          <ol>
+            <li><a href="#问堆和栈在哪里">问：堆和栈在哪里?</a></li>
+            <li><a href="#问如何识别不同格式的可执行文件">问：如何识别不同格式的可执行文件?</a></li>
+            <li><a href="#问冗余的属性">问：冗余的属性?</a></li>
+            <li><a href="#问为什么要清零">问：为什么要清零?</a></li>
+            <li><a href="#插播ld过程">插播ld过程：</a></li>
+            <li><a href="#自己的补充c语言的标准对于未初始化的数据是ub还是0">自己的补充：C语言的标准对于未初始化的数据是UB还是0</a></li>
+            <li><a href="#自己的补充why-are-global-and-static-variables-initialized-to-their-default-values">自己的补充：Why are global and static variables initialized to their default values</a></li>
+            <li><a href="#实现loader">实现loader</a></li>
+          </ol>
+        </li>
+        <li><a href="#diff大坑的解说memcpy">DIFF大坑的解说【memcpy】</a></li>
+        <li><a href="#操作系统的运行时环境">操作系统的运行时环境</a>
+          <ol>
+            <li><a href="#问系统调用的必要性">问：系统调用的必要性</a></li>
+          </ol>
+        </li>
+        <li><a href="#系统调用">系统调用</a>
+          <ol>
+            <li><a href="#问risc-v系统调用号的传递">问：RISC-V系统调用号的传递</a></li>
+          </ol>
+        </li>
+        <li><a href="#操作系统之上的trm">操作系统之上的TRM</a>
+          <ol>
+            <li><a href="#write实现">write实现</a></li>
+            <li><a href="#堆区管理">堆区管理</a></li>
+            <li><a href="#必答题---hello程序是什么-它从而何来-要到哪里去">必答题 - hello程序是什么, 它从而何来, 要到哪里去</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
