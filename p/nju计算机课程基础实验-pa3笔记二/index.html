@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='简易文件系统 SDL库的完善——仙剑奇侠传！'><title>NJU计算机课程基础实验 PA3笔记（二）</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='NJU计算机课程基础实验 PA3笔记（二）'>
+<meta property='og:description' content='简易文件系统 SDL库的完善——仙剑奇侠传！'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C语言' /><meta property='article:published_time' content='2022-08-28T08:50:40&#43;08:00'/><meta property='article:modified_time' content='2022-08-28T08:50:40&#43;08:00'/>
+<meta name="twitter:title" content="NJU计算机课程基础实验 PA3笔记（二）">
+<meta name="twitter:description" content="简易文件系统 SDL库的完善——仙剑奇侠传！">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/" style="background-color: #2a9d8f; color: #fff;">
+                NJU计算机基础实验
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+            <a href="/categories/c/" style="background-color: #2a9d8f; color: #fff;">
+                C语言
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/">NJU计算机课程基础实验 PA3笔记（二）</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        简易文件系统 SDL库的完善——仙剑奇侠传！
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 28, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 15 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 131; 
+			flex-basis: 315px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Pvjs3__9OY.png" data-size="876x666">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Pvjs3__9OY.png"
+			width="876"
+			height="666"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Pvjs3__9OY_hu591984d82063d37d8f564bc13e4ba56f_154307_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Pvjs3__9OY_hu591984d82063d37d8f564bc13e4ba56f_154307_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="4简易文件系统">4、简易文件系统</h2>
+<blockquote>
+<p><strong>对用户程序来说, 它怎么知道文件位于ramdisk的哪一个位置呢? 更何况文件会动态地增删, 用户程序并不知情</strong>. 这说明, 把ramdisk的读写接口直接提供给用户程序来使用是不可行的. 操作系统还需要<strong>在存储介质的驱动程序之上为用户程序提供一种更高级的抽象</strong>, 那就是文件.</p>
+<blockquote>
+<p>定义一个简易文件系统sfs(Simple File System):</p>
+<ul>
+<li>
+<p>每个文件的<strong>大小是固定的</strong></p>
+</li>
+<li>
+<p>写文件时<strong>不允许超过原有文件的大小</strong></p>
+</li>
+<li>
+<p>文件的<strong>数量是固定的, 不能创建新文件</strong></p>
+</li>
+<li>
+<p>没有目录(/a/b/c）</p>
+</li>
+</ul>
+</blockquote>
+<p>既然文件的数量和大小都是固定的, 我们自然可以把每一个文件分别固定在ramdisk中的某一个位置. </p>
+<p><strong>为了记录ramdisk中各个文件的名字和大小, 我们还需要一张&quot;文件记录表</strong></p>
+<p>nanos-lite/Makefile修改后然后运行<code>make ARCH=riscv32-nemu update</code></p>
+<p>就会自动编译Navy中的程序, 并把<code>navy-apps/fsimg/</code>目录下的所有内容整合成ramdisk镜像<code>navy-apps/build/ramdisk.img</code>, 同时生成这个ramdisk镜像的文件记录表<code>navy-apps/build/ramdisk.h</code>, Nanos-lite的<code>Makefile</code>会通过软连接把它们链接到项目中.</p>
+<p><strong>如果你修改了Navy中的内容, 请记得通过上述命令来更新镜像文件.</strong></p>
+<p>&ldquo;文件记录表&quot;其实是一个数组, 数组的每个元素都是一个结构体:</p>
+<p>typedef struct {</p>
+<p>char *name;         // 文件名</p>
+<p>size_t size;        // 文件大小</p>
+<p>size_t disk_offset;  // 文件在ramdisk中的偏移</p>
+<p>} Finfo;</p>
+<p>最基本的文件读写操作:</p>
+<p>size_t read(const char *filename, void *buf, size_t len);</p>
+<p>size_t write(const char *filename, void *buf, size_t len);</p>
+<p>操作系统中存在不少&quot;没有名字&quot;的文件（比如管道传输给另一个工具的标准输入，less等）. 为了统一管理它们, **通过一个编号来表示文件, 文件描述符(file descriptor). **</p>
+<p>一个文件描述符对应一个正在打开的文件, <strong>由操作系统来维护文件描述符到具体文件的映射</strong>. 于是我们很自然地通过<code>open()</code>系统调用来打开一个文件, 并返回相应的文件描述符</p>
+<p>int open(const char *pathname, int flags, int mode);</p>
+<p>由于sfs的文件数目是固定的, 我们可以简单地把<strong>文件记录表的下标作为相应文件的文件描述符</strong>返回给用户程序. <strong>在这以后, 所有文件操作都通过文件描述符来标识文件</strong>:</p>
+<p>size_t read(int fd, void *buf, size_t len);</p>
+<p>size_t write(int fd, const void *buf, size_t len);</p>
+<p>int close(int fd);</p>
+<p>我们为<strong>每一个已经打开的文件引入偏移量属性</strong><code>open_offset</code>, 来<strong>记录目前文件操作的位置.</strong> 每次对文件读写了多少个字节, 偏移量就前进多少.</p>
+<p>偏移量可以通过<code>lseek()</code>系统调用来调整, 从而可以对文件中的任意位置进行读写:</p>
+<p>size_t lseek(int fd, size_t offset, int whence);</p>
+<p>为了方便用户程序进行标准输入输出, 操作系统准备了三个默认的文件描述符:</p>
+<p>#define FD_STDIN 0</p>
+<p>#define FD_STDOUT 1</p>
+<p>#define FD_STDERR 2</p>
+<p>它们分别对应标准输入<code>stdin</code>, 标准输出<code>stdout</code>和标准错误<code>stderr</code>. 我们经常使用的printf, 最终会调用<code>write(FD_STDOUT, buf, len)</code>进行输出; </p>
+<p>而scanf将会通过调用<code>read(FD_STDIN, buf, len)</code>进行读入.</p>
+<p><code>nanos-lite/src/fs.c</code>中定义的<code>file_table</code>会包含<code>nanos-lite/src/files.h</code>, 其中前面还有3个特殊的文件: <code>stdin</code>, <code>stdout</code>和<code>stderr</code>的占位表项, 它们只是为了保证sfs和约定的标准输入输出的文件描述符保持一致, 例如根据约定<code>stdout</code>的文件描述符是<code>1</code>, 而我们添加了三个占位表项之后, 文件记录表中的<code>1</code>号下标也就不会分配给其它的普通文件了.</p>
+<p>根据以上信息, 我们就可以在文件系统中实现以下的文件操作了:</p>
+<p>int fs_open(const char *pathname, int flags, int mode);</p>
+<p>size_t fs_read(int fd, void *buf, size_t len);</p>
+<p>size_t fs_write(int fd, const void *buf, size_t len);</p>
+<p>size_t fs_lseek(int fd, size_t offset, int whence);</p>
+<p>int fs_close(int fd);</p>
+<p>这些文件操作实际上是<strong>相应的系统调用在内核中的实现</strong>. </p>
+<ul>
+<li>
+<p>由于sfs中每一个文件都是固定的, 不会产生新文件, 因此&rdquo;<code>fs_open()</code>没有找到<code>pathname</code>所指示的文件&quot;属于异常情况, 你需要使用assertion终止程序运行.</p>
+</li>
+<li>
+<p>为了简化实现, 我们<strong>允许所有用户程序都可以对所有已存在的文件进行读写,</strong> 这样以后, 我们在实现<code>fs_open()</code>的时候就可以忽略<code>flags</code>和<code>mode</code>了.</p>
+</li>
+<li>
+<p>使用<code>ramdisk_read()</code>和<code>ramdisk_write()</code>来进行文件的真正读写.</p>
+</li>
+<li>
+<p>由于文件的大小是固定的, 在实现<code>fs_read()</code>, <code>fs_write()</code>和<code>fs_lseek()</code>的时候, 注意偏移量不要越过文件的边界.</p>
+</li>
+<li>
+<p>除了写入<code>stdout</code>和<code>stderr</code>之外(用<code>putch()</code>输出到串口), 其余对于<code>stdin</code>, <code>stdout</code>和<code>stderr</code>这<strong>三个特殊文件的操作可以直接忽略.</strong></p>
+</li>
+<li>
+<p>由于sfs<strong>没有维护文件打开的状态</strong>, <code>fs_close()</code>可以直接返回<code>0</code>, 表示总是关闭成功.</p>
+</li>
+</ul>
+<p>最后你还需要在<strong>Nanos-lite和Navy的libos中添加相应的系统调用,</strong> 来调用相应的文件操作.</p>
+</blockquote>
+<p>一开始看不懂表达的意思是啥。。。看着看着打算先写了再说。一顿操作猛如虎成功：（自由切换文件，拦截了奇怪的情况）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 156; 
+			flex-basis: 374px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_2DzXnSxled.png" data-size="1228x786">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_2DzXnSxled.png"
+			width="1228"
+			height="786"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_2DzXnSxled_hu3b9ca7d1bb13dde02f22ce6a4c72bd29_157289_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_2DzXnSxled_hu3b9ca7d1bb13dde02f22ce6a4c72bd29_157289_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>一开始一直想不到怎么在loader对段头表处理部分可以隔离对ramdisk_read的依赖，因为参数数目不匹配。随后突然想到可以用lseek设置偏移再读写操作，而且我们可以利用结构体偏移量，那么这个抽象就是可以被完成的了。一顿操作猛如虎解除了loader的耦合。</p>
+<p>(这里要注意navy系统调用的返回值，请按照man填写否则吃大亏！手册！手册！手册！）</p>
+<p>我这里还遇到一个很坑的问题：边界拦截，自己把自己坑了，因为实际上失败返回-1即可，我自己给自己panic了- -。。。。这件事情告诉我们，好好按照man的规定不要自己花里胡哨QAQ</p>
+<p>为了更好的调试，学习pony哥方法给log换了个皮肤：</p>
+<p><a class="link" href="https://cloud.tencent.com/developer/article/1142372"  title="https://cloud.tencent.com/developer/article/1142372"
+     target="_blank" rel="noopener"
+    >https://cloud.tencent.com/developer/article/1142372</a></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 155; 
+			flex-basis: 372px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_F3veXWpYTh.png" data-size="1298x836">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_F3veXWpYTh.png"
+			width="1298"
+			height="836"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_F3veXWpYTh_hu652b690b3a289cc77e4b19ce3f8ce450_379618_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_F3veXWpYTh_hu652b690b3a289cc77e4b19ce3f8ce450_379618_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="一切皆文件">一切皆文件</h4>
+<blockquote>
+<p>我们需要有一种方式对设备的功能进行抽象, 向用户程序提供统一的接口.</p>
+<ul>
+<li>
+<p>内存是以字节编址的, 天然就是一个字节序列, 因而我们之前使用的ramdisk作为字节序列也更加显而易见了</p>
+</li>
+<li>
+<p>管道(shell命令中的<code>|</code>)是一种先进先出的字节序列, 本质上它是内存中的一个队列缓冲区</p>
+</li>
+<li>
+<p>磁盘也可以看成一个字节序列: 我们可以为磁盘上的每一个字节进行编号, 例如第x柱面第y磁头第z扇区中的第n字节, 把磁盘上的所有字节按照编号的大小进行排列, 便得到了一个字节序列</p>
+</li>
+<li>
+<p>socket(网络套接字)也是一种字节序列, 它有一个缓冲区,** 负责存放接收到的网络数据包**,上层应用将socket中的内容看做是字节序列, 并通过一些特殊的文件操作来处理它们. 我们在PA2中介绍了DiffTest, 如果你RTFSC, 就会发现其中的<code>qemu-diff</code>就是<strong>通过socket与QEMU进行通信</strong>的, 而操作socket的方式就是<code>fgetc()</code>和<code>fputc()</code></p>
+</li>
+<li>
+<p>操作系统提供的一些特殊的功能, 如随机数生成器, 也可以看成一个<strong>无穷长的字节序列</strong></p>
+</li>
+</ul>
+<p>文件就是字节序列, 那很自然地, 上面这些五花八门的字节序列应该都可以看成文件. </p>
+<p>我们可以使用文件的接口来操作计算机上的一切, 而不必对它们进行详细的区分: 例如 <code>navy-apps/Makefile</code>的<code>ramdisk</code>规则通过管道<strong>把各个shell工具的输入输出连起来, 生成文件记录表</strong></p>
+</blockquote>
+<h3 id="虚拟文件系统">虚拟文件系统</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 132; 
+			flex-basis: 317px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_U_HmID6cYq.png" data-size="885x670">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_U_HmID6cYq.png"
+			width="885"
+			height="670"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_U_HmID6cYq_hue225d25de8493c27ef46e8a9b1e0b862_170219_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_U_HmID6cYq_hue225d25de8493c27ef46e8a9b1e0b862_170219_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<blockquote>
+<p>真实文件系统, 其实是指<strong>具体如何操作</strong>某一类文件。</p>
+<p>VFS其实是对不同种类的真实文件系统的抽象,** 它用一组API来描述了这些真实文件系统的抽象行为, 屏蔽了真实文件系统之间的差异,** 上层模块(比如系统调用处理函数)不必关心当前操作的文件具体是什么类型, 只要调用这一组API即可完成相应的文件操作</p>
+<p>只要把真实文件系统的访问方式包装成VFS的API, 上层模块无需修改任何代码, 就能支持一个新的真实文件系统了</p>
+<p>其中<code>ReadFn</code>和<code>WriteFn</code>分别是两种函数指针, 它们用于指向真正进行读写的函数, 并返回成功读写的字节数. 有了这两个函数指针, 我们只需要在文件记录表中对不同的文件设置不同的读写函数, 就可以通过<code>f-&gt;read()</code>和<code>f-&gt;write()</code>的方式来调用具体的读写函数了.</p>
+<p>由于特殊文件的数量很少, 我们约定, 当上述的函数指针为<code>NULL</code>时, 表示相应文件是一个普通文件, 通过ramdisk的API来进行文件的读写, 这样我们就不需要为大多数的普通文件显式指定ramdisk的读写函数了.</p>
+<p>我们把文件看成字节序列, 大部分字节序列都是&quot;静止&quot;的, 例如对于ramdisk和磁盘上的文件, 如果我们不对它们进行修改, 它们就会一直位于同一个地方, 这样的字节序列具有&quot;位置&quot;的概念; 但有一些特殊的字节序列并不是这样, 例如键入按键的字节序列是&quot;流动&quot;的, 被读出之后就不存在了, 这样的字节序列中的字节之间只有顺序关系, 但无法编号, 因此它们没有&quot;位置&quot;的概念. </p>
+<p>属于前者的文件支持<code>lseek</code>操作, 存储这些文件的设备称为&quot;块设备&quot;; 而属于后者的文件则不支持<code>lseek</code>操作, 相应的设备称为&quot;字符设备&quot;. 真实的操作系统还会对<code>lseek</code>操作进行抽象, 我们在Nanos-lite中进行了简化, 就不实现这一抽象了.</p>
+</blockquote>
+<h3 id="操作系统之上的ioe">操作系统之上的IOE</h3>
+<blockquote>
+<p>有了VFS, 要把IOE抽象成文件就非常简单了.</p>
+<p>串口. 在Nanos-lite中, <code>stdout</code>和<code>stderr</code>都会输出到串口. 之前你可能会通过判断<code>fd</code>是否为<code>1</code>或<code>2</code>, 来决定<code>sys_write()</code>是否写入到串口. 现在有了VFS, 我们就不需要让系统调用处理函数关心这些特殊文件的情况了: 我们只需要在<code>nanos-lite/src/device.c</code>中实现<code>serial_write()</code>, 然后在文件记录表中设置相应的写函数, 就可以实现上述功能了. 由于串口是一个字符设备, 对应的字节序列没有&quot;位置&quot;的概念, 因此<code>serial_write()</code>中的<code>offset</code>参数可以忽略. 另外Nanos-lite也不打算支持<code>stdin</code>的读入, 因此在文件记录表中设置相应的报错函数即可.</p>
+</blockquote>
+<p>这一步比较简单，就按照描述加入即可，把fswrite进行一下抽象</p>
+<blockquote>
+<p>在Nanos-lite中, 我们也提供一个<code>SYS_gettimeofday</code>系统调用, 用户程序可以通过它读出当前的系统时间.</p>
+</blockquote>
+<p>根据以前的am依葫芦画瓢（实际上我们能知道am就是为了这时候做准备）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 152; 
+			flex-basis: 366px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_278DUxX-K4.png" data-size="1211x792">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_278DUxX-K4.png"
+			width="1211"
+			height="792"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_278DUxX-K4_hu9b944b2b57eec4a93e87dea8c2e5192a_128689_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_278DUxX-K4_hu9b944b2b57eec4a93e87dea8c2e5192a_128689_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>替换成NDL库的过程中，注意NDL的导入（想想make的时候怎么搜索库）</p>
+<blockquote>
+<p>另一个输入设备是键盘, 按键信息对系统来说本质上就是到来了一个事件. 一种简单的方式是把事件以文本的形式表现出来, 我们定义以下两种事件,</p>
+<ul>
+<li>
+<p>按下按键事件, 如<code>kd RETURN</code>表示按下回车键</p>
+</li>
+<li>
+<p>松开按键事件, 如<code>ku A</code>表示松开<code>A</code>键</p>
+<p>按键名称与AM中的定义的按键名相同, 均为大写. 此外, 一个事件以换行符<code>\n</code>结束.</p>
+<p>我们采用文本形式来描述事件有两个好处, 首先文本显然是一种字节序列, 这使得事件很容易抽象成文件; 此外文本方式使得用户程序可以容易可读地解析事件的内容. Nanos-lite和Navy约定, 上述事件抽象成一个特殊文件<code>/dev/events</code>, 它需要支持读操作, 用户程序可以从中读出按键事件, 但它不必支持<code>lseek</code>, 因为它是一个字符设备.</p>
+</li>
+</ul>
+</blockquote>
+<p>这里关键问题要理解：<strong>键入按键的字节序列是&quot;流动&quot;的, 被读出之后就不存在了</strong>, <strong>它们没有&quot;位置&quot;的概念</strong>. 属于后者的文件则不支持<code>lseek</code>操作, <strong>相应的设备称为&quot;字符设备&quot;</strong>，说明我们需要让数据直接被“读出”，也就是读函数中交互过程能直接把数据传送到我们需要的地方。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 511; 
+			flex-basis: 1227px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_8jz8z3DeiO.png" data-size="895x175">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_8jz8z3DeiO.png"
+			width="895"
+			height="175"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_8jz8z3DeiO_hu6ab1e9bc52070a7dea31f56b3fa63e09_41257_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_8jz8z3DeiO_hu6ab1e9bc52070a7dea31f56b3fa63e09_41257_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>答：实际上fopen得到的FILE也是可以通过转换得到最后的fd的，但是之所以不用是因为可能错误使用了fread，因为这系列的读写操作实际上是对FILE里面的缓冲区进行操作的，而我们的设备文件需要直接把我们需要的buf打印。</p>
+<p>注意对好各类接口（返回值 0和1以及对应的buf传输链即可得到结果）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 152; 
+			flex-basis: 366px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_0lfiKRhjw6.png" data-size="1290x845">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_0lfiKRhjw6.png"
+			width="1290"
+			height="845"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_0lfiKRhjw6_hu065c9f02bf4b43c4f2b030caa424ed8b_135867_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_0lfiKRhjw6_hu065c9f02bf4b43c4f2b030caa424ed8b_135867_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<blockquote>
+<p>Nanos-lite需要做的, 便是把显存抽象成文件. <strong>显存本身也是一段存储空间</strong>, 它以行优先的方式存储了将要在屏幕上显示的像素. Nanos-lite和Navy约定, 把显存抽象成文件<code>/dev/fb</code>(fb为frame buffer之意), 它需要<strong>支持写操作和</strong><code>lseek</code>, 以<strong>便于把像素更新到屏幕的指定位置上.</strong></p>
+<p>其中&quot;<strong>画布&quot;是一个面向程序的概念,</strong> 程序绘图时的坐标都是针对画布来设定的, 这样程序就无需关心系统屏幕的大小, 以及需要将图像绘制到系统屏幕的哪一个位置. <strong>NDL可以根据系统屏幕大小以及画布大小, 来决定将画布&quot;贴&quot;到哪里</strong>, 例如贴到屏幕左上角或者居中, 从而将画布的内容写入到frame buffer中正确的位置.</p>
+<p>NDL_DrawRect()的功能和PA2中介绍的绘图接口是非常类似的. 但为了实现它, NDL还需要知道屏幕大小的信息. <strong>Nanos-lite和Navy约定, 屏幕大小的信息通过/proc/dispinfo文件来获得, 它需要支持读操作. navy-apps/README.md中对这个文件内容的格式进行了约定, 你需要阅读它</strong>. 至于具体的屏幕大小, 你需要通过IOE的相应API来获取.</p>
+</blockquote>
+<h4 id="把vga显存抽象成文件">把VGA显存抽象成文件</h4>
+<blockquote>
+<p>实现<code>fb_write()</code>(在<code>nanos-lite/src/device.c</code>中定义), </p>
+<p>用于把<code>buf</code>中的<code>len</code>字节写到屏幕上<code>offset</code>处. 你需要先从<code>offset</code>计算出屏幕上的坐标, 然后调用IOE来进行绘图. 另外我们约定每次绘图后总是马上将frame buffer中的内容同步到屏幕上.</p>
+<p>在NDL中实现<code>NDL_DrawRect()</code>, 通过往<code>/dev/fb</code>中的正确位置写入像素信息来绘制图像. 你需要梳理清楚系统屏幕(即frame buffer), <code>NDL_OpenCanvas()</code>打开的画布, 以及<code>NDL_DrawRect()</code>指示的绘制区域之间的位置关系.</p>
+<p>让Nanos-lite运行<code>navy-apps/tests/bmp-test</code>, 如果实现正确, 你将会看到屏幕上显示Project-N的logo.</p>
+</blockquote>
+<p>这里我一直卡着没做出来，主要是不理解fb_write和NDL_DrawRect到底要做什么。实际上要理解的是，绘制工作已经被am完成了，所以我们只需要吧数据全部丢过去即可。而重要的是在fs的特别write中根据am的接口把我们的数据喂过去（需要w,h,x,y的信息），而NDL是为喂过去而准备的。</p>
+<p>【其实就要注意一点，在navy中的读写其实都是依靠fs完成，所以对应的buff和len都是在navy才进行处理，因为那才是真正调用处理的函数，想想他们拿到的东西是什么，是不是一样】</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 163; 
+			flex-basis: 392px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_jE_Zzd5sd0.png" data-size="1179x721">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_jE_Zzd5sd0.png"
+			width="1179"
+			height="721"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_jE_Zzd5sd0_hu2b5289946be45637c43161977b022d2b_187772_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_jE_Zzd5sd0_hu2b5289946be45637c43161977b022d2b_187772_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="精彩纷呈的应用程序">精彩纷呈的应用程序</h3>
+<blockquote>
+<p>miniSDL的代码位于<code>navy-apps/libs/libminiSDL/</code>目录下, 它由6个模块组成:</p>
+<ul>
+<li>
+<p><code>timer.c</code>: 时钟管理</p>
+</li>
+<li>
+<p><code>event.c</code>: 事件处理</p>
+</li>
+<li>
+<p><code>video.c</code>: 绘图接口</p>
+</li>
+<li>
+<p><code>file.c</code>: 文件抽象</p>
+</li>
+<li>
+<p><code>audio.c</code>: 音频播放</p>
+</li>
+<li>
+<p><code>general.c</code>: 常规功能, 包括初始化, 错误管理等</p>
+</li>
+</ul>
+<p>我们可以通过NDL来支撑miniSDL的底层实现, 让miniSDL向用户程序提供更丰富的功能, 这样我们就可以在Navy上运行更复杂的程序了. miniSDL中的API和SDL同名, 你可以通过<a class="link" href="https://www.libsdl.org/release/SDL-1.2.15/docs/"  title="RTFM"
+     target="_blank" rel="noopener"
+    >RTFM</a>来查阅这些API的具体行为. 另外miniSDL中的大部分API都没有实现, 你最好想个办法让程序用到某个未实现API的时候提醒你, 否则你可能难以理解由此导致的复杂程序非预期行为.</p>
+<p>虽然Navy的<code>native</code>和AM中的<code>native</code>同名, 但它们的机制是不同的: </p>
+<p>在AM native上运行的系统, 需要AM, Nanos-lite, libos, libc这些抽象层来支撑上述的运行时环境, </p>
+<p>在AM中的<code>ARCH=native</code>, 在Navy中对应的是<code>ISA=am_native</code>; 而在<strong>Navy native中, 上述运行时环境是直接由Linux native实现的.</strong></p>
+</blockquote>
+<h4 id="问神奇的ld_preload">问：神奇的LD_PRELOAD</h4>
+<p><code>bmp-test</code>需要打开一个路径为<code>/share/pictures/projectn.bmp</code>的文件, 但在Linux native中, 这个路径对应的文件并不存在. 但我们还是把<code>bmp-test</code>成功运行起来了, 你知道这是如何实现的吗? 如果你感兴趣, 可以在互联网上搜索<code>LD_PRELOAD</code>相关的内容.</p>
+<p>答：LD_PRELOAD是Linux系统的一个环境变量，它可以影响程序的运行时的链接（Runtime linker），它允许你定义在程序运行前优先加载的动态链接库。这个功能主要就是用来有选择性的载入不同动态链接库中的相同函数。通过这个环境变量，我们可以在主程序和其动态链接库的中间加载别的动态链接库，甚至覆盖正常的函数库。一方面，我们可以以此功能来使用自己的或是更好的函数（无需别人的源码），而另一方面，我们也可以以向别人的程序注入程序，从而达到特定的目的。</p>
+<p>SDL2常用函数&amp;结构分析:SDL_Surface&amp;SDL_GetWindowSurface&amp;SDL_LoadBMP</p>
+<p><a class="link" href="https://blog.csdn.net/qq_25333681/article/details/89789479"  title="https://blog.csdn.net/qq_25333681/article/details/89789479"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/qq_25333681/article/details/89789479</a></p>
+<p>幻灯片显示：</p>
+<p><figure 
+	>
+	<a href="/image/LY8M5N-%7b%5c%28X16-2SAEBVLLXY_4y7Uhjd2g9.png" >
+		<img src="/image/LY8M5N-%7b%5c%28X16-2SAEBVLLXY_4y7Uhjd2g9.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>这里的pdf转换一开始我还以为只能转换开头那张pdf。。。经过查资料后成功转了其他页面~</p>
+<p>有可能会出现数字键爆炸的问题，请注意是否清除缓存以及键盘type。</p>
+<p>接下来实现menu，有点痛不欲生。。。</p>
+<p><figure 
+	>
+	<a href="/image/VV%5c[%7d-%5c~28Z3AO%5c[W-RBPFFWW9_zgzqTXEYry.png" >
+		<img src="/image/VV%5c[%7d-%5c~28Z3AO%5c[W-RBPFFWW9_zgzqTXEYry.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>其实SDL_FillRect的关键是要理解什么是像素。。。其实像素是一个“数组”里面根据00rrrggbb00rrrggbb这样的方式排列下去（4byte的情况），理解了这点就好办了。理解画布并不是要画上去，只是准备画布。</p>
+<p><strong>接下来最难的就是SDL_BlitSurface的实现：</strong></p>
+<p>实现后能看到这样的画面：开始菜单（还没有execve的功能）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 175; 
+			flex-basis: 420px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_wAHxcP8c3v.png" data-size="1396x796">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_wAHxcP8c3v.png"
+			width="1396"
+			height="796"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_wAHxcP8c3v_huf317ecf0daeb695f33711efa27e846e6_245695_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_wAHxcP8c3v_huf317ecf0daeb695f33711efa27e846e6_245695_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="nterm-nju-terminal">NTerm (NJU Terminal)</h4>
+<p><figure 
+	>
+	<a href="/image/OUQLE5_J-%601TRWZ%5c~%60%5c$E9XQ1_fKnNTvkwsu.png" >
+		<img src="/image/OUQLE5_J-%601TRWZ%5c~%60%5c$E9XQ1_fKnNTvkwsu.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="flappy-bird">Flappy Bird</h4>
+<p>这里我首当其冲遇到了爆炸问题：fe_read出边界，但实际上是手册没读好的问题。。。。（被pony哥拯救系列）</p>
+<p><figure 
+	>
+	<a href="/image/6C%5c$W%60%5c%29%60TU1J3%609KTWOJJCLP_InjNvdh-KE.png" >
+		<img src="/image/6C%5c$W%60%5c%29%60TU1J3%609KTWOJJCLP_InjNvdh-KE.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>然后又遇到了- -神奇的按键没反应的情况。。。。后面发现是对“事件”不够理解。。。如果你也遇到了请仔细阅读事件的定义然后反思下某个函数是否返回正确。。。。</p>
+<p><figure 
+	>
+	<a href="/image/S%5c%29%5c~RT06JB%7dH%5c[RPJE3AG%60VHC_U_sjmXLkiM.png" >
+		<img src="/image/S%5c%29%5c~RT06JB%7dH%5c[RPJE3AG%60VHC_U_sjmXLkiM.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA3笔记（一）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA2笔记（二）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA2笔记（一）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA1笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86io%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BB%8B%E7%BB%8D/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C语言标准IO的缓冲区介绍</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#4简易文件系统">4、简易文件系统</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#一切皆文件">一切皆文件</a></li>
+          </ol>
+        </li>
+        <li><a href="#虚拟文件系统">虚拟文件系统</a></li>
+        <li><a href="#操作系统之上的ioe">操作系统之上的IOE</a>
+          <ol>
+            <li><a href="#把vga显存抽象成文件">把VGA显存抽象成文件</a></li>
+          </ol>
+        </li>
+        <li><a href="#精彩纷呈的应用程序">精彩纷呈的应用程序</a>
+          <ol>
+            <li><a href="#问神奇的ld_preload">问：神奇的LD_PRELOAD</a></li>
+            <li><a href="#nterm-nju-terminal">NTerm (NJU Terminal)</a></li>
+            <li><a href="#flappy-bird">Flappy Bird</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

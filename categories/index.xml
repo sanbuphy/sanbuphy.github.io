@@ -6,20 +6,11 @@
     <description>Recent content in Categories on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 26 Aug 2022 12:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>杂七杂八知识</title>
-      <link>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
-      <pubDate>Fri, 26 Aug 2022 12:08:27 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Sun, 28 Aug 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>C语言</title>
       <link>https://sanbuphy.github.io/categories/c/</link>
-      <pubDate>Fri, 26 Aug 2022 08:50:40 +0800</pubDate>
+      <pubDate>Sun, 28 Aug 2022 08:50:40 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/categories/c/</guid>
       <description></description>
@@ -28,7 +19,7 @@
     <item>
       <title>NJU计算机基础实验</title>
       <link>https://sanbuphy.github.io/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/</link>
-      <pubDate>Fri, 26 Aug 2022 08:50:40 +0800</pubDate>
+      <pubDate>Sun, 28 Aug 2022 08:50:40 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/</guid>
       <description></description>
@@ -37,9 +28,18 @@
     <item>
       <title>笔记</title>
       <link>https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Fri, 26 Aug 2022 08:50:40 +0800</pubDate>
+      <pubDate>Sun, 28 Aug 2022 08:50:40 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>杂七杂八知识</title>
+      <link>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Fri, 26 Aug 2022 12:08:27 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</guid>
       <description></description>
     </item>
     

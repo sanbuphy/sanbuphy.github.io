@@ -6,7 +6,438 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 26 Aug 2022 12:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 28 Aug 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>NJU计算机课程基础实验 PA3笔记（二）</title>
+        <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
+        <pubDate>Sun, 28 Aug 2022 08:50:40 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
+        <description>&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 131; 
+			flex-basis: 315px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Pvjs3__9OY.png&#34; data-size=&#34;876x666&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Pvjs3__9OY.png&#34;
+			width=&#34;876&#34;
+			height=&#34;666&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Pvjs3__9OY_hu591984d82063d37d8f564bc13e4ba56f_154307_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Pvjs3__9OY_hu591984d82063d37d8f564bc13e4ba56f_154307_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;4简易文件系统&#34;&gt;4、简易文件系统&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;对用户程序来说, 它怎么知道文件位于ramdisk的哪一个位置呢? 更何况文件会动态地增删, 用户程序并不知情&lt;/strong&gt;. 这说明, 把ramdisk的读写接口直接提供给用户程序来使用是不可行的. 操作系统还需要&lt;strong&gt;在存储介质的驱动程序之上为用户程序提供一种更高级的抽象&lt;/strong&gt;, 那就是文件.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;定义一个简易文件系统sfs(Simple File System):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;每个文件的&lt;strong&gt;大小是固定的&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;写文件时&lt;strong&gt;不允许超过原有文件的大小&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;文件的&lt;strong&gt;数量是固定的, 不能创建新文件&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;没有目录(/a/b/c）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;既然文件的数量和大小都是固定的, 我们自然可以把每一个文件分别固定在ramdisk中的某一个位置. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;为了记录ramdisk中各个文件的名字和大小, 我们还需要一张&amp;quot;文件记录表&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;nanos-lite/Makefile修改后然后运行&lt;code&gt;make ARCH=riscv32-nemu update&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;就会自动编译Navy中的程序, 并把&lt;code&gt;navy-apps/fsimg/&lt;/code&gt;目录下的所有内容整合成ramdisk镜像&lt;code&gt;navy-apps/build/ramdisk.img&lt;/code&gt;, 同时生成这个ramdisk镜像的文件记录表&lt;code&gt;navy-apps/build/ramdisk.h&lt;/code&gt;, Nanos-lite的&lt;code&gt;Makefile&lt;/code&gt;会通过软连接把它们链接到项目中.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如果你修改了Navy中的内容, 请记得通过上述命令来更新镜像文件.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;文件记录表&amp;quot;其实是一个数组, 数组的每个元素都是一个结构体:&lt;/p&gt;
+&lt;p&gt;typedef struct {&lt;/p&gt;
+&lt;p&gt;char *name;         // 文件名&lt;/p&gt;
+&lt;p&gt;size_t size;        // 文件大小&lt;/p&gt;
+&lt;p&gt;size_t disk_offset;  // 文件在ramdisk中的偏移&lt;/p&gt;
+&lt;p&gt;} Finfo;&lt;/p&gt;
+&lt;p&gt;最基本的文件读写操作:&lt;/p&gt;
+&lt;p&gt;size_t read(const char *filename, void *buf, size_t len);&lt;/p&gt;
+&lt;p&gt;size_t write(const char *filename, void *buf, size_t len);&lt;/p&gt;
+&lt;p&gt;操作系统中存在不少&amp;quot;没有名字&amp;quot;的文件（比如管道传输给另一个工具的标准输入，less等）. 为了统一管理它们, **通过一个编号来表示文件, 文件描述符(file descriptor). **&lt;/p&gt;
+&lt;p&gt;一个文件描述符对应一个正在打开的文件, &lt;strong&gt;由操作系统来维护文件描述符到具体文件的映射&lt;/strong&gt;. 于是我们很自然地通过&lt;code&gt;open()&lt;/code&gt;系统调用来打开一个文件, 并返回相应的文件描述符&lt;/p&gt;
+&lt;p&gt;int open(const char *pathname, int flags, int mode);&lt;/p&gt;
+&lt;p&gt;由于sfs的文件数目是固定的, 我们可以简单地把&lt;strong&gt;文件记录表的下标作为相应文件的文件描述符&lt;/strong&gt;返回给用户程序. &lt;strong&gt;在这以后, 所有文件操作都通过文件描述符来标识文件&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;size_t read(int fd, void *buf, size_t len);&lt;/p&gt;
+&lt;p&gt;size_t write(int fd, const void *buf, size_t len);&lt;/p&gt;
+&lt;p&gt;int close(int fd);&lt;/p&gt;
+&lt;p&gt;我们为&lt;strong&gt;每一个已经打开的文件引入偏移量属性&lt;/strong&gt;&lt;code&gt;open_offset&lt;/code&gt;, 来&lt;strong&gt;记录目前文件操作的位置.&lt;/strong&gt; 每次对文件读写了多少个字节, 偏移量就前进多少.&lt;/p&gt;
+&lt;p&gt;偏移量可以通过&lt;code&gt;lseek()&lt;/code&gt;系统调用来调整, 从而可以对文件中的任意位置进行读写:&lt;/p&gt;
+&lt;p&gt;size_t lseek(int fd, size_t offset, int whence);&lt;/p&gt;
+&lt;p&gt;为了方便用户程序进行标准输入输出, 操作系统准备了三个默认的文件描述符:&lt;/p&gt;
+&lt;p&gt;#define FD_STDIN 0&lt;/p&gt;
+&lt;p&gt;#define FD_STDOUT 1&lt;/p&gt;
+&lt;p&gt;#define FD_STDERR 2&lt;/p&gt;
+&lt;p&gt;它们分别对应标准输入&lt;code&gt;stdin&lt;/code&gt;, 标准输出&lt;code&gt;stdout&lt;/code&gt;和标准错误&lt;code&gt;stderr&lt;/code&gt;. 我们经常使用的printf, 最终会调用&lt;code&gt;write(FD_STDOUT, buf, len)&lt;/code&gt;进行输出; &lt;/p&gt;
+&lt;p&gt;而scanf将会通过调用&lt;code&gt;read(FD_STDIN, buf, len)&lt;/code&gt;进行读入.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;nanos-lite/src/fs.c&lt;/code&gt;中定义的&lt;code&gt;file_table&lt;/code&gt;会包含&lt;code&gt;nanos-lite/src/files.h&lt;/code&gt;, 其中前面还有3个特殊的文件: &lt;code&gt;stdin&lt;/code&gt;, &lt;code&gt;stdout&lt;/code&gt;和&lt;code&gt;stderr&lt;/code&gt;的占位表项, 它们只是为了保证sfs和约定的标准输入输出的文件描述符保持一致, 例如根据约定&lt;code&gt;stdout&lt;/code&gt;的文件描述符是&lt;code&gt;1&lt;/code&gt;, 而我们添加了三个占位表项之后, 文件记录表中的&lt;code&gt;1&lt;/code&gt;号下标也就不会分配给其它的普通文件了.&lt;/p&gt;
+&lt;p&gt;根据以上信息, 我们就可以在文件系统中实现以下的文件操作了:&lt;/p&gt;
+&lt;p&gt;int fs_open(const char *pathname, int flags, int mode);&lt;/p&gt;
+&lt;p&gt;size_t fs_read(int fd, void *buf, size_t len);&lt;/p&gt;
+&lt;p&gt;size_t fs_write(int fd, const void *buf, size_t len);&lt;/p&gt;
+&lt;p&gt;size_t fs_lseek(int fd, size_t offset, int whence);&lt;/p&gt;
+&lt;p&gt;int fs_close(int fd);&lt;/p&gt;
+&lt;p&gt;这些文件操作实际上是&lt;strong&gt;相应的系统调用在内核中的实现&lt;/strong&gt;. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;由于sfs中每一个文件都是固定的, 不会产生新文件, 因此&amp;rdquo;&lt;code&gt;fs_open()&lt;/code&gt;没有找到&lt;code&gt;pathname&lt;/code&gt;所指示的文件&amp;quot;属于异常情况, 你需要使用assertion终止程序运行.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;为了简化实现, 我们&lt;strong&gt;允许所有用户程序都可以对所有已存在的文件进行读写,&lt;/strong&gt; 这样以后, 我们在实现&lt;code&gt;fs_open()&lt;/code&gt;的时候就可以忽略&lt;code&gt;flags&lt;/code&gt;和&lt;code&gt;mode&lt;/code&gt;了.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用&lt;code&gt;ramdisk_read()&lt;/code&gt;和&lt;code&gt;ramdisk_write()&lt;/code&gt;来进行文件的真正读写.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;由于文件的大小是固定的, 在实现&lt;code&gt;fs_read()&lt;/code&gt;, &lt;code&gt;fs_write()&lt;/code&gt;和&lt;code&gt;fs_lseek()&lt;/code&gt;的时候, 注意偏移量不要越过文件的边界.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;除了写入&lt;code&gt;stdout&lt;/code&gt;和&lt;code&gt;stderr&lt;/code&gt;之外(用&lt;code&gt;putch()&lt;/code&gt;输出到串口), 其余对于&lt;code&gt;stdin&lt;/code&gt;, &lt;code&gt;stdout&lt;/code&gt;和&lt;code&gt;stderr&lt;/code&gt;这&lt;strong&gt;三个特殊文件的操作可以直接忽略.&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;由于sfs&lt;strong&gt;没有维护文件打开的状态&lt;/strong&gt;, &lt;code&gt;fs_close()&lt;/code&gt;可以直接返回&lt;code&gt;0&lt;/code&gt;, 表示总是关闭成功.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最后你还需要在&lt;strong&gt;Nanos-lite和Navy的libos中添加相应的系统调用,&lt;/strong&gt; 来调用相应的文件操作.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;一开始看不懂表达的意思是啥。。。看着看着打算先写了再说。一顿操作猛如虎成功：（自由切换文件，拦截了奇怪的情况）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 156; 
+			flex-basis: 374px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_2DzXnSxled.png&#34; data-size=&#34;1228x786&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_2DzXnSxled.png&#34;
+			width=&#34;1228&#34;
+			height=&#34;786&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_2DzXnSxled_hu3b9ca7d1bb13dde02f22ce6a4c72bd29_157289_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_2DzXnSxled_hu3b9ca7d1bb13dde02f22ce6a4c72bd29_157289_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;一开始一直想不到怎么在loader对段头表处理部分可以隔离对ramdisk_read的依赖，因为参数数目不匹配。随后突然想到可以用lseek设置偏移再读写操作，而且我们可以利用结构体偏移量，那么这个抽象就是可以被完成的了。一顿操作猛如虎解除了loader的耦合。&lt;/p&gt;
+&lt;p&gt;(这里要注意navy系统调用的返回值，请按照man填写否则吃大亏！手册！手册！手册！）&lt;/p&gt;
+&lt;p&gt;我这里还遇到一个很坑的问题：边界拦截，自己把自己坑了，因为实际上失败返回-1即可，我自己给自己panic了- -。。。。这件事情告诉我们，好好按照man的规定不要自己花里胡哨QAQ&lt;/p&gt;
+&lt;p&gt;为了更好的调试，学习pony哥方法给log换了个皮肤：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/1142372&#34;  title=&#34;https://cloud.tencent.com/developer/article/1142372&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cloud.tencent.com/developer/article/1142372&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 155; 
+			flex-basis: 372px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_F3veXWpYTh.png&#34; data-size=&#34;1298x836&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_F3veXWpYTh.png&#34;
+			width=&#34;1298&#34;
+			height=&#34;836&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_F3veXWpYTh_hu652b690b3a289cc77e4b19ce3f8ce450_379618_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_F3veXWpYTh_hu652b690b3a289cc77e4b19ce3f8ce450_379618_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h4 id=&#34;一切皆文件&#34;&gt;一切皆文件&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们需要有一种方式对设备的功能进行抽象, 向用户程序提供统一的接口.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;内存是以字节编址的, 天然就是一个字节序列, 因而我们之前使用的ramdisk作为字节序列也更加显而易见了&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;管道(shell命令中的&lt;code&gt;|&lt;/code&gt;)是一种先进先出的字节序列, 本质上它是内存中的一个队列缓冲区&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;磁盘也可以看成一个字节序列: 我们可以为磁盘上的每一个字节进行编号, 例如第x柱面第y磁头第z扇区中的第n字节, 把磁盘上的所有字节按照编号的大小进行排列, 便得到了一个字节序列&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;socket(网络套接字)也是一种字节序列, 它有一个缓冲区,** 负责存放接收到的网络数据包**,上层应用将socket中的内容看做是字节序列, 并通过一些特殊的文件操作来处理它们. 我们在PA2中介绍了DiffTest, 如果你RTFSC, 就会发现其中的&lt;code&gt;qemu-diff&lt;/code&gt;就是&lt;strong&gt;通过socket与QEMU进行通信&lt;/strong&gt;的, 而操作socket的方式就是&lt;code&gt;fgetc()&lt;/code&gt;和&lt;code&gt;fputc()&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;操作系统提供的一些特殊的功能, 如随机数生成器, 也可以看成一个&lt;strong&gt;无穷长的字节序列&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;文件就是字节序列, 那很自然地, 上面这些五花八门的字节序列应该都可以看成文件. &lt;/p&gt;
+&lt;p&gt;我们可以使用文件的接口来操作计算机上的一切, 而不必对它们进行详细的区分: 例如 &lt;code&gt;navy-apps/Makefile&lt;/code&gt;的&lt;code&gt;ramdisk&lt;/code&gt;规则通过管道&lt;strong&gt;把各个shell工具的输入输出连起来, 生成文件记录表&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;虚拟文件系统&#34;&gt;虚拟文件系统&lt;/h3&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 132; 
+			flex-basis: 317px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_U_HmID6cYq.png&#34; data-size=&#34;885x670&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_U_HmID6cYq.png&#34;
+			width=&#34;885&#34;
+			height=&#34;670&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_U_HmID6cYq_hue225d25de8493c27ef46e8a9b1e0b862_170219_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_U_HmID6cYq_hue225d25de8493c27ef46e8a9b1e0b862_170219_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;真实文件系统, 其实是指&lt;strong&gt;具体如何操作&lt;/strong&gt;某一类文件。&lt;/p&gt;
+&lt;p&gt;VFS其实是对不同种类的真实文件系统的抽象,** 它用一组API来描述了这些真实文件系统的抽象行为, 屏蔽了真实文件系统之间的差异,** 上层模块(比如系统调用处理函数)不必关心当前操作的文件具体是什么类型, 只要调用这一组API即可完成相应的文件操作&lt;/p&gt;
+&lt;p&gt;只要把真实文件系统的访问方式包装成VFS的API, 上层模块无需修改任何代码, 就能支持一个新的真实文件系统了&lt;/p&gt;
+&lt;p&gt;其中&lt;code&gt;ReadFn&lt;/code&gt;和&lt;code&gt;WriteFn&lt;/code&gt;分别是两种函数指针, 它们用于指向真正进行读写的函数, 并返回成功读写的字节数. 有了这两个函数指针, 我们只需要在文件记录表中对不同的文件设置不同的读写函数, 就可以通过&lt;code&gt;f-&amp;gt;read()&lt;/code&gt;和&lt;code&gt;f-&amp;gt;write()&lt;/code&gt;的方式来调用具体的读写函数了.&lt;/p&gt;
+&lt;p&gt;由于特殊文件的数量很少, 我们约定, 当上述的函数指针为&lt;code&gt;NULL&lt;/code&gt;时, 表示相应文件是一个普通文件, 通过ramdisk的API来进行文件的读写, 这样我们就不需要为大多数的普通文件显式指定ramdisk的读写函数了.&lt;/p&gt;
+&lt;p&gt;我们把文件看成字节序列, 大部分字节序列都是&amp;quot;静止&amp;quot;的, 例如对于ramdisk和磁盘上的文件, 如果我们不对它们进行修改, 它们就会一直位于同一个地方, 这样的字节序列具有&amp;quot;位置&amp;quot;的概念; 但有一些特殊的字节序列并不是这样, 例如键入按键的字节序列是&amp;quot;流动&amp;quot;的, 被读出之后就不存在了, 这样的字节序列中的字节之间只有顺序关系, 但无法编号, 因此它们没有&amp;quot;位置&amp;quot;的概念. &lt;/p&gt;
+&lt;p&gt;属于前者的文件支持&lt;code&gt;lseek&lt;/code&gt;操作, 存储这些文件的设备称为&amp;quot;块设备&amp;quot;; 而属于后者的文件则不支持&lt;code&gt;lseek&lt;/code&gt;操作, 相应的设备称为&amp;quot;字符设备&amp;quot;. 真实的操作系统还会对&lt;code&gt;lseek&lt;/code&gt;操作进行抽象, 我们在Nanos-lite中进行了简化, 就不实现这一抽象了.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;操作系统之上的ioe&#34;&gt;操作系统之上的IOE&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有了VFS, 要把IOE抽象成文件就非常简单了.&lt;/p&gt;
+&lt;p&gt;串口. 在Nanos-lite中, &lt;code&gt;stdout&lt;/code&gt;和&lt;code&gt;stderr&lt;/code&gt;都会输出到串口. 之前你可能会通过判断&lt;code&gt;fd&lt;/code&gt;是否为&lt;code&gt;1&lt;/code&gt;或&lt;code&gt;2&lt;/code&gt;, 来决定&lt;code&gt;sys_write()&lt;/code&gt;是否写入到串口. 现在有了VFS, 我们就不需要让系统调用处理函数关心这些特殊文件的情况了: 我们只需要在&lt;code&gt;nanos-lite/src/device.c&lt;/code&gt;中实现&lt;code&gt;serial_write()&lt;/code&gt;, 然后在文件记录表中设置相应的写函数, 就可以实现上述功能了. 由于串口是一个字符设备, 对应的字节序列没有&amp;quot;位置&amp;quot;的概念, 因此&lt;code&gt;serial_write()&lt;/code&gt;中的&lt;code&gt;offset&lt;/code&gt;参数可以忽略. 另外Nanos-lite也不打算支持&lt;code&gt;stdin&lt;/code&gt;的读入, 因此在文件记录表中设置相应的报错函数即可.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这一步比较简单，就按照描述加入即可，把fswrite进行一下抽象&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在Nanos-lite中, 我们也提供一个&lt;code&gt;SYS_gettimeofday&lt;/code&gt;系统调用, 用户程序可以通过它读出当前的系统时间.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;根据以前的am依葫芦画瓢（实际上我们能知道am就是为了这时候做准备）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 152; 
+			flex-basis: 366px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_278DUxX-K4.png&#34; data-size=&#34;1211x792&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_278DUxX-K4.png&#34;
+			width=&#34;1211&#34;
+			height=&#34;792&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_278DUxX-K4_hu9b944b2b57eec4a93e87dea8c2e5192a_128689_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_278DUxX-K4_hu9b944b2b57eec4a93e87dea8c2e5192a_128689_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;替换成NDL库的过程中，注意NDL的导入（想想make的时候怎么搜索库）&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;另一个输入设备是键盘, 按键信息对系统来说本质上就是到来了一个事件. 一种简单的方式是把事件以文本的形式表现出来, 我们定义以下两种事件,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;按下按键事件, 如&lt;code&gt;kd RETURN&lt;/code&gt;表示按下回车键&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;松开按键事件, 如&lt;code&gt;ku A&lt;/code&gt;表示松开&lt;code&gt;A&lt;/code&gt;键&lt;/p&gt;
+&lt;p&gt;按键名称与AM中的定义的按键名相同, 均为大写. 此外, 一个事件以换行符&lt;code&gt;\n&lt;/code&gt;结束.&lt;/p&gt;
+&lt;p&gt;我们采用文本形式来描述事件有两个好处, 首先文本显然是一种字节序列, 这使得事件很容易抽象成文件; 此外文本方式使得用户程序可以容易可读地解析事件的内容. Nanos-lite和Navy约定, 上述事件抽象成一个特殊文件&lt;code&gt;/dev/events&lt;/code&gt;, 它需要支持读操作, 用户程序可以从中读出按键事件, 但它不必支持&lt;code&gt;lseek&lt;/code&gt;, 因为它是一个字符设备.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这里关键问题要理解：&lt;strong&gt;键入按键的字节序列是&amp;quot;流动&amp;quot;的, 被读出之后就不存在了&lt;/strong&gt;, &lt;strong&gt;它们没有&amp;quot;位置&amp;quot;的概念&lt;/strong&gt;. 属于后者的文件则不支持&lt;code&gt;lseek&lt;/code&gt;操作, &lt;strong&gt;相应的设备称为&amp;quot;字符设备&amp;quot;&lt;/strong&gt;，说明我们需要让数据直接被“读出”，也就是读函数中交互过程能直接把数据传送到我们需要的地方。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 511; 
+			flex-basis: 1227px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_8jz8z3DeiO.png&#34; data-size=&#34;895x175&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_8jz8z3DeiO.png&#34;
+			width=&#34;895&#34;
+			height=&#34;175&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_8jz8z3DeiO_hu6ab1e9bc52070a7dea31f56b3fa63e09_41257_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_8jz8z3DeiO_hu6ab1e9bc52070a7dea31f56b3fa63e09_41257_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;答：实际上fopen得到的FILE也是可以通过转换得到最后的fd的，但是之所以不用是因为可能错误使用了fread，因为这系列的读写操作实际上是对FILE里面的缓冲区进行操作的，而我们的设备文件需要直接把我们需要的buf打印。&lt;/p&gt;
+&lt;p&gt;注意对好各类接口（返回值 0和1以及对应的buf传输链即可得到结果）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 152; 
+			flex-basis: 366px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_0lfiKRhjw6.png&#34; data-size=&#34;1290x845&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_0lfiKRhjw6.png&#34;
+			width=&#34;1290&#34;
+			height=&#34;845&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_0lfiKRhjw6_hu065c9f02bf4b43c4f2b030caa424ed8b_135867_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_0lfiKRhjw6_hu065c9f02bf4b43c4f2b030caa424ed8b_135867_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Nanos-lite需要做的, 便是把显存抽象成文件. &lt;strong&gt;显存本身也是一段存储空间&lt;/strong&gt;, 它以行优先的方式存储了将要在屏幕上显示的像素. Nanos-lite和Navy约定, 把显存抽象成文件&lt;code&gt;/dev/fb&lt;/code&gt;(fb为frame buffer之意), 它需要&lt;strong&gt;支持写操作和&lt;/strong&gt;&lt;code&gt;lseek&lt;/code&gt;, 以&lt;strong&gt;便于把像素更新到屏幕的指定位置上.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;其中&amp;quot;&lt;strong&gt;画布&amp;quot;是一个面向程序的概念,&lt;/strong&gt; 程序绘图时的坐标都是针对画布来设定的, 这样程序就无需关心系统屏幕的大小, 以及需要将图像绘制到系统屏幕的哪一个位置. &lt;strong&gt;NDL可以根据系统屏幕大小以及画布大小, 来决定将画布&amp;quot;贴&amp;quot;到哪里&lt;/strong&gt;, 例如贴到屏幕左上角或者居中, 从而将画布的内容写入到frame buffer中正确的位置.&lt;/p&gt;
+&lt;p&gt;NDL_DrawRect()的功能和PA2中介绍的绘图接口是非常类似的. 但为了实现它, NDL还需要知道屏幕大小的信息. &lt;strong&gt;Nanos-lite和Navy约定, 屏幕大小的信息通过/proc/dispinfo文件来获得, 它需要支持读操作. navy-apps/README.md中对这个文件内容的格式进行了约定, 你需要阅读它&lt;/strong&gt;. 至于具体的屏幕大小, 你需要通过IOE的相应API来获取.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;把vga显存抽象成文件&#34;&gt;把VGA显存抽象成文件&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;实现&lt;code&gt;fb_write()&lt;/code&gt;(在&lt;code&gt;nanos-lite/src/device.c&lt;/code&gt;中定义), &lt;/p&gt;
+&lt;p&gt;用于把&lt;code&gt;buf&lt;/code&gt;中的&lt;code&gt;len&lt;/code&gt;字节写到屏幕上&lt;code&gt;offset&lt;/code&gt;处. 你需要先从&lt;code&gt;offset&lt;/code&gt;计算出屏幕上的坐标, 然后调用IOE来进行绘图. 另外我们约定每次绘图后总是马上将frame buffer中的内容同步到屏幕上.&lt;/p&gt;
+&lt;p&gt;在NDL中实现&lt;code&gt;NDL_DrawRect()&lt;/code&gt;, 通过往&lt;code&gt;/dev/fb&lt;/code&gt;中的正确位置写入像素信息来绘制图像. 你需要梳理清楚系统屏幕(即frame buffer), &lt;code&gt;NDL_OpenCanvas()&lt;/code&gt;打开的画布, 以及&lt;code&gt;NDL_DrawRect()&lt;/code&gt;指示的绘制区域之间的位置关系.&lt;/p&gt;
+&lt;p&gt;让Nanos-lite运行&lt;code&gt;navy-apps/tests/bmp-test&lt;/code&gt;, 如果实现正确, 你将会看到屏幕上显示Project-N的logo.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这里我一直卡着没做出来，主要是不理解fb_write和NDL_DrawRect到底要做什么。实际上要理解的是，绘制工作已经被am完成了，所以我们只需要吧数据全部丢过去即可。而重要的是在fs的特别write中根据am的接口把我们的数据喂过去（需要w,h,x,y的信息），而NDL是为喂过去而准备的。&lt;/p&gt;
+&lt;p&gt;【其实就要注意一点，在navy中的读写其实都是依靠fs完成，所以对应的buff和len都是在navy才进行处理，因为那才是真正调用处理的函数，想想他们拿到的东西是什么，是不是一样】&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 163; 
+			flex-basis: 392px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_jE_Zzd5sd0.png&#34; data-size=&#34;1179x721&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_jE_Zzd5sd0.png&#34;
+			width=&#34;1179&#34;
+			height=&#34;721&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_jE_Zzd5sd0_hu2b5289946be45637c43161977b022d2b_187772_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_jE_Zzd5sd0_hu2b5289946be45637c43161977b022d2b_187772_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;精彩纷呈的应用程序&#34;&gt;精彩纷呈的应用程序&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;miniSDL的代码位于&lt;code&gt;navy-apps/libs/libminiSDL/&lt;/code&gt;目录下, 它由6个模块组成:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;timer.c&lt;/code&gt;: 时钟管理&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;event.c&lt;/code&gt;: 事件处理&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;video.c&lt;/code&gt;: 绘图接口&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;file.c&lt;/code&gt;: 文件抽象&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;audio.c&lt;/code&gt;: 音频播放&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;general.c&lt;/code&gt;: 常规功能, 包括初始化, 错误管理等&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我们可以通过NDL来支撑miniSDL的底层实现, 让miniSDL向用户程序提供更丰富的功能, 这样我们就可以在Navy上运行更复杂的程序了. miniSDL中的API和SDL同名, 你可以通过&lt;a class=&#34;link&#34; href=&#34;https://www.libsdl.org/release/SDL-1.2.15/docs/&#34;  title=&#34;RTFM&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;RTFM&lt;/a&gt;来查阅这些API的具体行为. 另外miniSDL中的大部分API都没有实现, 你最好想个办法让程序用到某个未实现API的时候提醒你, 否则你可能难以理解由此导致的复杂程序非预期行为.&lt;/p&gt;
+&lt;p&gt;虽然Navy的&lt;code&gt;native&lt;/code&gt;和AM中的&lt;code&gt;native&lt;/code&gt;同名, 但它们的机制是不同的: &lt;/p&gt;
+&lt;p&gt;在AM native上运行的系统, 需要AM, Nanos-lite, libos, libc这些抽象层来支撑上述的运行时环境, &lt;/p&gt;
+&lt;p&gt;在AM中的&lt;code&gt;ARCH=native&lt;/code&gt;, 在Navy中对应的是&lt;code&gt;ISA=am_native&lt;/code&gt;; 而在&lt;strong&gt;Navy native中, 上述运行时环境是直接由Linux native实现的.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;问神奇的ld_preload&#34;&gt;问：神奇的LD_PRELOAD&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;bmp-test&lt;/code&gt;需要打开一个路径为&lt;code&gt;/share/pictures/projectn.bmp&lt;/code&gt;的文件, 但在Linux native中, 这个路径对应的文件并不存在. 但我们还是把&lt;code&gt;bmp-test&lt;/code&gt;成功运行起来了, 你知道这是如何实现的吗? 如果你感兴趣, 可以在互联网上搜索&lt;code&gt;LD_PRELOAD&lt;/code&gt;相关的内容.&lt;/p&gt;
+&lt;p&gt;答：LD_PRELOAD是Linux系统的一个环境变量，它可以影响程序的运行时的链接（Runtime linker），它允许你定义在程序运行前优先加载的动态链接库。这个功能主要就是用来有选择性的载入不同动态链接库中的相同函数。通过这个环境变量，我们可以在主程序和其动态链接库的中间加载别的动态链接库，甚至覆盖正常的函数库。一方面，我们可以以此功能来使用自己的或是更好的函数（无需别人的源码），而另一方面，我们也可以以向别人的程序注入程序，从而达到特定的目的。&lt;/p&gt;
+&lt;p&gt;SDL2常用函数&amp;amp;结构分析:SDL_Surface&amp;amp;SDL_GetWindowSurface&amp;amp;SDL_LoadBMP&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_25333681/article/details/89789479&#34;  title=&#34;https://blog.csdn.net/qq_25333681/article/details/89789479&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/qq_25333681/article/details/89789479&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;幻灯片显示：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/image/LY8M5N-%7b%5c%28X16-2SAEBVLLXY_4y7Uhjd2g9.png&#34; &gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/image/LY8M5N-%7b%5c%28X16-2SAEBVLLXY_4y7Uhjd2g9.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;这里的pdf转换一开始我还以为只能转换开头那张pdf。。。经过查资料后成功转了其他页面~&lt;/p&gt;
+&lt;p&gt;有可能会出现数字键爆炸的问题，请注意是否清除缓存以及键盘type。&lt;/p&gt;
+&lt;p&gt;接下来实现menu，有点痛不欲生。。。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/image/VV%5c[%7d-%5c~28Z3AO%5c[W-RBPFFWW9_zgzqTXEYry.png&#34; &gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/image/VV%5c[%7d-%5c~28Z3AO%5c[W-RBPFFWW9_zgzqTXEYry.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;其实SDL_FillRect的关键是要理解什么是像素。。。其实像素是一个“数组”里面根据00rrrggbb00rrrggbb这样的方式排列下去（4byte的情况），理解了这点就好办了。理解画布并不是要画上去，只是准备画布。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;接下来最难的就是SDL_BlitSurface的实现：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;实现后能看到这样的画面：开始菜单（还没有execve的功能）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 175; 
+			flex-basis: 420px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_wAHxcP8c3v.png&#34; data-size=&#34;1396x796&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_wAHxcP8c3v.png&#34;
+			width=&#34;1396&#34;
+			height=&#34;796&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_wAHxcP8c3v_huf317ecf0daeb695f33711efa27e846e6_245695_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_wAHxcP8c3v_huf317ecf0daeb695f33711efa27e846e6_245695_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h4 id=&#34;nterm-nju-terminal&#34;&gt;NTerm (NJU Terminal)&lt;/h4&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/image/OUQLE5_J-%601TRWZ%5c~%60%5c$E9XQ1_fKnNTvkwsu.png&#34; &gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/image/OUQLE5_J-%601TRWZ%5c~%60%5c$E9XQ1_fKnNTvkwsu.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h4 id=&#34;flappy-bird&#34;&gt;Flappy Bird&lt;/h4&gt;
+&lt;p&gt;这里我首当其冲遇到了爆炸问题：fe_read出边界，但实际上是手册没读好的问题。。。。（被pony哥拯救系列）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/image/6C%5c$W%60%5c%29%60TU1J3%609KTWOJJCLP_InjNvdh-KE.png&#34; &gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/image/6C%5c$W%60%5c%29%60TU1J3%609KTWOJJCLP_InjNvdh-KE.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;然后又遇到了- -神奇的按键没反应的情况。。。。后面发现是对“事件”不够理解。。。如果你也遇到了请仔细阅读事件的定义然后反思下某个函数是否返回正确。。。。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/image/S%5c%29%5c~RT06JB%7dH%5c[RPJE3AG%60VHC_U_sjmXLkiM.png&#34; &gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/image/S%5c%29%5c~RT06JB%7dH%5c[RPJE3AG%60VHC_U_sjmXLkiM.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>我的计算机学习网站集合</title>
         <link>https://sanbuphy.github.io/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/</link>
         <pubDate>Fri, 26 Aug 2022 12:08:27 +0800</pubDate>
