@@ -151,7 +151,7 @@
 	&lt;/a&gt;
 	
 &lt;/figure&gt;&lt;/p&gt;
-&lt;h4 id=&#34;一切皆文件&#34;&gt;一切皆文件&lt;/h4&gt;
+&lt;h3 id=&#34;一切皆文件&#34;&gt;一切皆文件&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;我们需要有一种方式对设备的功能进行抽象, 向用户程序提供统一的接口.&lt;/p&gt;
 &lt;ul&gt;
@@ -349,12 +349,17 @@
     &gt;https://blog.csdn.net/qq_25333681/article/details/89789479&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;幻灯片显示：&lt;/p&gt;
 &lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 139; 
+			flex-basis: 334px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/image/LY8M5N-%7b%5c%28X16-2SAEBVLLXY_4y7Uhjd2g9.png&#34; &gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/image/LY8M5N-%7b%5c%28X16-2SAEBVLLXY_4y7Uhjd2g9.png&#34;
-			
-			
-			
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/huandeng.png&#34; data-size=&#34;825x592&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/huandeng.png&#34;
+			width=&#34;825&#34;
+			height=&#34;592&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/huandeng_huad8b7d9b543d729758e71ae4250bcd15_195276_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/huandeng_huad8b7d9b543d729758e71ae4250bcd15_195276_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -364,12 +369,17 @@
 &lt;p&gt;有可能会出现数字键爆炸的问题，请注意是否清除缓存以及键盘type。&lt;/p&gt;
 &lt;p&gt;接下来实现menu，有点痛不欲生。。。&lt;/p&gt;
 &lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 161; 
+			flex-basis: 386px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/image/VV%5c[%7d-%5c~28Z3AO%5c[W-RBPFFWW9_zgzqTXEYry.png&#34; &gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/image/VV%5c[%7d-%5c~28Z3AO%5c[W-RBPFFWW9_zgzqTXEYry.png&#34;
-			
-			
-			
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/surface.png&#34; data-size=&#34;709x440&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/surface.png&#34;
+			width=&#34;709&#34;
+			height=&#34;440&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/surface_huc053f20ddd1de16ecc38417726190cf5_260885_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/surface_huc053f20ddd1de16ecc38417726190cf5_260885_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -397,12 +407,17 @@
 &lt;/figure&gt;&lt;/p&gt;
 &lt;h4 id=&#34;nterm-nju-terminal&#34;&gt;NTerm (NJU Terminal)&lt;/h4&gt;
 &lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 152; 
+			flex-basis: 365px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/image/OUQLE5_J-%601TRWZ%5c~%60%5c$E9XQ1_fKnNTvkwsu.png&#34; &gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/image/OUQLE5_J-%601TRWZ%5c~%60%5c$E9XQ1_fKnNTvkwsu.png&#34;
-			
-			
-			
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/nterm.png&#34; data-size=&#34;1084x711&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/nterm.png&#34;
+			width=&#34;1084&#34;
+			height=&#34;711&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/nterm_hu81874d9f95f3f508e741fc80c2440a66_97942_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/nterm_hu81874d9f95f3f508e741fc80c2440a66_97942_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -411,12 +426,17 @@
 &lt;h4 id=&#34;flappy-bird&#34;&gt;Flappy Bird&lt;/h4&gt;
 &lt;p&gt;这里我首当其冲遇到了爆炸问题：fe_read出边界，但实际上是手册没读好的问题。。。。（被pony哥拯救系列）&lt;/p&gt;
 &lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 159; 
+			flex-basis: 383px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/image/6C%5c$W%60%5c%29%60TU1J3%609KTWOJJCLP_InjNvdh-KE.png&#34; &gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/image/6C%5c$W%60%5c%29%60TU1J3%609KTWOJJCLP_InjNvdh-KE.png&#34;
-			
-			
-			
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/shouce.png&#34; data-size=&#34;1368x856&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/shouce.png&#34;
+			width=&#34;1368&#34;
+			height=&#34;856&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/shouce_hu59a563ee73d77d4009c99dc02018d472_138210_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/shouce_hu59a563ee73d77d4009c99dc02018d472_138210_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -424,12 +444,36 @@
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;然后又遇到了- -神奇的按键没反应的情况。。。。后面发现是对“事件”不够理解。。。如果你也遇到了请仔细阅读事件的定义然后反思下某个函数是否返回正确。。。。&lt;/p&gt;
 &lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 150; 
+			flex-basis: 361px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/image/S%5c%29%5c~RT06JB%7dH%5c[RPJE3AG%60VHC_U_sjmXLkiM.png&#34; &gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/image/S%5c%29%5c~RT06JB%7dH%5c[RPJE3AG%60VHC_U_sjmXLkiM.png&#34;
-			
-			
-			
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xiaoniao.png&#34; data-size=&#34;989x657&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xiaoniao.png&#34;
+			width=&#34;989&#34;
+			height=&#34;657&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xiaoniao_hu6af73d8437039569412037fe24db4b36_125761_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xiaoniao_hu6af73d8437039569412037fe24db4b36_125761_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h4 id=&#34;仙剑奇侠传&#34;&gt;仙剑奇侠传&lt;/h4&gt;
+&lt;p&gt;还在奋斗中。。。。。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 131; 
+			flex-basis: 315px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xianjian.png&#34; data-size=&#34;784x597&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xianjian.png&#34;
+			width=&#34;784&#34;
+			height=&#34;597&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xianjian_hu62b4b08a695d0de574414f90a94e8265_192749_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xianjian_hu62b4b08a695d0de574414f90a94e8265_192749_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
