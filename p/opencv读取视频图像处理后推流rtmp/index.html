@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='实时推流转发'><title>opencv读取视频图像处理后推流rtmp</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='opencv读取视频图像处理后推流rtmp'>
+<meta property='og:description' content='实时推流转发'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-09-03T11:56:50&#43;08:00'/><meta property='article:modified_time' content='2022-09-03T11:56:50&#43;08:00'/>
+<meta name="twitter:title" content="opencv读取视频图像处理后推流rtmp">
+<meta name="twitter:description" content="实时推流转发">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/opencv/" >
+                Opencv
+            </a>
+        
+            <a href="/categories/deploy/" >
+                Deploy
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/">opencv读取视频图像处理后推流rtmp</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        实时推流转发
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Sep 03, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h2 id="reference">Reference</h2>
+<p><a class="link" href="https://blog.csdn.net/zong596568821xp/article/details/92790502"  title="https://blog.csdn.net/zong596568821xp/article/details/92790502"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/zong596568821xp/article/details/92790502</a></p>
+<p><a class="link" href="https://blog.csdn.net/u014303844/article/details/80394101"  title="https://blog.csdn.net/u014303844/article/details/80394101"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/u014303844/article/details/80394101</a></p>
+<p>一些关于nginx的常见操作：</p>
+<p><a class="link" href="https://kalacloud.com/blog/how-to-install-nginx-on-ubuntu-20-04/"  title="https://kalacloud.com/blog/how-to-install-nginx-on-ubuntu-20-04/"
+     target="_blank" rel="noopener"
+    >https://kalacloud.com/blog/how-to-install-nginx-on-ubuntu-20-04/</a></p>
+<p>nginx rtmp配置相关官方手册：</p>
+<p><a class="link" href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#server"  title="https://github.com/arut/nginx-rtmp-module/wiki/Directives#server"
+     target="_blank" rel="noopener"
+    >https://github.com/arut/nginx-rtmp-module/wiki/Directives#server</a></p>
+<p>比较全的中文可参考conf文件内容解析</p>
+<p><a class="link" href="https://www.jianshu.com/p/15316e0f3de1"  title="https://www.jianshu.com/p/15316e0f3de1"
+     target="_blank" rel="noopener"
+    >https://www.jianshu.com/p/15316e0f3de1</a></p>
+<h2 id="前言">前言</h2>
+<p>因为业务上需求需要将流拉下来处理后转为其他流推送出去，之前的博客内容涉及到的是rtsp流的处理，这次利用nginx服务器转发推rtmp流。（拉流后可以进行任何图像处理）</p>
+<p>操作环境：Ubuntu 20.04 + python3</p>
+<h2 id="nginx服务器搭建">Nginx服务器搭建</h2>
+<p>因为要将处理过的图片串成rtmp码流，因此，需要搭建一个rtmp服务器，常用的方案是Nginx服务器。</p>
+<h4 id="安装依赖">安装依赖</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo apt-get install openssl libssl-dev
+sudo apt-get install libpcre3 libpcre3-dev
+sudo apt-get install zlib1g-dev
+</code></pre></div><h3 id="安装nginx">安装nginx</h3>
+<p>首先下载nginx：</p>
+<p><a class="link" href="http://nginx.org/en/download.html"  title="http://nginx.org/en/download.html"
+     target="_blank" rel="noopener"
+    >http://nginx.org/en/download.html</a></p>
+<p>选择稳定版本即可，比如<a class="link" href="http://nginx.org/download/nginx-1.22.0.tar.gz"  title="http://nginx.org/download/nginx-1.22.0.tar.gz"
+     target="_blank" rel="noopener"
+    >http://nginx.org/download/nginx-1.22.0.tar.gz</a></p>
+<p>以及nginx-rtmp-module:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">git clone https://github.com/arut/nginx-rtmp-module.git
+</code></pre></div><p>将两者放在同级目录的文件夹下：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 246; 
+			flex-basis: 590px"
+	>
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI.png" data-size="588x239">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI.png"
+			width="588"
+			height="239"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI_hu158101d61616781d65d185b72f03dbd9_10016_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI_hu158101d61616781d65d185b72f03dbd9_10016_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>之后进入nginx的文件夹，依次运行指令进行编译：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./configure --add-module<span class="o">=</span>../nginx-rtmp-module
+make
+sudo make install
+</code></pre></div><blockquote>
+<p>安装后的一些信息：</p>
+<p>nginx安装目录 /usr/local/nginx
+nginx配置目录 /usr/local/nginx/conf/nginx.conf
+nginx运行目录 /usr/local/nginx/sbin/nginx &ndash;options</p>
+</blockquote>
+<p>运行指令启动nginx:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./usr/local/nginx/sbin/nginx
+</code></pre></div><p>在浏览器中输入localhost，若看到如下画面，表示运行成功</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 362; 
+			flex-basis: 869px"
+	>
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ.png" data-size="1221x337">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ.png"
+			width="1221"
+			height="337"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="配置nginx用于推流转发">配置nginx用于推流转发</h3>
+<p>可以采取vim或者vscode进行编辑</p>
+<p>这里采用vscode，首先运行</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">code /usr/local/nginx/conf/nginx.conf
+
+</code></pre></div><p>接着找到对应位置进行填充：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">#地址为  /usr/local/nginx/conf/nginx.conf
+
+#注明：请勿直接覆盖原来的conf文件,这只是部分有关直播的内容
+
+#配置RTMP，这个配置格式在github的readme上有详细说明
+
+rtmp {                
+
+  server {
+
+    listen 1935;  #服务端口--默认
+
+    chunk_size 4096;   #数据传输块的大小--默认
+
+    #设置直播的application名称是 mylive
+
+  application mylive{ 
+
+    live on; #live on表示开启直播模式
+
+    }
+
+  }
+
+}
+
+#请在http里面找到server
+
+http{
+
+  ...#这里有一些其他的配置
+
+#复制粘贴这个替换原来的server
+ server {
+            listen       80;
+            server_name  localhost;
+            location / {
+                    root   html;
+                    index  index.html index.htm;
+            }
+            location /pop/video {
+                    alias /var/video;
+            }
+            location /info {
+                rtmp_stat all;
+                rtmp_stat_stylesheet stat.xsl;
+            }
+            location /stat.xsl {
+                    root html; #这里可以进行一个替换
+            }
+
+    }
+</code></pre></div><p>如图所示：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 100; 
+			flex-basis: 242px"
+	>
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama.png" data-size="583x578">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama.png"
+			width="583"
+			height="578"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 99; 
+			flex-basis: 237px"
+	>
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S.png" data-size="678x684">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S.png"
+			width="678"
+			height="684"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S_hufd2082652aba014208b7141354136e3c_52604_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S_hufd2082652aba014208b7141354136e3c_52604_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>配置完之后，需要重启nginx</p>
+<p><code>sudo /usr/local/nginx/sbin/nginx -s reload</code></p>
+<p>接下来配置服务器的监控信息显示，修改之前server的一个路径信息,把这个路径改成开头下载好的module的绝对路径（因为那里面有个stat.xsl）：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 144; 
+			flex-basis: 346px"
+	>
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM.png" data-size="686x475">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM.png"
+			width="686"
+			height="475"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM_huab15b1c96220dd94312a13da29157ea3_43949_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM_huab15b1c96220dd94312a13da29157ea3_43949_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>保存后重启nginx，然后然后在浏览器中输入localhost/info可看到如下界面：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 299; 
+			flex-basis: 718px"
+	>
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV.png" data-size="1054x352">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV.png"
+			width="1054"
+			height="352"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><strong>至此，完成了rtmp-nginx服务器的全部配置</strong></p>
+<h2 id="推流代码部分">推流代码部分</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="n">rtsp</span> <span class="o">=</span> <span class="s2">&#34;随便选个视频源测试&#34;</span>
+<span class="n">rtmp</span> <span class="o">=</span> <span class="s1">&#39;rtmp://localhost:1935/mylive/test&#39;</span>
+ 
+<span class="c1"># 读取视频并获取属性</span>
+<span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">rtsp</span><span class="p">)</span>
+<span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_WIDTH</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_HEIGHT</span><span class="p">)))</span>
+<span class="n">sizeStr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;x&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&#34;sezie is</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span><span class="n">sizeStr</span><span class="p">)</span>
+<span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-y&#39;</span><span class="p">,</span> <span class="s1">&#39;-an&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;rawvideo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-vcodec&#39;</span><span class="p">,</span><span class="s1">&#39;rawvideo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-pix_fmt&#39;</span><span class="p">,</span> <span class="s1">&#39;bgr24&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="n">sizeStr</span><span class="p">,</span>
+    <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;15&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-c:v&#39;</span><span class="p">,</span> <span class="s1">&#39;libx264&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-pix_fmt&#39;</span><span class="p">,</span> <span class="s1">&#39;yuv420p&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-preset&#39;</span><span class="p">,</span> <span class="s1">&#39;ultrafast&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;flv&#39;</span><span class="p">,</span>
+    <span class="n">rtmp</span><span class="p">]</span>
+ 
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">command</span>
+    <span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
+<span class="p">)</span>
+ 
+<span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+    <span class="n">success</span><span class="p">,</span><span class="n">frame1</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="c1"># print(frame1.shape())</span>
+    <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+        <span class="c1">#=================进行一些图像处理=================</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">frame1</span><span class="p">,(</span><span class="mi">50</span><span class="p">,</span><span class="mi">200</span><span class="p">),(</span><span class="mi">900</span><span class="p">,</span><span class="mi">400</span><span class="p">),[</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c1">#=================进行一些图像处理=================</span>
+        <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+            <span class="k">break</span>    
+        <span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">frame1</span><span class="o">.</span><span class="n">tostring</span><span class="p">())</span>
+ 
+<span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+</code></pre></div><p>运行上述代码，然后在nginx服务器info上可查看推流情况</p>
+<p>之后用ffplay或者VLC等客户端软件即可查看推流视频</p>
+<h2 id="进一步理解nginx的端口相关防火墙机制">进一步：理解Nginx的端口相关防火墙机制</h2>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#reference">Reference</a></li>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#nginx服务器搭建">Nginx服务器搭建</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#安装依赖">安装依赖</a></li>
+          </ol>
+        </li>
+        <li><a href="#安装nginx">安装nginx</a></li>
+        <li><a href="#配置nginx用于推流转发">配置nginx用于推流转发</a></li>
+      </ol>
+    </li>
+    <li><a href="#推流代码部分">推流代码部分</a></li>
+    <li><a href="#进一步理解nginx的端口相关防火墙机制">进一步：理解Nginx的端口相关防火墙机制</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

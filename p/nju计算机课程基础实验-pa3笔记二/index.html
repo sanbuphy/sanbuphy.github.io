@@ -118,7 +118,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 15 分钟
+                    阅读时长: 18 分钟
                 </time>
             </div>
         
@@ -577,7 +577,6 @@
 	
 </figure></p>
 <h4 id="仙剑奇侠传">仙剑奇侠传</h4>
-<p>还在奋斗中。。。。。</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -585,16 +584,175 @@
 			flex-grow: 131; 
 			flex-basis: 315px"
 	>
-	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xianjian.png" data-size="784x597">
-		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xianjian.png"
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_iPtNfF-iU9.png" data-size="784x597">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_iPtNfF-iU9.png"
 			width="784"
 			height="597"
-			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xianjian_hu62b4b08a695d0de574414f90a94e8265_192749_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/xianjian_hu62b4b08a695d0de574414f90a94e8265_192749_1024x0_resize_box_3.png 1024w"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_iPtNfF-iU9_hu5b0edb30fd6ac6264efe903332550d31_178619_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_iPtNfF-iU9_hu5b0edb30fd6ac6264efe903332550d31_178619_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
 	
 </figure></p>
+<p>首先很快就找到了data（就是data，其他花里胡哨的不算）然后你可能会看到一坨大写文件发现段错误。。。。这里是个坑</p>
+<p><strong>【具体查找过程开gdb，你会发现出错的地方。。。。。建议不要放过这个过程。】</strong></p>
+<p>首先在pal下运行<code>make ISA=native gdb</code> 查找段错误的原因，此时你会看到一个io错误，fp=NULL（0x0），那么是什么文件打开错误呢？</p>
+<p><strong>注意到讲义</strong>：此外, 你还需要创建配置文件<code>sdlpal.cfg</code>, 具体请阅读<code>repo/docs/README.md</code>和<code>repo/docs/sdlpal.cfg.example</code>.</p>
+<p>一顿操作找到了cfg文件，那么这个要放在那呢？</p>
+<p>先在makefile中加入-g 方便调试（具体什么地方自己找apps），然后在pal下继续gdb，r结束后<strong>bt打印堆栈信息</strong>，这时候你就会发现访问某个文件出错了，找到对应的文件即可（或者把cfg放进去。）。如果你发现他需要访问某个share/games之类的文件信息，检查下有没有，然后想想在之前的小鸟下做了什么操作。</p>
+<p>反复测试直到make ISA=native run不报错，此时你就发现make run 可以运行了！</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 155; 
+			flex-basis: 372px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_il7mYTUE6u.png" data-size="927x598">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_il7mYTUE6u.png"
+			width="927"
+			height="598"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_il7mYTUE6u_hubde635a9f3f75c8d05e251caa04a3eeb_71223_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_il7mYTUE6u_hubde635a9f3f75c8d05e251caa04a3eeb_71223_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>但是在这里native还不能运行，这是因为我们还没有处理调色盘（这里关键的是理解调色盘）</p>
+<p>注意到此时的pixels只是索引，那么我们要做的就是取出真正的像素做成真正的pixels喂给NDL即可。</p>
+<p>如果遇到有些update还是没有去除的奇怪情况，建议在pal重新install后再update run看看。</p>
+<p>处理完成后成功跑native~:</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 145; 
+			flex-basis: 349px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_sR2pJods3N.png" data-size="1000x686">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_sR2pJods3N.png"
+			width="1000"
+			height="686"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_sR2pJods3N_hue808351ec153e1e567ba8fc153dcc18a_100249_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_sR2pJods3N_hue808351ec153e1e567ba8fc153dcc18a_100249_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接下来发现跑nemu还是有点问题，主要是update实现不对，又要返工一下ndl。。。。。（注意到这里的src→w和w其实是有区别的。我们需要理解以下几点：【我在这卡了特别久。。】</p>
+<p><strong>NDL_DrawRect的xywh对pixels做什么，为什么</strong></p>
+<p><strong>SDL_UpdateRect的xywh要对surface做什么为什么？</strong></p>
+<p>实际上这是一个抠图的过程。wh是我们在运行中需要扣出的范围，而实际上的s是画布，我们要把x,y偏移处的东西从surface抠出来然后更新到NDL中，让他更新到屏幕。</p>
+<p>然后这里我有个问题，就是我的x,y居中逻辑是错误的，因为没有旧xy的信息只是强制更新，容易出问题，换了一版新的逻辑正常了。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 171; 
+			flex-basis: 410px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_ufiGlhnv8R.png" data-size="1388x811">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_ufiGlhnv8R.png"
+			width="1388"
+			height="811"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_ufiGlhnv8R_hufba78d3c35973daf0a005339bf0a2d56_189877_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_ufiGlhnv8R_hufba78d3c35973daf0a005339bf0a2d56_189877_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>我的fps只有6左右，有小伙伴最高11，不过还是感觉很流畅的~</p>
+<p>刚跑出来的时候我是特别开心的，高兴了一晚上睡不着。</p>
+<p>显卡读写是我的一生之敌，真的花了很久去理解像素的绘制，这个还是需要动手会比较直观。</p>
+<h4 id="问仙剑奇侠传的框架是如何工作的">问：仙剑奇侠传的框架是如何工作的?</h4>
+<blockquote>
+<p>我们在PA2中讨论过一个游戏的基本框架, 尝试阅读仙剑奇侠传的代码, 找出基本框架是通过哪些函数实现的. 找到之后, 可能会对你调试仙剑奇侠传带来一定的帮助. 虽然仙剑奇侠传的代码很多, 但为了回答这个问题, 你并不需要阅读大量的代码.</p>
+</blockquote>
+<h4 id="问仙剑奇侠传的脚本引擎">问：仙剑奇侠传的脚本引擎</h4>
+<p>在<code>navy-apps/apps/pal/repo/src/game/script.c</code>中有一个<code>PAL_InterpretInstruction()</code>的函数, 尝试大致了解这个函数的作用和行为. 然后大胆猜测一下, 仙剑奇侠传的开发者是如何开发这款游戏的? 你对&quot;游戏引擎&quot;是否有新的认识?</p>
+<h4 id="am-kernels">am-kernels</h4>
+<p>开局一条狗内容全靠偷后实现（基本上native能跑就胜利）</p>
+<p>这里如果出现找不到文件错误，可以尝试一下子文件</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 174; 
+			flex-basis: 419px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_gnQY3DCMzO.png" data-size="1313x751">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_gnQY3DCMzO.png"
+			width="1313"
+			height="751"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_gnQY3DCMzO_hub58dbc6f53366d669b04987fe2fecbf3_93443_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_gnQY3DCMzO_hub58dbc6f53366d669b04987fe2fecbf3_93443_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="fceux">FCEUX</h4>
+<p>一开始卡着段错误。。。然后打印后发现其实是rom没有东西 是个NULL 。。</p>
+<p>翻了一下源码后恍然大悟，成功调出~</p>
+<p>快乐卡比</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 180; 
+			flex-basis: 433px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_C2Yo5DI6AG.png" data-size="1305x723">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_C2Yo5DI6AG.png"
+			width="1305"
+			height="723"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_C2Yo5DI6AG_huc94043e8d83b49d40b8451bf4f48cfbb_144101_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_C2Yo5DI6AG_huc94043e8d83b49d40b8451bf4f48cfbb_144101_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="展示你的批处理系统">展示你的批处理系统</h3>
+<p>这里我实现execve后遇到了魔数爆炸的情况。。。。最后发现是有个地方偏移没有清零- -。。。。。难怪读取不正确（总感觉是读写的问题）修改后一切正常~</p>
+<p>然后菜单menu一直有不显示的情况。。。感到非常伤心</p>
+<p>然后pony哥教我gdb调试后发现一个窗口创建的问题- -，不知道原因是什么,最后排查源码发现原来又是一个api没认真看手册漏的坑（之前被自己删掉了一句）。。。。open窗口，难怪一直不显示。</p>
+<p>修改后正常：（给不同游戏加个退出，就非常帅气了！）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 185; 
+			flex-basis: 444px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Wc-JtNEg6g.png" data-size="1262x681">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Wc-JtNEg6g.png"
+			width="1262"
+			height="681"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Wc-JtNEg6g_hu474b5a398f4ce87062662aa3147328cc_70019_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_Wc-JtNEg6g_hu474b5a398f4ce87062662aa3147328cc_70019_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>最后处理了一下execvp相关内容 顺利完成 ~~(原来不需要自己实现。。。害我之前还以为要自己设定env</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 188; 
+			flex-basis: 452px"
+	>
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_xwzdsEICvb.png" data-size="1407x746">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_xwzdsEICvb.png"
+			width="1407"
+			height="746"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_xwzdsEICvb_hu8f66f0a2a3c5a238d4946a1bbf7d8b22_103087_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/image/image_xwzdsEICvb_hu8f66f0a2a3c5a238d4946a1bbf7d8b22_103087_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>（不太完美的地方就是不会清屏~）</p>
+<p>接下来开始接受pa4的折磨。。。</p>
 
 </section>
 
@@ -873,8 +1031,13 @@
             <li><a href="#nterm-nju-terminal">NTerm (NJU Terminal)</a></li>
             <li><a href="#flappy-bird">Flappy Bird</a></li>
             <li><a href="#仙剑奇侠传">仙剑奇侠传</a></li>
+            <li><a href="#问仙剑奇侠传的框架是如何工作的">问：仙剑奇侠传的框架是如何工作的?</a></li>
+            <li><a href="#问仙剑奇侠传的脚本引擎">问：仙剑奇侠传的脚本引擎</a></li>
+            <li><a href="#am-kernels">am-kernels</a></li>
+            <li><a href="#fceux">FCEUX</a></li>
           </ol>
         </li>
+        <li><a href="#展示你的批处理系统">展示你的批处理系统</a></li>
       </ol>
     </li>
   </ol>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deploy on 散步的小屋</title>
+    <link>https://sanbuphy.github.io/categories/deploy/</link>
+    <description>Recent content in Deploy on 散步的小屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 03 Sep 2022 11:56:50 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/deploy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>opencv读取视频图像处理后推流rtmp</title>
+      <link>https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/</link>
+      <pubDate>Sat, 03 Sep 2022 11:56:50 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/</guid>
+      <description>Reference https://blog.csdn.net/zong596568821xp/article/details/92790502 https://blog.csdn.net/u014303844/article/details/80394101 一些关于nginx的常见操作： https://kalacloud.com/blog/how-to-install-nginx-on-ubuntu-20-04/ nginx rtmp配置相关官方手册： https://github.com/arut/nginx-rtmp-module/wiki/Directives#server 比较全的中文可参考conf文件内容解析 https://www.jianshu.com/p/15316e0f3de1 前言 因为业务上需求需要将流拉下来</description>
+    </item>
+    
+  </channel>
+</rss>
