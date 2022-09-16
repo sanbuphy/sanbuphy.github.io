@@ -6,7 +6,16 @@
     <description>Recent content in NJU计算机基础实验 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 28 Aug 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Sep 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NJU计算机课程基础实验 PA4笔记（大结局）</title>
+      <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa4%E7%AC%94%E8%AE%B0%E5%A4%A7%E7%BB%93%E5%B1%80/</link>
+      <pubDate>Fri, 16 Sep 2022 08:50:40 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa4%E7%AC%94%E8%AE%B0%E5%A4%A7%E7%BB%93%E5%B1%80/</guid>
+      <description>从这我越来越感受到系统复杂度上升带来的挑战，也明白了抽象的根本目的。 抽象是为了降低复杂度，为了系统能够更好的做大以及稳健和排错。 而且抽象能让</description>
+    </item>
+    
     <item>
       <title>NJU计算机课程基础实验 PA3笔记（二）</title>
       <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
