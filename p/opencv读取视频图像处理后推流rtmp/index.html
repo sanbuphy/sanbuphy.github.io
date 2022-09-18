@@ -143,7 +143,6 @@
 <p><a class="link" href="https://www.jianshu.com/p/15316e0f3de1"  title="https://www.jianshu.com/p/15316e0f3de1"
      target="_blank" rel="noopener"
     >https://www.jianshu.com/p/15316e0f3de1</a></p>
-<h2 id="前言">前言</h2>
 <p>因为业务上需求需要将流拉下来处理后转为其他流推送出去，之前的博客内容涉及到的是rtsp流的处理，这次利用nginx服务器转发推rtmp流。（拉流后可以进行任何图像处理）</p>
 <p>操作环境：Ubuntu 20.04 + python3</p>
 <h2 id="nginx服务器搭建">Nginx服务器搭建</h2>
@@ -170,11 +169,11 @@ sudo apt-get install zlib1g-dev
 			flex-grow: 246; 
 			flex-basis: 590px"
 	>
-	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI.png" data-size="588x239">
-		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI.png"
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_cBl584UjTG.png" data-size="588x239">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_cBl584UjTG.png"
 			width="588"
 			height="239"
-			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI_hu158101d61616781d65d185b72f03dbd9_10016_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI_hu158101d61616781d65d185b72f03dbd9_10016_1024x0_resize_box_3.png 1024w"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_cBl584UjTG_hu158101d61616781d65d185b72f03dbd9_10016_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_cBl584UjTG_hu158101d61616781d65d185b72f03dbd9_10016_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
@@ -186,12 +185,12 @@ make
 sudo make install
 </code></pre></div><blockquote>
 <p>安装后的一些信息：</p>
-<p>nginx安装目录 /usr/local/nginx
-nginx配置目录 /usr/local/nginx/conf/nginx.conf
-nginx运行目录 /usr/local/nginx/sbin/nginx &ndash;options</p>
+<p>nginx安装目录 /usr/local/nginx      
+nginx配置目录 /usr/local/nginx/conf/nginx.conf        
+nginx运行目录 /usr/local/nginx/sbin/nginx &ndash;options    </p>
 </blockquote>
 <p>运行指令启动nginx:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./usr/local/nginx/sbin/nginx
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo /usr/local/nginx/sbin/nginx
 </code></pre></div><p>在浏览器中输入localhost，若看到如下画面，表示运行成功</p>
 <p><figure 
 	
@@ -200,11 +199,11 @@ nginx运行目录 /usr/local/nginx/sbin/nginx &ndash;options</p>
 			flex-grow: 362; 
 			flex-basis: 869px"
 	>
-	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ.png" data-size="1221x337">
-		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ.png"
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_Py0QgJRLpC.png" data-size="1221x337">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_Py0QgJRLpC.png"
 			width="1221"
 			height="337"
-			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_1024x0_resize_box_3.png 1024w"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_Py0QgJRLpC_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_Py0QgJRLpC_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
@@ -276,11 +275,11 @@ http{
 			flex-grow: 100; 
 			flex-basis: 242px"
 	>
-	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama.png" data-size="583x578">
-		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama.png"
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_zEVduDbFDg.png" data-size="583x578">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_zEVduDbFDg.png"
 			width="583"
 			height="578"
-			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_1024x0_resize_box_3.png 1024w"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_zEVduDbFDg_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_zEVduDbFDg_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
@@ -293,11 +292,11 @@ http{
 			flex-grow: 99; 
 			flex-basis: 237px"
 	>
-	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S.png" data-size="678x684">
-		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S.png"
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_ojw0PG04QL.png" data-size="678x684">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_ojw0PG04QL.png"
 			width="678"
 			height="684"
-			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S_hufd2082652aba014208b7141354136e3c_52604_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S_hufd2082652aba014208b7141354136e3c_52604_1024x0_resize_box_3.png 1024w"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_ojw0PG04QL_hufd2082652aba014208b7141354136e3c_52604_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_ojw0PG04QL_hufd2082652aba014208b7141354136e3c_52604_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
@@ -313,11 +312,11 @@ http{
 			flex-grow: 144; 
 			flex-basis: 346px"
 	>
-	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM.png" data-size="686x475">
-		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM.png"
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_084WTClih1.png" data-size="686x475">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_084WTClih1.png"
 			width="686"
 			height="475"
-			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM_huab15b1c96220dd94312a13da29157ea3_43949_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM_huab15b1c96220dd94312a13da29157ea3_43949_1024x0_resize_box_3.png 1024w"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_084WTClih1_huab15b1c96220dd94312a13da29157ea3_43949_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_084WTClih1_huab15b1c96220dd94312a13da29157ea3_43949_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
@@ -331,11 +330,11 @@ http{
 			flex-grow: 299; 
 			flex-basis: 718px"
 	>
-	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV.png" data-size="1054x352">
-		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV.png"
+	<a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_jlltQnBrS4.png" data-size="1054x352">
+		<img src="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_jlltQnBrS4.png"
 			width="1054"
 			height="352"
-			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_1024x0_resize_box_3.png 1024w"
+			srcset="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_jlltQnBrS4_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_480x0_resize_box_3.png 480w, /p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_jlltQnBrS4_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
@@ -388,8 +387,12 @@ http{
 <span class="n">pipe</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
 </code></pre></div><p>运行上述代码，然后在nginx服务器info上可查看推流情况</p>
 <p>之后用ffplay或者VLC等客户端软件即可查看推流视频</p>
-<h2 id="进一步理解nginx的端口相关防火墙机制">进一步：理解Nginx的端口相关防火墙机制</h2>
-
+<h2 id="可能遇到的坑">可能遇到的坑：</h2>
+<p>推送时的fps选取要和源相近，不要自己随意跳帧。。。。否则speed会很奇葩的延迟。以1.0左右为准。</p>
+<p>快速重启可以写一个shell：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">echo</span> 你的sudo密码 <span class="p">|</span> sudo -S /usr/local/nginx/sbin/nginx
+xdg-open http://localhost/info
+</code></pre></div>
 </section>
 
 
@@ -557,7 +560,6 @@ http{
                     <nav id="TableOfContents">
   <ol>
     <li><a href="#reference">Reference</a></li>
-    <li><a href="#前言">前言</a></li>
     <li><a href="#nginx服务器搭建">Nginx服务器搭建</a>
       <ol>
         <li>
@@ -570,7 +572,7 @@ http{
       </ol>
     </li>
     <li><a href="#推流代码部分">推流代码部分</a></li>
-    <li><a href="#进一步理解nginx的端口相关防火墙机制">进一步：理解Nginx的端口相关防火墙机制</a></li>
+    <li><a href="#可能遇到的坑">可能遇到的坑：</a></li>
   </ol>
 </nav>
                 </div>

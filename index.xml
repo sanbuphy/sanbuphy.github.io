@@ -1380,7 +1380,6 @@ ABI手册有一节Process Initialization的内容, **里面详细约定了操作
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/15316e0f3de1&#34;  title=&#34;https://www.jianshu.com/p/15316e0f3de1&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.jianshu.com/p/15316e0f3de1&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;因为业务上需求需要将流拉下来处理后转为其他流推送出去，之前的博客内容涉及到的是rtsp流的处理，这次利用nginx服务器转发推rtmp流。（拉流后可以进行任何图像处理）&lt;/p&gt;
 &lt;p&gt;操作环境：Ubuntu 20.04 + python3&lt;/p&gt;
 &lt;h2 id=&#34;nginx服务器搭建&#34;&gt;Nginx服务器搭建&lt;/h2&gt;
@@ -1407,11 +1406,11 @@ sudo apt-get install zlib1g-dev
 			flex-grow: 246; 
 			flex-basis: 590px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI.png&#34; data-size=&#34;588x239&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_cBl584UjTG.png&#34; data-size=&#34;588x239&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_cBl584UjTG.png&#34;
 			width=&#34;588&#34;
 			height=&#34;239&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI_hu158101d61616781d65d185b72f03dbd9_10016_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_7n4mCDtzSI_hu158101d61616781d65d185b72f03dbd9_10016_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_cBl584UjTG_hu158101d61616781d65d185b72f03dbd9_10016_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-41-17%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_cBl584UjTG_hu158101d61616781d65d185b72f03dbd9_10016_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -1423,12 +1422,12 @@ make
 sudo make install
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;安装后的一些信息：&lt;/p&gt;
-&lt;p&gt;nginx安装目录 /usr/local/nginx
-nginx配置目录 /usr/local/nginx/conf/nginx.conf
-nginx运行目录 /usr/local/nginx/sbin/nginx &amp;ndash;options&lt;/p&gt;
+&lt;p&gt;nginx安装目录 /usr/local/nginx      
+nginx配置目录 /usr/local/nginx/conf/nginx.conf        
+nginx运行目录 /usr/local/nginx/sbin/nginx &amp;ndash;options    &lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;运行指令启动nginx:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;./usr/local/nginx/sbin/nginx
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo /usr/local/nginx/sbin/nginx
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在浏览器中输入localhost，若看到如下画面，表示运行成功&lt;/p&gt;
 &lt;p&gt;&lt;figure 
 	
@@ -1437,11 +1436,11 @@ nginx运行目录 /usr/local/nginx/sbin/nginx &amp;ndash;options&lt;/p&gt;
 			flex-grow: 362; 
 			flex-basis: 869px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ.png&#34; data-size=&#34;1221x337&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_Py0QgJRLpC.png&#34; data-size=&#34;1221x337&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_Py0QgJRLpC.png&#34;
 			width=&#34;1221&#34;
 			height=&#34;337&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_22Mfv3JOCJ_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_Py0QgJRLpC_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-45-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_Py0QgJRLpC_hu686d3e3f75b5ca2a2d6eab8f3987b1b0_39527_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -1513,11 +1512,11 @@ http{
 			flex-grow: 100; 
 			flex-basis: 242px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama.png&#34; data-size=&#34;583x578&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_zEVduDbFDg.png&#34; data-size=&#34;583x578&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_zEVduDbFDg.png&#34;
 			width=&#34;583&#34;
 			height=&#34;578&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_kfM6Zboama_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_zEVduDbFDg_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_zEVduDbFDg_huc38dfed4d05cd589a74a02bc2c71ac4d_80612_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -1530,11 +1529,11 @@ http{
 			flex-grow: 99; 
 			flex-basis: 237px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S.png&#34; data-size=&#34;678x684&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_ojw0PG04QL.png&#34; data-size=&#34;678x684&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_ojw0PG04QL.png&#34;
 			width=&#34;678&#34;
 			height=&#34;684&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S_hufd2082652aba014208b7141354136e3c_52604_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_YlsSHloy8S_hufd2082652aba014208b7141354136e3c_52604_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_ojw0PG04QL_hufd2082652aba014208b7141354136e3c_52604_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2013-50-31%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_ojw0PG04QL_hufd2082652aba014208b7141354136e3c_52604_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -1550,11 +1549,11 @@ http{
 			flex-grow: 144; 
 			flex-basis: 346px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM.png&#34; data-size=&#34;686x475&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_084WTClih1.png&#34; data-size=&#34;686x475&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_084WTClih1.png&#34;
 			width=&#34;686&#34;
 			height=&#34;475&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM_huab15b1c96220dd94312a13da29157ea3_43949_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_w9O7Fi8tZM_huab15b1c96220dd94312a13da29157ea3_43949_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_084WTClih1_huab15b1c96220dd94312a13da29157ea3_43949_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-10-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_084WTClih1_huab15b1c96220dd94312a13da29157ea3_43949_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -1568,11 +1567,11 @@ http{
 			flex-grow: 299; 
 			flex-basis: 718px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV.png&#34; data-size=&#34;1054x352&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_jlltQnBrS4.png&#34; data-size=&#34;1054x352&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_jlltQnBrS4.png&#34;
 			width=&#34;1054&#34;
 			height=&#34;352&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_uq5gBE9JtV_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_jlltQnBrS4_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/image/2022-09-02%2014-11-14%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE_jlltQnBrS4_hu91456c7cdcc18e9cf1f4cd7bd80fd112_60641_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -1625,8 +1624,12 @@ http{
 &lt;span class=&#34;n&#34;&gt;pipe&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;terminate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行上述代码，然后在nginx服务器info上可查看推流情况&lt;/p&gt;
 &lt;p&gt;之后用ffplay或者VLC等客户端软件即可查看推流视频&lt;/p&gt;
-&lt;h2 id=&#34;进一步理解nginx的端口相关防火墙机制&#34;&gt;进一步：理解Nginx的端口相关防火墙机制&lt;/h2&gt;
-</description>
+&lt;h2 id=&#34;可能遇到的坑&#34;&gt;可能遇到的坑：&lt;/h2&gt;
+&lt;p&gt;推送时的fps选取要和源相近，不要自己随意跳帧。。。。否则speed会很奇葩的延迟。以1.0左右为准。&lt;/p&gt;
+&lt;p&gt;快速重启可以写一个shell：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; 你的sudo密码 &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sudo -S /usr/local/nginx/sbin/nginx
+xdg-open http://localhost/info
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         </item>
         <item>
         <title>NJU计算机课程基础实验 PA3笔记（二）</title>
