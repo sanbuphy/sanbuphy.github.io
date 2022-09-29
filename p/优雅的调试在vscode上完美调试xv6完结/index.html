@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='计算机世界没有魔法，调试也是一门艺术'><title>优雅的调试—在vscode上完美调试xv6（完结）</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='优雅的调试—在vscode上完美调试xv6（完结）'>
+<meta property='og:description' content='计算机世界没有魔法，调试也是一门艺术'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C语言' /><meta property='article:published_time' content='2022-09-29T08:50:40&#43;08:00'/><meta property='article:modified_time' content='2022-09-29T08:50:40&#43;08:00'/>
+<meta name="twitter:title" content="优雅的调试—在vscode上完美调试xv6（完结）">
+<meta name="twitter:description" content="计算机世界没有魔法，调试也是一门艺术">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/mit6.s081/" >
+                MIT6.S081
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+            <a href="/categories/c/" style="background-color: #2a9d8f; color: #fff;">
+                C语言
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/">优雅的调试—在vscode上完美调试xv6（完结）</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        计算机世界没有魔法，调试也是一门艺术
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Sep 29, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 13 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h2 id="前言">前言：</h2>
+<p>整个探索过程源于两句话：</p>
+<p>1、计算机世界没有魔法，机器永远是对的，让自己舒服才会有动力（比如调试）——jyy</p>
+<p>2、从今天开始, 不要偷懒了；RTFM + STFW ——yzh</p>
+<p>stackoverflow真心救大命- -</p>
+<blockquote>
+<p>你可以选择使用ubuntu20.04系统环境，<strong>最好使用ubuntu22.04</strong>（这个可以省去第四步），而且在20上不能显示csr寄存器，22上可以完美观察mepc等等。</p>
+<ul>
+<li>
+<p><strong>经过我的充分测试（包括测试了云服务器），最好的体验是22.04版本的ubuntu（wsl和虚拟机都可以）</strong>。</p>
+</li>
+<li>
+<p>如果你想用ubuntu20完成<strong>也可以</strong>，只要在<strong>想要看csr相关寄存器的时候关闭xml</strong>（第四步提到的target xml）就可以用gdb命令打印出相关csr或设置监视点（监视点后面加上,x可以变成十六进制如$mepc,x）。如果开启xml只能看到基础的32个寄存器，并且不能用监视点和打印出csr寄存器的相关内容，但这也足够陪伴你一段时间了。</p>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>“Get out of your comfort zone.”       
+不要惧怕调试任何一部分      
+一定要相信是可以优雅地做到的        </p>
+</blockquote>
+<h2 id="一准备工作">一、准备工作</h2>
+<blockquote>
+<p>💡为了能有一个流畅愉快的旅途，你应该拥有并安装以下依赖程序:    <br>
+1、<a class="link" href="https://pdos.csail.mit.edu/6.828/2021/tools.html"  title="https://pdos.csail.mit.edu/6.828/2021/tools.html"
+     target="_blank" rel="noopener"
+    >https://pdos.csail.mit.edu/6.828/2021/tools.html</a></p>
+</blockquote>
+<p>接下来我们可能会反复使用“根目录”，他的意思是直接在xv6-labs-2021文件夹下进行操作。</p>
+<p>💡注意：如果你想要用vscode远程调试服务器上的xv6，可以参考这个链接的教程</p>
+<p><a class="link" href="http://hitsz-cslab.gitee.io/os-labs/remote_env_gdb/"  title="http://hitsz-cslab.gitee.io/os-labs/remote_env_gdb/"
+     target="_blank" rel="noopener"
+    >http://hitsz-cslab.gitee.io/os-labs/remote_env_gdb/</a></p>
+<h2 id="二第一次运行">二、第一次运行</h2>
+<blockquote>
+<p>💡     <br>
+1、你需要根据lab0：<a class="link" href="https://pdos.csail.mit.edu/6.828/2022/labs/util.html"  title="https://pdos.csail.mit.edu/6.828/2022/labs/util.html"
+     target="_blank" rel="noopener"
+    >https://pdos.csail.mit.edu/6.828/2022/labs/util.html</a>  成功在命令行运行qemu   <br>
+2、根据在根目录下创建.vscode文件夹，并创建如下内容的两个文件：launch.json、tasks.json  <br>
+3、修改.gdbinit.tmpl-riscv文件内容     <br>
+4、用虔诚的心态按下键盘上的F5</p>
+</blockquote>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 107; 
+			flex-basis: 258px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_N44gGAV10W.png" data-size="351x326">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_N44gGAV10W.png"
+			width="351"
+			height="326"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_N44gGAV10W_hu6318207374a48bbe8cb65c104b4eb631_20444_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_N44gGAV10W_hu6318207374a48bbe8cb65c104b4eb631_20444_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="c1">//launch.json
+</span><span class="c1"></span><span class="p">{</span>
+    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;debug xv6&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;cppdbg&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}/kernel/kernel&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&#34;stopAtEntry&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;miDebuggerServerAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;127.0.0.1:26000&#34;</span><span class="p">,</span>
+            <span class="c1">//这里实际上可以用各种能调试的gdb，如果找不到你可以使用which gdb-multiarch
+</span><span class="c1"></span>            <span class="c1">//但要注意的是，为了能在ubuntu20.04调出寄存器，强烈建议使用riscv64的gdb
+</span><span class="c1"></span>            <span class="nt">&#34;miDebuggerPath&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/bin/gdb-multiarch&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;environment&#34;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&#34;externalConsole&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">&#34;MIMode&#34;</span><span class="p">:</span> <span class="s2">&#34;gdb&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;preLaunchTask&#34;</span><span class="p">:</span> <span class="s2">&#34;xv6build&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;setupCommands&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;pretty printing&#34;</span><span class="p">,</span>
+                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;-enable-pretty-printing&#34;</span><span class="p">,</span>
+                    <span class="nt">&#34;ignoreFailures&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">],</span>
+            <span class="c1">//用于gdb调试的工具，可以发现gdb出错的原因
+</span><span class="c1"></span>            <span class="c1">// &#34;logging&#34;: {
+</span><span class="c1"></span>            <span class="c1">//     &#34;engineLogging&#34;: true,
+</span><span class="c1"></span>            <span class="c1">//     &#34;programOutput&#34;: true,
+</span><span class="c1"></span>            <span class="c1">// }
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="c1">// tasks.json
+</span><span class="c1"></span><span class="p">{</span>
+    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0.0&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;tasks&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;label&#34;</span><span class="p">:</span> <span class="s2">&#34;xv6build&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;shell&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;isBackground&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;make qemu-gdb&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;problemMatcher&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">&#34;pattern&#34;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="nt">&#34;regexp&#34;</span><span class="p">:</span> <span class="s2">&#34;.&#34;</span><span class="p">,</span>
+                            <span class="nt">&#34;file&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="nt">&#34;location&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                            <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="mi">3</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                    <span class="nt">&#34;background&#34;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="nt">&#34;beginsPattern&#34;</span><span class="p">:</span> <span class="s2">&#34;.*Now run &#39;gdb&#39; in another window.&#34;</span><span class="p">,</span>
+                        <span class="c1">// 要对应编译成功后,一句echo的内容. 此处对应 Makefile Line:170
+</span><span class="c1"></span>                        <span class="nt">&#34;endsPattern&#34;</span><span class="p">:</span> <span class="s2">&#34;.&#34;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p>都创建后我们发现直接F5会报错，原因是.gdbinit中的target remote问题，为了解决我们直接修改.gdbinit.tmpl-riscv文件内容（从makefile中我们能够知道是他创造了.gdbinit）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 273; 
+			flex-basis: 655px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KYhbhMdHR_.png" data-size="530x194">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KYhbhMdHR_.png"
+			width="530"
+			height="194"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KYhbhMdHR__huf8d1fb2689129fe483fc68b8b6324fd2_29497_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KYhbhMdHR__huf8d1fb2689129fe483fc68b8b6324fd2_29497_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>然后make clean再次f5后即可发现他安静的停在了main！</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 143; 
+			flex-basis: 344px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_D9X3G5LBNc.png" data-size="579x403">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_D9X3G5LBNc.png"
+			width="579"
+			height="403"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_D9X3G5LBNc_huc83877ec3fae9c1624602ebc2c3e5881_61978_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_D9X3G5LBNc_huc83877ec3fae9c1624602ebc2c3e5881_61978_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="三运行用户程序">三、运行用户程序</h2>
+<blockquote>
+<p>💡     <br>
+按照以下步骤即可得到结果，或者参考jyy的方法：<a class="link" href="https://jyywiki.cn/OS/2022/slides/18.slides#/2/2"  title="https://jyywiki.cn/OS/2022/slides/18.slides#/2/2"
+     target="_blank" rel="noopener"
+    >https://jyywiki.cn/OS/2022/slides/18.slides#/2/2</a></p>
+</blockquote>
+<p>在参考“MIT 6.S081 xv6调试不完全指北”后成功找到了最简单的方法，当我们直接f5点亮后，先不要做任何操作，我们以ls程序为例，<strong>首先进入ls.c的main处打下断点</strong>（一定要在main有）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 77; 
+			flex-basis: 187px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_mk6HHdHXDE.png" data-size="503x645">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_mk6HHdHXDE.png"
+			width="503"
+			height="645"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_mk6HHdHXDE_hu70e8436a27d205fd655dab9ef544d718_67933_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_mk6HHdHXDE_hu70e8436a27d205fd655dab9ef544d718_67933_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>此时的断点是没有生效的，我们在左下角的断点也可以看到他是灰色的：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 210; 
+			flex-basis: 504px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KE_NIx71iD.png" data-size="332x158">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KE_NIx71iD.png"
+			width="332"
+			height="158"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KE_NIx71iD_hu6b56c9f77d3ad3eb3025a9b1d7277e11_6616_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KE_NIx71iD_hu6b56c9f77d3ad3eb3025a9b1d7277e11_6616_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接下来我们在调试控制台输入<code>-exec file ./user/_ls</code> （他的相对地址），此时我们发现他读取到了符号表信息：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 255; 
+			flex-basis: 612px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_OJGJ3wZ00O.png" data-size="761x298">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_OJGJ3wZ00O.png"
+			width="761"
+			height="298"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_OJGJ3wZ00O_hue2b1bc892887be8909230f98e39aabac_56342_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_OJGJ3wZ00O_hue2b1bc892887be8909230f98e39aabac_56342_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>让我们按下“播放”让程序跑到输入处，然后在终端输入ls并回车，你会发现他已经停在了用户程序中，也可以进入汇编文件：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 117; 
+			flex-basis: 281px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_LspLktEPEP.png" data-size="831x709">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_LspLktEPEP.png"
+			width="831"
+			height="709"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_LspLktEPEP_huded4870f65cd2ccbc0dc064860f81c59_85161_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_LspLktEPEP_huded4870f65cd2ccbc0dc064860f81c59_85161_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>此时已经可以愉快的调试用户程序了~你可以参考reference1中的不完全指北，用vscode尝试调试第一个用户程序。</p>
+<p>如果你发现这ls停止还没有成功，请按照类似的步骤先停在init，再尝试停在ls（具体什么是init请RTSC）</p>
+<h2 id="四恢复寄存器显示">四、恢复寄存器显示</h2>
+<p>通常来说，当我们打开了vscode，左边都应该显示出寄存器信息：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 191; 
+			flex-basis: 460px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_Wz4v1PMwjG.png" data-size="786x410">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_Wz4v1PMwjG.png"
+			width="786"
+			height="410"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_Wz4v1PMwjG_hu5fe165fd821ecbcd1d6a28f76687df87_77475_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_Wz4v1PMwjG_hu5fe165fd821ecbcd1d6a28f76687df87_77475_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>但如果我们在ubuntu20.04中打开调试后，会惊奇的发现，完全没有显示！</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 144; 
+			flex-basis: 346px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WUeteXFuKv.png" data-size="362x251">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WUeteXFuKv.png"
+			width="362"
+			height="251"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WUeteXFuKv_hu032566377157ad8342e752c32be343bd_3851_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WUeteXFuKv_hu032566377157ad8342e752c32be343bd_3851_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>vscode没有寄存器，这完全不能忍！心态一开始就有点小崩了，不过别着急，让我们先打开位于launch的gdb日志看看发生了什么：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 344; 
+			flex-basis: 826px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_lBKHOrADXP.png" data-size="799x232">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_lBKHOrADXP.png"
+			width="799"
+			height="232"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_lBKHOrADXP_hue00f435c34c70c1ea55448aa889895b2_32579_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_lBKHOrADXP_hue00f435c34c70c1ea55448aa889895b2_32579_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>日志告诉我们有个叫做ustatus的寄存器无法显示，应该是gdb不支持（然而我们也确实只见过mstatus&hellip;）那么关键的问题就是我们该如何解决这个register问题。</p>
+<p>（我还尝试修改了各种makefile等等。。。但并未奏效，实际上和问题无关故不再重复说明）</p>
+<h3 id="41有关gdb版本的坑问题并非解决方法">4.1有关gdb版本的坑问题（并非解决方法）</h3>
+<p>经过一顿搜索，我发现有人也遇到了类似的E14错误问题，他说要更新gdb，但我们仔细一想，在ubuntu20版本下的软件源只有9版本的gdb，哪来的12？（22上完美运行的gdb版本是12）</p>
+<p>而且我们可以通过<code>-exec show version</code>发现此时运行的gdb确实是9版本，我们也有理由相信这确实是gdb的问题。</p>
+<p>提前卸载了gdb及其gdb-multiarch并一顿操作猛如虎找到了gdb的源码：</p>
+<p><a class="link" href="https://www.sourceware.org/gdb/"  title="https://www.sourceware.org/gdb/"
+     target="_blank" rel="noopener"
+    >https://www.sourceware.org/gdb/</a></p>
+<p>随便找了个教程编译后看了一下gdb -v以及gdb-multiarch -v都没有安装。。心态又不好了</p>
+<p>好那咱们换个方法编译一下，一顿操作猛如虎找到了riscv64-unknown-elf-gdb：</p>
+<p><a class="link" href="http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html"  title="http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html"
+     target="_blank" rel="noopener"
+    >http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html</a></p>
+<p>一顿操作编译后（记得修改launch）还是不行&hellip;..开始怀疑人生了，老板你这rv是不是假的啊？</p>
+<p>突然想到ustatus好像确实没有在rv出现过，那看来不能错怪他，也许是qemu之类的配置问题。</p>
+<p>此时我再次按照这个帖子提到的问题进行编译<code>make CXXFLAGS=&quot;-static-libstdc++&quot;</code>：（其实后面发现不需要静态编译也是可以的）</p>
+<p><a class="link" href="https://stackoverflow.com/questions/32773255/how-to-update-gdb-to-most-current-stable-version"  title="https://stackoverflow.com/questions/32773255/how-to-update-gdb-to-most-current-stable-version"
+     target="_blank" rel="noopener"
+    >https://stackoverflow.com/questions/32773255/how-to-update-gdb-to-most-current-stable-version</a></p>
+<p>此时可以发现gdb版本成功显示为gdb 12但是仍然没有gdb-multiarch，也无法直接吧这个版本的gdb加入到launch供vscode使用。于是我们需要再换一个缝合怪的gdb（我后面发现gdb其实可以包含各种架构也可以切换）</p>
+<p>此时我打算将gdb更新到与22同步的版本，我们发现Ubuntu22版本中的gdb打印版本是不会出现—target=riscv之类字样的，只有gnu-linux。所以我再一次尝试编译完整的gdb，加上了<code>--enable-targets=all</code>，此时我们可以直接更换launch的gdb为gdb了（之前只能gdb-multiarch或者riscv64，现在的gdb是融合了各种框架的超级缝合怪），进去后再次观察寄存器&hellip;&hellip;..还是一片空白</p>
+<p>又开始怀疑人生了，说好的gdb版本呢？痛定思痛后直接放弃了这个问题解决路线，让我们回到最开始的地方——到底那个奇怪的问题是怎么出现的？</p>
+<h3 id="42直接解决问题">4.2直接解决问题</h3>
+<blockquote>
+<p>💡太长不看版：
+1、F5运行情况下在调试控制台中输入<code>-exec maintenance print xml-tdesc</code> ，完整复制输出的内容后存放在根目录下的myxml.xml文件夹下（名字也可以看你喜欢修改）</p>
+<p>2、保存文件并结束调试，在根目录下运行<code>make clean</code>
+3、修改launch.json为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;debug xv6&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;cppdbg&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}/kernel/kernel&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&#34;stopAtEntry&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;miDebuggerServerAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;127.0.0.1:26000&#34;</span><span class="p">,</span>
+            <span class="c1">//看你喜欢可以修改成什么能用的gdb，为了防止奇怪现象我选择了rv
+</span><span class="c1"></span>            <span class="nt">&#34;miDebuggerPath&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/local/bin/riscv64-unknown-elf-gdb&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;environment&#34;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&#34;externalConsole&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">&#34;MIMode&#34;</span><span class="p">:</span> <span class="s2">&#34;gdb&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;preLaunchTask&#34;</span><span class="p">:</span> <span class="s2">&#34;xv6build&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;setupCommands&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;pretty printing&#34;</span><span class="p">,</span>
+                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;-enable-pretty-printing&#34;</span><span class="p">,</span>
+                    <span class="nt">&#34;ignoreFailures&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="c1">//在这里加载了寄存器信息表
+</span><span class="c1"></span>                <span class="p">{</span>
+                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;set tdesc filename myxml.xml&#34;</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="c1">//用于gdb调试的工具，可以发现gdb出错的原因
+</span><span class="c1"></span>            <span class="c1">// &#34;logging&#34;: {
+</span><span class="c1"></span>            <span class="c1">//     &#34;engineLogging&#34;: true,
+</span><span class="c1"></span>            <span class="c1">//     &#34;programOutput&#34;: true,
+</span><span class="c1"></span>            <span class="c1">// }
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p>3、F5运行后发现已经安静的停在main，此时你会发现寄存器恢复了
+4、为了定制化xml，你可以修改内部结构但要遵守regnum排序，具体请自行尝试</p>
+</blockquote>
+<p>花了更多时间搜索log中提到的相关关键词，最后锁定了一个帖子：<a class="link" href="https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni"  title="https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni"
+     target="_blank" rel="noopener"
+    >https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni</a>（非常关键的帖子不然要花更多时间搞明白）</p>
+<p>我一直在思考怎么才能&quot;hack&quot;gdb，也就是让他不去读取那个寄存器的信息（毕竟gdb只是一个程序！是程序就可以改），在这个帖子我找到了潜在的解决方法。我们通过<code>-exec maintenance print xml-tdesc</code>成功在vscode看到了xml信息，根据描述我们知道gdb是通过qemu给的xml得到寄存器信息的，那么我们就有了一个想法，我们能不能不利用他给的xml进行寄存器读取，而是使用自己的xml呢？（因为它能保存，能保存就一定可以读取）</p>
+<p>一顿操作猛如虎我们找到了一个解决方法<code>set tdesc filename xxxxx</code>其中xxx是你保存的xml的相对地址（这里我直接复制保存为一个新的xml了）。在里面我们发现了罪魁祸首ustatus直接进行删去操作，然后搓搓小手开始进行设置工作。</p>
+<p>一开始我很高兴他在运行中加载不会报错，但发现这样还是显示不了寄存器，也许他要在开头修改才有用？于是我修改了launch让他在开头加载&hellip;</p>
+<p>成功点亮~</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 136; 
+			flex-basis: 328px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WdKC737zp6.png" data-size="823x602">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WdKC737zp6.png"
+			width="823"
+			height="602"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WdKC737zp6_hu7aa88fb39251c8c10e071f3b45a81d15_146309_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WdKC737zp6_hu7aa88fb39251c8c10e071f3b45a81d15_146309_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>至此，我们能相对愉快的畅游vscode的调试世界了。</p>
+<h2 id="五修复注释高亮">五、修复注释高亮</h2>
+<p>这里我们用到了bear（具体原理可看jyy18课：），bear make创造的compile_commands.json 还需要让他生效</p>
+<blockquote>
+<p>💡
+你可以参考<a class="link" href="https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/"  title="https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/"
+     target="_blank" rel="noopener"
+    >https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/</a>中提到的方法
+也可以使用这个教程：<a class="link" href="https://simplestupidcode.github.io/post/2022062501.html"  title="https://simplestupidcode.github.io/post/2022062501.html"
+     target="_blank" rel="noopener"
+    >https://simplestupidcode.github.io/post/2022062501.html</a></p>
+<ul>
+<li>你还可以配合使用ctrl+p输入文件跳转文件与ctrl+p输入#加上函数名查找函数相应部分来辅助查找</li>
+</ul>
+</blockquote>
+<p>（这里笔者尝试了第一步clang没有完全运行，会提示typedef的问题，按照第一个博主的说法做了还是不行，但是很神奇的在加入第二个博主的cpp_properties.json后就可以跑起来了也可以跳转&hellip;.计算机真神奇啊，如果你不能用其中的一个成功跳转和兼容运行，可以尝试两个都加上，然后make clean后重新make 或者重启vscode与clang插件。）</p>
+<h2 id="六调试控制台中省略exec">六、调试控制台中省略exec</h2>
+<blockquote>
+<p>💡直接按照下列操作即可</p>
+</blockquote>
+<p>偷懒要偷到底！此时我们发现每次都要输入-exec进行gdb操作，这未免有些太麻烦了（我观摩了vscode在github上被一群人锐kuang评pen，为了让vscode的调试控制台能更加接近gdb的原生体验，我们还需要进行进一步操作：</p>
+<p>1、在vscode中搜索插件multi-command</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 282; 
+			flex-basis: 677px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_BK58mV711V.png" data-size="223x79">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_BK58mV711V.png"
+			width="223"
+			height="79"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_BK58mV711V_hu2f846bf4fd13c49ecbecf35ed77aecd7_9861_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_BK58mV711V_hu2f846bf4fd13c49ecbecf35ed77aecd7_9861_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>2、在.vscode中创建一个settings.json文件，内容为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+
+    <span class="nt">&#34;multiCommand.commands&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;multiCommand.enterExec&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;sequence&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&#34;repl.action.acceptInput&#34;</span><span class="p">,</span>
+                <span class="p">{</span><span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;editor.action.insertSnippet&#34;</span><span class="p">,</span> <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&#34;snippet&#34;</span><span class="p">:</span> <span class="s2">&#34;-exec &#34;</span><span class="p">}}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p>3、分别按下ctrl+k  ctrl+s 或者在首选项中打开键盘快捷方式设置，在右上角找到并点击：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 70; 
+			flex-basis: 169px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_w76fKHlduq.png" data-size="254x360">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_w76fKHlduq.png"
+			width="254"
+			height="360"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_w76fKHlduq_hu28ff95e2a5be3c8d91d2fa1cd789a2c0_12697_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_w76fKHlduq_hu28ff95e2a5be3c8d91d2fa1cd789a2c0_12697_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>此时能看到keybindings.json，然后粘贴以下内容：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 472; 
+			flex-basis: 1133px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_VpIXCCfCKs.png" data-size="1421x301">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_VpIXCCfCKs.png"
+			width="1421"
+			height="301"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_VpIXCCfCKs_hu7f344a2275981d7d3d9311c50629ece0_67252_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_VpIXCCfCKs_hu7f344a2275981d7d3d9311c50629ece0_67252_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
+<span class="p">{</span> 
+  <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;enter&#34;</span><span class="p">,</span> 
+  <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;extension.multiCommand.execute&#34;</span> <span class="p">,</span> 
+  <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;multiCommand.enterExec&#34;</span> <span class="p">},</span>
+  <span class="nt">&#34;when&#34;</span><span class="p">:</span> <span class="s2">&#34;inDebugRepl&#34;</span>
+<span class="p">},</span>
+<span class="p">]</span>
+</code></pre></div><p>接下来就重新开始调试，然后你会惊奇的发现回车的时候已经能够自动补全exec了，体验愉快使用原生gdb的快乐吧！</p>
+<h2 id="七追踪函数调用的踪迹">七、追踪函数调用的踪迹</h2>
+<blockquote>
+<p>💡
+1、你需要下载<a class="link" href="https://jyywiki.cn/OS/2022/slides/29.slides#/2/2"  title="jyy29课中提到的trace"
+     target="_blank" rel="noopener"
+    >jyy29课中提到的trace</a>，然后将它放在 根目录/mkfs 的文件夹下
+2、如果你是ubuntu22.04系统，可以直接运行<code>gdb -ex 'source mkfs/trace.py' mkfs/mkfs</code>
+如果你是ubuntu20.04系统，你可能会遇到一些问题，请参考下文提到的解决方法
+3（可选）、如果你想看到更猛的状态机过程，你可以参考<a class="link" href="https://github.com/Alan-Lee123/TOSView"  title="这个github"
+     target="_blank" rel="noopener"
+    >这个github</a>的方法</p>
+</blockquote>
+<p>在代码的海洋中，用肉眼看代码显然是会超载的，也极其耗费时间；进行调试一步步看容易跳过关键步骤不得返回，令人懊恼不已，有什么方法可以让我们获得更快乐的debug体验？——trace，想想看超级武器strace，itrace吧，他能让我们一窥内核用户态的调用奥秘。（俗话说得好，读代码不如读执行）</p>
+<p>当然，如果想要更简单的方法，直接让gdb生成历史记录也是可以的，同样也可以类似pa中宏包裹的方式，自己做一个日志并保存输出到文本当中，这是所有程序都通用的一种方式。</p>
+<p>按照提示的操作后我们很自然可以得到结果（其他代码其实逻辑好理解一些，主要是文件系统写的实在是太邪门了）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 84; 
+			flex-basis: 203px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_AM3t_6nFIT.png" data-size="298x351">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_AM3t_6nFIT.png"
+			width="298"
+			height="351"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_AM3t_6nFIT_hu30c82abbae1316971f7f97f6e37d2d63_26092_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_AM3t_6nFIT_hu30c82abbae1316971f7f97f6e37d2d63_26092_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>但你可能会想，我们能不能迁移到其他地方呢？我做了一些尝试（但也有一些问题，比如static的函数显示不了对应参数，内核调试没有尝试成功），如果你想体验或者魔改，可以参考改进我的方法看看能不能做的更好：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">TRACED</span> <span class="o">=</span> <span class="s1">&#39;main ls&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">IGNORE</span> <span class="o">=</span> <span class="s1">&#39;buf fd&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">trace</span><span class="p">(</span><span class="n">gdb</span><span class="o">.</span><span class="n">Breakpoint</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">f</span><span class="p">,</span> <span class="n">bt</span> <span class="o">=</span> <span class="n">gdb</span><span class="o">.</span><span class="n">selected_frame</span><span class="p">(),</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">f</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">name</span> <span class="o">:=</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="ow">in</span> <span class="n">TRACED</span><span class="p">:</span>
+                <span class="n">lvars</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sym</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">sym</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+                    <span class="k">for</span> <span class="n">sym</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">block</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">sym</span><span class="o">.</span><span class="n">is_argument</span> <span class="ow">and</span> <span class="n">sym</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">IGNORE</span><span class="p">]</span>
+                <span class="n">bt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[32m</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\033</span><span class="s1">[0m(</span><span class="si">{</span><span class="s2">&#34;, &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lvars</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">older</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bt</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">bt</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="kc">False</span> <span class="c1"># won&#39;t stop at this breakpoint</span>
+
+<span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;target remote localhost:26000&#39;</span><span class="p">)</span>
+<span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;set prompt off&#39;</span><span class="p">)</span>
+<span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;set pagination off&#39;</span><span class="p">)</span>
+<span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;file ./user/_ls&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">TRACED</span><span class="p">:</span>
+    <span class="n">trace</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+</code></pre></div><p>将代码保存为mytrace放在根目录后执行<code>gdb -ex 'source mytrace.py' </code>，然后在其他地方<code>make qemu-gdb</code> ，此时发现打开gdb的终端有反应了但没有开始，你需要输入c，回车后就发现xv6运行起来了，然后按下ls，你就可以看到他打印了对应的调用栈和参数了，但这个trace对于ls实在是杀鸡用牛刀（因为我们可以通过vscode调试就非常清楚流程了），我们可以在更复杂的情况（比如文件系统）下再使用它。但不管如何，我们的调试武器库又一次增加了。</p>
+<h3 id="71-remote-g-packet-reply-is-too-long">7.1 Remote &lsquo;g&rsquo; packet reply is too long</h3>
+<p>你可能会见到形如&quot;Remote &lsquo;g&rsquo; packet reply is too long&quot;相关的问题，这很可能是因为gdb版本不支持或者太低，你可以更改gdb为gdb-multiarch或者riscv64-unknown-elf-gdb，如果都不行，你需要重新编译升级gdb版本，可以选择7.2的方式，或者参考这个方式重新编译gdb：<a class="link" href="http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html"  title="http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html"
+     target="_blank" rel="noopener"
+    >http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html</a></p>
+<p>如果还不能解决，你可以参考这里对这个问题的解决方法：<a class="link" href="https://github.com/Alan-Lee123/TOSView"  title="https://github.com/Alan-Lee123/TOSView"
+     target="_blank" rel="noopener"
+    >https://github.com/Alan-Lee123/TOSView</a></p>
+<h3 id="72海象运算符等python不支持的问题">7.2海象运算符等python不支持的问题</h3>
+<p>注意：你可能会在这里遇到:=运算符的问题，这是编译gdb选择的python太低的问题，你需要重新编译过gdb的版本让他能够支持：</p>
+<p>首先参考4.1下载gdb源码，然后进入主页面后分别运行</p>
+<p>(这个相当于选择菜单，我选择编译了支持全体系结构的gdb，同时内置python版本是3.8）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./configure --with-python<span class="o">=</span>/usr/bin/python3.8  --enable-targets<span class="o">=</span>all --enable-64-bit-bfd
+make -j8
+sudo make install
+</code></pre></div><p>安装成功后再次运行即可成功！</p>
+<h3 id="73-参数显示optimized-out">7.3 参数显示&lt;<em>optimized out</em>&gt;</h3>
+<p>如标题所示，我们只需要降低优化等级就好，在makefile中找到-o2改成-o0，并且注意到有关编译选项中有-o需要改成-o2（比如调试内核中的），修改后重新编译就可以解决问题</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 148; 
+			flex-basis: 355px"
+	>
+	<a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_5DtGLdqA-i.png" data-size="646x436">
+		<img src="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_5DtGLdqA-i.png"
+			width="646"
+			height="436"
+			srcset="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_5DtGLdqA-i_hu64637bcfd45f422f4b259c705d552dad_72831_480x0_resize_box_3.png 480w, /p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_5DtGLdqA-i_hu64637bcfd45f422f4b259c705d552dad_72831_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="外传vscode和gdb是如何工作的">外传：vscode和gdb是如何工作的？</h2>
+<p>通过一波探索，我们对vscode的运行原理有了一点好奇心（当然对gdb调试也有，为什么要tcp？）</p>
+<p>我找到了这些相关资料（有空再写个博客好了）：</p>
+<p><a class="link" href="https://fed.taobao.org/blog/taofed/do71ct/vscode-debug-source-analyse/"  title="https://fed.taobao.org/blog/taofed/do71ct/vscode-debug-source-analyse/"
+     target="_blank" rel="noopener"
+    >https://fed.taobao.org/blog/taofed/do71ct/vscode-debug-source-analyse/</a></p>
+<p><a class="link" href="https://blog.csdn.net/m0_37621078/article/details/113886458"  title="https://blog.csdn.net/m0_37621078/article/details/113886458"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/m0_37621078/article/details/113886458</a></p>
+<p>有关断点的故事也有很多可以说&hellip;比如通过更换Int3中断指令使得断点可以生效，等到结束恢复为原来的指令。（这也是为什么优化等级高了有时候停不下来，因为没有对应的指令可以替换）</p>
+<p>谢谢你看到最后，如果有问题或者有更优雅的方式欢迎提出或者发送邮件:</p>
+<p><a class="link" href="mailto:physicoada@gmail.com" >physicoada@gmail.com</a></p>
+<p>也欢迎来我的github来找我玩：</p>
+<p><a class="link" href="https://github.com/sanbuphy"  title="https://github.com/sanbuphy"
+     target="_blank" rel="noopener"
+    >https://github.com/sanbuphy</a></p>
+<h2 id="reference">Reference</h2>
+<h3 id="基本环节的打通">基本环节的打通</h3>
+<p>MIT 6.S081 xv6调试不完全指北（包含了常见问题）</p>
+<p><a class="link" href="https://www.cnblogs.com/KatyuMarisaBlog/p/13727565.html"  title="https://www.cnblogs.com/KatyuMarisaBlog/p/13727565.html"
+     target="_blank" rel="noopener"
+    >https://www.cnblogs.com/KatyuMarisaBlog/p/13727565.html</a></p>
+<p>从零开始使用Vscode调试XV6（包含了task与launch）</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/501901665"  title="https://zhuanlan.zhihu.com/p/501901665"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/501901665</a></p>
+<p>6.S081的调试和VSCode环境配置（代码提示和自动补全以及风格化）</p>
+<p><a class="link" href="https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/"  title="https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/"
+     target="_blank" rel="noopener"
+    >https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/</a></p>
+<p>如果gdb调试报错Cannot access memory at address，也许需要在.gdbinit.tmpl-riscv加一条set riscv use-compressed-breakpoints yes</p>
+<h3 id="有关gdb问题的排查">有关gdb问题的排查</h3>
+<p>编译gdb最新版</p>
+<p><a class="link" href="https://stackoverflow.com/questions/32773255/how-to-update-gdb-to-most-current-stable-version"  title="https://stackoverflow.com/questions/32773255/how-to-update-gdb-to-most-current-stable-version"
+     target="_blank" rel="noopener"
+    >https://stackoverflow.com/questions/32773255/how-to-update-gdb-to-most-current-stable-version</a></p>
+<p>打印寄存器相关xml文件</p>
+<p><a class="link" href="https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni"  title="https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni"
+     target="_blank" rel="noopener"
+    >https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni</a></p>
+<p>修改寄存器定义</p>
+<p><a class="link" href="https://blog.csdn.net/abeldeng/article/details/80325364"  title="https://blog.csdn.net/abeldeng/article/details/80325364"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/abeldeng/article/details/80325364</a></p>
+<h3 id="有关vscode配置">有关vscode配置</h3>
+<p>launch的一些参数讲解</p>
+<p><a class="link" href="https://blog.csdn.net/ZCShouCSDN/article/details/60466707"  title="https://blog.csdn.net/ZCShouCSDN/article/details/60466707"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/ZCShouCSDN/article/details/60466707</a></p>
+<p>优雅的配置launch.json：</p>
+<p><a class="link" href="https://www.barretlee.com/blog/2019/03/18/debugging-in-vscode-tutorial/"  title="https://www.barretlee.com/blog/2019/03/18/debugging-in-vscode-tutorial/"
+     target="_blank" rel="noopener"
+    >https://www.barretlee.com/blog/2019/03/18/debugging-in-vscode-tutorial/</a></p>
+<p>exec省略</p>
+<p><a class="link" href="https://github.com/Microsoft/vscode-cpptools/issues/106#issuecomment-829008826"  title="https://github.com/Microsoft/vscode-cpptools/issues/106#issuecomment-829008826"
+     target="_blank" rel="noopener"
+    >https://github.com/Microsoft/vscode-cpptools/issues/106#issuecomment-829008826</a></p>
+<p>其他</p>
+<p><a class="link" href="https://www.lagerdata.com/articles/vscode-and-gdb"  title="https://www.lagerdata.com/articles/vscode-and-gdb"
+     target="_blank" rel="noopener"
+    >https://www.lagerdata.com/articles/vscode-and-gdb</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa4%E7%AC%94%E8%AE%B0%E5%A4%A7%E7%BB%93%E5%B1%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA4笔记（大结局）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA3笔记（二）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA3笔记（一）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA2笔记（二）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa2%E7%AC%94%E8%AE%B0%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA2笔记（一）</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言：</a></li>
+    <li><a href="#一准备工作">一、准备工作</a></li>
+    <li><a href="#二第一次运行">二、第一次运行</a></li>
+    <li><a href="#三运行用户程序">三、运行用户程序</a></li>
+    <li><a href="#四恢复寄存器显示">四、恢复寄存器显示</a>
+      <ol>
+        <li><a href="#41有关gdb版本的坑问题并非解决方法">4.1有关gdb版本的坑问题（并非解决方法）</a></li>
+        <li><a href="#42直接解决问题">4.2直接解决问题</a></li>
+      </ol>
+    </li>
+    <li><a href="#五修复注释高亮">五、修复注释高亮</a></li>
+    <li><a href="#六调试控制台中省略exec">六、调试控制台中省略exec</a></li>
+    <li><a href="#七追踪函数调用的踪迹">七、追踪函数调用的踪迹</a>
+      <ol>
+        <li><a href="#71-remote-g-packet-reply-is-too-long">7.1 Remote &lsquo;g&rsquo; packet reply is too long</a></li>
+        <li><a href="#72海象运算符等python不支持的问题">7.2海象运算符等python不支持的问题</a></li>
+        <li><a href="#73-参数显示optimized-out">7.3 参数显示&lt;<em>optimized out</em>&gt;</a></li>
+      </ol>
+    </li>
+    <li><a href="#外传vscode和gdb是如何工作的">外传：vscode和gdb是如何工作的？</a></li>
+    <li><a href="#reference">Reference</a>
+      <ol>
+        <li><a href="#基本环节的打通">基本环节的打通</a></li>
+        <li><a href="#有关gdb问题的排查">有关gdb问题的排查</a></li>
+        <li><a href="#有关vscode配置">有关vscode配置</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

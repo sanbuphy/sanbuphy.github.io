@@ -6,13 +6,13 @@
     <description>Recent content in C语言 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 23 Sep 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 29 Sep 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>优雅的调试—在vscode上完美调试xv6</title>
-      <link>https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/</link>
-      <pubDate>Fri, 23 Sep 2022 08:50:40 +0800</pubDate>
+      <title>优雅的调试—在vscode上完美调试xv6（完结）</title>
+      <link>https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/</link>
+      <pubDate>Thu, 29 Sep 2022 08:50:40 +0800</pubDate>
       
-      <guid>https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/</guid>
+      <guid>https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/</guid>
       <description>前言： 整个探索过程源于两句话： 1、计算机世界没有魔法，机器永远是对的，让自己舒服才会有动力（比如调试）——jyy 2、从今天开始, 不要偷懒了；</description>
     </item>
     

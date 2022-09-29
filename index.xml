@@ -6,18 +6,33 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 23 Sep 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>优雅的调试—在vscode上完美调试xv6</title>
-        <link>https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/</link>
-        <pubDate>Fri, 23 Sep 2022 08:50:40 +0800</pubDate>
+        <lastBuildDate>Thu, 29 Sep 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>优雅的调试—在vscode上完美调试xv6（完结）</title>
+        <link>https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/</link>
+        <pubDate>Thu, 29 Sep 2022 08:50:40 +0800</pubDate>
         
-        <guid>https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/</guid>
+        <guid>https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/</guid>
         <description>&lt;h2 id=&#34;前言&#34;&gt;前言：&lt;/h2&gt;
 &lt;p&gt;整个探索过程源于两句话：&lt;/p&gt;
 &lt;p&gt;1、计算机世界没有魔法，机器永远是对的，让自己舒服才会有动力（比如调试）——jyy&lt;/p&gt;
 &lt;p&gt;2、从今天开始, 不要偷懒了；RTFM + STFW ——yzh&lt;/p&gt;
 &lt;p&gt;stackoverflow真心救大命- -&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;其实现在还有小问题（不能更随心所欲的停在某个地方，怀疑是调试信息缺失等等问题。。。可能还得翻下makefile）&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;你可以选择使用ubuntu20.04系统环境，&lt;strong&gt;最好使用ubuntu22.04&lt;/strong&gt;（这个可以省去第四步），而且在20上不能显示csr寄存器，22上可以完美观察mepc等等。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;经过我的充分测试（包括测试了云服务器），最好的体验是22.04版本的ubuntu（wsl和虚拟机都可以）&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果你想用ubuntu20完成&lt;strong&gt;也可以&lt;/strong&gt;，只要在&lt;strong&gt;想要看csr相关寄存器的时候关闭xml&lt;/strong&gt;（第四步提到的target xml）就可以用gdb命令打印出相关csr或设置监视点（监视点后面加上,x可以变成十六进制如$mepc,x）。如果开启xml只能看到基础的32个寄存器，并且不能用监视点和打印出csr寄存器的相关内容，但这也足够陪伴你一段时间了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“Get out of your comfort zone.”       
+不要惧怕调试任何一部分      
+一定要相信是可以优雅地做到的        &lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;一准备工作&#34;&gt;一、准备工作&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;💡为了能有一个流畅愉快的旅途，你应该拥有并安装以下依赖程序:    &lt;br&gt;
@@ -25,17 +40,14 @@
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://pdos.csail.mit.edu/6.828/2021/tools.html&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;你可以选择使用ubuntu20.04系统环境，也可以使用ubuntu22（这个可以省去第四步，但为了定制化你还是逃不掉第四步）&lt;/p&gt;
 &lt;p&gt;接下来我们可能会反复使用“根目录”，他的意思是直接在xv6-labs-2021文件夹下进行操作。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;💡注意：如果你想要用vscode远程调试ubuntu22的服务器上的xv6，可以直接看这个链接的教程（主要部分可以不用再看这篇文章了，如果你好奇踩坑过程以及更快乐舒服的体验也可以看看我的文字）
-&lt;a class=&#34;link&#34; href=&#34;http://hitsz-cslab.gitee.io/os-labs/remote_env_gdb/&#34;  title=&#34;http://hitsz-cslab.gitee.io/os-labs/remote_env_gdb/&#34;
+&lt;p&gt;💡注意：如果你想要用vscode远程调试服务器上的xv6，可以参考这个链接的教程&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://hitsz-cslab.gitee.io/os-labs/remote_env_gdb/&#34;  title=&#34;http://hitsz-cslab.gitee.io/os-labs/remote_env_gdb/&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;http://hitsz-cslab.gitee.io/os-labs/remote_env_gdb/&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
 &lt;h2 id=&#34;二第一次运行&#34;&gt;二、第一次运行&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡 &lt;br&gt;
+&lt;p&gt;💡     &lt;br&gt;
 1、你需要根据lab0：&lt;a class=&#34;link&#34; href=&#34;https://pdos.csail.mit.edu/6.828/2022/labs/util.html&#34;  title=&#34;https://pdos.csail.mit.edu/6.828/2022/labs/util.html&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://pdos.csail.mit.edu/6.828/2022/labs/util.html&lt;/a&gt;  成功在命令行运行qemu   &lt;br&gt;
@@ -50,11 +62,11 @@
 			flex-grow: 107; 
 			flex-basis: 258px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ptPqbwO1LU.png&#34; data-size=&#34;351x326&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ptPqbwO1LU.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_N44gGAV10W.png&#34; data-size=&#34;351x326&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_N44gGAV10W.png&#34;
 			width=&#34;351&#34;
 			height=&#34;326&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ptPqbwO1LU_hu6318207374a48bbe8cb65c104b4eb631_20444_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ptPqbwO1LU_hu6318207374a48bbe8cb65c104b4eb631_20444_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_N44gGAV10W_hu6318207374a48bbe8cb65c104b4eb631_20444_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_N44gGAV10W_hu6318207374a48bbe8cb65c104b4eb631_20444_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -74,6 +86,7 @@
             &lt;span class=&#34;nt&#34;&gt;&amp;#34;cwd&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;${workspaceFolder}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
             &lt;span class=&#34;nt&#34;&gt;&amp;#34;miDebuggerServerAddress&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;127.0.0.1:26000&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
             &lt;span class=&#34;c1&#34;&gt;//这里实际上可以用各种能调试的gdb，如果找不到你可以使用which gdb-multiarch
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;            &lt;span class=&#34;c1&#34;&gt;//但要注意的是，为了能在ubuntu20.04调出寄存器，强烈建议使用riscv64的gdb
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;miDebuggerPath&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;/usr/bin/gdb-multiarch&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
             &lt;span class=&#34;nt&#34;&gt;&amp;#34;environment&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[],&lt;/span&gt;
             &lt;span class=&#34;nt&#34;&gt;&amp;#34;externalConsole&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
@@ -131,11 +144,11 @@
 			flex-grow: 273; 
 			flex-basis: 655px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_pVnNriovCu.png&#34; data-size=&#34;530x194&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_pVnNriovCu.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KYhbhMdHR_.png&#34; data-size=&#34;530x194&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KYhbhMdHR_.png&#34;
 			width=&#34;530&#34;
 			height=&#34;194&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_pVnNriovCu_huf8d1fb2689129fe483fc68b8b6324fd2_29497_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_pVnNriovCu_huf8d1fb2689129fe483fc68b8b6324fd2_29497_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KYhbhMdHR__huf8d1fb2689129fe483fc68b8b6324fd2_29497_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KYhbhMdHR__huf8d1fb2689129fe483fc68b8b6324fd2_29497_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -149,20 +162,20 @@
 			flex-grow: 143; 
 			flex-basis: 344px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_MJBfqZxr7q.png&#34; data-size=&#34;579x403&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_MJBfqZxr7q.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_D9X3G5LBNc.png&#34; data-size=&#34;579x403&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_D9X3G5LBNc.png&#34;
 			width=&#34;579&#34;
 			height=&#34;403&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_MJBfqZxr7q_huc83877ec3fae9c1624602ebc2c3e5881_61978_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_MJBfqZxr7q_huc83877ec3fae9c1624602ebc2c3e5881_61978_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_D9X3G5LBNc_huc83877ec3fae9c1624602ebc2c3e5881_61978_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_D9X3G5LBNc_huc83877ec3fae9c1624602ebc2c3e5881_61978_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
 	
 &lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;如果你发现这步还没有成功，请按照类似的步骤先停在init，再尝试停在ls（具体什么是init请RTSC）&lt;/p&gt;
 &lt;h2 id=&#34;三运行用户程序&#34;&gt;三、运行用户程序&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡按照以下步骤即可得到结果，或者参考jyy的方法：&lt;a class=&#34;link&#34; href=&#34;https://jyywiki.cn/OS/2022/slides/18.slides#/2/2&#34;  title=&#34;https://jyywiki.cn/OS/2022/slides/18.slides#/2/2&#34;
+&lt;p&gt;💡     &lt;br&gt;
+按照以下步骤即可得到结果，或者参考jyy的方法：&lt;a class=&#34;link&#34; href=&#34;https://jyywiki.cn/OS/2022/slides/18.slides#/2/2&#34;  title=&#34;https://jyywiki.cn/OS/2022/slides/18.slides#/2/2&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://jyywiki.cn/OS/2022/slides/18.slides#/2/2&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -174,11 +187,11 @@
 			flex-grow: 77; 
 			flex-basis: 187px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_JHHrMCzK12.png&#34; data-size=&#34;503x645&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_JHHrMCzK12.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_mk6HHdHXDE.png&#34; data-size=&#34;503x645&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_mk6HHdHXDE.png&#34;
 			width=&#34;503&#34;
 			height=&#34;645&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_JHHrMCzK12_hu70e8436a27d205fd655dab9ef544d718_67933_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_JHHrMCzK12_hu70e8436a27d205fd655dab9ef544d718_67933_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_mk6HHdHXDE_hu70e8436a27d205fd655dab9ef544d718_67933_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_mk6HHdHXDE_hu70e8436a27d205fd655dab9ef544d718_67933_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -192,11 +205,11 @@
 			flex-grow: 210; 
 			flex-basis: 504px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_YQXMgFgwMC.png&#34; data-size=&#34;332x158&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_YQXMgFgwMC.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KE_NIx71iD.png&#34; data-size=&#34;332x158&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KE_NIx71iD.png&#34;
 			width=&#34;332&#34;
 			height=&#34;158&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_YQXMgFgwMC_hu6b56c9f77d3ad3eb3025a9b1d7277e11_6616_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_YQXMgFgwMC_hu6b56c9f77d3ad3eb3025a9b1d7277e11_6616_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KE_NIx71iD_hu6b56c9f77d3ad3eb3025a9b1d7277e11_6616_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_KE_NIx71iD_hu6b56c9f77d3ad3eb3025a9b1d7277e11_6616_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -210,11 +223,11 @@
 			flex-grow: 255; 
 			flex-basis: 612px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ZelGy8R1l5.png&#34; data-size=&#34;761x298&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ZelGy8R1l5.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_OJGJ3wZ00O.png&#34; data-size=&#34;761x298&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_OJGJ3wZ00O.png&#34;
 			width=&#34;761&#34;
 			height=&#34;298&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ZelGy8R1l5_hue2b1bc892887be8909230f98e39aabac_56342_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ZelGy8R1l5_hue2b1bc892887be8909230f98e39aabac_56342_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_OJGJ3wZ00O_hue2b1bc892887be8909230f98e39aabac_56342_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_OJGJ3wZ00O_hue2b1bc892887be8909230f98e39aabac_56342_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -228,17 +241,18 @@
 			flex-grow: 117; 
 			flex-basis: 281px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_lH61wh_O1P.png&#34; data-size=&#34;831x709&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_lH61wh_O1P.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_LspLktEPEP.png&#34; data-size=&#34;831x709&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_LspLktEPEP.png&#34;
 			width=&#34;831&#34;
 			height=&#34;709&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_lH61wh_O1P_huded4870f65cd2ccbc0dc064860f81c59_85161_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_lH61wh_O1P_huded4870f65cd2ccbc0dc064860f81c59_85161_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_LspLktEPEP_huded4870f65cd2ccbc0dc064860f81c59_85161_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_LspLktEPEP_huded4870f65cd2ccbc0dc064860f81c59_85161_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
 	
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;此时已经可以愉快的调试用户程序了~你可以参考reference1中的不完全指北，用vscode尝试调试第一个用户程序。&lt;/p&gt;
+&lt;p&gt;如果你发现这ls停止还没有成功，请按照类似的步骤先停在init，再尝试停在ls（具体什么是init请RTSC）&lt;/p&gt;
 &lt;h2 id=&#34;四恢复寄存器显示&#34;&gt;四、恢复寄存器显示&lt;/h2&gt;
 &lt;p&gt;通常来说，当我们打开了vscode，左边都应该显示出寄存器信息：&lt;/p&gt;
 &lt;p&gt;&lt;figure 
@@ -248,11 +262,11 @@
 			flex-grow: 191; 
 			flex-basis: 460px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_0ATywBflBM.png&#34; data-size=&#34;786x410&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_0ATywBflBM.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_Wz4v1PMwjG.png&#34; data-size=&#34;786x410&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_Wz4v1PMwjG.png&#34;
 			width=&#34;786&#34;
 			height=&#34;410&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_0ATywBflBM_hu5fe165fd821ecbcd1d6a28f76687df87_77475_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_0ATywBflBM_hu5fe165fd821ecbcd1d6a28f76687df87_77475_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_Wz4v1PMwjG_hu5fe165fd821ecbcd1d6a28f76687df87_77475_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_Wz4v1PMwjG_hu5fe165fd821ecbcd1d6a28f76687df87_77475_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -266,11 +280,11 @@
 			flex-grow: 144; 
 			flex-basis: 346px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_URDpoT1QYz.png&#34; data-size=&#34;362x251&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_URDpoT1QYz.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WUeteXFuKv.png&#34; data-size=&#34;362x251&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WUeteXFuKv.png&#34;
 			width=&#34;362&#34;
 			height=&#34;251&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_URDpoT1QYz_hu032566377157ad8342e752c32be343bd_3851_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_URDpoT1QYz_hu032566377157ad8342e752c32be343bd_3851_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WUeteXFuKv_hu032566377157ad8342e752c32be343bd_3851_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WUeteXFuKv_hu032566377157ad8342e752c32be343bd_3851_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -284,11 +298,11 @@
 			flex-grow: 344; 
 			flex-basis: 826px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ioVrwXmIea.png&#34; data-size=&#34;799x232&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ioVrwXmIea.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_lBKHOrADXP.png&#34; data-size=&#34;799x232&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_lBKHOrADXP.png&#34;
 			width=&#34;799&#34;
 			height=&#34;232&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ioVrwXmIea_hue00f435c34c70c1ea55448aa889895b2_32579_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_ioVrwXmIea_hue00f435c34c70c1ea55448aa889895b2_32579_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_lBKHOrADXP_hue00f435c34c70c1ea55448aa889895b2_32579_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_lBKHOrADXP_hue00f435c34c70c1ea55448aa889895b2_32579_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -310,7 +324,7 @@
     &gt;http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;一顿操作编译后（记得修改launch）还是不行&amp;hellip;..开始怀疑人生了，老板你这rv是不是假的啊？&lt;/p&gt;
 &lt;p&gt;突然想到ustatus好像确实没有在rv出现过，那看来不能错怪他，也许是qemu之类的配置问题。&lt;/p&gt;
-&lt;p&gt;此时我再次按照这个帖子提到的问题进行编译&lt;code&gt;make CXXFLAGS=&amp;quot;-static-libstdc++&amp;quot;&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;此时我再次按照这个帖子提到的问题进行编译&lt;code&gt;make CXXFLAGS=&amp;quot;-static-libstdc++&amp;quot;&lt;/code&gt;：（其实后面发现不需要静态编译也是可以的）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/32773255/how-to-update-gdb-to-most-current-stable-version&#34;  title=&#34;https://stackoverflow.com/questions/32773255/how-to-update-gdb-to-most-current-stable-version&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://stackoverflow.com/questions/32773255/how-to-update-gdb-to-most-current-stable-version&lt;/a&gt;&lt;/p&gt;
@@ -319,9 +333,9 @@
 &lt;p&gt;又开始怀疑人生了，说好的gdb版本呢？痛定思痛后直接放弃了这个问题解决路线，让我们回到最开始的地方——到底那个奇怪的问题是怎么出现的？&lt;/p&gt;
 &lt;h3 id=&#34;42直接解决问题&#34;&gt;4.2直接解决问题&lt;/h3&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡太长不看版： &lt;br&gt;
+&lt;p&gt;💡太长不看版：
 1、F5运行情况下在调试控制台中输入&lt;code&gt;-exec maintenance print xml-tdesc&lt;/code&gt; ，完整复制输出的内容后存放在根目录下的myxml.xml文件夹下（名字也可以看你喜欢修改）&lt;/p&gt;
-&lt;p&gt;2、保存文件并结束调试，在根目录下运行&lt;code&gt;make clean&lt;/code&gt;  &lt;br&gt;
+&lt;p&gt;2、保存文件并结束调试，在根目录下运行&lt;code&gt;make clean&lt;/code&gt;
 3、修改launch.json为：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
     &lt;span class=&#34;nt&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;0.2.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
@@ -360,8 +374,8 @@
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
     &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;4、F5运行后发现已经安静的停在main，此时你会发现寄存器恢复了    &lt;br&gt;
-5、为了定制化xml，你可以修改内部结构但要遵守regnum排序，具体请自行尝试&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;3、F5运行后发现已经安静的停在main，此时你会发现寄存器恢复了
+4、为了定制化xml，你可以修改内部结构但要遵守regnum排序，具体请自行尝试&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;花了更多时间搜索log中提到的相关关键词，最后锁定了一个帖子：&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni&#34;  title=&#34;https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -377,11 +391,11 @@
 			flex-grow: 136; 
 			flex-basis: 328px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_QD7yekLPFg.png&#34; data-size=&#34;823x602&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_QD7yekLPFg.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WdKC737zp6.png&#34; data-size=&#34;823x602&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WdKC737zp6.png&#34;
 			width=&#34;823&#34;
 			height=&#34;602&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_QD7yekLPFg_hu7aa88fb39251c8c10e071f3b45a81d15_146309_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_QD7yekLPFg_hu7aa88fb39251c8c10e071f3b45a81d15_146309_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WdKC737zp6_hu7aa88fb39251c8c10e071f3b45a81d15_146309_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_WdKC737zp6_hu7aa88fb39251c8c10e071f3b45a81d15_146309_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -391,14 +405,18 @@
 &lt;h2 id=&#34;五修复注释高亮&#34;&gt;五、修复注释高亮&lt;/h2&gt;
 &lt;p&gt;这里我们用到了bear（具体原理可看jyy18课：），bear make创造的compile_commands.json 还需要让他生效&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡 &lt;br&gt;
+&lt;p&gt;💡
 你可以参考&lt;a class=&#34;link&#34; href=&#34;https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/&#34;  title=&#34;https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/&lt;/a&gt;中提到的方法&lt;br&gt;
+    &gt;https://zhangjk98.xyz/6.S081-VSCode-prepare-and-kernel-debugging/&lt;/a&gt;中提到的方法
 也可以使用这个教程：&lt;a class=&#34;link&#34; href=&#34;https://simplestupidcode.github.io/post/2022062501.html&#34;  title=&#34;https://simplestupidcode.github.io/post/2022062501.html&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://simplestupidcode.github.io/post/2022062501.html&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;你还可以配合使用ctrl+p输入文件跳转文件与ctrl+p输入#加上函数名查找函数相应部分来辅助查找&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/blockquote&gt;
+&lt;p&gt;（这里笔者尝试了第一步clang没有完全运行，会提示typedef的问题，按照第一个博主的说法做了还是不行，但是很神奇的在加入第二个博主的cpp_properties.json后就可以跑起来了也可以跳转&amp;hellip;.计算机真神奇啊，如果你不能用其中的一个成功跳转和兼容运行，可以尝试两个都加上，然后make clean后重新make 或者重启vscode与clang插件。）&lt;/p&gt;
 &lt;h2 id=&#34;六调试控制台中省略exec&#34;&gt;六、调试控制台中省略exec&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;💡直接按照下列操作即可&lt;/p&gt;
@@ -412,11 +430,11 @@
 			flex-grow: 282; 
 			flex-basis: 677px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_vDRsdBLiFp.png&#34; data-size=&#34;223x79&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_vDRsdBLiFp.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_BK58mV711V.png&#34; data-size=&#34;223x79&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_BK58mV711V.png&#34;
 			width=&#34;223&#34;
 			height=&#34;79&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_vDRsdBLiFp_hu2f846bf4fd13c49ecbecf35ed77aecd7_9861_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_vDRsdBLiFp_hu2f846bf4fd13c49ecbecf35ed77aecd7_9861_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_BK58mV711V_hu2f846bf4fd13c49ecbecf35ed77aecd7_9861_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_BK58mV711V_hu2f846bf4fd13c49ecbecf35ed77aecd7_9861_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -443,11 +461,11 @@
 			flex-grow: 70; 
 			flex-basis: 169px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_N1VkdayEJw.png&#34; data-size=&#34;254x360&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_N1VkdayEJw.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_w76fKHlduq.png&#34; data-size=&#34;254x360&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_w76fKHlduq.png&#34;
 			width=&#34;254&#34;
 			height=&#34;360&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_N1VkdayEJw_hu28ff95e2a5be3c8d91d2fa1cd789a2c0_12697_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_N1VkdayEJw_hu28ff95e2a5be3c8d91d2fa1cd789a2c0_12697_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_w76fKHlduq_hu28ff95e2a5be3c8d91d2fa1cd789a2c0_12697_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_w76fKHlduq_hu28ff95e2a5be3c8d91d2fa1cd789a2c0_12697_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -461,11 +479,11 @@
 			flex-grow: 472; 
 			flex-basis: 1133px&#34;
 	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_eN764CCjnu.png&#34; data-size=&#34;1421x301&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_eN764CCjnu.png&#34;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_VpIXCCfCKs.png&#34; data-size=&#34;1421x301&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_VpIXCCfCKs.png&#34;
 			width=&#34;1421&#34;
 			height=&#34;301&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_eN764CCjnu_hu7f344a2275981d7d3d9311c50629ece0_67252_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6/image/image_eN764CCjnu_hu7f344a2275981d7d3d9311c50629ece0_67252_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_VpIXCCfCKs_hu7f344a2275981d7d3d9311c50629ece0_67252_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_VpIXCCfCKs_hu7f344a2275981d7d3d9311c50629ece0_67252_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -480,6 +498,97 @@
 &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;接下来就重新开始调试，然后你会惊奇的发现回车的时候已经能够自动补全exec了，体验愉快使用原生gdb的快乐吧！&lt;/p&gt;
+&lt;h2 id=&#34;七追踪函数调用的踪迹&#34;&gt;七、追踪函数调用的踪迹&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;💡
+1、你需要下载&lt;a class=&#34;link&#34; href=&#34;https://jyywiki.cn/OS/2022/slides/29.slides#/2/2&#34;  title=&#34;jyy29课中提到的trace&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;jyy29课中提到的trace&lt;/a&gt;，然后将它放在 根目录/mkfs 的文件夹下
+2、如果你是ubuntu22.04系统，可以直接运行&lt;code&gt;gdb -ex &#39;source mkfs/trace.py&#39; mkfs/mkfs&lt;/code&gt;
+如果你是ubuntu20.04系统，你可能会遇到一些问题，请参考下文提到的解决方法
+3（可选）、如果你想看到更猛的状态机过程，你可以参考&lt;a class=&#34;link&#34; href=&#34;https://github.com/Alan-Lee123/TOSView&#34;  title=&#34;这个github&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;这个github&lt;/a&gt;的方法&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在代码的海洋中，用肉眼看代码显然是会超载的，也极其耗费时间；进行调试一步步看容易跳过关键步骤不得返回，令人懊恼不已，有什么方法可以让我们获得更快乐的debug体验？——trace，想想看超级武器strace，itrace吧，他能让我们一窥内核用户态的调用奥秘。（俗话说得好，读代码不如读执行）&lt;/p&gt;
+&lt;p&gt;当然，如果想要更简单的方法，直接让gdb生成历史记录也是可以的，同样也可以类似pa中宏包裹的方式，自己做一个日志并保存输出到文本当中，这是所有程序都通用的一种方式。&lt;/p&gt;
+&lt;p&gt;按照提示的操作后我们很自然可以得到结果（其他代码其实逻辑好理解一些，主要是文件系统写的实在是太邪门了）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 84; 
+			flex-basis: 203px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_AM3t_6nFIT.png&#34; data-size=&#34;298x351&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_AM3t_6nFIT.png&#34;
+			width=&#34;298&#34;
+			height=&#34;351&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_AM3t_6nFIT_hu30c82abbae1316971f7f97f6e37d2d63_26092_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_AM3t_6nFIT_hu30c82abbae1316971f7f97f6e37d2d63_26092_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;但你可能会想，我们能不能迁移到其他地方呢？我做了一些尝试（但也有一些问题，比如static的函数显示不了对应参数，内核调试没有尝试成功），如果你想体验或者魔改，可以参考改进我的方法看看能不能做的更好：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;TRACED&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;main ls&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;split&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;IGNORE&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;buf fd&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;split&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;trace&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Breakpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;stop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;bt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;gdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;selected_frame&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_valid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+            &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TRACED&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+                &lt;span class=&#34;n&#34;&gt;lvars&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;sa&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sym&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sym&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&lt;/span&gt;
+                    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sym&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;block&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+                    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sym&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_argument&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sym&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;IGNORE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+                &lt;span class=&#34;n&#34;&gt;bt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sa&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\033&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;[32m&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\033&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;[0m(&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;, &amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;join&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;lvars&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;)&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;older&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+        &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;    &amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;bt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;False&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# won&amp;#39;t stop at this breakpoint&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;gdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;target remote localhost:26000&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;gdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;set prompt off&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;gdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;set pagination off&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;gdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;file ./user/_ls&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fn&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TRACED&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;trace&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将代码保存为mytrace放在根目录后执行&lt;code&gt;gdb -ex &#39;source mytrace.py&#39; &lt;/code&gt;，然后在其他地方&lt;code&gt;make qemu-gdb&lt;/code&gt; ，此时发现打开gdb的终端有反应了但没有开始，你需要输入c，回车后就发现xv6运行起来了，然后按下ls，你就可以看到他打印了对应的调用栈和参数了，但这个trace对于ls实在是杀鸡用牛刀（因为我们可以通过vscode调试就非常清楚流程了），我们可以在更复杂的情况（比如文件系统）下再使用它。但不管如何，我们的调试武器库又一次增加了。&lt;/p&gt;
+&lt;h3 id=&#34;71-remote-g-packet-reply-is-too-long&#34;&gt;7.1 Remote &amp;lsquo;g&amp;rsquo; packet reply is too long&lt;/h3&gt;
+&lt;p&gt;你可能会见到形如&amp;quot;Remote &amp;lsquo;g&amp;rsquo; packet reply is too long&amp;quot;相关的问题，这很可能是因为gdb版本不支持或者太低，你可以更改gdb为gdb-multiarch或者riscv64-unknown-elf-gdb，如果都不行，你需要重新编译升级gdb版本，可以选择7.2的方式，或者参考这个方式重新编译gdb：&lt;a class=&#34;link&#34; href=&#34;http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html&#34;  title=&#34;http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如果还不能解决，你可以参考这里对这个问题的解决方法：&lt;a class=&#34;link&#34; href=&#34;https://github.com/Alan-Lee123/TOSView&#34;  title=&#34;https://github.com/Alan-Lee123/TOSView&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/Alan-Lee123/TOSView&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;72海象运算符等python不支持的问题&#34;&gt;7.2海象运算符等python不支持的问题&lt;/h3&gt;
+&lt;p&gt;注意：你可能会在这里遇到:=运算符的问题，这是编译gdb选择的python太低的问题，你需要重新编译过gdb的版本让他能够支持：&lt;/p&gt;
+&lt;p&gt;首先参考4.1下载gdb源码，然后进入主页面后分别运行&lt;/p&gt;
+&lt;p&gt;(这个相当于选择菜单，我选择编译了支持全体系结构的gdb，同时内置python版本是3.8）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;./configure --with-python&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/usr/bin/python3.8  --enable-targets&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;all --enable-64-bit-bfd
+make -j8
+sudo make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装成功后再次运行即可成功！&lt;/p&gt;
+&lt;h3 id=&#34;73-参数显示optimized-out&#34;&gt;7.3 参数显示&amp;lt;&lt;em&gt;optimized out&lt;/em&gt;&amp;gt;&lt;/h3&gt;
+&lt;p&gt;如标题所示，我们只需要降低优化等级就好，在makefile中找到-o2改成-o0，并且注意到有关编译选项中有-o需要改成-o2（比如调试内核中的），修改后重新编译就可以解决问题&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 148; 
+			flex-basis: 355px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_5DtGLdqA-i.png&#34; data-size=&#34;646x436&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_5DtGLdqA-i.png&#34;
+			width=&#34;646&#34;
+			height=&#34;436&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_5DtGLdqA-i_hu64637bcfd45f422f4b259c705d552dad_72831_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/image/image_5DtGLdqA-i_hu64637bcfd45f422f4b259c705d552dad_72831_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
 &lt;h2 id=&#34;外传vscode和gdb是如何工作的&#34;&gt;外传：vscode和gdb是如何工作的？&lt;/h2&gt;
 &lt;p&gt;通过一波探索，我们对vscode的运行原理有了一点好奇心（当然对gdb调试也有，为什么要tcp？）&lt;/p&gt;
 &lt;p&gt;我找到了这些相关资料（有空再写个博客好了）：&lt;/p&gt;
@@ -489,6 +598,7 @@
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/m0_37621078/article/details/113886458&#34;  title=&#34;https://blog.csdn.net/m0_37621078/article/details/113886458&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://blog.csdn.net/m0_37621078/article/details/113886458&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;有关断点的故事也有很多可以说&amp;hellip;比如通过更换Int3中断指令使得断点可以生效，等到结束恢复为原来的指令。（这也是为什么优化等级高了有时候停不下来，因为没有对应的指令可以替换）&lt;/p&gt;
 &lt;p&gt;谢谢你看到最后，如果有问题或者有更优雅的方式欢迎提出或者发送邮件:&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;mailto:physicoada@gmail.com&#34; &gt;physicoada@gmail.com&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;也欢迎来我的github来找我玩：&lt;/p&gt;
