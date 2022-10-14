@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='代替rtmp方案做前端展示'><title>利用Nginx的转推流http-flv</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8nginx%E7%9A%84%E8%BD%AC%E6%8E%A8%E6%B5%81http-flv/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='利用Nginx的转推流http-flv'>
+<meta property='og:description' content='代替rtmp方案做前端展示'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8nginx%E7%9A%84%E8%BD%AC%E6%8E%A8%E6%B5%81http-flv/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-10-14T17:56:50&#43;08:00'/><meta property='article:modified_time' content='2022-10-14T17:56:50&#43;08:00'/>
+<meta name="twitter:title" content="利用Nginx的转推流http-flv">
+<meta name="twitter:description" content="代替rtmp方案做前端展示">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/opencv/" >
+                Opencv
+            </a>
+        
+            <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" >
+                音视频
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E5%88%A9%E7%94%A8nginx%E7%9A%84%E8%BD%AC%E6%8E%A8%E6%B5%81http-flv/">利用Nginx的转推流http-flv</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        代替rtmp方案做前端展示
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Oct 14, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>最近遇到要让rtmp在前端展示的问题，我们知道flash已经不再被支持了，现在支持的是http传输协议。</p>
+<p>如果要浏览器前端展示除了异步直接展示的方法就是用http-flv。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 247; 
+			flex-basis: 594px"
+	>
+	<a href="/p/%E5%88%A9%E7%94%A8nginx%E7%9A%84%E8%BD%AC%E6%8E%A8%E6%B5%81http-flv/ceshi.png" data-size="943x381">
+		<img src="/p/%E5%88%A9%E7%94%A8nginx%E7%9A%84%E8%BD%AC%E6%8E%A8%E6%B5%81http-flv/ceshi.png"
+			width="943"
+			height="381"
+			srcset="/p/%E5%88%A9%E7%94%A8nginx%E7%9A%84%E8%BD%AC%E6%8E%A8%E6%B5%81http-flv/ceshi_hue572d18e6a9fd5003657f6c8c8854c9a_323767_480x0_resize_box_3.png 480w, /p/%E5%88%A9%E7%94%A8nginx%E7%9A%84%E8%BD%AC%E6%8E%A8%E6%B5%81http-flv/ceshi_hue572d18e6a9fd5003657f6c8c8854c9a_323767_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="一安装http-flv版的nginx">一、安装http-flv版的nginx</h2>
+<p>参考我之前的文章<a class="link" href="https://sanbuphy.github.io/p/opencv%e8%af%bb%e5%8f%96%e8%a7%86%e9%a2%91%e5%9b%be%e5%83%8f%e5%a4%84%e7%90%86%e5%90%8e%e6%8e%a8%e6%b5%81rtmp/"  target="_blank" rel="noopener"
+    >https://sanbuphy.github.io/p/opencv读取视频图像处理后推流rtmp/</a></p>
+<p>可以进行基础的配置，唯一的差别就是安装的时候选取的包为：</p>
+<p><code>git clone https://github.com/winshining/nginx-http-flv-module.git</code></p>
+<p>也和我们之前的rtmp包一样放在同级目录，然后进入nginx：</p>
+<p>（注意，不需要带上rtmp的附加模块，因为httpflv模块包含了rtmp包的基础功能）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash">./configure --add-module<span class="o">=</span>../nginx-http-flv-module
+make -j8
+sudo make install
+</code></pre></div><p>安装结束后用同样的方法点亮nginx的初始化</p>
+<blockquote>
+<p>如果你已经安装了nginx，你只需要whereis nginx，然后rm -rf对应的文件夹即可。</p>
+</blockquote>
+<h2 id="二修改nginx配置">二、修改nginx配置</h2>
+<p>按之前文章同样的方法用code或者其他方式进入nginx.conf，按照如下规则修改：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"># 在server内的location /stat.xsl之下加入如下字样，同时别忘了把stat.xsl的root地址改成http-flv的
+location /live{
+    flv_live on; #打开 HTTP 播放 FLV 直播流功能
+    chunked_transfer_encoding on; #支持 &#39;Transfer-Encoding: chunked&#39; 方式回复
+
+    add_header &#39;Access-Control-Allow-Origin&#39; &#39;*&#39;; #添加额外的 HTTP 头
+    add_header &#39;Access-Control-Allow-Credentials&#39; &#39;true&#39;; #添加额外的 HTTP 头
+}
+
+# 在原来rtmp配置的地方加入如下字样
+application http_flv{
+  live on;
+}
+
+</code></pre></div><blockquote>
+<p>特别注意的是，每次修改完配置一定要记得<code>sudo /usr/local/nginx/sbin/nginx -s reload</code></p>
+</blockquote>
+<p>ps:这里有个坑就是我改了worker_processes后就不能运行了。。这个具体细节可以搜索，实际上比较复杂。</p>
+<h2 id="三开始推流">三、开始推流</h2>
+<p>按照前文同样的方式你可以直接推送成rtmp流，如果你想要推送成http-flv支持的格式则修改：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="n">rtmp</span> <span class="o">=</span> <span class="s1">&#39;rtmp://localhost:1935/mylive/test&#39;</span>
+<span class="c1">#把原来的rtmp推送地址修改为如下:</span>
+<span class="n">rtmp</span> <span class="o">=</span> <span class="s1">&#39;rtmp://localhost:1935/http_flv/test&#39;</span>
+
+</code></pre></div><p>然后再使用html模板进行直接查看（flv.js）</p>
+<blockquote>
+<p>【此处需要修改<code>url: 'http://你的ip/live?port=1935&amp;app=http_flv&amp;stream=test',</code>为你的ip】（这个是给前端拉流的地址）</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+ <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+  
+ <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;text/html; charset=utf-8&#34;</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&#34;Content-Type&#34;</span><span class="p">&gt;</span>
+     <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>flv.js demo<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+     <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+         <span class="p">.</span><span class="nc">mainContainer</span> <span class="p">{</span>
+             <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+             <span class="k">width</span><span class="p">:</span> <span class="mi">640</span><span class="kt">px</span><span class="p">;</span>
+         <span class="p">}</span>
+  
+         <span class="p">.</span><span class="nc">urlInput</span> <span class="p">{</span>
+             <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+             <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+             <span class="k">margin-top</span><span class="p">:</span> <span class="mi">8</span><span class="kt">px</span><span class="p">;</span>
+             <span class="k">margin-bottom</span><span class="p">:</span> <span class="mi">8</span><span class="kt">px</span><span class="p">;</span>
+         <span class="p">}</span>
+  
+         <span class="p">.</span><span class="nc">centeredVideo</span> <span class="p">{</span>
+             <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+             <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+             <span class="k">height</span><span class="p">:</span> <span class="mi">320</span><span class="kt">px</span><span class="p">;</span>
+         <span class="p">}</span>
+  
+         <span class="p">.</span><span class="nc">controls</span> <span class="p">{</span>
+             <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+             <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+             <span class="k">text-align</span><span class="p">:</span> <span class="kc">left</span><span class="p">;</span>
+         <span class="p">}</span>
+     <span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+ <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+  
+ <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;mainContainer&#34;</span><span class="p">&gt;</span>
+         <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;videoElement&#34;</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;centeredVideo&#34;</span> <span class="na">controls</span> <span class="na">autoplay</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;640&#34;</span> <span class="na">height</span><span class="o">=</span><span class="s">&#34;320&#34;</span><span class="p">&gt;</span>Your browser is too
+             old which doesn&#39;t support HTML5 video.<span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+     <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+     <span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;controls&#34;</span><span class="p">&gt;</span>
+         <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onclick</span><span class="o">=</span><span class="s">&#34;flv_start()&#34;</span><span class="p">&gt;</span>开始<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+         <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onclick</span><span class="o">=</span><span class="s">&#34;flv_pause()&#34;</span><span class="p">&gt;</span>暂停<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+         <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onclick</span><span class="o">=</span><span class="s">&#34;flv_destroy()&#34;</span><span class="p">&gt;</span>停止<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+         <span class="p">&lt;</span><span class="nt">input</span> <span class="na">style</span><span class="o">=</span><span class="s">&#34;width:100px&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;seekpoint&#34;</span> <span class="p">/&gt;</span>
+         <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onclick</span><span class="o">=</span><span class="s">&#34;flv_seekto()&#34;</span><span class="p">&gt;</span>跳转<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+     <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+     <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;https://cdn.bootcdn.net/ajax/libs/flv.js/1.5.0/flv.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+     <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+         <span class="kd">var</span> <span class="nx">player</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;videoElement&#39;</span><span class="p">);</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">flvjs</span><span class="p">.</span><span class="nx">isSupported</span><span class="p">())</span> <span class="p">{</span>
+             <span class="kd">var</span> <span class="nx">flvPlayer</span> <span class="o">=</span> <span class="nx">flvjs</span><span class="p">.</span><span class="nx">createPlayer</span><span class="p">({</span>
+                 <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;flv&#39;</span><span class="p">,</span>
+                 <span class="nx">isLive</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                 <span class="nx">enableWorker</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span>
+                 <span class="nx">enableStashBuffer</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span>
+                 <span class="nx">stashInitialSize</span><span class="o">:</span><span class="mi">128</span><span class="p">,</span>
+                 <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;http://你的ip/live?port=1935&amp;app=http_flv&amp;stream=test&#39;</span><span class="p">,</span>
+  
+             <span class="p">});</span>
+             <span class="nx">flvPlayer</span><span class="p">.</span><span class="nx">attachMediaElement</span><span class="p">(</span><span class="nx">videoElement</span><span class="p">);</span>
+             <span class="nx">flvPlayer</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
+             <span class="nx">flv_start</span><span class="p">();</span>
+         <span class="p">}</span>
+  
+         <span class="kd">function</span> <span class="nx">flv_start</span><span class="p">()</span> <span class="p">{</span>
+             <span class="nx">player</span><span class="p">.</span><span class="nx">play</span><span class="p">();</span>
+         <span class="p">}</span>
+  
+         <span class="kd">function</span> <span class="nx">flv_pause</span><span class="p">()</span> <span class="p">{</span>
+             <span class="nx">player</span><span class="p">.</span><span class="nx">pause</span><span class="p">();</span>
+         <span class="p">}</span>
+  
+         <span class="kd">function</span> <span class="nx">flv_destroy</span><span class="p">()</span> <span class="p">{</span>
+             <span class="nx">player</span><span class="p">.</span><span class="nx">pause</span><span class="p">();</span>
+             <span class="nx">player</span><span class="p">.</span><span class="nx">unload</span><span class="p">();</span>
+             <span class="nx">player</span><span class="p">.</span><span class="nx">detachMediaElement</span><span class="p">();</span>
+             <span class="nx">player</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>
+             <span class="nx">player</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+         <span class="p">}</span>
+  
+         <span class="kd">function</span> <span class="nx">flv_seekto</span><span class="p">()</span> <span class="p">{</span>
+             <span class="nx">player</span><span class="p">.</span><span class="nx">currentTime</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByName</span><span class="p">(</span><span class="s1">&#39;seekpoint&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">value</span><span class="p">);</span>
+         <span class="p">}</span>
+     <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+ <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+  
+ <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div><p>点击开始播放，此时你已经可以看到页面上呈现了！</p>
+<h2 id="reference">Reference</h2>
+<p>rtmp、http-flv视频直播以及配合视频处理算法的实现</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/375548523"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/375548523</a></p>
+<p>FFmpeg + nginx-http-flv-module + flv.js 实现视频流播放</p>
+<p><a class="link" href="https://hasaik.com/posts/358f95d9.html"  target="_blank" rel="noopener"
+    >https://hasaik.com/posts/358f95d9.html</a></p>
+<p>不依赖flashrtsp流通过ffmpeg+nginx-http-flv转成rtmp以及http-flv流并通过flv.js在页面播放(附带所用的工具下载)</p>
+<p><a class="link" href="https://www.361shipin.com/blog/1542511538894536704"  target="_blank" rel="noopener"
+    >https://www.361shipin.com/blog/1542511538894536704</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/opencv%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%90%8E%E6%8E%A8%E6%B5%81rtmp/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">opencv读取视频图像处理后推流rtmp</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一安装http-flv版的nginx">一、安装http-flv版的nginx</a></li>
+    <li><a href="#二修改nginx配置">二、修改nginx配置</a></li>
+    <li><a href="#三开始推流">三、开始推流</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

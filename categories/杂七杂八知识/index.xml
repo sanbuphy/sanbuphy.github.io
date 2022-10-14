@@ -6,14 +6,32 @@
     <description>Recent content in 杂七杂八知识 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 11 Sep 2022 12:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 14 Oct 2022 19:48:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>计算机各类神奇的小问题大全</title>
+      <link>https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/</link>
+      <pubDate>Fri, 14 Oct 2022 19:48:48 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/</guid>
+      <description>作为一个很多奇怪问题&amp;amp;bug体质的人，此处用于记录平时的奇思妙想。 https://zhuanlan.zhihu.com/p/83454344 编译与链接相关 windows动态连接库dll居然是用lib导入符</description>
+    </item>
+    
+    <item>
+      <title>Git完整工具流教程</title>
+      <link>https://sanbuphy.github.io/p/git%E5%AE%8C%E6%95%B4%E5%B7%A5%E5%85%B7%E6%B5%81%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Fri, 14 Oct 2022 15:00:59 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/git%E5%AE%8C%E6%95%B4%E5%B7%A5%E5%85%B7%E6%B5%81%E6%95%99%E7%A8%8B/</guid>
+      <description>本文搬运自评论区（但是够用了） 具体请看视频https://www.bilibili.com/video/BV19e4y1q7JJ/ https://www.bilibili.com/video/BV1ne4y1S7S9/ 1.git clone // 到</description>
+    </item>
+    
     <item>
       <title>我的计算机学习网站集合</title>
       <link>https://sanbuphy.github.io/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/</link>
-      <pubDate>Sun, 11 Sep 2022 12:08:27 +0800</pubDate>
+      <pubDate>Fri, 14 Oct 2022 12:08:27 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/</guid>
-      <description>写在前面 收录了个人喜好觉得品味好的网站， 如果有其他好的建议也欢迎提出，非常感谢。 不定期更新 带目录边栏（电脑上可看）：https://sanb</description>
+      <description>写在前面 收录了个人喜好觉得品味好的网站（也有一些小工具）， 如果有其他好的建议也欢迎提出，非常感谢。 不定期更新 带目录边栏（电脑上可看）：htt</description>
     </item>
     
     <item>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>c&#43;&#43; on 散步的小屋</title>
+    <link>https://sanbuphy.github.io/categories/c&#43;&#43;/</link>
+    <description>Recent content in c&#43;&#43; on 散步的小屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 14 Oct 2022 19:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>pybind11生成的so无法被import问题</title>
+      <link>https://sanbuphy.github.io/p/pybind11%E7%94%9F%E6%88%90%E7%9A%84so%E6%97%A0%E6%B3%95%E8%A2%ABimport%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 14 Oct 2022 19:08:27 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/pybind11%E7%94%9F%E6%88%90%E7%9A%84so%E6%97%A0%E6%B3%95%E8%A2%ABimport%E9%97%AE%E9%A2%98/</guid>
+      <description>最近在使用python调用pybind11生成的so发现了一个问题，对于一个python环境下生成的so，另一个环境用不了。（刚开始也还没发</description>
+    </item>
+    
+  </channel>
+</rss>

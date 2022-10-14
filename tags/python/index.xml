@@ -6,7 +6,16 @@
     <description>Recent content in python on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 12 May 2022 22:25:38 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 14 Oct 2022 19:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>pybind11生成的so无法被import问题</title>
+      <link>https://sanbuphy.github.io/p/pybind11%E7%94%9F%E6%88%90%E7%9A%84so%E6%97%A0%E6%B3%95%E8%A2%ABimport%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 14 Oct 2022 19:08:27 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/pybind11%E7%94%9F%E6%88%90%E7%9A%84so%E6%97%A0%E6%B3%95%E8%A2%ABimport%E9%97%AE%E9%A2%98/</guid>
+      <description>最近在使用python调用pybind11生成的so发现了一个问题，对于一个python环境下生成的so，另一个环境用不了。（刚开始也还没发</description>
+    </item>
+    
     <item>
       <title>Disco Diffusion关键字大赏</title>
       <link>https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/</link>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='作为一个很多奇怪问题&amp;bug体质的人，此处用于记录平时的奇思妙想'><title>计算机各类神奇的小问题大全</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='计算机各类神奇的小问题大全'>
+<meta property='og:description' content='作为一个很多奇怪问题&amp;bug体质的人，此处用于记录平时的奇思妙想'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-10-14T19:48:48&#43;08:00'/><meta property='article:modified_time' content='2022-10-14T19:48:48&#43;08:00'/>
+<meta name="twitter:title" content="计算机各类神奇的小问题大全">
+<meta name="twitter:description" content="作为一个很多奇怪问题&amp;bug体质的人，此处用于记录平时的奇思妙想">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/" >
+                杂七杂八知识
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/">计算机各类神奇的小问题大全</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        作为一个很多奇怪问题&amp;bug体质的人，此处用于记录平时的奇思妙想
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Oct 14, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 6 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>作为一个很多奇怪问题&amp;bug体质的人，此处用于记录平时的奇思妙想。</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/83454344"  title="https://zhuanlan.zhihu.com/p/83454344"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/83454344</a></p>
+<h2 id="编译与链接相关">编译与链接相关</h2>
+<p>windows动态连接库dll居然是用lib导入符号信息（windows专门的编译器）（此时的lib不表示静态连接库），还是linux香啊。。</p>
+<p>【手把手教你编写 年轻人的第一个动态链接库-哔哩哔哩】 <a class="link" href="https://b23.tv/6pddFSv"  title="https://b23.tv/6pddFSv"
+     target="_blank" rel="noopener"
+    >https://b23.tv/6pddFSv</a></p>
+<p>Q：<strong>编译器前后端之区别是不是只在中间代码翻译的职责部分？</strong></p>
+<p>比如clang负责转换成机器无关的中间代码。然后llvm后端把它可以转换成机器相关汇编代码</p>
+<p>A：</p>
+<h2 id="操作系统相关">操作系统相关</h2>
+<p><a class="link" href="https://yajin.org/os2018fall/"  title="https://yajin.org/os2018fall/"
+     target="_blank" rel="noopener"
+    >https://yajin.org/os2018fall/</a></p>
+<p><a class="link" href="https://yajin.org/os2018fall/02_os_structures.pdf"  title="https://yajin.org/os2018fall/02_os_structures.pdf"
+     target="_blank" rel="noopener"
+    >https://yajin.org/os2018fall/02_os_structures.pdf</a></p>
+<p><strong>Q：用户线程为什么不能独立于内核线程存在？至少要有一个内核线程“与他关联”？</strong></p>
+<p>A：</p>
+<p>群友的看法：</p>
+<p>我的理解是,如果在微内核, 比如fs模块在user层, 用户程序只需要调用fs模块, 那用户程序逻辑上是没有调用内核task, 但是物理上微内核fs模块肯定会调用微内核内核层的vm的task的, 所以用户线程不能独立存在。如果用户程序和操作系统在一个物理机中, 如果用户程序和操作系统要独立, 首先资源要独立, 内存可以协商独立, 比如0x00000a-0x0000fff是操作系统的, 然后0x0001ffff0-0xffffffff是用户程序的. cpu0是给操作系统的, cpu1是给用户程序的.  然后通信用网络, eth0是操作系统的, eth1是用户程序的. 这样的话应该能设计出用户线程是独立的。</p>
+<p>我的看法：</p>
+<p>（不同操作系统实现不同，这里只针对比较现代的linux。)</p>
+<p>首先要注意这东西由于不同操作系统和不同年代的教材众说纷纭，很容易出现概念混淆和理解错误，这里我们以最新的linux手册为准。</p>
+<p>在讨论这个问题之前首先要明确几个概念（什么是线程、什么是用户线程。），我们看到有很多地方说到多对一模型，其实这里的用户线程更应该叫协程（你看到很多地方会说这东西不需要syscall就可以创建，process内负责执行流切换无需os）。而我们常说的用户态创建的线程就是一对一模型（pthreads手册中明确提到<code>Both  of  these  are  so-called  1:1 implementations, meaning that each thread maps to a kernel scheduling entity</code>），本身需要和内核线程挂钩（创建过程需要syscall和内核线程绑定），而进程本身的主线程必定是和内核线程挂钩；另外在linux中我们用task去称呼会更加合适，linux系统层面没必要分进程线程只需要task就好。只有在我们执行的程序里有需求开pthread 这里才要强调，它会将对应的函数入口给内核线程以便切换。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 153; 
+			flex-basis: 369px"
+	>
+	<a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_wTLPrj0JQe.png" data-size="1077x700">
+		<img src="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_wTLPrj0JQe.png"
+			width="1077"
+			height="700"
+			srcset="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_wTLPrj0JQe_hu77e70b1231fb602373c63163edd2f0ad_133635_480x0_resize_box_3.png 480w, /p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_wTLPrj0JQe_hu77e70b1231fb602373c63163edd2f0ad_133635_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>需要注意的是，在xv6，内核初始化完了切换init后就进入了用户态，此后fork、exec的都是子task，但是需要调度流切换得需要和cpu联系，这就需要内核task才能够运作。（其实这里的子task本身就是可以被调度到的，因为就是PCB）</p>
+<p>回答这个问题的关键是理解所谓的线程是怎么拿到cpu资源的，拿到资源意味着被调度器调度。（为什么不讨论进程？因为实际上进程只是一些共享内存的task，而且在linux中PCB就是task_struct）。首先之所以是线程而不是函数是因为他能作为调度单元（可以被调度器切换上下文），在任务调度器（比如pa中的schedule）的眼里，只有task才是调度单元，即处理器上运行的每个任务都是调度器给分配的执行流，只要成为执行流就能够独立上处理器运行了，而内核task可以被内核直接调度，他可以直接做到操作页表，维护cache, 读写系统寄存器等操作。如果用户task（比如协程）不需要内核线程管理，容易出现一些意外现象（虽然还是可以让系统发指令杀死）。这里概念最坑的就是可能混淆协程和在用户态用pthread api 创建的线程以及LWP轻量化进程，实际上前者可以通过是否syscall是否需要和内核互动来区分；而LWP轻量化进程在linux中有时是内核线程的另一种称呼。</p>
+<p>为什么说linux中用户态可以/需要绑定一个内核线程？具体看syscall，我们创建线程的过程会调用clone然后和一个内核线程“绑定”（大概是把上下文存储到内核线程task块中这样可以被os看到和调度。）用户task实际上用的是内核task的pcb块，需要一些高级权限的时候就保存上下文内陷然后在内核中处理即可。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 190; 
+			flex-basis: 457px"
+	>
+	<a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_PlhP7kl7xh.png" data-size="1067x560">
+		<img src="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_PlhP7kl7xh.png"
+			width="1067"
+			height="560"
+			srcset="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_PlhP7kl7xh_hua3d6b73d8163f70255d79f03af46b33f_115046_480x0_resize_box_3.png 480w, /p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_PlhP7kl7xh_hua3d6b73d8163f70255d79f03af46b33f_115046_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>如果想要最单纯的用户线程也有执行的权限，关键是你能够怎么切换他的执行流，此时应该只有协程能满足这个需求了，否则要提权的话就是内核线程了，因为能被内核直接schedule。所以严格来说独立的用户线程是不存在的，就算是协程也需要进程调度，而进程的cpu资源源于对应内核task的被调度。</p>
+<p>（有趣的是，linux2.6才完全支持了我们现在意义上的用户态线程，linux2.6是2003年的内核版本，由此可见计算机确实是一门很新的学科:)   ）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 680; 
+			flex-basis: 1634px"
+	>
+	<a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/53381f68-a93c-41fa-9c67-25c27e9af926_7QuK94AMj2.jpg" data-size="1280x188">
+		<img src="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/53381f68-a93c-41fa-9c67-25c27e9af926_7QuK94AMj2.jpg"
+			width="1280"
+			height="188"
+			srcset="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/53381f68-a93c-41fa-9c67-25c27e9af926_7QuK94AMj2_huef019d814597c441b5e32bcd828a55c7_101184_480x0_resize_q75_box.jpg 480w, /p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/53381f68-a93c-41fa-9c67-25c27e9af926_7QuK94AMj2_huef019d814597c441b5e32bcd828a55c7_101184_1024x0_resize_q75_box.jpg 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 124; 
+			flex-basis: 298px"
+	>
+	<a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_2_NY7oq6J9.png" data-size="1044x840">
+		<img src="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_2_NY7oq6J9.png"
+			width="1044"
+			height="840"
+			srcset="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_2_NY7oq6J9_hub74cdf44b70179d2c1769d9182128b32_148981_480x0_resize_box_3.png 480w, /p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_2_NY7oq6J9_hub74cdf44b70179d2c1769d9182128b32_148981_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>reference：</p>
+<p>浙大课件Light-Weight Processes: Dissecting Linux Threads：<a class="link" href="https://yajin.org/os2018fall/04_thread_b.pdf"  title="https://yajin.org/os2018fall/04_thread_b.pdf"
+     target="_blank" rel="noopener"
+    >https://yajin.org/os2018fall/04_thread_b.pdf</a></p>
+<p>深入理解Linux内核之内核线程（上）：<a class="link" href="https://zhuanlan.zhihu.com/p/364898425"  title="https://zhuanlan.zhihu.com/p/364898425"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/364898425</a></p>
+<p>关于“内核线程”、“用户线程”概念的理解：<a class="link" href="https://blog.csdn.net/u012927281/article/details/51602898"  title="https://blog.csdn.net/u012927281/article/details/51602898"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/u012927281/article/details/51602898</a></p>
+<p>图解进程、线程：<a class="link" href="https://blog.csdn.net/fuzhongmin05/article/details/119448800"  title="https://blog.csdn.net/fuzhongmin05/article/details/119448800"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/fuzhongmin05/article/details/119448800</a></p>
+<p>Light-Weight Processes: Dissecting Linux Threads：<a class="link" href="https://www.opensourceforu.com/2011/08/light-weight-processes-dissecting-linux-threads/"  title="https://www.opensourceforu.com/2011/08/light-weight-processes-dissecting-linux-threads/"
+     target="_blank" rel="noopener"
+    >https://www.opensourceforu.com/2011/08/light-weight-processes-dissecting-linux-threads/</a></p>
+<p>What are Linux Processes, Threads, Light Weight Processes, and Process State:<a class="link" href="https://www.thegeekstuff.com/2013/11/linux-process-and-threads/"  title="https://www.thegeekstuff.com/2013/11/linux-process-and-threads/"
+     target="_blank" rel="noopener"
+    >https://www.thegeekstuff.com/2013/11/linux-process-and-threads/</a></p>
+<p>man pthreads:<a class="link" href="https://man7.org/linux/man-pages/man7/pthreads.7.html"  title="https://man7.org/linux/man-pages/man7/pthreads.7.html"
+     target="_blank" rel="noopener"
+    >https://man7.org/linux/man-pages/man7/pthreads.7.html</a></p>
+<p><strong>Q：linux</strong>线程的生命周期是怎么样的？怎么被创建和销毁？内核task能不能被复用？</p>
+<p>A: 这个说的比较清楚：<a class="link" href="https://xieyu.github.io/blog/pthread/glibc-pthread-implement-thread-life-cycle.html"  title="https://xieyu.github.io/blog/pthread/glibc-pthread-implement-thread-life-cycle.html"
+     target="_blank" rel="noopener"
+    >https://xieyu.github.io/blog/pthread/glibc-pthread-implement-thread-life-cycle.html</a></p>
+<ul>
+<li>
+<p>如果 <code>pthread_join</code> 发生在结束后不久，资源还未被回收，函数会立即返回。</p>
+</li>
+<li>
+<p>如果 <code>pthread_join</code> 发生在结束以后一段时间，可能会得到 <code>ESRCH</code> (no such thread) 错误。</p>
+</li>
+<li>
+<p>如果 <code>pthread_join</code> 发生在之后很久很久很久很久，资源被释放又被再次复用 (<code>pthread_t</code> 是一个的确可能被复用的整数)，我不就 join 了另一个线程了吗？这恐怕要出大问题。</p>
+</li>
+<li>
+<p>特别的：（其他情况exit后都会被资源回收）</p>
+</li>
+</ul>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 559; 
+			flex-basis: 1342px"
+	>
+	<a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_kscuOP_aW9.png" data-size="923x165">
+		<img src="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_kscuOP_aW9.png"
+			width="923"
+			height="165"
+			srcset="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_kscuOP_aW9_hu2ab4a8651298f44b964671e6da706e60_59405_480x0_resize_box_3.png 480w, /p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/image/image_kscuOP_aW9_hu2ab4a8651298f44b964671e6da706e60_59405_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>没有task复用的说法。</p>
+<p>reference:</p>
+<p>jyy:<a class="link" href="http://jyywiki.cn/OS/2022/labs/M2"  title="http://jyywiki.cn/OS/2022/labs/M2"
+     target="_blank" rel="noopener"
+    >http://jyywiki.cn/OS/2022/labs/M2</a></p>
+<h2 id="网络相关">网络相关</h2>
+<h2 id="python相关">python相关</h2>
+<p>Q:为什么开了multiprocessing的pool再开process就不会出现信息？</p>
+<p>A：不知道，但你记住要多次fork只能一直process就对了。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/git%E5%AE%8C%E6%95%B4%E5%B7%A5%E5%85%B7%E6%B5%81%E6%95%99%E7%A8%8B/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Git完整工具流教程</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">我的计算机学习网站集合</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%8E%A8%E8%8D%90%E5%B0%9D%E8%AF%95%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">推荐尝试的小工具</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">利用笔记本电脑进行推流</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">防止stack overflow——内存地址杀毒</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#编译与链接相关">编译与链接相关</a></li>
+    <li><a href="#操作系统相关">操作系统相关</a></li>
+    <li><a href="#网络相关">网络相关</a></li>
+    <li><a href="#python相关">python相关</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

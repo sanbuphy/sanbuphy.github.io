@@ -6,7 +6,43 @@
     <description>Recent content in Categories on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 29 Sep 2022 08:50:40 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 14 Oct 2022 19:48:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>杂七杂八知识</title>
+      <link>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Fri, 14 Oct 2022 19:48:48 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>c&#43;&#43;</title>
+      <link>https://sanbuphy.github.io/categories/c&#43;&#43;/</link>
+      <pubDate>Fri, 14 Oct 2022 19:08:27 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Opencv</title>
+      <link>https://sanbuphy.github.io/categories/opencv/</link>
+      <pubDate>Fri, 14 Oct 2022 17:56:50 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/opencv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>音视频</title>
+      <link>https://sanbuphy.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/</link>
+      <pubDate>Fri, 14 Oct 2022 17:56:50 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>C语言</title>
       <link>https://sanbuphy.github.io/categories/c/</link>
@@ -40,33 +76,6 @@
       <pubDate>Fri, 16 Sep 2022 08:50:40 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/categories/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6pa/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>杂七杂八知识</title>
-      <link>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
-      <pubDate>Sun, 11 Sep 2022 12:08:27 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Deploy</title>
-      <link>https://sanbuphy.github.io/categories/deploy/</link>
-      <pubDate>Sat, 03 Sep 2022 11:56:50 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/categories/deploy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Opencv</title>
-      <link>https://sanbuphy.github.io/categories/opencv/</link>
-      <pubDate>Sat, 03 Sep 2022 11:56:50 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/categories/opencv/</guid>
       <description></description>
     </item>
     
