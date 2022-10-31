@@ -6,7 +6,60 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 14 Oct 2022 19:48:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 30 Oct 2022 15:00:59 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Git完整工具流教程</title>
+        <link>https://sanbuphy.github.io/p/git%E5%AE%8C%E6%95%B4%E5%B7%A5%E5%85%B7%E6%B5%81%E6%95%99%E7%A8%8B/</link>
+        <pubDate>Sun, 30 Oct 2022 15:00:59 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/git%E5%AE%8C%E6%95%B4%E5%B7%A5%E5%85%B7%E6%B5%81%E6%95%99%E7%A8%8B/</guid>
+        <description>&lt;h2 id=&#34;简单操作&#34;&gt;简单操作&lt;/h2&gt;
+&lt;p&gt;本文搬运自评论区（但是够用了）&lt;/p&gt;
+&lt;p&gt;具体请看视频&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV19e4y1q7JJ/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.bilibili.com/video/BV19e4y1q7JJ/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1ne4y1S7S9/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.bilibili.com/video/BV1ne4y1S7S9/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;1.git clone // 到本地
+2.git checkout -b xxx 切换至新分支xxx
+（相当于复制了remote的仓库到本地的xxx分支上
+3.修改或者添加本地代码（部署在硬盘的源文件上）
+4.git diff 查看自己对代码做出的改变
+5.git add 上传更新后的代码至暂存区
+6.git commit 可以将暂存区里更新后的代码更新到本地git
+7.git push origin xxx 将本地的xxxgit分支上传至github上的git&lt;/p&gt;
+&lt;p&gt;（如果在写自己的代码过程中发现远端GitHub上代码出现改变）
+1.git checkout main 切换回main分支
+2.git pull origin master(main) 将远端修改过的代码再更新到本地
+3.git checkout xxx 回到xxx分支
+4.git rebase main 我在xxx分支上，先把main移过来，然后根据我的commit来修改成新的内容
+（中途可能会出现，rebase conflict &amp;mdash;&amp;ndash;》手动选择保留哪段代码）
+5.&lt;strong&gt;git push -f origin xxx 把rebase后并且更新过的代码再push到远端github上&lt;/strong&gt;
+（-f &amp;mdash;》强行）【一定要记得先更新最新的代码分支】
+6.原项目主人采用pull request 中的 squash and merge 合并所有不同的commit&lt;/p&gt;
+&lt;p&gt;远端完成更新后&lt;/p&gt;
+&lt;p&gt;1.git branch -d xxx 删除本地的git分支&lt;/p&gt;
+&lt;p&gt;2.git pull origin master 再把远端的最新代码拉至本地&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;评论区：说的很好，刚入大厂的我表示就是用的这套流程，刚进来就犯了一次错误，自己的分支上面很多commit然后中间merge了一遍master的代码之后又commit了，结果导致最后PR的时候rebase非常困难，太多冲突了，commit数量太多被diss了。最后还是删除了分支，重新建立一个分支，把所有的改变重新再一个commit上面实现了一遍。&lt;strong&gt;后来知道了，千万不要在自己分支没有pr前merge，可以rebase。。。而且每次pr之前我们都要求用rebase -i命令在本地压缩commit到一个，然后再去PR&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;git checkout -b xxx：git checkout xxx是指切换到xxx（用local区的xxx替换disk区文件），-b意味着branch，即创建新分支，这条指令合起来意思是创建并切换到xxx。
+git diff：查看暂存区与disk区文件的差异。
+git add xxx：将xxx文件添加到暂存区。
+git commit：将暂存区内容添加到local区的当前分支中。
+git push &lt;!-- raw HTML omitted --&gt; &lt;!-- raw HTML omitted --&gt;：将local区的LocalBranchName分支推送到RemoteHostName主机的同名分支。（若加-f表示无视本地与远程分支的差异强行push）
+git pull &lt;!-- raw HTML omitted --&gt; &lt;!-- raw HTML omitted --&gt;：同上，不过改成从远程主机下载远程分支并与本地同名分支合并。
+git rebase xxx：假设当前分支与xxx分支存在共同部分common，该指令用xxx分支包括common在内的整体替换当前分支的common部分（原先xxx分支内容为common-&amp;gt;diversityA，当前分支内容为common-&amp;gt;diversityB，执行完该指令后当前分支内容为common-&amp;gt;diversityA-&amp;gt;diversityB）。
+git branch -D xxx：不加-D表示创建新local分支xxx，加-D表示强制删除local分支xxx。&lt;/p&gt;
+&lt;h2 id=&#34;优雅的提交pr到开原仓库&#34;&gt;优雅的提交pr到开原仓库&lt;/h2&gt;
+&lt;p&gt;openmmlab的官方pr教程&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mmcv.readthedocs.io/zh_CN/latest/community/pr.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mmcv.readthedocs.io/zh_CN/latest/community/pr.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;记得建立新分支，然后push origin 你的新分支从而push代码到你自己的仓库，随后在github上选择对应分支pr，这样不会影响到你fork仓库与上游库的同步状态。（fork后也可以人工选择sysn同步）如果想要新做一个修改就新开一个分支做pr commit，被合并或者取消后就可以删除这个分支，然后记得每次新建分支前要先从上游库拉取更新。&lt;/p&gt;
+&lt;p&gt;其他参考：优雅地修改他人贡献的 Pull Request（写的非常好！）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://liuyib.github.io/2020/09/19/add-commits-to-others-pr/#%e5%91%bd%e4%bb%a4%e8%a1%8c%e6%96%b9%e5%bc%8f&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://liuyib.github.io/2020/09/19/add-commits-to-others-pr/#命令行方式&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>计算机各类神奇的小问题大全</title>
         <link>https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%84%E7%B1%BB%E7%A5%9E%E5%A5%87%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%E5%A4%A7%E5%85%A8/</link>
         <pubDate>Fri, 14 Oct 2022 19:48:48 +0800</pubDate>
@@ -375,50 +428,6 @@ application http_flv{
 &lt;p&gt;不依赖flashrtsp流通过ffmpeg+nginx-http-flv转成rtmp以及http-flv流并通过flv.js在页面播放(附带所用的工具下载)&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.361shipin.com/blog/1542511538894536704&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.361shipin.com/blog/1542511538894536704&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>Git完整工具流教程</title>
-        <link>https://sanbuphy.github.io/p/git%E5%AE%8C%E6%95%B4%E5%B7%A5%E5%85%B7%E6%B5%81%E6%95%99%E7%A8%8B/</link>
-        <pubDate>Fri, 14 Oct 2022 15:00:59 +0800</pubDate>
-        
-        <guid>https://sanbuphy.github.io/p/git%E5%AE%8C%E6%95%B4%E5%B7%A5%E5%85%B7%E6%B5%81%E6%95%99%E7%A8%8B/</guid>
-        <description>&lt;p&gt;本文搬运自评论区（但是够用了）&lt;/p&gt;
-&lt;p&gt;具体请看视频&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV19e4y1q7JJ/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.bilibili.com/video/BV19e4y1q7JJ/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1ne4y1S7S9/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.bilibili.com/video/BV1ne4y1S7S9/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;1.git clone // 到本地    &lt;br&gt;
-2.git checkout -b xxx 切换至新分支xxx    &lt;br&gt;
-（相当于复制了remote的仓库到本地的xxx分支上  &lt;br&gt;
-3.修改或者添加本地代码（部署在硬盘的源文件上）   &lt;br&gt;
-4.git diff 查看自己对代码做出的改变  &lt;br&gt;
-5.git add 上传更新后的代码至暂存区   &lt;br&gt;
-6.git commit 可以将暂存区里更新后的代码更新到本地git     &lt;br&gt;
-7.git push origin xxx 将本地的xxxgit分支上传至github上的git&lt;/p&gt;
-&lt;p&gt;（如果在写自己的代码过程中发现远端GitHub上代码出现改变）     &lt;br&gt;
-1.git checkout main 切换回main分支   &lt;br&gt;
-2.git pull origin master(main) 将远端修改过的代码再更新到本地    &lt;br&gt;
-3.git checkout xxx 回到xxx分支   &lt;br&gt;
-4.git rebase main 我在xxx分支上，先把main移过来，然后根据我的commit来修改成新的内容  &lt;br&gt;
-（中途可能会出现，rebase conflict &amp;mdash;&amp;ndash;》手动选择保留哪段代码）      &lt;br&gt;
-5.&lt;strong&gt;git push -f origin xxx 把rebase后并且更新过的代码再push到远端github上&lt;/strong&gt;  &lt;br&gt;
-（-f &amp;mdash;》强行）【一定要记得先更新最新的代码分支】&lt;br&gt;
-6.原项目主人采用pull request 中的 squash and merge 合并所有不同的commit&lt;/p&gt;
-&lt;p&gt;远端完成更新后&lt;/p&gt;
-&lt;p&gt;1.git branch -d xxx 删除本地的git分支&lt;/p&gt;
-&lt;p&gt;2.git pull origin master 再把远端的最新代码拉至本地&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;评论区：说的很好，刚入大厂的我表示就是用的这套流程，刚进来就犯了一次错误，自己的分支上面很多commit然后中间merge了一遍master的代码之后又commit了，结果导致最后PR的时候rebase非常困难，太多冲突了，commit数量太多被diss了。最后还是删除了分支，重新建立一个分支，把所有的改变重新再一个commit上面实现了一遍。&lt;strong&gt;后来知道了，千万不要在自己分支没有pr前merge，可以rebase。。。而且每次pr之前我们都要求用rebase -i命令在本地压缩commit到一个，然后再去PR&lt;/strong&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;git checkout -b xxx：git checkout xxx是指切换到xxx（用local区的xxx替换disk区文件），-b意味着branch，即创建新分支，这条指令合起来意思是创建并切换到xxx。 
-git diff：查看暂存区与disk区文件的差异。 &lt;br&gt;
-git add xxx：将xxx文件添加到暂存区。 &lt;br&gt;
-git commit：将暂存区内容添加到local区的当前分支中。 
-git push &lt;!-- raw HTML omitted --&gt; &lt;!-- raw HTML omitted --&gt;：将local区的LocalBranchName分支推送到RemoteHostName主机的同名分支。（若加-f表示无视本地与远程分支的差异强行push）&lt;br&gt;
-git pull &lt;!-- raw HTML omitted --&gt; &lt;!-- raw HTML omitted --&gt;：同上，不过改成从远程主机下载远程分支并与本地同名分支合并。 &lt;br&gt;
-git rebase xxx：假设当前分支与xxx分支存在共同部分common，该指令用xxx分支包括common在内的整体替换当前分支的common部分（原先xxx分支内容为common-&amp;gt;diversityA，当前分支内容为common-&amp;gt;diversityB，执行完该指令后当前分支内容为common-&amp;gt;diversityA-&amp;gt;diversityB）。 
-git branch -D xxx：不加-D表示创建新local分支xxx，加-D表示强制删除local分支xxx。&lt;/p&gt;
 </description>
         </item>
         <item>
