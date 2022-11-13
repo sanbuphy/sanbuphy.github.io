@@ -6,7 +6,16 @@
     <description>Recent content in Opencv on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 14 Oct 2022 17:56:50 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/opencv/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Nov 2022 17:45:11 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/opencv/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>opencv拓展包编译</title>
+      <link>https://sanbuphy.github.io/p/opencv%E6%8B%93%E5%B1%95%E5%8C%85%E7%BC%96%E8%AF%91/</link>
+      <pubDate>Sun, 13 Nov 2022 17:45:11 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/opencv%E6%8B%93%E5%B1%95%E5%8C%85%E7%BC%96%E8%AF%91/</guid>
+      <description>建议使用默认安装cuda（包括驱动）以及ffmpeg的默认安装地址以免出现各种奇怪问题。 cmake .. -D CMAKE_BUILD_TYPE=RELEASE \ -D CMAKE_INSTALL_PREFIX=/usr/local \ -D ENABLE_PRECOMPILED_HEADERS=OFF \ -D INSTALL_C_EXAMPLES=OFF \ -D INSTALL_PYTHON_EXAMPLES=OFF \ -D BUILD_opencv_python2=OFF \ -D BUILD_opencv_python3=ON \ -D PYTHON_DEFAULT_EXECUTABLE=$(python3 -c</description>
+    </item>
+    
     <item>
       <title>利用Nginx的转推流http-flv</title>
       <link>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8nginx%E7%9A%84%E8%BD%AC%E6%8E%A8%E6%B5%81http-flv/</link>

@@ -114,7 +114,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 3 分钟
+                    阅读时长: 4 分钟
                 </time>
             </div>
         
@@ -158,7 +158,7 @@ sudo make install
 <p>如果你已经安装了nginx，你只需要whereis nginx，然后rm -rf对应的文件夹即可。</p>
 </blockquote>
 <h2 id="二修改nginx配置">二、修改nginx配置</h2>
-<p>按之前文章同样的方法用code或者其他方式进入nginx.conf，按照如下规则修改：</p>
+<p>按之前文章同样的方法用code或者其他方式进入 <code>/usr/local/nginx/conf/nginx.conf</code> ，按照如下规则修改：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"># 在server内的location /stat.xsl之下加入如下字样，同时别忘了把stat.xsl的root地址改成http-flv的
 location /live{
     flv_live on; #打开 HTTP 播放 FLV 直播流功能
@@ -275,6 +275,10 @@ application http_flv{
   
  <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div><p>点击开始播放，此时你已经可以看到页面上呈现了！</p>
+<p>这里还要注意一点，如果你修改了主服务的监听端口（比如80到8080），</p>
+<p>你需要修改<code> 'http://你的ip/live?port=1935&amp;app=http_flv&amp;stream=test'</code></p>
+<p>为<code> 'http://你的ip:新端口/live?port=1935&amp;app=http_flv&amp;stream=test'</code></p>
+<p>切记切记</p>
 <h2 id="reference">Reference</h2>
 <p>rtmp、http-flv视频直播以及配合视频处理算法的实现</p>
 <p><a class="link" href="https://zhuanlan.zhihu.com/p/375548523"  target="_blank" rel="noopener"
@@ -325,6 +329,18 @@ application http_flv{
 
         <div class="article-details">
             <h2 class="article-title">opencv读取视频图像处理后推流rtmp</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/opencv%E6%8B%93%E5%B1%95%E5%8C%85%E7%BC%96%E8%AF%91/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">opencv拓展包编译</h2>
         </div>
     </a>
 </article>

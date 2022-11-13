@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Q：众所周知，有时候我们读取本地的视频信息，他有可能不全（比如直播录像，某些文件内容被破坏或者干脆没有比如）这是一个先有鸡还是先有蛋的问题—'><title>有关fps计算——先有鸡还是先有蛋</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='常见问题和基本知识'><title>ffmpeg视频流硬解码加速</title>
 
-<link rel='canonical' href='https://sanbuphy.github.io/p/%E6%9C%89%E5%85%B3fps%E8%AE%A1%E7%AE%97%E5%85%88%E6%9C%89%E9%B8%A1%E8%BF%98%E6%98%AF%E5%85%88%E6%9C%89%E8%9B%8B/'>
+<link rel='canonical' href='https://sanbuphy.github.io/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/'>
 
-<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='有关fps计算——先有鸡还是先有蛋'>
-<meta property='og:description' content='Q：众所周知，有时候我们读取本地的视频信息，他有可能不全（比如直播录像，某些文件内容被破坏或者干脆没有比如）这是一个先有鸡还是先有蛋的问题—'>
-<meta property='og:url' content='https://sanbuphy.github.io/p/%E6%9C%89%E5%85%B3fps%E8%AE%A1%E7%AE%97%E5%85%88%E6%9C%89%E9%B8%A1%E8%BF%98%E6%98%AF%E5%85%88%E6%9C%89%E8%9B%8B/'>
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='ffmpeg视频流硬解码加速'>
+<meta property='og:description' content='常见问题和基本知识'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/'>
 <meta property='og:site_name' content='散步的小屋'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-07-30T15:00:59&#43;08:00'/><meta property='article:modified_time' content='2022-07-30T15:00:59&#43;08:00'/>
-<meta name="twitter:title" content="有关fps计算——先有鸡还是先有蛋">
-<meta name="twitter:description" content="Q：众所周知，有时候我们读取本地的视频信息，他有可能不全（比如直播录像，某些文件内容被破坏或者干脆没有比如）这是一个先有鸡还是先有蛋的问题—">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-11-13T15:48:48&#43;08:00'/><meta property='article:modified_time' content='2022-11-13T15:48:48&#43;08:00'/>
+<meta name="twitter:title" content="ffmpeg视频流硬解码加速">
+<meta name="twitter:description" content="常见问题和基本知识">
     </head>
     <body class="
     article-page has-toc
@@ -73,9 +73,13 @@
     
 
     <h2 class="article-title">
-        <a href="/p/%E6%9C%89%E5%85%B3fps%E8%AE%A1%E7%AE%97%E5%85%88%E6%9C%89%E9%B8%A1%E8%BF%98%E6%98%AF%E5%85%88%E6%9C%89%E8%9B%8B/">有关fps计算——先有鸡还是先有蛋</a>
+        <a href="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/">ffmpeg视频流硬解码加速</a>
     </h2>
 
+    
+    <h3 class="article-subtitle">
+        常见问题和基本知识
+    </h3>
     
 
     
@@ -91,7 +95,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Jul 30, 2022</time>
+                <time class="article-time--published">Nov 13, 2022</time>
             </div>
         
 
@@ -106,7 +110,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    阅读时长: 2 分钟
                 </time>
             </div>
         
@@ -116,10 +120,99 @@
 </header>
 
     <section class="article-content">
-    <p>Q：众所周知，有时候我们读取本地的视频信息，他有可能不全（比如直播录像，某些文件内容被破坏或者干脆没有比如）这是一个先有鸡还是先有蛋的问题——你怎么确定fps是对的：是opencv算的（先有了时长）还是说本身fps就是内嵌视频输出的信息而且保证不变然后opencv用这个去计算总时长（因为fps都是基本可以整除的所以基本只能看到opencv给出0.01精确度的时长）</p>
-<p>A：求总帧数是最准的，根据总时长可以计算出FPS，这才是最准确的。</p>
-<h2 id="其他问题如何看一个视频文件的容器封装格式">其他问题：如何看一个视频文件的容器/封装格式？</h2>
-<p>答：使用xxd或其他可以看十六进制内容的程序直接打开视频文件，可以看到文件头里面有相关信息直接搜索相关内容（比如在未安装解码器的情况下，海康摄像头直播保存后的文件就是mpeg ps格式，有IMKH header）</p>
+    <h2 id="拉流推流基础知识">拉流推流基础知识</h2>
+<p>直播-拉流和推流概述</p>
+<p><a class="link" href="https://www.jianshu.com/p/b520c2a9b795"  title="https://www.jianshu.com/p/b520c2a9b795"
+     target="_blank" rel="noopener"
+    >https://www.jianshu.com/p/b520c2a9b795</a></p>
+<h2 id="常见问题">常见问题</h2>
+<p>error while decoding MB 0 14, bytestream 104435 相关问题原因</p>
+<p><a class="link" href="https://blog.csdn.net/puffdoudou/article/details/109779624"  title="https://blog.csdn.net/puffdoudou/article/details/109779624"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/puffdoudou/article/details/109779624</a></p>
+<p>opencv读取网络摄像头的rtsp流时发生断流现象</p>
+<p><a class="link" href="https://blog.csdn.net/qq_33764934/article/details/103482121"  title="https://blog.csdn.net/qq_33764934/article/details/103482121"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/qq_33764934/article/details/103482121</a></p>
+<h2 id="使用ffmpeggpu相关拓展加速编码解码">使用ffmpegGPU相关拓展加速编码解码</h2>
+<p>一些依赖可选择安装：（最好用系统默认镜像源，否则容易被嵌套依赖问题电脑GG）</p>
+<p>sudo apt-get install autoconf automake build-essential libass-dev libfreetype6-dev  libtheora-dev libtool libvorbis-dev pkg-config texinfo zlib1g-dev unzip cmake yasm libx264-dev libmp3lame-dev libopus-dev libsdl1.2-dev libva-dev libvdpau-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev libfaac* libopenjpeg * libv4l-dev libvpx-dev libssl-dev</p>
+<p>参考用官方手册：</p>
+<p>Using_FFmpeg_with_NVIDIA_GPU_Hardware_Acceleration.pdf</p>
+<p><a class="link" href="https://docs.nvidia.com/video-technologies/video-codec-sdk/pdf/Using_FFmpeg_with_NVIDIA_GPU_Hardware_Acceleration.pdf"  title="https://docs.nvidia.com/video-technologies/video-codec-sdk/pdf/Using_FFmpeg_with_NVIDIA_GPU_Hardware_Acceleration.pdf"
+     target="_blank" rel="noopener"
+    >https://docs.nvidia.com/video-technologies/video-codec-sdk/pdf/Using_FFmpeg_with_NVIDIA_GPU_Hardware_Acceleration.pdf</a></p>
+<p>按照分支选择对应版本的nv-codec-headers进行编译安装</p>
+<p><a class="link" href="https://github.com/FFmpeg/nv-codec-headers"  title="https://github.com/FFmpeg/nv-codec-headers"
+     target="_blank" rel="noopener"
+    >https://github.com/FFmpeg/nv-codec-headers</a></p>
+<p>你可以直接下载别人的docker：</p>
+<p><a class="link" href="https://yinguobing.com/docker-image-for-nvidia-gpu-accelerated-ffmpeg-opencv/"  title="https://yinguobing.com/docker-image-for-nvidia-gpu-accelerated-ffmpeg-opencv/"
+     target="_blank" rel="noopener"
+    >https://yinguobing.com/docker-image-for-nvidia-gpu-accelerated-ffmpeg-opencv/</a></p>
+<p>下载：</p>
+<p><a class="link" href="https://ffmpeg.org/download.html"  title="https://ffmpeg.org/download.html"
+     target="_blank" rel="noopener"
+    >https://ffmpeg.org/download.html</a></p>
+<p>重新编译ffmpeg：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./configure --enable-shared --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp <span class="se">\
+</span><span class="se"></span>  --enable-nonfree<span class="se">\ </span> <span class="c1">#可选--enable-gpl --enable-libx264   --enable-libx265 </span>
+ --extra-cflags<span class="o">=</span>-I/usr/local/cuda/include --extra-ldflags<span class="o">=</span>-L/usr/local/cuda/lib64 <span class="se">\
+</span><span class="se"></span> --prefix<span class="o">=</span>/usr/  
+
+
+</code></pre></div><blockquote>
+<p>注意，这里prefix之所以要指定为/usr/是为了让opencv能找到ffmpeg
+如果还是找不到，你可以用cmake-gui 然后打开grouped advanced找到pkgcfg，按照这样类似的命名规则，再找到你现在拥有的相应的so在右上角增加入口添加进去即可。</p>
+</blockquote>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 496; 
+			flex-basis: 1192px"
+	>
+	<a href="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/image/image_3GPFcg8rDJ.png" data-size="646x130">
+		<img src="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/image/image_3GPFcg8rDJ.png"
+			width="646"
+			height="130"
+			srcset="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/image/image_3GPFcg8rDJ_hu950b541d75f51e83f77cf69c17c56b7a_33296_480x0_resize_box_3.png 480w, /p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/image/image_3GPFcg8rDJ_hu950b541d75f51e83f77cf69c17c56b7a_33296_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>你也可以参考：<a class="link" href="https://www.jianshu.com/p/59da3d350488"  title="https://www.jianshu.com/p/59da3d350488"
+     target="_blank" rel="noopener"
+    >https://www.jianshu.com/p/59da3d350488</a></p>
+<p>到这里基本上就结束了，为了让命令行可以使用记得在~/.bashrc中添加如下命令：
+export PATH=/usr/local/ffmpeg/bin/:$PATH
+保存后执行
+source ~/.bashrc</p>
+<h2 id="reference">Reference</h2>
+<p>利用ffmpeg转接摄像头RTSP流硬解码</p>
+<p><a class="link" href="https://www.pianshen.com/article/31441500162/"  title="https://www.pianshen.com/article/31441500162/"
+     target="_blank" rel="noopener"
+    >https://www.pianshen.com/article/31441500162/</a></p>
+<p>ffmpeg使用硬件加速hwaccel、cuvid、h264_cuvid、h264_nvenc
+<a class="link" href="https://blog.csdn.net/zengraoli/article/details/119789655"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/zengraoli/article/details/119789655</a></p>
+<p>NVIDIA FFmpeg 转码指南【非常推荐，英伟达官方良心之作，适合写个笔记】
+<a class="link" href="https://developer.nvidia.com/zh-cn/blog/nvidia-ffmpeg-transcoding-guide/"  target="_blank" rel="noopener"
+    >https://developer.nvidia.com/zh-cn/blog/nvidia-ffmpeg-transcoding-guide/</a></p>
+<p>ffmpeg命令行使用nvidia CUDA scaling高速转分辨率转码(libnpp)
+<a class="link" href="https://blog.csdn.net/n66040927/article/details/84525611"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/n66040927/article/details/84525611</a></p>
+<h3 id="video-encoding-sessions并发数目限制openencodesessionex-failed-out-of-memory">Video Encoding Sessions并发数目限制(OpenEncodeSessionEx failed: out of memory)</h3>
+<p><a class="link" href="https://github.com/keylase/nvidia-patch"  title="https://github.com/keylase/nvidia-patch"
+     target="_blank" rel="noopener"
+    >https://github.com/keylase/nvidia-patch</a></p>
+<p><a class="link" href="https://blog.csdn.net/TracelessLe/article/details/113755792"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/TracelessLe/article/details/113755792</a></p>
+<p><a class="link" href="https://blog.csdn.net/charleslei/article/details/105761627"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/charleslei/article/details/105761627</a></p>
+<p><a class="link" href="https://www.cnblogs.com/geoffreyone/p/14715487.html"  target="_blank" rel="noopener"
+    >https://www.cnblogs.com/geoffreyone/p/14715487.html</a></p>
 
 </section>
 
@@ -151,18 +244,6 @@
         <h2 class="section-title">相关文章</h2>
         <div class="related-contents">
             <div class="flex article-list--tile">
-                
-                    
-<article class="">
-    <a href="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">ffmpeg视频流硬解码加速</h2>
-        </div>
-    </a>
-</article>
                 
                     
 <article class="">
@@ -208,6 +289,18 @@
 
         <div class="article-details">
             <h2 class="article-title">推荐尝试的小工具</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">利用笔记本电脑进行推流</h2>
         </div>
     </a>
 </article>
@@ -354,7 +447,14 @@
                 <div class="widget--toc">
                     <nav id="TableOfContents">
   <ol>
-    <li><a href="#其他问题如何看一个视频文件的容器封装格式">其他问题：如何看一个视频文件的容器/封装格式？</a></li>
+    <li><a href="#拉流推流基础知识">拉流推流基础知识</a></li>
+    <li><a href="#常见问题">常见问题</a></li>
+    <li><a href="#使用ffmpeggpu相关拓展加速编码解码">使用ffmpegGPU相关拓展加速编码解码</a></li>
+    <li><a href="#reference">Reference</a>
+      <ol>
+        <li><a href="#video-encoding-sessions并发数目限制openencodesessionex-failed-out-of-memory">Video Encoding Sessions并发数目限制(OpenEncodeSessionEx failed: out of memory)</a></li>
+      </ol>
+    </li>
   </ol>
 </nav>
                 </div>
