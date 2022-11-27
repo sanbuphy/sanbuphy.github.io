@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='常用计算量衡量指标解析'><title>如何衡量深度学习算法的计算量及网络加速空间（学习笔记）</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='如何衡量深度学习算法的计算量及网络加速空间（学习笔记）'>
+<meta property='og:description' content='常用计算量衡量指标解析'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Deep learning' /><meta property='article:published_time' content='2022-11-25T15:07:48&#43;08:00'/><meta property='article:modified_time' content='2022-11-25T15:07:48&#43;08:00'/>
+<meta name="twitter:title" content="如何衡量深度学习算法的计算量及网络加速空间（学习笔记）">
+<meta name="twitter:description" content="常用计算量衡量指标解析">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/" >
+                杂七杂八知识
+            </a>
+        
+            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" >
+                深度学习
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">如何衡量深度学习算法的计算量及网络加速空间（学习笔记）</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        常用计算量衡量指标解析
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Nov 25, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>reference：<a class="link" href="https://www.bilibili.com/video/BV1oR4y1X7xZ/"  title="https://www.bilibili.com/video/BV1oR4y1X7xZ/"
+     target="_blank" rel="noopener"
+    >https://www.bilibili.com/video/BV1oR4y1X7xZ/</a></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 201; 
+			flex-basis: 483px"
+	>
+	<a href="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_RBpqYawjFT.png" data-size="1077x535">
+		<img src="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_RBpqYawjFT.png"
+			width="1077"
+			height="535"
+			srcset="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_RBpqYawjFT_hu526753b0ddcacc1bbd28f7ea4b08d571_317311_480x0_resize_box_3.png 480w, /p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_RBpqYawjFT_hu526753b0ddcacc1bbd28f7ea4b08d571_317311_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 183; 
+			flex-basis: 439px"
+	>
+	<a href="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_avnno0EdDZ.png" data-size="1090x595">
+		<img src="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_avnno0EdDZ.png"
+			width="1090"
+			height="595"
+			srcset="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_avnno0EdDZ_hu85ee3833c9185289d015a7bfa33943ba_342718_480x0_resize_box_3.png 480w, /p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_avnno0EdDZ_hu85ee3833c9185289d015a7bfa33943ba_342718_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 217; 
+			flex-basis: 522px"
+	>
+	<a href="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_Af17x0iB57.png" data-size="1107x508">
+		<img src="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_Af17x0iB57.png"
+			width="1107"
+			height="508"
+			srcset="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_Af17x0iB57_hub1d8fcbdfc1fa977161e5f90444c3644_426429_480x0_resize_box_3.png 480w, /p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_Af17x0iB57_hub1d8fcbdfc1fa977161e5f90444c3644_426429_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 170; 
+			flex-basis: 409px"
+	>
+	<a href="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_O7KnzHFblO.png" data-size="546x320">
+		<img src="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_O7KnzHFblO.png"
+			width="546"
+			height="320"
+			srcset="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_O7KnzHFblO_hu4488283a477599610232c9c8132e7a94_117272_480x0_resize_box_3.png 480w, /p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_O7KnzHFblO_hu4488283a477599610232c9c8132e7a94_117272_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="要注意flopss的区别">要注意FLOPSs的区别</h2>
+<p>大S（floating-point operations per second） 小s算法复杂度是复数。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 205; 
+			flex-basis: 494px"
+	>
+	<a href="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_T9QsOUWXhi.png" data-size="1168x567">
+		<img src="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_T9QsOUWXhi.png"
+			width="1168"
+			height="567"
+			srcset="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_T9QsOUWXhi_hube4d03ad31d7141c2f8126ee1f4902c7_467306_480x0_resize_box_3.png 480w, /p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_T9QsOUWXhi_hube4d03ad31d7141c2f8126ee1f4902c7_467306_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>FLOPs的单位B的意思大部分情况下都是GFLOPs</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 199; 
+			flex-basis: 479px"
+	>
+	<a href="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_L9ZgWuPJzN.png" data-size="1208x605">
+		<img src="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_L9ZgWuPJzN.png"
+			width="1208"
+			height="605"
+			srcset="/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_L9ZgWuPJzN_hu4719275c71a3f6b03d16de9bd745c408_368147_480x0_resize_box_3.png 480w, /p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_L9ZgWuPJzN_hu4719275c71a3f6b03d16de9bd745c408_368147_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>NMS应该还是要算的，虽然会降低FPS，但不经过nms结果根本不能用。</p>
+<h2 id="最终结论如果感兴趣可以去看下shufflenet-v2的论文">最终结论：(如果感兴趣可以去看下ShuffleNet V2的论文）</h2>
+<p>1. Parameters低约等于FLOPs低。（FLOPs和输入进来的图片大小有关，等同图片大小下一般可这么认为，因为FLOPs运算一般和卷积相关。）</p>
+<p>2.GFLOPs低 不等于Latency低（GFLOPs低不等于FPS高，有可能网络层多，网络设计不好 )</p>
+<p>3.Parameters低 不等于Latency低（ Parameters低 不等于FPS高)</p>
+<h2 id="网络的运算速度纯网络不包含前处理后处理和很多东西有关">网络的运算速度（纯网络，不包含前处理后处理）和很多东西有关</h2>
+<p>1、<strong>显卡</strong>：大多数SOTA算法用的都是V100或者A100，</p>
+<p>2、<strong>网络结构</strong>：不是参数量越低速度越快，不是加两个深度可分离卷积，网络的速度就越快</p>
+<p>有一个MAC的概念（Memory Access Cost），在ShuffleNet V2的论文里提到了。深度可分离卷积便是一个高MAC，低参数量的操作。深度可分离卷积在CPU中表现更好。</p>
+<p>3、<strong>网络的并行度</strong>：lnception是一个不断增加网络宽度的模型，它使用不同卷积核大小的卷积进行特征提取。但它的工作速度不是特别快。分支分多次就要算多次</p>
+<p>4、<strong>网络的层数</strong>：额外的操作如Relu，ADD，都是没有参数量，但需要运算时间的操作。</p>
+<p>5、<strong>CUDA、cudnn、深度学习算法框架版本影响</strong>。1660Ti的机子上，YOLOX-S的FPS在torch1.7里为50多，torch1.2里面为20多。</p>
+<h2 id="shufflenet-an-extremely-efficient-convolutional-neural-network-for-mobile-devices">ShuffleNet: An Extremely Efficient Convolutional Neural Network for Mobile Devices</h2>
+<p>reference: <a class="link" href="https://www.jianshu.com/p/a54cf8147cfc?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation"  target="_blank" rel="noopener"
+    >https://www.jianshu.com/p/a54cf8147cfc?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation</a></p>
+<p>论文重点摘要</p>
+<h3 id="model-acceleration模型加速">Model Acceleration（模型加速）</h3>
+<p>这个方向旨在保留预先训练好的模型精确度的情况下加快速率。在之前训练好的模型中通过修剪网络连接以及减少通道冗余连接从而提升性能。在不改变参数的情况下，最优化卷积算法被应用在快速傅里叶变换以及减少实践生活中时间消耗的理论。提取大模型中的理论，有利于更加简单的训练小的模型。</p>
+<p>模型加速的方法有：（其实都是常识）</p>
+<p>1）  修剪网络，减少分支（pruningnetwork connections）。</p>
+<p>2）  对于一个训练好的网络（pre-trainedmodel），在性能不下降的情况下减少冗余的分支。</p>
+<p>3）  量化（quantization）和因式分解(factorization)加速。</p>
+<p>4）  在不改变参数的情况下，使用FFT算法对卷积进行加速。</p>
+<p>5）  提取网络的精华部分，减小网络模型。</p>
+<p>具体实现: <a class="link" href="https://zhuanlan.zhihu.com/p/48261931"  target="_blank" rel="noopener"
+    >ShuffleNetV2：轻量级CNN网络中的桂冠</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/deep-learning/">Deep learning</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/">
+        
+        
+            <div class="article-image">
+                <img src="/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry2.165fdc4c775bfd01e0a5cd1e3e9ba5de_hud0ddbd73ac71be0ebba682dec347f5c6_597770_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Disco Diffusion关键字大赏"
+                        
+                        data-hash="md5-Fl/cTHdb/QHgpc0ePpul3g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Disco Diffusion关键字大赏</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">详解机器/深度学习中常见评价指标</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ffmpeg视频流硬解码加速</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">我的计算机学习网站集合</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/git%E5%AE%8C%E6%95%B4%E5%B7%A5%E5%85%B7%E6%B5%81%E6%95%99%E7%A8%8B/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Git完整工具流教程</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#要注意flopss的区别">要注意FLOPSs的区别</a></li>
+    <li><a href="#最终结论如果感兴趣可以去看下shufflenet-v2的论文">最终结论：(如果感兴趣可以去看下ShuffleNet V2的论文）</a></li>
+    <li><a href="#网络的运算速度纯网络不包含前处理后处理和很多东西有关">网络的运算速度（纯网络，不包含前处理后处理）和很多东西有关</a></li>
+    <li><a href="#shufflenet-an-extremely-efficient-convolutional-neural-network-for-mobile-devices">ShuffleNet: An Extremely Efficient Convolutional Neural Network for Mobile Devices</a>
+      <ol>
+        <li><a href="#model-acceleration模型加速">Model Acceleration（模型加速）</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -6,7 +6,149 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 13 Nov 2022 17:45:11 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 25 Nov 2022 15:07:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>如何衡量深度学习算法的计算量及网络加速空间（学习笔记）</title>
+        <link>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Fri, 25 Nov 2022 15:07:48 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;p&gt;reference：&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1oR4y1X7xZ/&#34;  title=&#34;https://www.bilibili.com/video/BV1oR4y1X7xZ/&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.bilibili.com/video/BV1oR4y1X7xZ/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 201; 
+			flex-basis: 483px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_RBpqYawjFT.png&#34; data-size=&#34;1077x535&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_RBpqYawjFT.png&#34;
+			width=&#34;1077&#34;
+			height=&#34;535&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_RBpqYawjFT_hu526753b0ddcacc1bbd28f7ea4b08d571_317311_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_RBpqYawjFT_hu526753b0ddcacc1bbd28f7ea4b08d571_317311_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 183; 
+			flex-basis: 439px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_avnno0EdDZ.png&#34; data-size=&#34;1090x595&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_avnno0EdDZ.png&#34;
+			width=&#34;1090&#34;
+			height=&#34;595&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_avnno0EdDZ_hu85ee3833c9185289d015a7bfa33943ba_342718_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_avnno0EdDZ_hu85ee3833c9185289d015a7bfa33943ba_342718_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 217; 
+			flex-basis: 522px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_Af17x0iB57.png&#34; data-size=&#34;1107x508&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_Af17x0iB57.png&#34;
+			width=&#34;1107&#34;
+			height=&#34;508&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_Af17x0iB57_hub1d8fcbdfc1fa977161e5f90444c3644_426429_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_Af17x0iB57_hub1d8fcbdfc1fa977161e5f90444c3644_426429_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 170; 
+			flex-basis: 409px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_O7KnzHFblO.png&#34; data-size=&#34;546x320&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_O7KnzHFblO.png&#34;
+			width=&#34;546&#34;
+			height=&#34;320&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_O7KnzHFblO_hu4488283a477599610232c9c8132e7a94_117272_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_O7KnzHFblO_hu4488283a477599610232c9c8132e7a94_117272_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;要注意flopss的区别&#34;&gt;要注意FLOPSs的区别&lt;/h2&gt;
+&lt;p&gt;大S（floating-point operations per second） 小s算法复杂度是复数。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 205; 
+			flex-basis: 494px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_T9QsOUWXhi.png&#34; data-size=&#34;1168x567&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_T9QsOUWXhi.png&#34;
+			width=&#34;1168&#34;
+			height=&#34;567&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_T9QsOUWXhi_hube4d03ad31d7141c2f8126ee1f4902c7_467306_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_T9QsOUWXhi_hube4d03ad31d7141c2f8126ee1f4902c7_467306_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;FLOPs的单位B的意思大部分情况下都是GFLOPs&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 199; 
+			flex-basis: 479px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_L9ZgWuPJzN.png&#34; data-size=&#34;1208x605&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_L9ZgWuPJzN.png&#34;
+			width=&#34;1208&#34;
+			height=&#34;605&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_L9ZgWuPJzN_hu4719275c71a3f6b03d16de9bd745c408_368147_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image/image_L9ZgWuPJzN_hu4719275c71a3f6b03d16de9bd745c408_368147_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;NMS应该还是要算的，虽然会降低FPS，但不经过nms结果根本不能用。&lt;/p&gt;
+&lt;h2 id=&#34;最终结论如果感兴趣可以去看下shufflenet-v2的论文&#34;&gt;最终结论：(如果感兴趣可以去看下ShuffleNet V2的论文）&lt;/h2&gt;
+&lt;p&gt;1. Parameters低约等于FLOPs低。（FLOPs和输入进来的图片大小有关，等同图片大小下一般可这么认为，因为FLOPs运算一般和卷积相关。）&lt;/p&gt;
+&lt;p&gt;2.GFLOPs低 不等于Latency低（GFLOPs低不等于FPS高，有可能网络层多，网络设计不好 )&lt;/p&gt;
+&lt;p&gt;3.Parameters低 不等于Latency低（ Parameters低 不等于FPS高)&lt;/p&gt;
+&lt;h2 id=&#34;网络的运算速度纯网络不包含前处理后处理和很多东西有关&#34;&gt;网络的运算速度（纯网络，不包含前处理后处理）和很多东西有关&lt;/h2&gt;
+&lt;p&gt;1、&lt;strong&gt;显卡&lt;/strong&gt;：大多数SOTA算法用的都是V100或者A100，&lt;/p&gt;
+&lt;p&gt;2、&lt;strong&gt;网络结构&lt;/strong&gt;：不是参数量越低速度越快，不是加两个深度可分离卷积，网络的速度就越快&lt;/p&gt;
+&lt;p&gt;有一个MAC的概念（Memory Access Cost），在ShuffleNet V2的论文里提到了。深度可分离卷积便是一个高MAC，低参数量的操作。深度可分离卷积在CPU中表现更好。&lt;/p&gt;
+&lt;p&gt;3、&lt;strong&gt;网络的并行度&lt;/strong&gt;：lnception是一个不断增加网络宽度的模型，它使用不同卷积核大小的卷积进行特征提取。但它的工作速度不是特别快。分支分多次就要算多次&lt;/p&gt;
+&lt;p&gt;4、&lt;strong&gt;网络的层数&lt;/strong&gt;：额外的操作如Relu，ADD，都是没有参数量，但需要运算时间的操作。&lt;/p&gt;
+&lt;p&gt;5、&lt;strong&gt;CUDA、cudnn、深度学习算法框架版本影响&lt;/strong&gt;。1660Ti的机子上，YOLOX-S的FPS在torch1.7里为50多，torch1.2里面为20多。&lt;/p&gt;
+&lt;h2 id=&#34;shufflenet-an-extremely-efficient-convolutional-neural-network-for-mobile-devices&#34;&gt;ShuffleNet: An Extremely Efficient Convolutional Neural Network for Mobile Devices&lt;/h2&gt;
+&lt;p&gt;reference: &lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/a54cf8147cfc?utm_campaign=maleskine&amp;amp;utm_content=note&amp;amp;utm_medium=seo_notes&amp;amp;utm_source=recommendation&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.jianshu.com/p/a54cf8147cfc?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;论文重点摘要&lt;/p&gt;
+&lt;h3 id=&#34;model-acceleration模型加速&#34;&gt;Model Acceleration（模型加速）&lt;/h3&gt;
+&lt;p&gt;这个方向旨在保留预先训练好的模型精确度的情况下加快速率。在之前训练好的模型中通过修剪网络连接以及减少通道冗余连接从而提升性能。在不改变参数的情况下，最优化卷积算法被应用在快速傅里叶变换以及减少实践生活中时间消耗的理论。提取大模型中的理论，有利于更加简单的训练小的模型。&lt;/p&gt;
+&lt;p&gt;模型加速的方法有：（其实都是常识）&lt;/p&gt;
+&lt;p&gt;1）  修剪网络，减少分支（pruningnetwork connections）。&lt;/p&gt;
+&lt;p&gt;2）  对于一个训练好的网络（pre-trainedmodel），在性能不下降的情况下减少冗余的分支。&lt;/p&gt;
+&lt;p&gt;3）  量化（quantization）和因式分解(factorization)加速。&lt;/p&gt;
+&lt;p&gt;4）  在不改变参数的情况下，使用FFT算法对卷积进行加速。&lt;/p&gt;
+&lt;p&gt;5）  提取网络的精华部分，减小网络模型。&lt;/p&gt;
+&lt;p&gt;具体实现: &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/48261931&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;ShuffleNetV2：轻量级CNN网络中的桂冠&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>opencv拓展包编译</title>
         <link>https://sanbuphy.github.io/p/opencv%E6%8B%93%E5%B1%95%E5%8C%85%E7%BC%96%E8%AF%91/</link>
         <pubDate>Sun, 13 Nov 2022 17:45:11 +0800</pubDate>
