@@ -155,25 +155,8 @@
 <p>协程的关键在于future、task。</p>
 <p>与Coroutine只有让步和接收结果不同的是Future除了让步和接收结果功能外，它还是一个只会被动进行事件调用且带有状态的容器，它在初始化时就是<code>Pending</code>状态，这时可以被取消，被设置结果和设置异常。而在被设定对应的操作后，Future会被转化到一个不可逆的对应状态，并通过<code>loop.call_sonn</code>来调用所有注册到本身上的回调函数，同时它带有<code>__iter__</code>和<code>__await__</code>方法使其可以被<code>await</code>和<code>yield from</code>调用。</p>
 <p>Task是Future的子类，除了继承了Future的所有方法，它还多了两个重要的方法<code>__step</code>和<code>__wakeup</code>，通过这两个方法赋予了Task调度能力，这是Coroutine和Future没有的。</p>
-<p><figure 
-	
-		class="gallery-image" 
-		style="
-			flex-grow: 72; 
-			flex-basis: 174px"
-	>
-	<a href="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png" data-size="679x935">
-		<img src="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png"
-			width="679"
-			height="935"
-			srcset="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_480x0_resize_box_3.png 480w, /p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_1024x0_resize_box_3.png 1024w"
-			loading="lazy"
-			>
-	</a>
-	
-</figure></p>
 <p>本次调试的问题在于：“为什么当下面的接受代码结束(break)后，发送代码仍然会陷入阻塞？又是为什么可以将他重新唤醒？”</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># send_message.py</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># socket_start.py</span>
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">websockets</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -193,7 +176,7 @@
 <span class="n">start_serve1</span> <span class="o">=</span> <span class="n">websockets</span><span class="o">.</span><span class="n">serve</span><span class="p">(</span><span class="n">sen_data</span><span class="p">,</span> <span class="s2">&#34;127.0.0.1&#34;</span><span class="p">,</span> <span class="mi">1122</span><span class="p">,</span> <span class="n">ping_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">start_serve1</span><span class="p">)</span>
 <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_forever</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># get_message.py</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># socket_get.py</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">websockets</span>
@@ -210,11 +193,29 @@
 
 <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span>
     <span class="n">hello</span><span class="p">(</span><span class="s1">&#39;ws://127.0.0.1:1122&#39;</span><span class="p">))</span>  <span class="c1"># 地址改为自己的地址</span>
-</code></pre></div><p>时序状态机：</p>
+</code></pre></div><p>为了搞清楚，需要画一个时序状态机：
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 72; 
+			flex-basis: 174px"
+	>
+	<a href="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png" data-size="679x935">
+		<img src="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png"
+			width="679"
+			height="935"
+			srcset="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_480x0_resize_box_3.png 480w, /p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>时序状态机绘制地址：</p>
 <p><a class="link" href="https://tooltt.com/sequence/"  title="https://tooltt.com/sequence/"
      target="_blank" rel="noopener"
     >https://tooltt.com/sequence/</a></p>
-<p>时序代码：</p>
+<p>时序绘制代码：</p>
 <pre tabindex="0"><code>Note right of socket\_start: -&gt; 开始执行程序
 Note right of socket\_start: self.\_run\_once()
 Note right of socket\_start: （base\_events.py）self.\_selector.select(timeout)
@@ -234,7 +235,8 @@ socket\_get-&gt;socket\_start: self.* sock.send(data)
 Note right of socket\_start: 跳出阻塞
 Note right of socket\_start: （[selectors.py](http://selectors.py &quot;selectors.py&quot;)）for fd, event in fd\_event\_list:
 Note right of socket\_start: 之后反复运行self.\_ context.run(self.\_callback, \*self.\_args)
-</code></pre><h2 id="启动sen_data函数相关的协程">启动sen_data函数相关的协程：</h2>
+</code></pre><p>另外的一些细节：</p>
+<h2 id="启动sen_data函数相关的协程">启动sen_data函数相关的协程：</h2>
 <p>（【socket_start文件】此时应当在asyncio.get_event_loop().run_forever()）</p>
 <p>【socket_start文件】接收到【socket_get文件的connect后执行如下片段】</p>
 <p>connection_made

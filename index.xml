@@ -47,25 +47,8 @@
 &lt;p&gt;协程的关键在于future、task。&lt;/p&gt;
 &lt;p&gt;与Coroutine只有让步和接收结果不同的是Future除了让步和接收结果功能外，它还是一个只会被动进行事件调用且带有状态的容器，它在初始化时就是&lt;code&gt;Pending&lt;/code&gt;状态，这时可以被取消，被设置结果和设置异常。而在被设定对应的操作后，Future会被转化到一个不可逆的对应状态，并通过&lt;code&gt;loop.call_sonn&lt;/code&gt;来调用所有注册到本身上的回调函数，同时它带有&lt;code&gt;__iter__&lt;/code&gt;和&lt;code&gt;__await__&lt;/code&gt;方法使其可以被&lt;code&gt;await&lt;/code&gt;和&lt;code&gt;yield from&lt;/code&gt;调用。&lt;/p&gt;
 &lt;p&gt;Task是Future的子类，除了继承了Future的所有方法，它还多了两个重要的方法&lt;code&gt;__step&lt;/code&gt;和&lt;code&gt;__wakeup&lt;/code&gt;，通过这两个方法赋予了Task调度能力，这是Coroutine和Future没有的。&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 72; 
-			flex-basis: 174px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png&#34; data-size=&#34;679x935&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png&#34;
-			width=&#34;679&#34;
-			height=&#34;935&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;本次调试的问题在于：“为什么当下面的接受代码结束(break)后，发送代码仍然会陷入阻塞？又是为什么可以将他重新唤醒？”&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# send_message.py&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# socket_start.py&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;asyncio&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;websockets&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;json&lt;/span&gt;
@@ -85,7 +68,7 @@
 &lt;span class=&#34;n&#34;&gt;start_serve1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;websockets&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sen_data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;127.0.0.1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1122&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ping_interval&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_event_loop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run_until_complete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_serve1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_event_loop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# get_message.py&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# socket_get.py&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;json&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;asyncio&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;websockets&lt;/span&gt;
@@ -102,11 +85,29 @@
 
 &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_event_loop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run_until_complete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ws://127.0.0.1:1122&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 地址改为自己的地址&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;时序状态机：&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;为了搞清楚，需要画一个时序状态机：
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 72; 
+			flex-basis: 174px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png&#34; data-size=&#34;679x935&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png&#34;
+			width=&#34;679&#34;
+			height=&#34;935&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;时序状态机绘制地址：&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://tooltt.com/sequence/&#34;  title=&#34;https://tooltt.com/sequence/&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://tooltt.com/sequence/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;时序代码：&lt;/p&gt;
+&lt;p&gt;时序绘制代码：&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Note right of socket\_start: -&amp;gt; 开始执行程序
 Note right of socket\_start: self.\_run\_once()
 Note right of socket\_start: （base\_events.py）self.\_selector.select(timeout)
@@ -126,7 +127,8 @@ socket\_get-&amp;gt;socket\_start: self.* sock.send(data)
 Note right of socket\_start: 跳出阻塞
 Note right of socket\_start: （[selectors.py](http://selectors.py &amp;quot;selectors.py&amp;quot;)）for fd, event in fd\_event\_list:
 Note right of socket\_start: 之后反复运行self.\_ context.run(self.\_callback, \*self.\_args)
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;启动sen_data函数相关的协程&#34;&gt;启动sen_data函数相关的协程：&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;另外的一些细节：&lt;/p&gt;
+&lt;h2 id=&#34;启动sen_data函数相关的协程&#34;&gt;启动sen_data函数相关的协程：&lt;/h2&gt;
 &lt;p&gt;（【socket_start文件】此时应当在asyncio.get_event_loop().run_forever()）&lt;/p&gt;
 &lt;p&gt;【socket_start文件】接收到【socket_get文件的connect后执行如下片段】&lt;/p&gt;
 &lt;p&gt;connection_made
