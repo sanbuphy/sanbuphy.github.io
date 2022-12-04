@@ -154,7 +154,18 @@
 <p><a class="link" href="https://ffmpeg.org/download.html"  title="https://ffmpeg.org/download.html"
      target="_blank" rel="noopener"
     >https://ffmpeg.org/download.html</a></p>
-<p>重新编译ffmpeg：</p>
+<pre tabindex="0"><code>首先你需要编译H264库
+
+（1）下载X264 : git clone [http://git.videolan.org/git/x264.git](http://git.videolan.org/git/x264.git)
+
+（2）安装X264：
+
+sudo ./configure –enable-shared –disable-asm
+
+sudo make
+
+sudo make install
+</code></pre><p>接着重新编译ffmpeg：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./configure --enable-shared --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp <span class="se">\
 </span><span class="se"></span>  --enable-nonfree<span class="se">\ </span> <span class="c1">#可选--enable-gpl --enable-libx264   --enable-libx265 </span>
  --extra-cflags<span class="o">=</span>-I/usr/local/cuda/include --extra-ldflags<span class="o">=</span>-L/usr/local/cuda/lib64 <span class="se">\

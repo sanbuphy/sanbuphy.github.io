@@ -6,7 +6,16 @@
     <description>Recent content in python on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 14 Oct 2022 19:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Dec 2022 11:23:03 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>websocket与协程的前世今生（初步）</title>
+      <link>https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/</link>
+      <pubDate>Sun, 04 Dec 2022 11:23:03 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/</guid>
+      <description>首先建议你了解下事件驱动模型： https://www.cnblogs.com/wdliu/p/6890930.html Python线程、协程探究（3）——协程的调度实现大龙 https://zhuanlan.zhihu.com/p/96969508 python cookbook 11.12 理解事件驱动的IO https://python3-cookbook.readthedocs.io/zh_CN/latest/c11/p12_understanding_event_driven_io.html 需要注意的是，协程并不是万</description>
+    </item>
+    
     <item>
       <title>pybind11生成的so无法被import问题</title>
       <link>https://sanbuphy.github.io/p/pybind11%E7%94%9F%E6%88%90%E7%9A%84so%E6%97%A0%E6%B3%95%E8%A2%ABimport%E9%97%AE%E9%A2%98/</link>

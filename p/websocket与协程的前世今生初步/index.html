@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='简单调试python-websocket通信中发生的协程调用链'><title>websocket与协程的前世今生（初步）</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='websocket与协程的前世今生（初步）'>
+<meta property='og:description' content='简单调试python-websocket通信中发生的协程调用链'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='python' /><meta property='article:published_time' content='2022-12-04T11:23:03&#43;08:00'/><meta property='article:modified_time' content='2022-12-04T11:23:03&#43;08:00'/>
+<meta name="twitter:title" content="websocket与协程的前世今生（初步）">
+<meta name="twitter:description" content="简单调试python-websocket通信中发生的协程调用链">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/python/" >
+                python
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/">websocket与协程的前世今生（初步）</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        简单调试python-websocket通信中发生的协程调用链
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 04, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>首先建议你了解下<strong>事件驱动模型</strong>：</p>
+<p><a class="link" href="https://www.cnblogs.com/wdliu/p/6890930.html"  title="https://www.cnblogs.com/wdliu/p/6890930.html"
+     target="_blank" rel="noopener"
+    >https://www.cnblogs.com/wdliu/p/6890930.html</a></p>
+<p>Python线程、协程探究（3）——协程的调度实现大龙</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/96969508"  title="https://zhuanlan.zhihu.com/p/96969508"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/96969508</a></p>
+<p>python cookbook 11.12 理解事件驱动的IO</p>
+<p><a class="link" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c11/p12_understanding_event_driven_io.html"  title="https://python3-cookbook.readthedocs.io/zh_CN/latest/c11/p12_understanding_event_driven_io.html"
+     target="_blank" rel="noopener"
+    >https://python3-cookbook.readthedocs.io/zh_CN/latest/c11/p12_understanding_event_driven_io.html</a></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 104; 
+			flex-basis: 251px"
+	>
+	<a href="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/image_Oiou6L9r46.png" data-size="1162x1108">
+		<img src="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/image_Oiou6L9r46.png"
+			width="1162"
+			height="1108"
+			srcset="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/image_Oiou6L9r46_hu359023faf86679b3bc0da6db99bb4e64_280272_480x0_resize_box_3.png 480w, /p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/image_Oiou6L9r46_hu359023faf86679b3bc0da6db99bb4e64_280272_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>需要注意的是，协程并不是万能的，由于系统事件循环的限制，所以文件IO一般还是使用多线程来执行，具体见：<a class="link" href="https://link.juejin.cn/?target=https://github.com/python/asyncio/wiki/ThirdParty#filesystem"  title="github.com/python/asyn…"
+     target="_blank" rel="noopener"
+    >github.com/python/asyn…</a></p>
+<p>协程的关键在于future、task。</p>
+<p>与Coroutine只有让步和接收结果不同的是Future除了让步和接收结果功能外，它还是一个只会被动进行事件调用且带有状态的容器，它在初始化时就是<code>Pending</code>状态，这时可以被取消，被设置结果和设置异常。而在被设定对应的操作后，Future会被转化到一个不可逆的对应状态，并通过<code>loop.call_sonn</code>来调用所有注册到本身上的回调函数，同时它带有<code>__iter__</code>和<code>__await__</code>方法使其可以被<code>await</code>和<code>yield from</code>调用。</p>
+<p>Task是Future的子类，除了继承了Future的所有方法，它还多了两个重要的方法<code>__step</code>和<code>__wakeup</code>，通过这两个方法赋予了Task调度能力，这是Coroutine和Future没有的。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 72; 
+			flex-basis: 174px"
+	>
+	<a href="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png" data-size="679x935">
+		<img src="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png"
+			width="679"
+			height="935"
+			srcset="/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_480x0_resize_box_3.png 480w, /p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>本次调试的问题在于：“为什么当下面的接受代码结束(break)后，发送代码仍然会陷入阻塞？又是为什么可以将他重新唤醒？”</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># send_message.py</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">websockets</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">sen_data</span><span class="p">(</span><span class="n">websocket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&#34;初始化完成&#34;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">data1</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;value&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+        <span class="n">data1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data1</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&#34;重新启动&#34;</span><span class="p">)</span>
+            <span class="k">break</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&#34;结束了！&#34;</span><span class="p">)</span>
+
+<span class="n">start_serve1</span> <span class="o">=</span> <span class="n">websockets</span><span class="o">.</span><span class="n">serve</span><span class="p">(</span><span class="n">sen_data</span><span class="p">,</span> <span class="s2">&#34;127.0.0.1&#34;</span><span class="p">,</span> <span class="mi">1122</span><span class="p">,</span> <span class="n">ping_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">start_serve1</span><span class="p">)</span>
+<span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_forever</span><span class="p">()</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># get_message.py</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">websockets</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">uri</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">websockets</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">ping_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="k">as</span> <span class="n">websocket</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">recv_text</span> <span class="o">=</span> <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;&gt; </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">recv_text</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span>
+    <span class="n">hello</span><span class="p">(</span><span class="s1">&#39;ws://127.0.0.1:1122&#39;</span><span class="p">))</span>  <span class="c1"># 地址改为自己的地址</span>
+</code></pre></div><p>时序状态机：</p>
+<p><a class="link" href="https://tooltt.com/sequence/"  title="https://tooltt.com/sequence/"
+     target="_blank" rel="noopener"
+    >https://tooltt.com/sequence/</a></p>
+<p>时序代码：</p>
+<pre tabindex="0"><code>Note right of socket\_start: -&gt; 开始执行程序
+Note right of socket\_start: self.\_run\_once()
+Note right of socket\_start: （base\_events.py）self.\_selector.select(timeout)
+Note right of socket\_start: （[selectors.py](http://selectors.py &quot;selectors.py&quot;)）self.*selector.poll(timeout, max\_ev)
+Note right of socket\_start: 陷入阻塞
+Note left of socket\_get: 开始执行程序 &lt;-
+Note left of socket\_get: aenter
+Note left of socket\_get: await
+Note left of socket\_get: await\_impl\_timeout
+Note left of socket\_get: await\_impl
+Note left of socket\_get: protocol handshake  start
+Note left of socket\_get: write\_http\_request
+Note left of socket\_get: self.transport.write(request.encode())
+socket\_get-&gt;socket\_start: self.transport.write(request.encode())
+socket\_get-&gt;socket\_start: asyncio/selector\_events.py
+socket\_get-&gt;socket\_start: self.* sock.send(data)
+Note right of socket\_start: 跳出阻塞
+Note right of socket\_start: （[selectors.py](http://selectors.py &quot;selectors.py&quot;)）for fd, event in fd\_event\_list:
+Note right of socket\_start: 之后反复运行self.\_ context.run(self.\_callback, \*self.\_args)
+</code></pre><h2 id="启动sen_data函数相关的协程">启动sen_data函数相关的协程：</h2>
+<p>（【socket_start文件】此时应当在asyncio.get_event_loop().run_forever()）</p>
+<p>【socket_start文件】接收到【socket_get文件的connect后执行如下片段】</p>
+<p>connection_made
+await self.handshake
+start hand shake !!!!!!
+read_http_request
+process_request
+process_origin
+process_extensions
+process_subprotocol
+write_http_response
+handshake</p>
+<p>此时开始执行协程相关项</p>
+<h2 id="referencex20">reference </h2>
+<p>Python的可等待对象在Asyncio的作用</p>
+<p><a class="link" href="https://so1n.me/2022/04/11/python%27s_waitable_objects_in_asyncio/index.html"  title="https://so1n.me/2022/04/11/python&#39;s_waitable_objects_in_asyncio/index.html"
+     target="_blank" rel="noopener"
+    >https://so1n.me/2022/04/11/python&rsquo;s_waitable_objects_in_asyncio/index.html</a></p>
+<p>Python Asyncio调度原理（）</p>
+<p><a class="link" href="https://juejin.cn/post/7108367062463938597"  title="https://juejin.cn/post/7108367062463938597"
+     target="_blank" rel="noopener"
+    >https://juejin.cn/post/7108367062463938597</a></p>
+<p>如何给所有的async函数添加try/catch？（语法分析词法分析）</p>
+<p><a class="link" href="https://juejin.cn/post/7155434131831128094"  title="https://juejin.cn/post/7155434131831128094"
+     target="_blank" rel="noopener"
+    >https://juejin.cn/post/7155434131831128094</a></p>
+<p>事件循环和协程：从生成器到协程（手写简单的协程实现）</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/31634491"  title="https://zhuanlan.zhihu.com/p/31634491"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/31634491</a></p>
+<p>HTTP、TCP与UDP、Socket与Websocket之间的联系与区别</p>
+<p><a class="link" href="https://segmentfault.com/a/1190000037620675"  title="https://segmentfault.com/a/1190000037620675"
+     target="_blank" rel="noopener"
+    >https://segmentfault.com/a/1190000037620675</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/python/">python</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#启动sen_data函数相关的协程">启动sen_data函数相关的协程：</a></li>
+    <li><a href="#referencex20">reference </a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -6,7 +6,164 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 25 Nov 2022 15:07:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 04 Dec 2022 11:23:03 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>websocket与协程的前世今生（初步）</title>
+        <link>https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/</link>
+        <pubDate>Sun, 04 Dec 2022 11:23:03 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/</guid>
+        <description>&lt;p&gt;首先建议你了解下&lt;strong&gt;事件驱动模型&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/wdliu/p/6890930.html&#34;  title=&#34;https://www.cnblogs.com/wdliu/p/6890930.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.cnblogs.com/wdliu/p/6890930.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Python线程、协程探究（3）——协程的调度实现大龙&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/96969508&#34;  title=&#34;https://zhuanlan.zhihu.com/p/96969508&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/96969508&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;python cookbook 11.12 理解事件驱动的IO&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://python3-cookbook.readthedocs.io/zh_CN/latest/c11/p12_understanding_event_driven_io.html&#34;  title=&#34;https://python3-cookbook.readthedocs.io/zh_CN/latest/c11/p12_understanding_event_driven_io.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://python3-cookbook.readthedocs.io/zh_CN/latest/c11/p12_understanding_event_driven_io.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 104; 
+			flex-basis: 251px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/image_Oiou6L9r46.png&#34; data-size=&#34;1162x1108&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/image_Oiou6L9r46.png&#34;
+			width=&#34;1162&#34;
+			height=&#34;1108&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/image_Oiou6L9r46_hu359023faf86679b3bc0da6db99bb4e64_280272_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/image_Oiou6L9r46_hu359023faf86679b3bc0da6db99bb4e64_280272_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;需要注意的是，协程并不是万能的，由于系统事件循环的限制，所以文件IO一般还是使用多线程来执行，具体见：&lt;a class=&#34;link&#34; href=&#34;https://link.juejin.cn/?target=https://github.com/python/asyncio/wiki/ThirdParty#filesystem&#34;  title=&#34;github.com/python/asyn…&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;github.com/python/asyn…&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;协程的关键在于future、task。&lt;/p&gt;
+&lt;p&gt;与Coroutine只有让步和接收结果不同的是Future除了让步和接收结果功能外，它还是一个只会被动进行事件调用且带有状态的容器，它在初始化时就是&lt;code&gt;Pending&lt;/code&gt;状态，这时可以被取消，被设置结果和设置异常。而在被设定对应的操作后，Future会被转化到一个不可逆的对应状态，并通过&lt;code&gt;loop.call_sonn&lt;/code&gt;来调用所有注册到本身上的回调函数，同时它带有&lt;code&gt;__iter__&lt;/code&gt;和&lt;code&gt;__await__&lt;/code&gt;方法使其可以被&lt;code&gt;await&lt;/code&gt;和&lt;code&gt;yield from&lt;/code&gt;调用。&lt;/p&gt;
+&lt;p&gt;Task是Future的子类，除了继承了Future的所有方法，它还多了两个重要的方法&lt;code&gt;__step&lt;/code&gt;和&lt;code&gt;__wakeup&lt;/code&gt;，通过这两个方法赋予了Task调度能力，这是Coroutine和Future没有的。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 72; 
+			flex-basis: 174px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png&#34; data-size=&#34;679x935&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA.png&#34;
+			width=&#34;679&#34;
+			height=&#34;935&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/image/tooltt-diagram%20%281%29_4afc4NNYmA_hubf8307eb9bf0ddae1584a55bf8abfea0_72170_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;本次调试的问题在于：“为什么当下面的接受代码结束(break)后，发送代码仍然会陷入阻塞？又是为什么可以将他重新唤醒？”&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# send_message.py&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;asyncio&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;websockets&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;json&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;loguru&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;sen_data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;websocket&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;初始化完成&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;data1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;value&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;data1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dumps&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;encode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+            &lt;span class=&#34;k&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;websocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;send&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;ne&#34;&gt;Exception&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;debug&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;重新启动&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;k&#34;&gt;break&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;debug&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;结束了！&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;start_serve1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;websockets&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sen_data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;127.0.0.1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1122&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ping_interval&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_event_loop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run_until_complete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_serve1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_event_loop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# get_message.py&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;json&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;asyncio&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;websockets&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;time&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;loguru&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;uri&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;websockets&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;uri&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ping_interval&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;websocket&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;recv_text&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;websocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;recv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+            &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;gt; &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;recv_text&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+            &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sleep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_event_loop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run_until_complete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ws://127.0.0.1:1122&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 地址改为自己的地址&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;时序状态机：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://tooltt.com/sequence/&#34;  title=&#34;https://tooltt.com/sequence/&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://tooltt.com/sequence/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;时序代码：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Note right of socket\_start: -&amp;gt; 开始执行程序
+Note right of socket\_start: self.\_run\_once()
+Note right of socket\_start: （base\_events.py）self.\_selector.select(timeout)
+Note right of socket\_start: （[selectors.py](http://selectors.py &amp;quot;selectors.py&amp;quot;)）self.*selector.poll(timeout, max\_ev)
+Note right of socket\_start: 陷入阻塞
+Note left of socket\_get: 开始执行程序 &amp;lt;-
+Note left of socket\_get: aenter
+Note left of socket\_get: await
+Note left of socket\_get: await\_impl\_timeout
+Note left of socket\_get: await\_impl
+Note left of socket\_get: protocol handshake  start
+Note left of socket\_get: write\_http\_request
+Note left of socket\_get: self.transport.write(request.encode())
+socket\_get-&amp;gt;socket\_start: self.transport.write(request.encode())
+socket\_get-&amp;gt;socket\_start: asyncio/selector\_events.py
+socket\_get-&amp;gt;socket\_start: self.* sock.send(data)
+Note right of socket\_start: 跳出阻塞
+Note right of socket\_start: （[selectors.py](http://selectors.py &amp;quot;selectors.py&amp;quot;)）for fd, event in fd\_event\_list:
+Note right of socket\_start: 之后反复运行self.\_ context.run(self.\_callback, \*self.\_args)
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;启动sen_data函数相关的协程&#34;&gt;启动sen_data函数相关的协程：&lt;/h2&gt;
+&lt;p&gt;（【socket_start文件】此时应当在asyncio.get_event_loop().run_forever()）&lt;/p&gt;
+&lt;p&gt;【socket_start文件】接收到【socket_get文件的connect后执行如下片段】&lt;/p&gt;
+&lt;p&gt;connection_made
+await self.handshake
+start hand shake !!!!!!
+read_http_request
+process_request
+process_origin
+process_extensions
+process_subprotocol
+write_http_response
+handshake&lt;/p&gt;
+&lt;p&gt;此时开始执行协程相关项&lt;/p&gt;
+&lt;h2 id=&#34;referencex20&#34;&gt;reference &lt;/h2&gt;
+&lt;p&gt;Python的可等待对象在Asyncio的作用&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://so1n.me/2022/04/11/python%27s_waitable_objects_in_asyncio/index.html&#34;  title=&#34;https://so1n.me/2022/04/11/python&amp;#39;s_waitable_objects_in_asyncio/index.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://so1n.me/2022/04/11/python&amp;rsquo;s_waitable_objects_in_asyncio/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Python Asyncio调度原理（）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/7108367062463938597&#34;  title=&#34;https://juejin.cn/post/7108367062463938597&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://juejin.cn/post/7108367062463938597&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如何给所有的async函数添加try/catch？（语法分析词法分析）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/7155434131831128094&#34;  title=&#34;https://juejin.cn/post/7155434131831128094&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://juejin.cn/post/7155434131831128094&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;事件循环和协程：从生成器到协程（手写简单的协程实现）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/31634491&#34;  title=&#34;https://zhuanlan.zhihu.com/p/31634491&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/31634491&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;HTTP、TCP与UDP、Socket与Websocket之间的联系与区别&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://segmentfault.com/a/1190000037620675&#34;  title=&#34;https://segmentfault.com/a/1190000037620675&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://segmentfault.com/a/1190000037620675&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>如何衡量深度学习算法的计算量及网络加速空间（学习笔记）</title>
         <link>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
         <pubDate>Fri, 25 Nov 2022 15:07:48 +0800</pubDate>
@@ -277,7 +434,18 @@ target_link_libraries( test ${OpenCV_LIBS} )
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://ffmpeg.org/download.html&#34;  title=&#34;https://ffmpeg.org/download.html&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://ffmpeg.org/download.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;重新编译ffmpeg：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;首先你需要编译H264库
+
+（1）下载X264 : git clone [http://git.videolan.org/git/x264.git](http://git.videolan.org/git/x264.git)
+
+（2）安装X264：
+
+sudo ./configure –enable-shared –disable-asm
+
+sudo make
+
+sudo make install
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;接着重新编译ffmpeg：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;./configure --enable-shared --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp &lt;span class=&#34;se&#34;&gt;\
 &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --enable-nonfree&lt;span class=&#34;se&#34;&gt;\ &lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;#可选--enable-gpl --enable-libx264   --enable-libx265 &lt;/span&gt;
  --extra-cflags&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;-I/usr/local/cuda/include --extra-ldflags&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;-L/usr/local/cuda/lib64 &lt;span class=&#34;se&#34;&gt;\
@@ -445,12 +613,24 @@ source ~/.bashrc&lt;/p&gt;
 &lt;li&gt;Settings→About→Software Updates→Download from&lt;/li&gt;
 &lt;li&gt;选择其他服务器，然后找到中国，选择进行测试以便找到最快的站点。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;sudo apt-get update: 0% [正在等待报头]问题的解决&lt;/p&gt;
+&lt;p&gt;（参考&lt;a class=&#34;link&#34; href=&#34;https://article.itxueyuan.com/XP2rn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://article.itxueyuan.com/XP2rn&lt;/a&gt;）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先断网然后找到Settings→About→Software Updates关闭所有下载&lt;/li&gt;
+&lt;li&gt;sudo apt-get clean&lt;/li&gt;
+&lt;li&gt;接下来将/etc/apt/source.list文件内容清空并保存&lt;/li&gt;
+&lt;li&gt;恢复网络，将第一步中取消掉的四个选项重新点选然后在最佳国内服务器更新即可。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;有关win家的镜像源以及VS等的纯净安装文件，以及各种网络工程师能用到的软件程序安装包&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://msdn.itellyou.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://msdn.itellyou.cn/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;图吧工具箱（给自己电脑做硬件分析等等&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://www.tbtool.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;http://www.tbtool.cn/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;DISM++ 最好用的windows控制面板工具箱（直接看release部分下载&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Chuyu-Team/Dism-Multi-language&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/Chuyu-Team/Dism-Multi-language&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;不知道变量怎么命名就可以看看：&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://unbug.github.io/codelf/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://unbug.github.io/codelf/&lt;/a&gt;&lt;/p&gt;
@@ -475,6 +655,28 @@ source ~/.bashrc&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://obkoro1.com/web_accumulate/codeBlack/%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f%e6%94%b6%e9%9b%86.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;http://obkoro1.com/web_accumulate/codeBlack/正则表达式收集.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;docker的一切：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yeasy.gitbook.io/docker_practice/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://yeasy.gitbook.io/docker_practice/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;NVIDIA docker&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;docker — use proxy&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;make sure your proxy bind 172.17.0.1 and port&lt;/li&gt;
+&lt;li&gt;add that in dockerfile&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Docker&#34; data-lang=&#34;Docker&#34;&gt;&lt;span class=&#34;k&#34;&gt;ENV&lt;/span&gt; http_proxy &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://172.17.0.1:8888/&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;ENV&lt;/span&gt; HTTP_PROXY &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://172.17.0.1:8888/&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;ENV&lt;/span&gt; https_proxy &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://172.17.0.1:8888/&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;ENV&lt;/span&gt; HTTPS_PROXY &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://172.17.0.1:8888/&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;run it&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;注释：如果遇到curl之类的奇怪的http问题，请env|grep查看有无奇怪的环境变量或者关闭proxy的系统proxy功能。因为无需开启也可以操作。&lt;/p&gt;
 &lt;h3 id=&#34;其他有趣的文章&#34;&gt;其他有趣的文章&lt;/h3&gt;
 &lt;p&gt;有关linux的基础讲解，有配图和自己的理解，推荐一读。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://segmentfault.com/u/public0821&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -672,7 +874,7 @@ source ~/.bashrc&lt;/p&gt;
 &lt;p&gt;显卡驱动安装快速方法：&lt;/p&gt;
 &lt;p&gt;ubuntu-drivers devices&lt;/p&gt;
 &lt;p&gt;sudo apt install  输入显示的推荐版本&lt;/p&gt;
-&lt;p&gt;CUDA与cvDNN的安装：（直接官网选择）&lt;/p&gt;
+&lt;p&gt;CUDA与cuDNN的安装：（直接官网选择）&lt;/p&gt;
 &lt;p&gt;注意：a100和3090ti不支持cuda11以下，请装113以上的版本。&lt;/p&gt;
 &lt;p&gt;推荐装cuda的时候可以用sh的模式，然后顺带安装了驱动（之前就不用装了）对动态库的默认支持更好&lt;/p&gt;
 &lt;p&gt;教程可参考：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/tangjiahao10/article/details/125227005&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -695,6 +897,12 @@ source ~/.bashrc&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;解决nvcc版本不一致问题（可能的方法，更换runtime映射&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://qiyuan-z.github.io/2022/01/06/%e8%a7%a3%e5%86%b3nvidia-smi%e5%92%8cnvcc%e6%98%be%e7%a4%ba%e4%bf%a1%e6%81%af%e4%b8%8e%e6%89%80%e5%ae%89%e8%a3%85CUDA%e7%89%88%e6%9c%ac%e4%b8%8d%e4%b8%80%e8%87%b4%e9%97%ae%e9%a2%98/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://qiyuan-z.github.io/2022/01/06/解决nvidia-smi和nvcc显示信息与所安装CUDA版本不一致问题/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;解决cudnn找不到 问题（软连接到系统库）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq451882471/article/details/106967942&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/qq451882471/article/details/106967942&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;CUDA GPG Repository Key&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;孪生神经网络的相关实现：&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_44791964/article/details/107406072&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://blog.csdn.net/weixin_44791964/article/details/107406072&lt;/a&gt;&lt;/p&gt;
@@ -716,7 +924,7 @@ source ~/.bashrc&lt;/p&gt;
 &lt;p&gt;Build &amp;amp; Share Delightful Machine Learning Apps&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://gradio.app/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://gradio.app/&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;推理框架&#34;&gt;推理框架&lt;/h4&gt;
+&lt;h4 id=&#34;推理加速框架&#34;&gt;推理&amp;amp;加速框架&lt;/h4&gt;
 &lt;p&gt;ncnn&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Tencent/ncnn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/Tencent/ncnn&lt;/a&gt;&lt;/p&gt;
@@ -729,6 +937,9 @@ source ~/.bashrc&lt;/p&gt;
 &lt;p&gt;bbuf老师的onnx学习笔记&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/346511883&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;ONNX学习笔记 - 知乎 (zhihu.com)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;TVM官方中文手册&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://tvm.hyper.ai/docs/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://tvm.hyper.ai/docs/&lt;/a&gt;&lt;/p&gt;
 &lt;h4 id=&#34;实例参考&#34;&gt;实例参考&lt;/h4&gt;
 &lt;p&gt;各种开发版的基础功能调通&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/sxj731533730&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -768,6 +979,10 @@ source ~/.bashrc&lt;/p&gt;
 &lt;p&gt;有关硬件开发（嵌入式）的推荐个人博客列表&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/JesseGuoX/DoHard&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/JesseGuoX/DoHard&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A curated list of C good stuff.&lt;/p&gt;
+&lt;p&gt;This project does &lt;em&gt;not&lt;/em&gt; index anything C++-related; only pure C stuff is considered.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/sanbuphy/awesome-c&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/sanbuphy/awesome-c&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;python&#34;&gt;python&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;anaconda基础&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -857,6 +1072,10 @@ source ~/.bashrc&lt;/p&gt;
     &gt;https://github.com/fffaraz/awesome-cpp&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://jobbole.github.io/awesome-python-cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;http://jobbole.github.io/awesome-python-cn/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Modern CMake 简体中文版&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://modern-cmake-cn.github.io/Modern-CMake-zh_CN/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://modern-cmake-cn.github.io/Modern-CMake-zh_CN/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;cmakelist生成的makefile调试用make VERBOSE=1 而不是 make -nb&lt;/p&gt;
 &lt;p&gt;C++ reference（字典）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://en.cppreference.com/w/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://en.cppreference.com/w/&lt;/a&gt;&lt;/p&gt;
@@ -869,6 +1088,9 @@ source ~/.bashrc&lt;/p&gt;
 &lt;p&gt;C++ Core Guidelines&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/isocpp/CppCoreGuidelines&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/isocpp/CppCoreGuidelines&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Google C++ Style Guide&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://google.github.io/styleguide/cppguide.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://google.github.io/styleguide/cppguide.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;c++手写数据库练习 CMU 15-445: Database Systems&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://csdiy.wiki/%e6%95%b0%e6%8d%ae%e5%ba%93%e7%b3%bb%e7%bb%9f/15445/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://csdiy.wiki/数据库系统/15445/&lt;/a&gt;&lt;/p&gt;
@@ -876,6 +1098,13 @@ source ~/.bashrc&lt;/p&gt;
 &lt;p&gt;DJI thermal analysis tool  相关教程（日文&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://qiita.com/tutu/items/b5cf2b39dd30786d9064&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://qiita.com/tutu/items/b5cf2b39dd30786d9064&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;音视频相关&#34;&gt;音视频相关&lt;/h3&gt;
+&lt;p&gt;音视频原理必看国内大神-雷神&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/leixiaohua1020/article/details/18893769&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/leixiaohua1020/article/details/18893769&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;ffmpeg原理 罗上文&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://ffmpeg.xianwaizhiyin.net/cover.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ffmpeg.xianwaizhiyin.net/cover.html&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;学术论文&#34;&gt;学术论文&lt;/h2&gt;
 &lt;p&gt;查询接受率的网站:&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.openresearch.org/wiki/Main_Page&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -897,6 +1126,9 @@ source ~/.bashrc&lt;/p&gt;
 &lt;p&gt;一文网尽CV/Robotics顶会论文常用高级词汇/句式！ by 叶小飞（推荐关注）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/415926905&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://zhuanlan.zhihu.com/p/415926905&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;AI论文检索&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://elicit.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://elicit.org/&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;其他日常使用网站&#34;&gt;其他日常使用网站&lt;/h2&gt;
 &lt;p&gt;有关思维导图的代码（类似markdown）生成：&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://xzmind.xuanzi.ltd/apps.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -916,6 +1148,8 @@ source ~/.bashrc&lt;/p&gt;
 &lt;p&gt;Whisper AI剪视频小工具&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1Pe4y1t7de/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.bilibili.com/video/BV1Pe4y1t7de/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/mli/autocut/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/mli/autocut/&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;有趣的故事&#34;&gt;有趣的故事&lt;/h2&gt;
 &lt;p&gt;谷歌背后的数学&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.changhai.org/articles/technology/misc/google_math.php&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

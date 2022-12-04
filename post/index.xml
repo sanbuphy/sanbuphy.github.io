@@ -6,7 +6,16 @@
     <description>Recent content in Posts on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Nov 2022 15:07:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Dec 2022 11:23:03 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>websocket与协程的前世今生（初步）</title>
+      <link>https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/</link>
+      <pubDate>Sun, 04 Dec 2022 11:23:03 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/</guid>
+      <description>首先建议你了解下事件驱动模型： https://www.cnblogs.com/wdliu/p/6890930.html Python线程、协程探究（3）——协程的调度实现大龙 https://zhuanlan.zhihu.com/p/96969508 python cookbook 11.12 理解事件驱动的IO https://python3-cookbook.readthedocs.io/zh_CN/latest/c11/p12_understanding_event_driven_io.html 需要注意的是，协程并不是万</description>
+    </item>
+    
     <item>
       <title>如何衡量深度学习算法的计算量及网络加速空间（学习笔记）</title>
       <link>https://sanbuphy.github.io/p/%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E9%87%8F%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E7%A9%BA%E9%97%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
