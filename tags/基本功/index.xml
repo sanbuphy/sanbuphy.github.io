@@ -6,16 +6,7 @@
     <description>Recent content in 基本功 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 31 Jul 2022 09:18:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/%E5%9F%BA%E6%9C%AC%E5%8A%9F/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>C位段/位域(bit field)的排序原理</title>
-      <link>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</link>
-      <pubDate>Sun, 31 Jul 2022 09:18:16 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</guid>
-      <description>在做PA的过程中，发现这样的一段代码（模拟cpu的过程）： 那么问题就来了——为什么这里op位段会自动匹配前面的部分？（为什么不匹配后面） 和大</description>
-    </item>
-    
+    <lastBuildDate>Sat, 25 Jun 2022 15:07:48 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/%E5%9F%BA%E6%9C%AC%E5%8A%9F/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Classes vs. Data Structures</title>
       <link>https://sanbuphy.github.io/p/classes-vs.-data-structures/</link>

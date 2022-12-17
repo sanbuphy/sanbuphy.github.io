@@ -191,22 +191,22 @@
 <p>nemu/include/cpu/decode.h 定义了这些各种各样的宏，包括模式匹配规则。</p>
 </blockquote>
 <p>宏展开def的定义宏后是这样的：（根据def_INSTR_raw）</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">do</span> <span class="p">{</span>
-
-<span class="kt">uint32_t</span> <span class="n">key</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">shift</span><span class="p">;</span>
-
-<span class="n">pattern_decode</span><span class="p">(</span><span class="s">&#34;??????? ????? ????? ??? ????? 01101 11&#34;</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">shift</span><span class="p">);</span>
-
-<span class="k">if</span> <span class="p">(((</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">isa</span><span class="p">.</span><span class="n">instr</span><span class="p">.</span><span class="n">val</span> <span class="o">&gt;&gt;</span> <span class="n">shift</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">)</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="n">decode_U</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-
-  <span class="k">return</span> <span class="nf">table_lui</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
-
-<span class="p">}</span>
-
-<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">uint32_t</span> <span class="n">key</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">shift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">pattern_decode</span><span class="p">(</span><span class="s">&#34;??????? ????? ????? ??? ????? 01101 11&#34;</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">shift</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(((</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">isa</span><span class="p">.</span><span class="n">instr</span><span class="p">.</span><span class="n">val</span> <span class="o">&gt;&gt;</span> <span class="n">shift</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">)</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nf">decode_U</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nf">table_lui</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span></code></pre></div><blockquote>
 <p>操作对象(比如立即数是多少, 读入到哪个寄存器). 为了解决这个问题, 代码需要进行进一步的译码工作, 这是通过调用相应的<code>译码辅助函数</code>(decode helper function)来完成的. 译码辅助函数统一通过宏<code>def_DHelper</code>(在<code>nemu/include/cpu/decode.h</code>中定义)来定义</p>
 <p>每个译码辅助函数负责进行一种类型的操作数译码, 把指令中的操作数信息分别记录在译码信息<code>s</code>的<code>dest</code>成员, <code>src1</code>成员和<code>src2</code>成员中, 它们分别代表<strong>目的操作数和两个源操作数</strong>. <code>nemu/include/cpu/decode.h</code>中还定义了三个宏<code>id_dest</code>, <code>id_src1</code>和<code>id_src2</code>, 用于方便地访问它们.【注意，这里的关键是原操作数和目的操作数的是否可写入权限】</p>
 <p>寄存器和立即数这些操作数, 其实是非常常见的操作数类型. 为了进一步实现操作数译码和指令译码的解耦, 框架代码对这些操作数的译码进行了抽象封装, 指令译码过程由若干<code>译码操作数辅助函数</code>(decode operand helper function)组成. 译码操作数辅助函数统一通过宏<code>def_DopHelper</code>来定义</p>
@@ -222,34 +222,34 @@
 <p>Q：mips32和riscv32的指令长度只有32位, 因此它们不能像x86那样, 把C代码中的32位常数直接编码到一条指令中. 思考一下, mips32和riscv32应该如何解决这个问题?</p>
 <p>A：指令和储存分开，而且可以用两个拼成一个，把数据存在32位寄存器，或者变成几个寄存器加减结果。或者有朋友说的可以高位低位分开储存(实际上你在手册中能看到部指令这样的实现之类的）。</p>
 <p>回到<code>def_INSTR_IDTAB</code>的宏展开结果,：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">do</span> <span class="p">{</span>
-
-<span class="kt">uint32_t</span> <span class="n">key</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">shift</span><span class="p">;</span>
-
-<span class="n">pattern_decode</span><span class="p">(</span><span class="s">&#34;??????? ????? ????? ??? ????? 01101 11&#34;</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">shift</span><span class="p">);</span>
-
-<span class="k">if</span> <span class="p">(((</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">isa</span><span class="p">.</span><span class="n">instr</span><span class="p">.</span><span class="n">val</span> <span class="o">&gt;&gt;</span> <span class="n">shift</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">)</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="n">decode_U</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-
-  <span class="k">return</span> <span class="nf">table_lui</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
-
-<span class="p">}</span>
-
-<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</code></pre></div><p>对于<code>lui</code>指令, 在译码辅助函数<code>decode_U()</code>执行结束后, 代码将会执行<code>table_lui()</code>. <code>table_lui()</code>的定义方式比较特殊, 部分宏展开后的定义:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">def_THelper</span><span class="p">(</span><span class="n">lui</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="n">EXEC_ID_lui</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">uint32_t</span> <span class="n">key</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">shift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">pattern_decode</span><span class="p">(</span><span class="s">&#34;??????? ????? ????? ??? ????? 01101 11&#34;</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">shift</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(((</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">isa</span><span class="p">.</span><span class="n">instr</span><span class="p">.</span><span class="n">val</span> <span class="o">&gt;&gt;</span> <span class="n">shift</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">)</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nf">decode_U</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nf">table_lui</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span></code></pre></div><p>对于<code>lui</code>指令, 在译码辅助函数<code>decode_U()</code>执行结束后, 代码将会执行<code>table_lui()</code>. <code>table_lui()</code>的定义方式比较特殊, 部分宏展开后的定义:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">def_THelper</span><span class="p">(</span><span class="n">lui</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">EXEC_ID_lui</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
 <p>其中宏<code>def_THelper</code>(在<code>nemu/include/cpu/decode.h</code>中定义) 用于**统一定义&quot;表格辅助函数&quot;(table helper function). **<code>table_lui()</code>做的事情很简单, 它直接返回一个标识<code>lui</code>指令的唯一ID. 这个ID会作为译码结果的返回值, 在<code>fetch_decode()</code>中索引<code>g_exec_table</code>数组.</p>
 <p>事实上, 译码的过程可以看成是若干查表的操作, 每一条模式匹配的规则都可以看成是表格中的一个表项, 因此我们可以使用表格辅助函数来描述这些译码的规则. 以riscv为例:</p>
 <p>这一模式字符串只能通过<code>opcode</code>匹配到load类型的指令, 为了进一步确定是哪一条load指令, 我们还需要匹配<code>funct3</code>字段（具体查看riscv手册就直到为什么要匹配那三个了。）, 因此我们引入一个新的表格辅助函数<code>table_load()</code>, 匹配到load类型指令的时候, 会进一步调用<code>table_load()</code>, 然后在其中通过额外的模式字符串来匹配<code>funct3</code>字段, 例如: 以riscv为例:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">def_THelper</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">def_INSTR_TAB</span><span class="p">(</span><span class="s">&#34;??????? ????? ????? 010 ????? ????? ??&#34;</span><span class="p">,</span> <span class="n">lw</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">EXEC_ID_inv</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p><code>def_INSTR_TAB</code>也是一条字符串匹配规则, 但它<strong>并不需要调用译码辅助函数</strong>. </p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">def_THelper</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">def_INSTR_TAB</span><span class="p">(</span><span class="s">&#34;??????? ????? ????? 010 ????? ????? ??&#34;</span><span class="p">,</span> <span class="n">lw</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">EXEC_ID_inv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><code>def_INSTR_TAB</code>也是一条字符串匹配规则, 但它<strong>并不需要调用译码辅助函数</strong>. </p>
 <p>这条规则描述了&quot;在load类型指令中, 如果<code>funct3</code>为<code>010</code>, 则为<code>lw</code>指令&quot;.</p>
 <p>** NEMU把译码时的如下情况都看作是查表过程:** ​</p>
 <ul>
@@ -299,8 +299,8 @@
      target="_blank" rel="noopener"
     >RTL(寄存器传输语言)</a>来描述（先实现这些简单操作, 然后再用它们来实现指令）. </p>
 <p>RTL寄存器的定义. 在NEMU中, RTL寄存器统一使用<code>rtlreg_t</code>来定义, 而<code>rtlreg_t</code>(在<code>nemu/include/common.h</code>中定义)其实只是一个<code>word_t</code>类型:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="n">word_t</span> <span class="n">rtlreg_t</span><span class="p">;</span>
-</code></pre></div><p>在NEMU中的RTL寄存器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="kt">word_t</span> <span class="kt">rtlreg_t</span><span class="p">;</span>
+</span></span></code></pre></div><p>在NEMU中的RTL寄存器：</p>
 <ul>
 <li>
 <p>不同ISA的通用寄存器(在<code>nemu/src/isa/$ISA/include/isa-def.h</code>中定义)</p>
@@ -441,11 +441,10 @@
 <p>Q：如果不知道哪个指令没实现怎么办？</p>
 <p>A：想想有了内存地址后在什么情况下能让他显示指令</p>
 <p>当然，更优雅的你可以在修改nemu.mk 中取消-b后缀即可让他完美停下来可以一步步看（在test中make的阶段），或者你也可以用这样的操作：（测试这个命令函参数找的我有点抑郁，注意-d后面的-，你也可以写-1）</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./riscv32-nemu-interpreter -d - 
---diff<span class="o">=</span>/xxxxxx/ics2021/nemu/tools/spike-diff/build/riscv32-spike-so  
-/xxxxxxx/ics2021/am-kernels/tests/cpu-tests/build/add-riscv32-nemu.bin  
-
-</code></pre></div><p>提前加了diff后，发现一直卡在add.c无法实现的痛苦（bne一直有问题）查了非常久的compute和decode译码都无法找到错误，最后发现是isa-def立即数环节出错。。。。。。只有最高位int其他uint我却把B指令的其他立即数也写成了int&hellip;&hellip;所以旧报错了，改完后成功通过add测试，感觉人生到了一种大和谐~~~~</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./riscv32-nemu-interpreter -d - 
+</span></span><span class="line"><span class="cl">--diff<span class="o">=</span>/xxxxxx/ics2021/nemu/tools/spike-diff/build/riscv32-spike-so  
+</span></span><span class="line"><span class="cl">/xxxxxxx/ics2021/am-kernels/tests/cpu-tests/build/add-riscv32-nemu.bin  
+</span></span></code></pre></div><p>提前加了diff后，发现一直卡在add.c无法实现的痛苦（bne一直有问题）查了非常久的compute和decode译码都无法找到错误，最后发现是isa-def立即数环节出错。。。。。。只有最高位int其他uint我却把B指令的其他立即数也写成了int&hellip;&hellip;所以旧报错了，改完后成功通过add测试，感觉人生到了一种大和谐~~~~</p>
 <p>这里引发了一个思考：为什么中间不能用int？有个老哥说这是因为有符号数字在bitfield中会自动补1，这是不行的，我们可以做实验来验证是不是位域都会有这个性质（其实就是有符号数的扩展性质，如果无符号数直接零拓展）。</p>
 <p>后面在实现R型指令的时候又遇到了bug，也是同样的寄存器问题，后面排查发现是译码阶段寄存器写入开关我写成了true，但得是false&hellip;.原因是：</p>
 <p>另外，对于RTL你需要有更深入的理解，R和I其实都在32位寄存器-寄存器类型和寄存器-立即数类型的基本算术/逻辑运算里了。包括<code>rtl_(add|sub|and|or|xor|sll|srl|sra|setrelop)i?</code>, 它们的定义用到了<code>nemu/src/engine/interpreter/c_op.h</code>中的C语言运算。当想不出来的时候思考一下add和addi的区别，他们是怎么得到的。有关寄存器和imm的操作都有了，可以直接用。</p>
@@ -512,34 +511,34 @@
 <p><code>void _trm_init()</code>用于进行TRM相关的初始化工作</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;am.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;nemu.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">extern</span> <span class="kt">char</span> <span class="n">_heap_start</span><span class="p">;</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">args</span><span class="p">);</span>
-
-<span class="n">Area</span> <span class="n">heap</span> <span class="o">=</span> <span class="n">RANGE</span><span class="p">(</span><span class="o">&amp;</span><span class="n">_heap_start</span><span class="p">,</span> <span class="n">PMEM_END</span><span class="p">);</span>
-<span class="cp">#ifndef MAINARGS
-</span><span class="cp">#define MAINARGS &#34;&#34;
-</span><span class="cp">#endif
-</span><span class="cp"></span><span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">mainargs</span><span class="p">[]</span> <span class="o">=</span> <span class="n">MAINARGS</span><span class="p">;</span>
-
-<span class="kt">void</span> <span class="nf">putch</span><span class="p">(</span><span class="kt">char</span> <span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">outb</span><span class="p">(</span><span class="n">SERIAL_PORT</span><span class="p">,</span> <span class="n">ch</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">halt</span><span class="p">(</span><span class="kt">int</span> <span class="n">code</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">nemu_trap</span><span class="p">(</span><span class="n">code</span><span class="p">);</span>
-
-  <span class="c1">// should not reach here
-</span><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">_trm_init</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">main</span><span class="p">(</span><span class="n">mainargs</span><span class="p">);</span>
-  <span class="n">halt</span><span class="p">(</span><span class="n">ret</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>最后来看看<code>halt()</code>. <code>halt()</code>里面调用了<code>nemu_trap()</code>宏 (在<code>abstract-machine/am/src/platform/nemu/include/nemu.h</code>中定义), 这个宏展开之后是一条<a class="link" href="http://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html"  title="内联汇编"
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;am.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;nemu.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">char</span> <span class="n">_heap_start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Area</span> <span class="n">heap</span> <span class="o">=</span> <span class="nf">RANGE</span><span class="p">(</span><span class="o">&amp;</span><span class="n">_heap_start</span><span class="p">,</span> <span class="n">PMEM_END</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#ifndef MAINARGS
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define MAINARGS &#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">mainargs</span><span class="p">[]</span> <span class="o">=</span> <span class="n">MAINARGS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">putch</span><span class="p">(</span><span class="kt">char</span> <span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">outb</span><span class="p">(</span><span class="n">SERIAL_PORT</span><span class="p">,</span> <span class="n">ch</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">halt</span><span class="p">(</span><span class="kt">int</span> <span class="n">code</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">nemu_trap</span><span class="p">(</span><span class="n">code</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// should not reach here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">_trm_init</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="nf">main</span><span class="p">(</span><span class="n">mainargs</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">halt</span><span class="p">(</span><span class="n">ret</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>最后来看看<code>halt()</code>. <code>halt()</code>里面调用了<code>nemu_trap()</code>宏 (在<code>abstract-machine/am/src/platform/nemu/include/nemu.h</code>中定义), 这个宏展开之后是一条<a class="link" href="http://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html"  title="内联汇编"
      target="_blank" rel="noopener"
     >内联汇编</a>语句, 内联汇编语句允许我们在C代码中嵌入汇编语句, 显然, 这个宏的定义是和ISA相关的.</p>
 <p>这条特殊的指令是人为添加的, 标准的汇编器并不能识别它, objdump的反汇编结果也无法按照我们的想法将其反汇编为<code>nemu_trap</code>. <code>nemu_trap()</code>宏还会把一个标识结束的结束码移动到通用寄存器中, 这样, 这段汇编代码的功能就和<code>nemu/src/isa/$ISA/instr/special.h</code> 中的执行辅助函数<code>def_EHelper(nemu_trap)</code>对应起来了: 通用寄存器中的值将会作为参数传给<code>rtl_hostcall</code>, <code>rtl_hostcall</code>将会根据传入的<code>id</code>(此处为<code>HOSTCALL_EXIT</code>)来调用<code>set_nemu_state()</code>, 将<code>halt()</code>中的结束码设置到NEMU的monitor中, monitor将会根据结束码来报告程序结束的原因.</p>

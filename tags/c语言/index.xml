@@ -80,15 +80,6 @@
     </item>
     
     <item>
-      <title>C位段/位域(bit field)的排序原理</title>
-      <link>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</link>
-      <pubDate>Sun, 31 Jul 2022 09:18:16 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</guid>
-      <description>在做PA的过程中，发现这样的一段代码（模拟cpu的过程）： 那么问题就来了——为什么这里op位段会自动匹配前面的部分？（为什么不匹配后面） 和大</description>
-    </item>
-    
-    <item>
       <title>防止stack overflow——内存地址杀毒</title>
       <link>https://sanbuphy.github.io/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/</link>
       <pubDate>Sat, 30 Jul 2022 16:08:27 +0800</pubDate>

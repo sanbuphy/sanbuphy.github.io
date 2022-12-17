@@ -313,12 +313,11 @@
 </blockquote>
 <p>在这个栏目中我们先不谈有关__setattr__魔术方法的具体作用（其实就是反射）和应用场景，就单纯谈为什么在这里可以凭空super。</p>
 <p>举个简单的例子：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;setting attribute [</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">] to </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
-
-</code></pre></div><p>看似没有集成任何类，为什么在这里我们直接可以super呢？其实相当于重写了Person类的父类的__setattr__方法，person类的父类是什么呢？这里我们需要了解元类的概念：（转载自b站阿岳同学）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;setting attribute [</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">] to </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
+</span></span></code></pre></div><p>看似没有集成任何类，为什么在这里我们直接可以super呢？其实相当于重写了Person类的父类的__setattr__方法，person类的父类是什么呢？这里我们需要了解元类的概念：（转载自b站阿岳同学）</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -355,7 +354,7 @@
 	</a>
 	
 </figure></p>
-<p>这里我们使用__base__查看父类能够看到class&rsquo;object'，那么到底他是个什么呢？</p>
+<p>这里我们使用__base__查看父类能够看到class&rsquo;object&rsquo;，那么到底他是个什么呢？</p>
 <p>在builtins.pyi中我们能一探究竟：</p>
 <p><figure 
 	

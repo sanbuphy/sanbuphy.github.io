@@ -121,43 +121,38 @@
 
     <section class="article-content">
     <p>建议使用默认安装cuda（包括驱动）以及ffmpeg的默认安装地址以免出现各种奇怪问题。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash">cmake .. -D <span class="nv">CMAKE_BUILD_TYPE</span><span class="o">=</span>RELEASE <span class="se">\
-</span><span class="se"></span>-D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>/usr/local <span class="se">\
-</span><span class="se"></span>-D <span class="nv">ENABLE_PRECOMPILED_HEADERS</span><span class="o">=</span>OFF <span class="se">\
-</span><span class="se"></span>-D <span class="nv">INSTALL_C_EXAMPLES</span><span class="o">=</span>OFF <span class="se">\
-</span><span class="se"></span>-D <span class="nv">INSTALL_PYTHON_EXAMPLES</span><span class="o">=</span>OFF <span class="se">\
-</span><span class="se"></span>-D <span class="nv">BUILD_opencv_python2</span><span class="o">=</span>OFF <span class="se">\
-</span><span class="se"></span>-D <span class="nv">BUILD_opencv_python3</span><span class="o">=</span>ON <span class="se">\
-</span><span class="se"></span>-D <span class="nv">PYTHON_DEFAULT_EXECUTABLE</span><span class="o">=</span><span class="k">$(</span>python3 -c <span class="s2">&#34;import sys; print(sys.executable)&#34;</span><span class="k">)</span>   <span class="se">\
-</span><span class="se"></span>-D <span class="nv">PYTHON3_EXECUTABLE</span><span class="o">=</span><span class="k">$(</span>python3 -c <span class="s2">&#34;import sys; print(sys.executable)&#34;</span><span class="k">)</span>   <span class="se">\
-</span><span class="se"></span>-D <span class="nv">PYTHON3_NUMPY_INCLUDE_DIRS</span><span class="o">=</span><span class="k">$(</span>python3 -c <span class="s2">&#34;import numpy; print (numpy.get_include())&#34;</span><span class="k">)</span> <span class="se">\
-</span><span class="se"></span>-D <span class="nv">PYTHON3_PACKAGES_PATH</span><span class="o">=</span><span class="k">$(</span>python3 -c <span class="s2">&#34;from distutils.sysconfig import get_python_lib; print(get_python_lib())&#34;</span><span class="k">)</span> <span class="se">\
-</span><span class="se"></span>-D <span class="nv">WITH_TBB</span><span class="o">=</span>ON <span class="se">\
-</span><span class="se"></span>-D <span class="nv">BUILD_TBB</span><span class="o">=</span>ON  <span class="se">\
-</span><span class="se"></span>-D <span class="nv">ENABLE_FAST_MATH</span><span class="o">=</span><span class="m">1</span> <span class="se">\
-</span><span class="se"></span>-D <span class="nv">CUDA_FAST_MATH</span><span class="o">=</span><span class="m">1</span> <span class="se">\
-</span><span class="se"></span>-D <span class="nv">WITH_CUBLAS</span><span class="o">=</span><span class="m">1</span> <span class="se">\
-</span><span class="se"></span>-D <span class="nv">WITH_V4L</span><span class="o">=</span>ON <span class="se">\
-</span><span class="se"></span>-D <span class="nv">WITH_LIBV4L</span><span class="o">=</span>ON <span class="se">\
-</span><span class="se"></span>-D <span class="nv">WITH_CUDA</span><span class="o">=</span>ON <span class="se">\
-</span><span class="se"></span>-D <span class="nv">WITH_CUDNN</span><span class="o">=</span>ON <span class="se">\
-</span><span class="se"></span>-D <span class="nv">WITH_GTK_2_X</span><span class="o">=</span>ON <span class="se">\
-</span><span class="se"></span>-D <span class="nv">WITH_NVCUVID</span><span class="o">=</span>ON <span class="se">\
-</span><span class="se"></span>-D <span class="nv">WITH_FFMPEG</span><span class="o">=</span>ON  <span class="se">\
-</span><span class="se"></span>-D <span class="nv">CUDA_ARCH_BIN</span><span class="o">=</span>  8.6 <span class="se">\ </span>  <span class="c1">#根据自己的显卡查找CUDA_ARCH_BIN表</span>
--D <span class="nv">OPENCV_EXTRA_MODULES_PATH</span><span class="o">=</span>../../opencv_contrib/modules .
-
-
-
-
-</code></pre></div><h3 id="点亮ffmpeg">点亮ffmpeg</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">cmake .. -D <span class="nv">CMAKE_BUILD_TYPE</span><span class="o">=</span>RELEASE <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>/usr/local <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">ENABLE_PRECOMPILED_HEADERS</span><span class="o">=</span>OFF <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">INSTALL_C_EXAMPLES</span><span class="o">=</span>OFF <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">INSTALL_PYTHON_EXAMPLES</span><span class="o">=</span>OFF <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">BUILD_opencv_python2</span><span class="o">=</span>OFF <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">BUILD_opencv_python3</span><span class="o">=</span>ON <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">PYTHON_DEFAULT_EXECUTABLE</span><span class="o">=</span><span class="k">$(</span>python3 -c <span class="s2">&#34;import sys; print(sys.executable)&#34;</span><span class="k">)</span>   <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">PYTHON3_EXECUTABLE</span><span class="o">=</span><span class="k">$(</span>python3 -c <span class="s2">&#34;import sys; print(sys.executable)&#34;</span><span class="k">)</span>   <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">PYTHON3_NUMPY_INCLUDE_DIRS</span><span class="o">=</span><span class="k">$(</span>python3 -c <span class="s2">&#34;import numpy; print (numpy.get_include())&#34;</span><span class="k">)</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">PYTHON3_PACKAGES_PATH</span><span class="o">=</span><span class="k">$(</span>python3 -c <span class="s2">&#34;from distutils.sysconfig import get_python_lib; print(get_python_lib())&#34;</span><span class="k">)</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">WITH_TBB</span><span class="o">=</span>ON <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">BUILD_TBB</span><span class="o">=</span>ON  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">ENABLE_FAST_MATH</span><span class="o">=</span><span class="m">1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">CUDA_FAST_MATH</span><span class="o">=</span><span class="m">1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">WITH_CUBLAS</span><span class="o">=</span><span class="m">1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">WITH_V4L</span><span class="o">=</span>ON <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">WITH_LIBV4L</span><span class="o">=</span>ON <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">WITH_CUDA</span><span class="o">=</span>ON <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">WITH_CUDNN</span><span class="o">=</span>ON <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">WITH_GTK_2_X</span><span class="o">=</span>ON <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">WITH_NVCUVID</span><span class="o">=</span>ON <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">WITH_FFMPEG</span><span class="o">=</span>ON  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-D <span class="nv">CUDA_ARCH_BIN</span><span class="o">=</span>  8.6 <span class="se">\ </span>  <span class="c1">#根据自己的显卡查找CUDA_ARCH_BIN表</span>
+</span></span><span class="line"><span class="cl">-D <span class="nv">OPENCV_EXTRA_MODULES_PATH</span><span class="o">=</span>../../opencv_contrib/modules .
+</span></span></code></pre></div><h3 id="点亮ffmpeg">点亮ffmpeg</h3>
 <p>ffmepg有可能找不到，需要按照正规操作一遍ffmpeg。（记得whereis ffmpeg 删除相关内容）</p>
 <h3 id="点亮nvcuvid相关在cuda那一行">点亮nvcuvid相关（在cuda那一行）</h3>
 <p>在官网申请下载好了sdk后运行：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash">sudo cp Interface/*   /usr/include
-sudo cp Lib/linux/stubs/x86_64/*    /usr/lib
-
-</code></pre></div><p>删除build内内容重新cmake即可得到结果</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">sudo cp Interface/*   /usr/include
+</span></span><span class="line"><span class="cl">sudo cp Lib/linux/stubs/x86_64/*    /usr/lib
+</span></span></code></pre></div><p>删除build内内容重新cmake即可得到结果</p>
 <blockquote>
 <p>如果这么尝试后你还是不能找到，你需要把include和lib的地址换成cuda的，如<code>/usr/local/cuda-11.5/lib64/</code> 以及 <code>/usr/local/cuda-11.5/include</code>
 然后再依次cp，（我怀疑是因为cmake搜索路径和校验逻辑是直接利用cuda），这次你应该可以看见他了！</p>
@@ -171,14 +166,14 @@ sudo cp Lib/linux/stubs/x86_64/*    /usr/lib
 <p><a class="link" href="https://zhuanlan.zhihu.com/p/357290528"  target="_blank" rel="noopener"
     >https://zhuanlan.zhihu.com/p/357290528</a></p>
 <p>对于gpu里面的测试，你需要新建一个build，然后拖进你想要编译的文件，使用</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">cmake_minimum_required(VERSION 3.0.2)
-SET(CMAKE_BUILD_TYPE &#34;Debug&#34;)
-include_directories(include)
-find_package( OpenCV REQUIRED )
-include_directories( ${OpenCV_INCLUDE_DIRS} )
-add_executable( test opencv_test.cpp )
-target_link_libraries( test ${OpenCV_LIBS} )
-</code></pre></div><p>其中注意<code>add_executable( test opencv_test.cpp )</code>需要修改为拖进来的文件。直接cmake . 即可得到结果。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">cmake_minimum_required(VERSION 3.0.2)
+</span></span><span class="line"><span class="cl">SET(CMAKE_BUILD_TYPE &#34;Debug&#34;)
+</span></span><span class="line"><span class="cl">include_directories(include)
+</span></span><span class="line"><span class="cl">find_package( OpenCV REQUIRED )
+</span></span><span class="line"><span class="cl">include_directories( ${OpenCV_INCLUDE_DIRS} )
+</span></span><span class="line"><span class="cl">add_executable( test opencv_test.cpp )
+</span></span><span class="line"><span class="cl">target_link_libraries( test ${OpenCV_LIBS} )
+</span></span></code></pre></div><p>其中注意<code>add_executable( test opencv_test.cpp )</code>需要修改为拖进来的文件。直接cmake . 即可得到结果。</p>
 <h2 id="reference">Reference</h2>
 <p>推荐阅读教程：</p>
 <p><a class="link" href="https://blog.csdn.net/jiexijihe945/article/details/125084488"  target="_blank" rel="noopener"

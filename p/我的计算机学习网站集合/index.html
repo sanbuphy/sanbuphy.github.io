@@ -274,14 +274,14 @@
 <li>make sure your proxy bind 172.17.0.1 and port</li>
 <li>add that in dockerfile</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Docker" data-lang="Docker"><span class="k">ENV</span> http_proxy <span class="s2">&#34;http://172.17.0.1:8888/&#34;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> HTTP_PROXY <span class="s2">&#34;http://172.17.0.1:8888/&#34;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> https_proxy <span class="s2">&#34;http://172.17.0.1:8888/&#34;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> HTTPS_PROXY <span class="s2">&#34;http://172.17.0.1:8888/&#34;</span><span class="err">
-</span></code></pre></div><ol start="3">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Docker" data-lang="Docker"><span class="line"><span class="cl"><span class="k">ENV</span> http_proxy <span class="s2">&#34;http://172.17.0.1:8888/&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> HTTP_PROXY <span class="s2">&#34;http://172.17.0.1:8888/&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> https_proxy <span class="s2">&#34;http://172.17.0.1:8888/&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> HTTPS_PROXY <span class="s2">&#34;http://172.17.0.1:8888/&#34;</span><span class="err">
+</span></span></span></code></pre></div><ol start="3">
 <li>run it</li>
 </ol>
 <p>注释：如果遇到curl之类的奇怪的http问题，请env|grep查看有无奇怪的环境变量或者关闭proxy的系统proxy功能。因为无需开启也可以操作。</p>
@@ -499,10 +499,9 @@
 <p>安装cuda结束后记得把这两个命令加入到~/.bashrc 然后source，且记得修改对应版本（如cuda-11.5）</p>
 <p>（具体的安装和卸载也可以参考<a class="link" href="https://flywine.blog.csdn.net/article/details/81879514"  target="_blank" rel="noopener"
     >https://flywine.blog.csdn.net/article/details/81879514</a>）</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&#34;/usr/local/cuda-11.5/bin:</span><span class="nv">$PATH</span><span class="s2">&#34;</span> 
-<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&#34;/usr/local/cuda-11.5/lib64:</span><span class="nv">$LD_LIBRARY_PATH</span><span class="s2">&#34;</span> 
-
-</code></pre></div><p>解决nvcc版本不一致问题（可能的方法，更换runtime映射</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&#34;/usr/local/cuda-11.5/bin:</span><span class="nv">$PATH</span><span class="s2">&#34;</span> 
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&#34;/usr/local/cuda-11.5/lib64:</span><span class="nv">$LD_LIBRARY_PATH</span><span class="s2">&#34;</span> 
+</span></span></code></pre></div><p>解决nvcc版本不一致问题（可能的方法，更换runtime映射</p>
 <p><a class="link" href="https://qiyuan-z.github.io/2022/01/06/%e8%a7%a3%e5%86%b3nvidia-smi%e5%92%8cnvcc%e6%98%be%e7%a4%ba%e4%bf%a1%e6%81%af%e4%b8%8e%e6%89%80%e5%ae%89%e8%a3%85CUDA%e7%89%88%e6%9c%ac%e4%b8%8d%e4%b8%80%e8%87%b4%e9%97%ae%e9%a2%98/"  target="_blank" rel="noopener"
     >https://qiyuan-z.github.io/2022/01/06/解决nvidia-smi和nvcc显示信息与所安装CUDA版本不一致问题/</a></p>
 <p>解决cudnn找不到 问题（软连接到系统库）</p>

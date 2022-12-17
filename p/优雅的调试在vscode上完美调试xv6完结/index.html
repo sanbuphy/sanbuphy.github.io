@@ -188,71 +188,71 @@
 	</a>
 	
 </figure></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="c1">//launch.json
-</span><span class="c1"></span><span class="p">{</span>
-    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;debug xv6&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;cppdbg&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}/kernel/kernel&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="nt">&#34;stopAtEntry&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;miDebuggerServerAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;127.0.0.1:26000&#34;</span><span class="p">,</span>
-            <span class="c1">//这里实际上可以用各种能调试的gdb，如果找不到你可以使用which gdb-multiarch
-</span><span class="c1"></span>            <span class="c1">//但要注意的是，为了能在ubuntu20.04调出寄存器，强烈建议使用riscv64的gdb
-</span><span class="c1"></span>            <span class="nt">&#34;miDebuggerPath&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/bin/gdb-multiarch&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;environment&#34;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="nt">&#34;externalConsole&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-            <span class="nt">&#34;MIMode&#34;</span><span class="p">:</span> <span class="s2">&#34;gdb&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;preLaunchTask&#34;</span><span class="p">:</span> <span class="s2">&#34;xv6build&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;setupCommands&#34;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;pretty printing&#34;</span><span class="p">,</span>
-                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;-enable-pretty-printing&#34;</span><span class="p">,</span>
-                    <span class="nt">&#34;ignoreFailures&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">],</span>
-            <span class="c1">//用于gdb调试的工具，可以发现gdb出错的原因
-</span><span class="c1"></span>            <span class="c1">// &#34;logging&#34;: {
-</span><span class="c1"></span>            <span class="c1">//     &#34;engineLogging&#34;: true,
-</span><span class="c1"></span>            <span class="c1">//     &#34;programOutput&#34;: true,
-</span><span class="c1"></span>            <span class="c1">// }
-</span><span class="c1"></span>        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="c1">// tasks.json
-</span><span class="c1"></span><span class="p">{</span>
-    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0.0&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;tasks&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;label&#34;</span><span class="p">:</span> <span class="s2">&#34;xv6build&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;shell&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;isBackground&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;make qemu-gdb&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;problemMatcher&#34;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="nt">&#34;pattern&#34;</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nt">&#34;regexp&#34;</span><span class="p">:</span> <span class="s2">&#34;.&#34;</span><span class="p">,</span>
-                            <span class="nt">&#34;file&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                            <span class="nt">&#34;location&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-                            <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="mi">3</span>
-                        <span class="p">}</span>
-                    <span class="p">],</span>
-                    <span class="nt">&#34;background&#34;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&#34;beginsPattern&#34;</span><span class="p">:</span> <span class="s2">&#34;.*Now run &#39;gdb&#39; in another window.&#34;</span><span class="p">,</span>
-                        <span class="c1">// 要对应编译成功后,一句echo的内容. 此处对应 Makefile Line:170
-</span><span class="c1"></span>                        <span class="nt">&#34;endsPattern&#34;</span><span class="p">:</span> <span class="s2">&#34;.&#34;</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">]</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><p>都创建后我们发现直接F5会报错，原因是.gdbinit中的target remote问题，为了解决我们直接修改.gdbinit.tmpl-riscv文件内容（从makefile中我们能够知道是他创造了.gdbinit）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="c1">//launch.json
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;debug xv6&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;cppdbg&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}/kernel/kernel&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;stopAtEntry&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;miDebuggerServerAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;127.0.0.1:26000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//这里实际上可以用各种能调试的gdb，如果找不到你可以使用which gdb-multiarch
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//但要注意的是，为了能在ubuntu20.04调出寄存器，强烈建议使用riscv64的gdb
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nt">&#34;miDebuggerPath&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/bin/gdb-multiarch&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;environment&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;externalConsole&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;MIMode&#34;</span><span class="p">:</span> <span class="s2">&#34;gdb&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;preLaunchTask&#34;</span><span class="p">:</span> <span class="s2">&#34;xv6build&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;setupCommands&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;pretty printing&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;-enable-pretty-printing&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;ignoreFailures&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//用于gdb调试的工具，可以发现gdb出错的原因
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// &#34;logging&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//     &#34;engineLogging&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//     &#34;programOutput&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="c1">// tasks.json
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;tasks&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;label&#34;</span><span class="p">:</span> <span class="s2">&#34;xv6build&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;shell&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;isBackground&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;make qemu-gdb&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;problemMatcher&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;pattern&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="nt">&#34;regexp&#34;</span><span class="p">:</span> <span class="s2">&#34;.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="nt">&#34;file&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="nt">&#34;location&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;background&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;beginsPattern&#34;</span><span class="p">:</span> <span class="s2">&#34;.*Now run &#39;gdb&#39; in another window.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// 要对应编译成功后,一句echo的内容. 此处对应 Makefile Line:170
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="nt">&#34;endsPattern&#34;</span><span class="p">:</span> <span class="s2">&#34;.&#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>都创建后我们发现直接F5会报错，原因是.gdbinit中的target remote问题，为了解决我们直接修改.gdbinit.tmpl-riscv文件内容（从makefile中我们能够知道是他创造了.gdbinit）</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -453,44 +453,44 @@
 1、F5运行情况下在调试控制台中输入<code>-exec maintenance print xml-tdesc</code> ，完整复制输出的内容后存放在根目录下的myxml.xml文件夹下（名字也可以看你喜欢修改）</p>
 <p>2、保存文件并结束调试，在根目录下运行<code>make clean</code>
 3、修改launch.json为：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;debug xv6&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;cppdbg&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}/kernel/kernel&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="nt">&#34;stopAtEntry&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;miDebuggerServerAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;127.0.0.1:26000&#34;</span><span class="p">,</span>
-            <span class="c1">//看你喜欢可以修改成什么能用的gdb，为了防止奇怪现象我选择了rv
-</span><span class="c1"></span>            <span class="nt">&#34;miDebuggerPath&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/local/bin/riscv64-unknown-elf-gdb&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;environment&#34;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="nt">&#34;externalConsole&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-            <span class="nt">&#34;MIMode&#34;</span><span class="p">:</span> <span class="s2">&#34;gdb&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;preLaunchTask&#34;</span><span class="p">:</span> <span class="s2">&#34;xv6build&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;setupCommands&#34;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;pretty printing&#34;</span><span class="p">,</span>
-                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;-enable-pretty-printing&#34;</span><span class="p">,</span>
-                    <span class="nt">&#34;ignoreFailures&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="c1">//在这里加载了寄存器信息表
-</span><span class="c1"></span>                <span class="p">{</span>
-                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;set tdesc filename myxml.xml&#34;</span><span class="p">,</span>
-                <span class="p">}</span>
-            <span class="p">],</span>
-            <span class="c1">//用于gdb调试的工具，可以发现gdb出错的原因
-</span><span class="c1"></span>            <span class="c1">// &#34;logging&#34;: {
-</span><span class="c1"></span>            <span class="c1">//     &#34;engineLogging&#34;: true,
-</span><span class="c1"></span>            <span class="c1">//     &#34;programOutput&#34;: true,
-</span><span class="c1"></span>            <span class="c1">// }
-</span><span class="c1"></span>        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><p>3、F5运行后发现已经安静的停在main，此时你会发现寄存器恢复了
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;debug xv6&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;cppdbg&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}/kernel/kernel&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;stopAtEntry&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;miDebuggerServerAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;127.0.0.1:26000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//看你喜欢可以修改成什么能用的gdb，为了防止奇怪现象我选择了rv
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nt">&#34;miDebuggerPath&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/local/bin/riscv64-unknown-elf-gdb&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;environment&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;externalConsole&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;MIMode&#34;</span><span class="p">:</span> <span class="s2">&#34;gdb&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;preLaunchTask&#34;</span><span class="p">:</span> <span class="s2">&#34;xv6build&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;setupCommands&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;pretty printing&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;-enable-pretty-printing&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;ignoreFailures&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">//在这里加载了寄存器信息表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;set tdesc filename myxml.xml&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//用于gdb调试的工具，可以发现gdb出错的原因
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// &#34;logging&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//     &#34;engineLogging&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//     &#34;programOutput&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>3、F5运行后发现已经安静的停在main，此时你会发现寄存器恢复了
 4、为了定制化xml，你可以修改内部结构但要遵守regnum排序，具体请自行尝试</p>
 </blockquote>
 <p>花了更多时间搜索log中提到的相关关键词，最后锁定了一个帖子：<a class="link" href="https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni"  title="https://stackoverflow.com/questions/72759791/why-does-gdb-do-not-show-all-risc-v-csrs-when-debugging-bare-metal-program-runni"
@@ -557,19 +557,19 @@
 	
 </figure></p>
 <p>2、在.vscode中创建一个settings.json文件，内容为：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-
-    <span class="nt">&#34;multiCommand.commands&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;multiCommand.enterExec&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;sequence&#34;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="s2">&#34;repl.action.acceptInput&#34;</span><span class="p">,</span>
-                <span class="p">{</span><span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;editor.action.insertSnippet&#34;</span><span class="p">,</span> <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&#34;snippet&#34;</span><span class="p">:</span> <span class="s2">&#34;-exec &#34;</span><span class="p">}}</span>
-            <span class="p">]</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><p>3、分别按下ctrl+k  ctrl+s 或者在首选项中打开键盘快捷方式设置，在右上角找到并点击：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;multiCommand.commands&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;multiCommand.enterExec&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;sequence&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;repl.action.acceptInput&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span><span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;editor.action.insertSnippet&#34;</span><span class="p">,</span> <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&#34;snippet&#34;</span><span class="p">:</span> <span class="s2">&#34;-exec &#34;</span><span class="p">}}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>3、分别按下ctrl+k  ctrl+s 或者在首选项中打开键盘快捷方式设置，在右上角找到并点击：</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -605,15 +605,15 @@
 	</a>
 	
 </figure></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
-<span class="p">{</span> 
-  <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;enter&#34;</span><span class="p">,</span> 
-  <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;extension.multiCommand.execute&#34;</span> <span class="p">,</span> 
-  <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;multiCommand.enterExec&#34;</span> <span class="p">},</span>
-  <span class="nt">&#34;when&#34;</span><span class="p">:</span> <span class="s2">&#34;inDebugRepl&#34;</span>
-<span class="p">},</span>
-<span class="p">]</span>
-</code></pre></div><p>接下来就重新开始调试，然后你会惊奇的发现回车的时候已经能够自动补全exec了，体验愉快使用原生gdb的快乐吧！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;enter&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;extension.multiCommand.execute&#34;</span> <span class="p">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;multiCommand.enterExec&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;when&#34;</span><span class="p">:</span> <span class="s2">&#34;inDebugRepl&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><p>接下来就重新开始调试，然后你会惊奇的发现回车的时候已经能够自动补全exec了，体验愉快使用原生gdb的快乐吧！</p>
 <h2 id="七追踪函数调用的踪迹">七、追踪函数调用的踪迹</h2>
 <blockquote>
 <p>💡
@@ -647,30 +647,30 @@
 	
 </figure></p>
 <p>但你可能会想，我们能不能迁移到其他地方呢？我做了一些尝试（但也有一些问题，比如static的函数显示不了对应参数，内核调试没有尝试成功），如果你想体验或者魔改，可以参考改进我的方法看看能不能做的更好：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">TRACED</span> <span class="o">=</span> <span class="s1">&#39;main ls&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="n">IGNORE</span> <span class="o">=</span> <span class="s1">&#39;buf fd&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-
-<span class="k">class</span> <span class="nc">trace</span><span class="p">(</span><span class="n">gdb</span><span class="o">.</span><span class="n">Breakpoint</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">f</span><span class="p">,</span> <span class="n">bt</span> <span class="o">=</span> <span class="n">gdb</span><span class="o">.</span><span class="n">selected_frame</span><span class="p">(),</span> <span class="p">[]</span>
-        <span class="k">while</span> <span class="n">f</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">name</span> <span class="o">:=</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="ow">in</span> <span class="n">TRACED</span><span class="p">:</span>
-                <span class="n">lvars</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sym</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">sym</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
-                    <span class="k">for</span> <span class="n">sym</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">block</span><span class="p">()</span>
-                    <span class="k">if</span> <span class="n">sym</span><span class="o">.</span><span class="n">is_argument</span> <span class="ow">and</span> <span class="n">sym</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">IGNORE</span><span class="p">]</span>
-                <span class="n">bt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[32m</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\033</span><span class="s1">[0m(</span><span class="si">{</span><span class="s2">&#34;, &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lvars</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">older</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bt</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">bt</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">return</span> <span class="kc">False</span> <span class="c1"># won&#39;t stop at this breakpoint</span>
-
-<span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;target remote localhost:26000&#39;</span><span class="p">)</span>
-<span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;set prompt off&#39;</span><span class="p">)</span>
-<span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;set pagination off&#39;</span><span class="p">)</span>
-<span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;file ./user/_ls&#39;</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">TRACED</span><span class="p">:</span>
-    <span class="n">trace</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
-</code></pre></div><p>将代码保存为mytrace放在根目录后执行<code>gdb -ex 'source mytrace.py' </code>，然后在其他地方<code>make qemu-gdb</code> ，此时发现打开gdb的终端有反应了但没有开始，你需要输入c，回车后就发现xv6运行起来了，然后按下ls，你就可以看到他打印了对应的调用栈和参数了，但这个trace对于ls实在是杀鸡用牛刀（因为我们可以通过vscode调试就非常清楚流程了），我们可以在更复杂的情况（比如文件系统）下再使用它。但不管如何，我们的调试武器库又一次增加了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">TRACED</span> <span class="o">=</span> <span class="s1">&#39;main ls&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">IGNORE</span> <span class="o">=</span> <span class="s1">&#39;buf fd&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">trace</span><span class="p">(</span><span class="n">gdb</span><span class="o">.</span><span class="n">Breakpoint</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">f</span><span class="p">,</span> <span class="n">bt</span> <span class="o">=</span> <span class="n">gdb</span><span class="o">.</span><span class="n">selected_frame</span><span class="p">(),</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="n">f</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">name</span> <span class="o">:=</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="ow">in</span> <span class="n">TRACED</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">lvars</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sym</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">sym</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">for</span> <span class="n">sym</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">block</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="n">sym</span><span class="o">.</span><span class="n">is_argument</span> <span class="ow">and</span> <span class="n">sym</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">IGNORE</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                <span class="n">bt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[32m</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\033</span><span class="s1">[0m(</span><span class="si">{</span><span class="s2">&#34;, &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lvars</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">older</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bt</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">bt</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span> <span class="c1"># won&#39;t stop at this breakpoint</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;target remote localhost:26000&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;set prompt off&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;set pagination off&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;file ./user/_ls&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">TRACED</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">trace</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+</span></span></code></pre></div><p>将代码保存为mytrace放在根目录后执行<code>gdb -ex 'source mytrace.py' </code>，然后在其他地方<code>make qemu-gdb</code> ，此时发现打开gdb的终端有反应了但没有开始，你需要输入c，回车后就发现xv6运行起来了，然后按下ls，你就可以看到他打印了对应的调用栈和参数了，但这个trace对于ls实在是杀鸡用牛刀（因为我们可以通过vscode调试就非常清楚流程了），我们可以在更复杂的情况（比如文件系统）下再使用它。但不管如何，我们的调试武器库又一次增加了。</p>
 <h3 id="71-remote-g-packet-reply-is-too-long">7.1 Remote &lsquo;g&rsquo; packet reply is too long</h3>
 <p>你可能会见到形如&quot;Remote &lsquo;g&rsquo; packet reply is too long&quot;相关的问题，这很可能是因为gdb版本不支持或者太低，你可以更改gdb为gdb-multiarch或者riscv64-unknown-elf-gdb，如果都不行，你需要重新编译升级gdb版本，可以选择7.2的方式，或者参考这个方式重新编译gdb：<a class="link" href="http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html"  title="http://rcore-os.cn/rCore-Tutorial-deploy/docs/pre-lab/gdb.html"
      target="_blank" rel="noopener"
@@ -682,10 +682,10 @@
 <p>注意：你可能会在这里遇到:=运算符的问题，这是编译gdb选择的python太低的问题，你需要重新编译过gdb的版本让他能够支持：</p>
 <p>首先参考4.1下载gdb源码，然后进入主页面后分别运行</p>
 <p>(这个相当于选择菜单，我选择编译了支持全体系结构的gdb，同时内置python版本是3.8）</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./configure --with-python<span class="o">=</span>/usr/bin/python3.8  --enable-targets<span class="o">=</span>all --enable-64-bit-bfd
-make -j8
-sudo make install
-</code></pre></div><p>安装成功后再次运行即可成功！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./configure --with-python<span class="o">=</span>/usr/bin/python3.8  --enable-targets<span class="o">=</span>all --enable-64-bit-bfd
+</span></span><span class="line"><span class="cl">make -j8
+</span></span><span class="line"><span class="cl">sudo make install
+</span></span></code></pre></div><p>安装成功后再次运行即可成功！</p>
 <h3 id="73-参数显示optimized-out">7.3 参数显示&lt;<em>optimized out</em>&gt;</h3>
 <p>如标题所示，我们只需要降低优化等级就好，在makefile中找到-o2改成-o0，并且注意到有关编译选项中有-o需要改成-o2（比如调试内核中的），修改后重新编译就可以解决问题</p>
 <p><figure 

@@ -166,13 +166,11 @@ sudo make
 
 sudo make install
 </code></pre><p>接着重新编译ffmpeg：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./configure --enable-shared --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp <span class="se">\
-</span><span class="se"></span>  --enable-nonfree<span class="se">\ </span> <span class="c1">#可选--enable-gpl --enable-libx264   --enable-libx265 </span>
- --extra-cflags<span class="o">=</span>-I/usr/local/cuda/include --extra-ldflags<span class="o">=</span>-L/usr/local/cuda/lib64 <span class="se">\
-</span><span class="se"></span> --prefix<span class="o">=</span>/usr/  
-
-
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./configure --enable-shared --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --enable-nonfree<span class="se">\ </span> <span class="c1">#可选--enable-gpl --enable-libx264   --enable-libx265 </span>
+</span></span><span class="line"><span class="cl"> --extra-cflags<span class="o">=</span>-I/usr/local/cuda/include --extra-ldflags<span class="o">=</span>-L/usr/local/cuda/lib64 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --prefix<span class="o">=</span>/usr/  
+</span></span></code></pre></div><blockquote>
 <p>注意，这里prefix之所以要指定为/usr/是为了让opencv能找到ffmpeg
 如果还是找不到，你可以用cmake-gui 然后打开grouped advanced找到pkgcfg，按照这样类似的命名规则，再找到你现在拥有的相应的so在右上角增加入口添加进去即可。</p>
 </blockquote>

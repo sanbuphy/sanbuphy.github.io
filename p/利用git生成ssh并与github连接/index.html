@@ -124,10 +124,10 @@
 </ul>
 <h2 id="生成ssh账号密码">生成SSH账号密码</h2>
 <p>如果你是第一次使用,可以先设置git的user name和email：</p>
-<pre tabindex="0"><code>git config --global user.name &quot;这里改成你的名字&quot;
-git config --global user.email  &quot;这里改成你的邮箱&quot;
+<pre tabindex="0"><code>git config --global user.name &#34;这里改成你的名字&#34;
+git config --global user.email  &#34;这里改成你的邮箱&#34;
 </code></pre><p>接下来即可生成ssh密钥：（注意别把$和#注释部分也给复制进去了，只需要复制考虑$后面的部分）</p>
-<pre tabindex="0"><code>$ ssh-keygen -t rsa -b 4096 -C &quot;这里改成你的邮箱&quot;
+<pre tabindex="0"><code>$ ssh-keygen -t rsa -b 4096 -C &#34;这里改成你的邮箱&#34;
 # -t 密钥方式设定
 # -b 密钥强度设定
 # -C 注释设定
@@ -165,7 +165,7 @@ Your public key has been saved in id_rsa_github.pub.
 </code></pre><p>最后修正权限：</p>
 <pre tabindex="0"><code>$ chmod 600 ~/.ssh/config
 </code></pre><p>接下来我们尝试连接，首先确认ssh-agent是否正常运行:</p>
-<pre tabindex="0"><code>$ eval &quot;$(ssh-agent -s)&quot;
+<pre tabindex="0"><code>$ eval &#34;$(ssh-agent -s)&#34;
 
 Agent pid 32047
 # 出现类似信息则表示正常运行
@@ -177,7 +177,7 @@ Identity added: /Users/ts/.ssh/id_rsa_github (/Users/ts/.ssh/id_rsa_github)
 </code></pre><p>最后进行连接！</p>
 <pre tabindex="0"><code>$ ssh -T git@github.com
 
-Hi mackerel7! You've successfully authenticated, but GitHub does not provide shell access.
+Hi mackerel7! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
 #恭喜你，当出现如上信息则表示你已经成功链接！
 </code></pre><h2 id="reference">Reference</h2>
 <ul>

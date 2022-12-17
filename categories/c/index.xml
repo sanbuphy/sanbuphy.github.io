@@ -71,15 +71,6 @@
     </item>
     
     <item>
-      <title>C位段/位域(bit field)的排序原理</title>
-      <link>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</link>
-      <pubDate>Sun, 31 Jul 2022 09:18:16 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</guid>
-      <description>在做PA的过程中，发现这样的一段代码（模拟cpu的过程）： 那么问题就来了——为什么这里op位段会自动匹配前面的部分？（为什么不匹配后面） 和大</description>
-    </item>
-    
-    <item>
       <title>NJU计算机课程基础实验 PA1笔记</title>
       <link>https://sanbuphy.github.io/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa1%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Sat, 11 Jun 2022 22:50:40 +0800</pubDate>

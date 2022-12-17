@@ -167,12 +167,12 @@
 <p>如果你不知道&quot;怎么才算是看懂了框架代码&quot;, 你可以先尝试进行后面的任务. 如果发现不知道如何下手, 再回来仔细阅读这一节</p>
 <h3 id="cpu">cpu</h3>
 <p>先驱为CPU创造了一个特殊的计数器, 叫&quot;程序计数器&quot;(Program Counter, PC). 在x86中, 它有一个特殊的名字, 叫 <code>EIP</code>(Extended Instruction Pointer).</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-  <span class="err">从</span><span class="n">PC指示的存储器位置取出指令</span><span class="p">;</span>
-  <span class="err">执行指令</span><span class="p">;</span>
-  <span class="err">更新</span><span class="n">PC</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="第一项工作就是将一个内置的客户程序读入到内存中">第一项工作就是将一个内置的客户程序读入到内存中</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">从</span><span class="n">PC</span><span class="err">指示的存储器位置取出指令</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">执行指令</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">更新</span><span class="n">PC</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="第一项工作就是将一个内置的客户程序读入到内存中">第一项工作就是将一个内置的客户程序读入到内存中</h3>
 <p>先打开：<code>nemu/src/isa/$ISA/init.c</code></p>
 <p>monitor会调用 <code>init_isa()</code>函数(在 <code>nemu/src/isa/$ISA/init.c</code>中定义), 来进行一些ISA相关的初始化工作.</p>
 <p>第一项工作就是将一个内置的客户程序读入到内存中.</p>
@@ -187,20 +187,20 @@
 <h3 id="物理内存的起始地址">物理内存的起始地址</h3>
 <p>x86的物理内存是从0开始编址的, 但对于一些ISA来说却不是这样, 例如mips32和riscv32的物理地址均从 <code>0x80000000</code>开始. 因此对于mips32和riscv32, 其 <code>CONFIG_MBASE</code>将会被定义成 <code>0x80000000</code>. 将来CPU访问内存时, 我们会将CPU将要访问的内存地址映射到 <code>pmem</code>中的相应偏移位置, 这是通过 <code>nemu/src/memory/paddr.c</code>中的 <code>guest_to_host()</code>函数实现的. 例如如果mips32的CPU打算访问内存地址 <code>0x80000000</code>, 我们会让它最终访问 <code>pmem[0]</code>, 从而可以正确访问客户程序的第一条指令. 这种机制有一个专门的名字, 叫地址映射, 在后续的PA中我们还会再遇到它.x86的物理内存是从0开始编址的, 但对于一些ISA来说却不是这样, 例如mips32和riscv32的物理地址均从0x80000000开始. 因此对于mips32和riscv32, 其CONFIG_MBASE将会被定义成0x8000000</p>
 <p>Monitor读入客户程序并对寄存器进行初始化后, 这时内存的布局如下:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown">pmem:
-
-CONFIG_MBASE      RESET_VECTOR
-      |                 |
-      v                 v
-      -----------------------------------------------
-      |                 |                  |
-      |                 |    guest prog    |
-      |                 |                  |
-      -----------------------------------------------
-                        ^
-                        |
-                       pc
-</code></pre></div><p>NEMU返回到 <code>init_monitor()</code>函数中, 继续调用 <code>load_img()</code>函数 (在 <code>nemu/src/monitor/monitor.c</code>中定义). 这个函数会将一个有意义的客户程序从<a class="link" href="https://en.wikipedia.org/wiki/Disk_image"  target="_blank" rel="noopener"
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">pmem:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CONFIG_MBASE      RESET_VECTOR
+</span></span><span class="line"><span class="cl">      |                 |
+</span></span><span class="line"><span class="cl">      v                 v
+</span></span><span class="line"><span class="cl">      -----------------------------------------------
+</span></span><span class="line"><span class="cl">      |                 |                  |
+</span></span><span class="line"><span class="cl">      |                 |    guest prog    |
+</span></span><span class="line"><span class="cl">      |                 |                  |
+</span></span><span class="line"><span class="cl">      -----------------------------------------------
+</span></span><span class="line"><span class="cl">                        ^
+</span></span><span class="line"><span class="cl">                        |
+</span></span><span class="line"><span class="cl">                       pc
+</span></span></code></pre></div><p>NEMU返回到 <code>init_monitor()</code>函数中, 继续调用 <code>load_img()</code>函数 (在 <code>nemu/src/monitor/monitor.c</code>中定义). 这个函数会将一个有意义的客户程序从<a class="link" href="https://en.wikipedia.org/wiki/Disk_image"  target="_blank" rel="noopener"
     >镜像文件</a>读入到内存, 覆盖刚才的内置客户程序.</p>
 <p>如果运行NEMU的时候没有给出这个参数, NEMU将会运行内置客户程序.</p>
 <h4 id="思考题1-1参数">思考题1：-1参数</h4>

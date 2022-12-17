@@ -288,18 +288,18 @@
     <section class="article-content">
     <p>有一天遇到需要实现shell脚本中变量连着括号一起读取，实现方法如下：</p>
 <p>如果不加双引号会翻车（你可以尝试去除不同的双引号看看效果）</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-SH" data-lang="SH"><span class="cp">#!/bin/bash
-</span><span class="cp"></span><span class="nv">OLDIFS</span><span class="o">=</span>IFS
-<span class="c1">#IFS=`echo -e &#34;\n&#34;`</span>
-<span class="nv">f1</span><span class="o">=</span><span class="s2">&#34;DAFS DFFS&#34;</span>
-<span class="nv">f2</span><span class="o">=</span><span class="m">2</span>
-<span class="nv">f3</span><span class="o">=</span><span class="m">3</span>
-<span class="nv">f4</span><span class="o">=</span><span class="m">4</span>
-<span class="nv">array</span><span class="o">=(</span><span class="s2">&#34;f1&#34;</span> <span class="nv">$f2</span> <span class="nv">$f3</span> f4<span class="o">)</span>
-<span class="k">for</span> element in <span class="s2">&#34;{array[@]}&#34;</span>
-<span class="k">do</span>
-<span class="nb">echo</span> <span class="nv">$element</span>
-</code></pre></div><p>Reference：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-SH" data-lang="SH"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nv">OLDIFS</span><span class="o">=</span>IFS
+</span></span><span class="line"><span class="cl"><span class="c1">#IFS=`echo -e &#34;\n&#34;`</span>
+</span></span><span class="line"><span class="cl"><span class="nv">f1</span><span class="o">=</span><span class="s2">&#34;DAFS DFFS&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">f2</span><span class="o">=</span><span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="nv">f3</span><span class="o">=</span><span class="m">3</span>
+</span></span><span class="line"><span class="cl"><span class="nv">f4</span><span class="o">=</span><span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="nv">array</span><span class="o">=(</span><span class="s2">&#34;f1&#34;</span> <span class="nv">$f2</span> <span class="nv">$f3</span> f4<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> element in <span class="s2">&#34;{array[@]}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$element</span>
+</span></span></code></pre></div><p>Reference：</p>
 <ul>
 <li><a class="link" href="https://www.e-learn.cn/topic/1622359"  target="_blank" rel="noopener"
     >shell脚本中oldIFS=$IFS</a></li>

@@ -619,36 +619,36 @@
 <p>实现之后, 你可以在<code>__am_irq_handle()</code>中通过<code>printf</code>输出上下文<code>c</code>的内容, 然后通过简易调试器观察触发自陷时的寄存器状态, 从而检查你的<code>Context</code>实现是否正确.</p>
 </blockquote>
 <p>这部分关键是理解结构体和汇编语言的关系，让我们看一段示例代码：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">test</span>
-<span class="p">{</span>
-        <span class="kt">char</span> <span class="n">ch</span><span class="p">;</span>
-        <span class="kt">short</span> <span class="n">s</span><span class="p">;</span>
-        <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
-        <span class="kt">long</span> <span class="n">l</span><span class="p">;</span>
-<span class="p">};</span>
-
-
-<span class="kt">int</span> <span class="nf">fun</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-        <span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
-        <span class="k">struct</span> <span class="n">test</span> <span class="n">tmp</span><span class="p">;</span>
-
-        <span class="n">ret</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-
-        <span class="n">tmp</span><span class="p">.</span><span class="n">ch</span><span class="o">=</span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
-        <span class="n">tmp</span><span class="p">.</span><span class="n">s</span><span class="o">=</span><span class="mi">123</span><span class="p">;</span>
-        <span class="n">tmp</span><span class="p">.</span><span class="n">i</span><span class="o">=</span><span class="mi">1234</span><span class="p">;</span>
-        <span class="n">tmp</span><span class="p">.</span><span class="n">l</span><span class="o">=</span><span class="mi">12345</span><span class="p">;</span>
-
-        <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>汇编代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">test</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span> <span class="n">ch</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">short</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="n">l</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">fun</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">struct</span> <span class="n">test</span> <span class="n">tmp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">ret</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">tmp</span><span class="p">.</span><span class="n">ch</span><span class="o">=</span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tmp</span><span class="p">.</span><span class="n">s</span><span class="o">=</span><span class="mi">123</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tmp</span><span class="p">.</span><span class="n">i</span><span class="o">=</span><span class="mi">1234</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tmp</span><span class="p">.</span><span class="n">l</span><span class="o">=</span><span class="mi">12345</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>汇编代码：</p>
 <pre tabindex="0"><code class="language-6502&#x20;assembly" data-lang="6502&#x20;assembly">  pushl   %ebp
   movl    %esp, %ebp
   subl    $16, %esp
   //ret=0;
   movl    $0, -16(%ebp)
-  //tmp.ch='a';
+  //tmp.ch=&#39;a&#39;;
   movb    $97, -12(%ebp)
   //tmp.s=123;
   movw    $123, -10(%ebp)
@@ -670,12 +670,17 @@
 <p>具体的Context是怎么被加载的？</p>
 <p>首先我们能在S中找到.globl __am_asm_trap，其中.globl关键字作用是</p>
 <p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 606; 
+			flex-basis: 1456px"
 	>
-	<a href="/image/8%7dBZVLYNSMF-4G%7d-%5c%283DDGWJ_fbcT98jcT7.png" >
-		<img src="/image/8%7dBZVLYNSMF-4G%7d-%5c%283DDGWJ_fbcT98jcT7.png"
-			
-			
-			
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/8%7DBZVLYNSMF-4G%7D-%283DDGWJ_fbcT98jcT7.png" data-size="1080x178">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/8%7DBZVLYNSMF-4G%7D-%283DDGWJ_fbcT98jcT7.png"
+			width="1080"
+			height="178"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/8%7DBZVLYNSMF-4G%7D-%283DDGWJ_fbcT98jcT7_hu3149dd302982f7d7e3e8683da74d3eb8_46803_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/8%7DBZVLYNSMF-4G%7D-%283DDGWJ_fbcT98jcT7_hu3149dd302982f7d7e3e8683da74d3eb8_46803_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
@@ -683,12 +688,17 @@
 </figure></p>
 <p>能被链接后，就会和extern相对应，所以我们确定__am_irq_trap 是可以在链接过程打包到可执行文件的</p>
 <p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 418; 
+			flex-basis: 1004px"
 	>
-	<a href="/image/%5c%297%60_%7d]WQ9IQ%5c%29%5c%29VWNP%5c%28CD%5c~DM_Drh4r0nTcu.png" >
-		<img src="/image/%5c%297%60_%7d]WQ9IQ%5c%29%5c%29VWNP%5c%28CD%5c~DM_Drh4r0nTcu.png"
-			
-			
-			
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/%297%60_%7D%5DWQ9IQ%29%29VWNP%28CD~DM_Drh4r0nTcu.png" data-size="1021x244">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/%297%60_%7D%5DWQ9IQ%29%29VWNP%28CD~DM_Drh4r0nTcu.png"
+			width="1021"
+			height="244"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/%297%60_%7D%5DWQ9IQ%29%29VWNP%28CD~DM_Drh4r0nTcu_hu54773bb2d2943e873bd999e6f9a995f0_47277_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/%297%60_%7D%5DWQ9IQ%29%29VWNP%28CD~DM_Drh4r0nTcu_hu54773bb2d2943e873bd999e6f9a995f0_47277_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
@@ -854,7 +864,7 @@
 <p><strong>用户程序的入口位于</strong><code>navy-apps/libs/libos/src/crt0/start/$ISA.S</code>中的<code>_start()</code>函数, 这里的<code>crt</code>是<code>C RunTime</code>的缩写, <code>0</code>的含义表示最开始. <code>_start()</code>函数会调用<code>navy-apps/libs/libos/src/crt0/crt0.c</code>中的<code>call_main()</code>函数, 然后调用用户程序的<code>main()</code>函数, 从<code>main()</code>函数返回后会调用<code>exit()</code>结束运行.</p>
 <p>我们约定目前用户程序需要被链接到内存位置<code>0x83000000</code>附近, Navy已经设置好了相应的选项(见<code>navy-apps/scripts/$ISA.mk</code>中的<code>LDFLAGS</code>变量).</p>
 </blockquote>
-<p>注：这里我的电脑在make ISA=riscv32的时候出现了问题，我怀疑是交叉汇编环境冲突。。不明白(assert.h相关说undefined reference to `__assert_fail'）于是从另外一个电脑弄来了编译通过的文件。</p>
+<p>注：这里我的电脑在make ISA=riscv32的时候出现了问题，我怀疑是交叉汇编环境冲突。。不明白(assert.h相关说undefined reference to `__assert_fail&rsquo;）于是从另外一个电脑弄来了编译通过的文件。</p>
 <blockquote>
 <p>可执行文件位于ramdisk偏移为0处, 访问它就可以得到用户程序的第一个字节.</p>
 </blockquote>
@@ -1071,12 +1081,17 @@
 <p>这里我犯傻了一下。。。实际上读取的都是整数类型，我在那一直打印字符串数据格式就说一直怎么不对- -。。。习惯了char * arr[]直接打印arr而不习惯普通int arr[]需要取数值了233333&hellip;</p>
 <p>直接调用函数可以打印出魔数</p>
 <p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 88; 
+			flex-basis: 213px"
 	>
-	<a href="/image/4Q%5c%29]5XFRXIIKBD186XDEI8G_aplRYGibwG.png" >
-		<img src="/image/4Q%5c%29]5XFRXIIKBD186XDEI8G_aplRYGibwG.png"
-			
-			
-			
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/4Q%29%5D5XFRXIIKBD186XDEI8G_aplRYGibwG.png" data-size="352x396">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/4Q%29%5D5XFRXIIKBD186XDEI8G_aplRYGibwG.png"
+			width="352"
+			height="396"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/4Q%29%5D5XFRXIIKBD186XDEI8G_aplRYGibwG_hub2c197b82e1596bbf7ddc1fb855b17d4_61597_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/4Q%29%5D5XFRXIIKBD186XDEI8G_aplRYGibwG_hub2c197b82e1596bbf7ddc1fb855b17d4_61597_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>
@@ -1084,12 +1099,17 @@
 </figure></p>
 <p>和我们dump出来的结果是一致的：</p>
 <p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 171; 
+			flex-basis: 411px"
 	>
-	<a href="/image/CQ%5c%28DCNMO_B6WF]8H%7d@%5c%29OPB2_Zd7NRHA0bl.png" >
-		<img src="/image/CQ%5c%28DCNMO_B6WF]8H%7d@%5c%29OPB2_Zd7NRHA0bl.png"
-			
-			
-			
+	<a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/CQ%28DCNMO_B6WF%5D8H%7D@%29OPB2_Zd7NRHA0bl.png" data-size="882x514">
+		<img src="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/CQ%28DCNMO_B6WF%5D8H%7D@%29OPB2_Zd7NRHA0bl.png"
+			width="882"
+			height="514"
+			srcset="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/CQ%28DCNMO_B6WF%5D8H%7D@%29OPB2_Zd7NRHA0bl_hu588e9734b4c691d524b207377ae8290c_140500_480x0_resize_box_3.png 480w, /p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa3%E7%AC%94%E8%AE%B0%E4%B8%80/image/CQ%28DCNMO_B6WF%5D8H%7D@%29OPB2_Zd7NRHA0bl_hu588e9734b4c691d524b207377ae8290c_140500_1024x0_resize_box_3.png 1024w"
 			loading="lazy"
 			>
 	</a>

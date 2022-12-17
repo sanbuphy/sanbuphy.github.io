@@ -148,10 +148,10 @@
 <h2 id="nginx服务器搭建">Nginx服务器搭建</h2>
 <p>因为要将处理过的图片串成rtmp码流，因此，需要搭建一个rtmp服务器，常用的方案是Nginx服务器。</p>
 <h4 id="安装依赖">安装依赖</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo apt-get install openssl libssl-dev
-sudo apt-get install libpcre3 libpcre3-dev
-sudo apt-get install zlib1g-dev
-</code></pre></div><h3 id="安装nginx">安装nginx</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install openssl libssl-dev
+</span></span><span class="line"><span class="cl">sudo apt-get install libpcre3 libpcre3-dev
+</span></span><span class="line"><span class="cl">sudo apt-get install zlib1g-dev
+</span></span></code></pre></div><h3 id="安装nginx">安装nginx</h3>
 <p>首先下载nginx：</p>
 <p><a class="link" href="http://nginx.org/en/download.html"  title="http://nginx.org/en/download.html"
      target="_blank" rel="noopener"
@@ -160,8 +160,8 @@ sudo apt-get install zlib1g-dev
      target="_blank" rel="noopener"
     >http://nginx.org/download/nginx-1.22.0.tar.gz</a></p>
 <p>以及nginx-rtmp-module:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">git clone https://github.com/arut/nginx-rtmp-module.git
-</code></pre></div><p>将两者放在同级目录的文件夹下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/arut/nginx-rtmp-module.git
+</span></span></code></pre></div><p>将两者放在同级目录的文件夹下：</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -180,18 +180,18 @@ sudo apt-get install zlib1g-dev
 	
 </figure></p>
 <p>之后进入nginx的文件夹，依次运行指令进行编译：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">./configure --add-module<span class="o">=</span>../nginx-rtmp-module
-make
-sudo make install
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./configure --add-module<span class="o">=</span>../nginx-rtmp-module
+</span></span><span class="line"><span class="cl">make
+</span></span><span class="line"><span class="cl">sudo make install
+</span></span></code></pre></div><blockquote>
 <p>安装后的一些信息：</p>
 <p>nginx安装目录 /usr/local/nginx      
 nginx配置目录 /usr/local/nginx/conf/nginx.conf        
 nginx运行目录 /usr/local/nginx/sbin/nginx &ndash;options    </p>
 </blockquote>
 <p>运行指令启动nginx:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo /usr/local/nginx/sbin/nginx
-</code></pre></div><p>在浏览器中输入localhost，若看到如下画面，表示运行成功</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo /usr/local/nginx/sbin/nginx
+</span></span></code></pre></div><p>在浏览器中输入localhost，若看到如下画面，表示运行成功</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -212,62 +212,61 @@ nginx运行目录 /usr/local/nginx/sbin/nginx &ndash;options    </p>
 <h3 id="配置nginx用于推流转发">配置nginx用于推流转发</h3>
 <p>可以采取vim或者vscode进行编辑</p>
 <p>这里采用vscode，首先运行</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">code /usr/local/nginx/conf/nginx.conf
-
-</code></pre></div><p>接着找到对应位置进行填充：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">#地址为  /usr/local/nginx/conf/nginx.conf
-
-#注明：请勿直接覆盖原来的conf文件,这只是部分有关直播的内容
-
-#配置RTMP，这个配置格式在github的readme上有详细说明
-
-rtmp {                
-
-  server {
-
-    listen 1935;  #服务端口--默认
-
-    chunk_size 4096;   #数据传输块的大小--默认
-
-    #设置直播的application名称是 mylive
-
-  application mylive{ 
-
-    live on; #live on表示开启直播模式
-
-    }
-
-  }
-
-}
-
-#请在http里面找到server
-
-http{
-
-  ...#这里有一些其他的配置
-
-#复制粘贴这个替换原来的server
- server {
-            listen       80;
-            server_name  localhost;
-            location / {
-                    root   html;
-                    index  index.html index.htm;
-            }
-            location /pop/video {
-                    alias /var/video;
-            }
-            location /info {
-                rtmp_stat all;
-                rtmp_stat_stylesheet stat.xsl;
-            }
-            location /stat.xsl {
-                    root html; #这里可以进行一个替换
-            }
-
-    }
-</code></pre></div><p>如图所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">code /usr/local/nginx/conf/nginx.conf
+</span></span></code></pre></div><p>接着找到对应位置进行填充：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">#地址为  /usr/local/nginx/conf/nginx.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#注明：请勿直接覆盖原来的conf文件,这只是部分有关直播的内容
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#配置RTMP，这个配置格式在github的readme上有详细说明
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">rtmp {                
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  server {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    listen 1935;  #服务端口--默认
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    chunk_size 4096;   #数据传输块的大小--默认
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    #设置直播的application名称是 mylive
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  application mylive{ 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    live on; #live on表示开启直播模式
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#请在http里面找到server
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">http{
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  ...#这里有一些其他的配置
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#复制粘贴这个替换原来的server
+</span></span><span class="line"><span class="cl"> server {
+</span></span><span class="line"><span class="cl">            listen       80;
+</span></span><span class="line"><span class="cl">            server_name  localhost;
+</span></span><span class="line"><span class="cl">            location / {
+</span></span><span class="line"><span class="cl">                    root   html;
+</span></span><span class="line"><span class="cl">                    index  index.html index.htm;
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">            location /pop/video {
+</span></span><span class="line"><span class="cl">                    alias /var/video;
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">            location /info {
+</span></span><span class="line"><span class="cl">                rtmp_stat all;
+</span></span><span class="line"><span class="cl">                rtmp_stat_stylesheet stat.xsl;
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">            location /stat.xsl {
+</span></span><span class="line"><span class="cl">                    root html; #这里可以进行一个替换
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    }
+</span></span></code></pre></div><p>如图所示：</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -342,57 +341,57 @@ http{
 </figure></p>
 <p><strong>至此，完成了rtmp-nginx服务器的全部配置</strong></p>
 <h2 id="推流代码部分">推流代码部分</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-
-<span class="n">rtsp</span> <span class="o">=</span> <span class="s2">&#34;随便选个视频源测试&#34;</span>
-<span class="n">rtmp</span> <span class="o">=</span> <span class="s1">&#39;rtmp://localhost:1935/mylive/test&#39;</span>
- 
-<span class="c1"># 读取视频并获取属性</span>
-<span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">rtsp</span><span class="p">)</span>
-<span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_WIDTH</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_HEIGHT</span><span class="p">)))</span>
-<span class="n">sizeStr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;x&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&#34;sezie is</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span><span class="n">sizeStr</span><span class="p">)</span>
-<span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-y&#39;</span><span class="p">,</span> <span class="s1">&#39;-an&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;rawvideo&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-vcodec&#39;</span><span class="p">,</span><span class="s1">&#39;rawvideo&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-pix_fmt&#39;</span><span class="p">,</span> <span class="s1">&#39;bgr24&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="n">sizeStr</span><span class="p">,</span>
-    <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;15&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-c:v&#39;</span><span class="p">,</span> <span class="s1">&#39;libx264&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-pix_fmt&#39;</span><span class="p">,</span> <span class="s1">&#39;yuv420p&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-preset&#39;</span><span class="p">,</span> <span class="s1">&#39;ultrafast&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;flv&#39;</span><span class="p">,</span>
-    <span class="n">rtmp</span><span class="p">]</span>
- 
-<span class="n">pipe</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">command</span>
-    <span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
-<span class="p">)</span>
- 
-<span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
-    <span class="n">success</span><span class="p">,</span><span class="n">frame1</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="c1"># print(frame1.shape())</span>
-    <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
-        <span class="c1">#=================进行一些图像处理=================</span>
-        <span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">frame1</span><span class="p">,(</span><span class="mi">50</span><span class="p">,</span><span class="mi">200</span><span class="p">),(</span><span class="mi">900</span><span class="p">,</span><span class="mi">400</span><span class="p">),[</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
-        <span class="c1">#=================进行一些图像处理=================</span>
-        <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
-            <span class="k">break</span>    
-        <span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">frame1</span><span class="o">.</span><span class="n">tostring</span><span class="p">())</span>
- 
-<span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-<span class="n">pipe</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
-</code></pre></div><p>运行上述代码，然后在nginx服务器info上可查看推流情况</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">cv2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">rtsp</span> <span class="o">=</span> <span class="s2">&#34;随便选个视频源测试&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">rtmp</span> <span class="o">=</span> <span class="s1">&#39;rtmp://localhost:1935/mylive/test&#39;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 读取视频并获取属性</span>
+</span></span><span class="line"><span class="cl"><span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">rtsp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_WIDTH</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_HEIGHT</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="n">sizeStr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;x&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;sezie is</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span><span class="n">sizeStr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-y&#39;</span><span class="p">,</span> <span class="s1">&#39;-an&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;rawvideo&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-vcodec&#39;</span><span class="p">,</span><span class="s1">&#39;rawvideo&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-pix_fmt&#39;</span><span class="p">,</span> <span class="s1">&#39;bgr24&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="n">sizeStr</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;15&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-c:v&#39;</span><span class="p">,</span> <span class="s1">&#39;libx264&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-pix_fmt&#39;</span><span class="p">,</span> <span class="s1">&#39;yuv420p&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-preset&#39;</span><span class="p">,</span> <span class="s1">&#39;ultrafast&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;flv&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rtmp</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">pipe</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">command</span>
+</span></span><span class="line"><span class="cl">    <span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">success</span><span class="p">,</span><span class="n">frame1</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># print(frame1.shape())</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#=================进行一些图像处理=================</span>
+</span></span><span class="line"><span class="cl">        <span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">frame1</span><span class="p">,(</span><span class="mi">50</span><span class="p">,</span><span class="mi">200</span><span class="p">),(</span><span class="mi">900</span><span class="p">,</span><span class="mi">400</span><span class="p">),[</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#=================进行一些图像处理=================</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span>    
+</span></span><span class="line"><span class="cl">        <span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">frame1</span><span class="o">.</span><span class="n">tostring</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">pipe</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+</span></span></code></pre></div><p>运行上述代码，然后在nginx服务器info上可查看推流情况</p>
 <p>之后用ffplay或者VLC等客户端软件即可查看推流视频</p>
 <h2 id="可能遇到的坑">可能遇到的坑：</h2>
 <p>推送时的fps选取要和源相近，不要自己随意跳帧。。。。否则speed会很奇葩的延迟。以1.0左右为准。</p>
 <p>快速重启可以写一个shell：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">echo</span> 你的sudo密码 <span class="p">|</span> sudo -S /usr/local/nginx/sbin/nginx
-xdg-open http://localhost/info
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> 你的sudo密码 <span class="p">|</span> sudo -S /usr/local/nginx/sbin/nginx
+</span></span><span class="line"><span class="cl">xdg-open http://localhost/info
+</span></span></code></pre></div>
 </section>
 
 

@@ -210,7 +210,7 @@ def process():
 			pid = -1
  
 		if pid &lt; 0:
-			print 'error in fork'
+			print &#39;error in fork&#39;
 			all_process.append(-1)
 		elif 0 == pid:
 			sub_process(i)
@@ -228,13 +228,13 @@ def process():
  
 def main():
 	if len(sys.argv) != 2:
-		print 'wrong number parameter'
+		print &#39;wrong number parameter&#39;
 		return 0
  
 	signal.signal(signal.SIGINT, sig_process)
 	process()
  
-if __name__ == '__main__':
+if __name__ == &#39;__main__&#39;:
 	main()
 </code></pre><p><strong>多线程测试代码</strong></p>
 <pre tabindex="0"><code>#!/usr/bin/python
@@ -282,14 +282,14 @@ def process():
  
 def main():
 	if len(sys.argv) != 2:
-		print 'wrong number parameter'
+		print &#39;wrong number parameter&#39;
 		return 0
  
 	signal.signal(signal.SIGINT, sig_process)
 	process()
  
  
-if __name__ == '__main__':
+if __name__ == &#39;__main__&#39;:
 	main()
 </code></pre><h2 id="reference">Reference</h2>
 <ul>

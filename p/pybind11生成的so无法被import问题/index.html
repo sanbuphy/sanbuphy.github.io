@@ -303,9 +303,9 @@
 <p>4.路径存在冲突，so分明在某个已包含的目录下存在，没有其他的错误，可还总是报错ModuleNotFoundError，这种情况也是很坑人的，花费了很久时间想不出原因来，就是没想到可能路径上存在重名的冲突，例如，我第一次使用python代码调用mediapipe时出现报错ModuleNotFoundError: No module named &lsquo;mediapipe.python._framework_bindings&rsquo;，其他什么错误原因都没发现，郁闷地熬夜，最后发现虽然/usr/local/lib/python3.6/site-packages/mediapipe/python/_framework_bindings.cpython-36m-x86_64-linux-gnu.so是存在的，但是在运行程序的工作目录下也有个使用过用来build出meaidpipe的wheel包的源码目录，由于当前工作目录加入了sys.path里最前面，于是python搜索路径时自然是优先找的/workspace/mediapipe/python/&hellip;，这个下面确实是没有那个so文件，于是把这里的mediapipe目录改名或者移走，问题就消失了。</p>
 <p>5.最后，如果是自己实现的so库，要想能被python import，so库的内部实现按规范来。</p>
 <p>怎么确认你当前使用的python版本支持哪些后缀的库能被import呢，很简单，执行下面的代码:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="kn">import</span> <span class="nn">importlib.machinery</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">machinery</span><span class="o">.</span><span class="n">all_suffixes</span><span class="p">())</span>
-</code></pre></div><pre><code>此时你就能看到上述so熟悉的身影，这就是为什么有些so能够被import的底层原因。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">importlib.machinery</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">machinery</span><span class="o">.</span><span class="n">all_suffixes</span><span class="p">())</span>
+</span></span></code></pre></div><pre><code>此时你就能看到上述so熟悉的身影，这就是为什么有些so能够被import的底层原因。
 </code></pre>
 <p>Reference</p>
 <p><a class="link" href="https://blog.csdn.net/XCCCCZ/article/details/111089151"  target="_blank" rel="noopener"
