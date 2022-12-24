@@ -6,7 +6,297 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 04 Dec 2022 11:23:03 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 24 Dec 2022 17:18:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Ubuntu下Clion利用远程Docker开发环境</title>
+        <link>https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+        <pubDate>Sat, 24 Dec 2022 17:18:16 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
+        <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;最近在接触部分paddle源码，但由于本地搭建特容易出现环境依赖问题和其他奇怪的问题，故选择了docker编译。有很多朋友遇到这类问题第一想法便是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直接用vscode gnu global凑合就完事了  （缺点：符号信息缺失）&lt;/li&gt;
+&lt;li&gt;找个其他可以的服务器编译 （缺点：需要钱）&lt;/li&gt;
+&lt;li&gt;其他codespace之类的东西 （缺点：速度慢）&lt;/li&gt;
+&lt;li&gt;直接用 vscode attach docker就完事了（缺点：想要用到clangd配合cmake的compile的json生成完整符号信息，但是attach后我发现我不能给它安装vscode的clangd插件）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;综上所述，我们需要一个强大的统一开发环境使用，这时候最好的选择就是docker了，clion可以完美支持c++项目的跳转以及cmake的调试以及符号信息的获取，所以我们使用clion进行符号跳转的查看。&lt;/p&gt;
+&lt;p&gt;但clion不像vscode可以很方便的attach，我们需要远程ssh进行处理&lt;/p&gt;
+&lt;p&gt;具体编译细节和各平台的编译过程可参考paddle官方手册：&lt;a class=&#34;link&#34; href=&#34;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&#34;  title=&#34;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;一docker基础依赖安装&#34;&gt;一、docker基础依赖安装&lt;/h2&gt;
+&lt;p&gt;如果没有pull docker，先使用：&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-gpu-cuda10.2-cudnn7-dev&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;因为我的是11.5的cuda，所以使用&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;pull之后直接run：&lt;/p&gt;
+&lt;p&gt;注意！【这里和官方建议不同的是我没有用&lt;code&gt;--network=host&lt;/code&gt;而是用&lt;code&gt;-p 50003:22&lt;/code&gt;为了ssh的端口映射】&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;nvidia-docker run --name paddle-test -v &lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;:/paddle -p 50003:22 -it registry.baidubce.com/paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82 /bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果你已经run了，直接docker exec -it即可，或者在vscode或clion中直接attach到终端。&lt;/p&gt;
+&lt;h2 id=&#34;二换源&#34;&gt;二、换源&lt;/h2&gt;
+&lt;p&gt;进入docker终端后首先对docker内进行一波换源：vim 修改 &lt;code&gt;/etc/apt/sources.list&lt;/code&gt;  全部替换为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;三ssh依赖安装与启动&#34;&gt;三、ssh依赖安装与启动&lt;/h2&gt;
+&lt;p&gt;接下来的操作大体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.anquanclub.cn/6674.html&#34;  title=&#34;https://www.anquanclub.cn/6674.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.anquanclub.cn/6674.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;第一步：安装依赖&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get update
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get install passwd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get install openssh-server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get install rsync  &lt;span class=&#34;c1&#34;&gt;#后续clion同步文件需要用到&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;第二步：设置登录名密码：通过&lt;code&gt;passwd&lt;/code&gt;命令来设置root的密码，比如123456&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 834; 
+			flex-basis: 2002px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5.png&#34; data-size=&#34;559x67&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5.png&#34;
+			width=&#34;559&#34;
+			height=&#34;67&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5_hu5c46e2f3951d86f1f368434ef6e6043b_3027_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5_hu5c46e2f3951d86f1f368434ef6e6043b_3027_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;第三步：启动ssh服务&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以通过&lt;code&gt;ps -e |grep ssh&lt;/code&gt;查看服务是否启动&lt;/p&gt;
+&lt;p&gt;第四步：修改配置文件，通过vim编辑器打开配置文件 &lt;code&gt;vim /etc/ssh/sshd_config&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在配置文件中随便找个地方写入以下内容(#号后是注释)&lt;/p&gt;
+&lt;p&gt;PubkeyAuthentication yes        #启用公钥私钥配对认证方式
+AuthorizedKeysFile .ssh/authorized_keys #公钥文件路径
+PermitRootLogin yes           #root能使用ssh登录&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 221; 
+			flex-basis: 532px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c.png&#34; data-size=&#34;732x330&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c.png&#34;
+			width=&#34;732&#34;
+			height=&#34;330&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c_hu3e46f3a38853578056b79309fe9b03c3_47837_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c_hu3e46f3a38853578056b79309fe9b03c3_47837_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;第五步：重启服务&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh restart
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这时候就可以愉快的ssh操作docker了！&lt;/p&gt;
+&lt;p&gt;你可以在终端中进行测试，使用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -p &lt;span class=&#34;m&#34;&gt;50003&lt;/span&gt; root@127.0.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输入123456密码发现可以成功进入，这时候已经基本成功，接下来进入到clion配置的环节&lt;/p&gt;
+&lt;h2 id=&#34;四clion配置&#34;&gt;四、Clion配置&lt;/h2&gt;
+&lt;p&gt;接下来进入到clion配置的环节，只要处理好这几个部分就可以完美体验！&lt;/p&gt;
+&lt;p&gt;主要参考：&lt;a class=&#34;link&#34; href=&#34;https://imhuwq.com/2018/12/02/Clion%20%e4%bd%bf%e7%94%a8%20Docker%20%e4%bd%9c%e4%b8%ba%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83/&#34;  title=&#34;https://imhuwq.com/2018/12/02/Clion 使用 Docker 作为开发环境/&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://imhuwq.com/2018/12/02/Clion 使用 Docker 作为开发环境/&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;一工具链设置&#34;&gt;一、工具链设置&lt;/h3&gt;
+&lt;p&gt;在 Clion &lt;code&gt;Settings-Build,Execution,Deployment-Toolchains&lt;/code&gt; 页面先新建一个 Toolchains 设置，名字叫 &lt;strong&gt;my-project&lt;/strong&gt; 吧，类型选 &lt;strong&gt;Remote Host&lt;/strong&gt;。 Credential 设置里面填入 Container 的 IP。端口、用户名和密码按自己创建 Docker 镜像的时候来设置。由于我是从源码编译的 Cmake，所以需要变更一下 Cmake 地址为 &lt;code&gt;/usr/local/bin/cmake&lt;/code&gt;。大家自己会意，按情况来改就好:&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/1.png&#34; &gt;
+		&lt;img src=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/1.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我的参考实现：（点+号选择远程主机）【如果没有检测到，到cmake或者其他东西，在docker内apt安装一下就好；g++编译器可能自动搜索不到，所以&lt;code&gt;whereis g++&lt;/code&gt;看一下地址，然后填入即可】&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 167; 
+			flex-basis: 402px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y.png&#34; data-size=&#34;1691x1008&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y.png&#34;
+			width=&#34;1691&#34;
+			height=&#34;1008&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y_hu7e3631587e962849cf654a0e57f6a6bf_169337_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y_hu7e3631587e962849cf654a0e57f6a6bf_169337_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;二cmake设定&#34;&gt;二、CMAKE设定&lt;/h3&gt;
+&lt;p&gt;创建 Toolchains 配置后，在 &lt;code&gt;Settings-Build,Execution,Deployment-CMake&lt;/code&gt; 页面的 &lt;strong&gt;Toolchain&lt;/strong&gt; 下拉菜单里面选择刚才创建的 &lt;code&gt;my-project&lt;/code&gt;。 然后点击 &lt;strong&gt;Apply&lt;/strong&gt; 保存到目前为止的配置:&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/2.png&#34; &gt;
+		&lt;img src=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/2.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我的实现参考：（工具链选择第一步设定的）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 151; 
+			flex-basis: 364px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq.png&#34; data-size=&#34;1595x1051&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq.png&#34;
+			width=&#34;1595&#34;
+			height=&#34;1051&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq_hu5b8e2db90939ab51ad6f4fbc196a4338_245370_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq_hu5b8e2db90939ab51ad6f4fbc196a4338_245370_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;cmake选项中需要加入&lt;code&gt;-DPY_VERSION=3.7 -DWITH_GPU=ON&lt;/code&gt;  这是我们需要的cmake参数&lt;/p&gt;
+&lt;p&gt;环境处需要带上&lt;code&gt;PATH=/usr/local/cuda/bin/nvcc&lt;/code&gt;是因为有可能cmake过程中（我遇到了）遇到了这个提示&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;  No CMAKE_CUDA_COMPILER could be found.
+
+  Tell CMake where to find the compiler by setting either the environment
+  variable &amp;#34;CUDACXX&amp;#34; or the CMake cache entry CMAKE_CUDA_COMPILER to the full
+  path to the compiler, or to the compiler name if it is in the PATH.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;你可以把&lt;code&gt;export PATH=/usr/local/cuda/bin:$PATH&lt;/code&gt;直接附加到终端或者是加入到环境变量中。&lt;/p&gt;
+&lt;h3 id=&#34;三管理同步&#34;&gt;三、管理同步&lt;/h3&gt;
+&lt;p&gt;其实他的用法就是创建一个tmp（你可以在映射中看到）&lt;/p&gt;
+&lt;p&gt;然后把文件拷贝进去编译后再把信息拿回来。&lt;/p&gt;
+&lt;p&gt;记得测试连接，根路径自动检测即可&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 139; 
+			flex-basis: 334px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6.png&#34; data-size=&#34;1407x1011&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6.png&#34;
+			width=&#34;1407&#34;
+			height=&#34;1011&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6_hud6cd5b412ceb42f9f108c8be0f5a576c_137213_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6_hud6cd5b412ceb42f9f108c8be0f5a576c_137213_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;五快乐体验&#34;&gt;五、快乐体验&lt;/h2&gt;
+&lt;h3 id=&#34;注释每次重启docker后的操作&#34;&gt;注释：每次重启docker后的操作&lt;/h3&gt;
+&lt;p&gt;需要注意的是，每次重启后我们都需要在docker终端内启动一下ssh服务否则不能使用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这时候已经大功告成，我们可以在下面选择对应的开发环境（如果它没有自动切换的话）&lt;/p&gt;
+&lt;p&gt;这时候你会看到它正在传输文件，并且开始有个漫长的符号表加载过程（需要一点点时间，但重复打开后就不需要时间了！）&lt;/p&gt;
+&lt;p&gt;如果出现问题可以修改后（大部分是环境变量的问题，根据上面的第二步骤进行修改即可）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 174; 
+			flex-basis: 418px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c__.png&#34; data-size=&#34;1767x1014&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c__.png&#34;
+			width=&#34;1767&#34;
+			height=&#34;1014&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c___hud89c0241eed683c92027b8133f4d0989_213182_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c___hud89c0241eed683c92027b8133f4d0989_213182_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;经过漫长的等待我们就可以看到结果了。&lt;/p&gt;
+&lt;h3 id=&#34;cmake过程坑点注意&#34;&gt;cmake过程坑点注意&lt;/h3&gt;
+&lt;p&gt;cmake过程中可能需要下载一些仓库，但无法成功下载（网络原因），你可以bind 172.17.0.1 走proxy，或者使用这个方法：参考自&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/isLinXu/p/16693491.html&#34;  title=&#34;https://www.cnblogs.com/isLinXu/p/16693491.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.cnblogs.com/isLinXu/p/16693491.html&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;由于在paddle源码编译过程中，需要安装相应的依赖库，这些依赖库是通过github仓库拉取源码的形式下载下来的。  
+若docker环境下能够网络通畅的使用github，可跳过此项。  
+若网络情况不稳定，那么这里建议参考下面，分别将这些仓库手动clone下来，同时要注意当前的目录（放在根目录）。（因为是映射目录，你可以找各种方法在本地下载后放到目标位置即可，有必要的话弄一下DNS）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;extern_gflags &lt;a class=&#34;link&#34; href=&#34;https://github.com/gflags/gflags.git&#34;  title=&#34;https://github.com/gflags/gflags.git&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/gflags/gflags.git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;extern_cryptopp &lt;a class=&#34;link&#34; href=&#34;https://github.com/weidai11/cryptopp.git&#34;  title=&#34;https://github.com/weidai11/cryptopp.git&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/weidai11/cryptopp.git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;extern_mkldnn &lt;a class=&#34;link&#34; href=&#34;https://github.com/oneapi-src/oneDNN&#34;  title=&#34;https://github.com/oneapi-src/oneDNN&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/oneapi-src/oneDNN&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;extern_warpctc git clone &lt;a class=&#34;link&#34; href=&#34;https://github.com/espnet/warp-ctc.git&#34;  title=&#34;https://github.com/espnet/warp-ctc.git&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/espnet/warp-ctc.git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;extern_protobuf &lt;a class=&#34;link&#34; href=&#34;https://github.com/protocolbuffers/protobuf.git&#34;  title=&#34;https://github.com/protocolbuffers/protobuf.git&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/protocolbuffers/protobuf.git&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;虽然有些符号还是不能看到定义和实现，但已经足够看代码了（支持绝大部分，而且可以自由跳转）！（有些是cuda调用so本来就不能看到）&lt;/p&gt;
+&lt;p&gt;享受符号跳转带来的遍历把。（有了那个小标志就说明全部加载完成，如果加载符号表过程中卡住了卡了非常久，可以尝试重启clion）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 153; 
+			flex-basis: 369px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o.png&#34; data-size=&#34;1449x941&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o.png&#34;
+			width=&#34;1449&#34;
+			height=&#34;941&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o_hu2337592e0bb0f8726e3ddd99912b7f27_167429_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o_hu2337592e0bb0f8726e3ddd99912b7f27_167429_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;外传没clion但用vscode凑合&#34;&gt;外传——没clion但用vscode凑合&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“放过vscode吧！他只是一个编辑器，不是IDE！”——沃兹季硕德&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;vscode下我们可以使用clangd+cmake插件实现一定的跳转功能，之前我们知道了用docker直接attach到vscode是失败的，不能安装插件。&lt;/p&gt;
+&lt;p&gt;但clion展示了他的强大功力（可以ssh后使用目标编译链进行编译和符号表的导入操作），那我们可以大胆猜想可以用vscode也直接ssh到docker然后看下是否可以安装插件。&lt;/p&gt;
+&lt;p&gt;幸运的是，vscode 在ssh链接docker后是可以安装clangd和cmake插件的，我们只需安装好插件然后配置好下方的build的相关参数，等他自己构建即可。&lt;/p&gt;
+&lt;p&gt;我的话是生成了clangd需要使用的compile_commands.json 文件。在paddle的根目录下使用这个即可成功！（CMAKE_EXPORT_COMPILE_COMMANDS为了生成json）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cmake .  -B build  -DPY_VERSION&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;3.7 -DWITH_GPU&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ON -DCMAKE_EXPORT_COMPILE_COMMANDS&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装生成完后重启vscode即可看到一个index加载过程，等待全部完成后就可以体验基本功能的跳转了（虽然肯定还是没有clion强大，但是对于没有clion的情况下还需要什么自行车呢？而且比GNU  global的提示肯定是更全更舒适的）&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;reference&lt;/h2&gt;
+&lt;p&gt;使用ssh连接docker服务器的方法_docker&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.anquanclub.cn/6674.html&#34;  title=&#34;https://www.anquanclub.cn/6674.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.anquanclub.cn/6674.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;【健忘笔记】Clion连接docker远程开发&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/429270402&#34;  title=&#34;https://zhuanlan.zhihu.com/p/429270402&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/429270402&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;备忘-docker常用命令&#34;&gt;备忘-Docker常用命令&lt;/h2&gt;
+&lt;p&gt;参考：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/410056073&#34;  title=&#34;https://zhuanlan.zhihu.com/p/410056073&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/410056073&lt;/a&gt;  &lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>websocket与协程的前世今生（初步）</title>
         <link>https://sanbuphy.github.io/p/websocket%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E5%88%9D%E6%AD%A5/</link>
         <pubDate>Sun, 04 Dec 2022 11:23:03 +0800</pubDate>
@@ -6477,6 +6767,133 @@ nginx运行目录 /usr/local/nginx/sbin/nginx &amp;ndash;options    &lt;/p&gt;
 </description>
         </item>
         <item>
+        <title>C位段/位域(bit field)的排序原理</title>
+        <link>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</link>
+        <pubDate>Sun, 31 Jul 2022 09:18:16 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/</guid>
+        <description>&lt;p&gt;在做PA的过程中，发现这样的一段代码（模拟cpu的过程）：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 108; 
+			flex-basis: 261px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1.jpg&#34; data-size=&#34;719x661&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1.jpg&#34;
+			width=&#34;719&#34;
+			height=&#34;661&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1_hu1b1c0d6cd8681b981052b127d1d0b03a_89441_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/1_hu1b1c0d6cd8681b981052b127d1d0b03a_89441_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;那么问题就来了——为什么这里op位段会自动匹配前面的部分？（为什么不匹配后面） 和大端法有关系吗？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我怀疑就是小端定义，但不明白原因，于是开始了漫长的搜索&amp;hellip;..&lt;/p&gt;
+&lt;p&gt;（直接看结果【不一定对，如果有疑问欢迎提出一起讨论，谢谢，我对编译器也不熟悉】）：&lt;br&gt;
+我认为bit field的反向读取本质上也是由于计算机结构大小端实现的，编译器会先看机器是否有定义当然也可以改变定义，C语言标准中本身没有定义。）&lt;/p&gt;
+&lt;p&gt;查到了也有人遇到类似的问题：
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 130; 
+			flex-basis: 312px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2.jpg&#34; data-size=&#34;719x552&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2.jpg&#34;
+			width=&#34;719&#34;
+			height=&#34;552&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2_hu49bc3661a9dae00847946ab189ada07c_41752_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/2_hu49bc3661a9dae00847946ab189ada07c_41752_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;在一个&lt;a class=&#34;link&#34; href=&#34;https://downloads.ti.com/docs/esd/SPRUI04C/bit-fields-stdz0545438.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;编译器的网站&lt;/a&gt;下，我发现了这样一段话：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;For big-endian mode, bit fields are packed into registers from most significant bit (MSB) to least significant bit (LSB) in the order in which they are defined. Bit fields are packed in memory from most significant byte (MSbyte) to least significant byte (LSbyte). For little-endian mode, bit fields are packed into registers from the LSB to the MSB in the order in which they are defined, and packed in memory from LSbyte to MSbyte.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那此时我们知道确实可能和大小端法是有关的,至少在C语言上是这样的。而C++上只给了说明，没有为什么，只给出了定义。&lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 181; 
+			flex-basis: 434px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4.jpg&#34; data-size=&#34;1495x825&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4.jpg&#34;
+			width=&#34;1495&#34;
+			height=&#34;825&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4_hud4e476bde7169636115399407e5c21f1_125637_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/4_hud4e476bde7169636115399407e5c21f1_125637_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;但问题又来了，一般机器中大小端看的是字节排序，但是我发的位域是对一个字节进行划分，一个字节内的bit也要遵循大小端排序吗？&lt;/p&gt;
+&lt;p&gt;在查阅C标准中我发现原来这个位域排布是&lt;strong&gt;implementation-dependent&lt;/strong&gt;的（也就是说不管怎么样，首先位域排布是C标准没有明确定义的，取决于编译器）
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 204; 
+			flex-basis: 489px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5.jpg&#34; data-size=&#34;800x392&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5.jpg&#34;
+			width=&#34;800&#34;
+			height=&#34;392&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5_hu51ea6bb6635ccaa3ade16a364cf44263_42036_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/5_hu51ea6bb6635ccaa3ade16a364cf44263_42036_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 161; 
+			flex-basis: 386px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6.jpg&#34; data-size=&#34;1326x823&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6.jpg&#34;
+			width=&#34;1326&#34;
+			height=&#34;823&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6_hu8344c42327541e227437acab86c05c0c_137807_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/c%E4%BD%8D%E6%AE%B5/%E4%BD%8D%E5%9F%9Fbit-field%E7%9A%84%E6%8E%92%E5%BA%8F%E5%8E%9F%E7%90%86/images/6_hu8344c42327541e227437acab86c05c0c_137807_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Implementation dependent means that the standard says nothing about some occurance in C/C++ and leaves the choice up to the people who create compilers and operating systems. It means that what you use on one system/compiler may not work the same way on another, but the behavior is well defined for that particular implementation. For example, whether the result of a right bitwise shift on a signed variable results in a logical or arithmetic shift is implementation defined.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那么我们的检索范围就可以缩小了，只要知道这个行为是不是编译器规定的即可。&lt;/p&gt;
+&lt;p&gt;继续查看&lt;a class=&#34;link&#34; href=&#34;https://gcc.gnu.org/onlinedocs/gccint/Bit-Fields.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GCC的手册&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This represents a reference to a sign-extended bit-field contained or starting in loc (a memory or register reference). The bit-field is size bits wide and starts at bit pos. The compilation option BITS_BIG_ENDIAN says which end of the memory unit pos counts from.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;答案很接近了，我猜想只要知道BITS_BIG_ENDIAN是做什么的即可&lt;/p&gt;
+&lt;p&gt;同样继续查看&lt;a class=&#34;link&#34; href=&#34;https://www.cse.unr.edu/~sushil/class/cs202/help/man/gcc-2.7.0/gcc_181.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GCC的手册StorageLayout&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;BITS_BIG_ENDIAN&lt;/strong&gt; &lt;br&gt;
+Define this macro to have the value 1 if the most significant bit in a byte has the lowest number; otherwise define it to have the value zero. This means that bit-field instructions count from the most significant bit. If the machine has no bit-field instructions, then this must still be defined, but it doesn&amp;rsquo;t matter which value it is defined to. This macro need not be a constant. This macro does not affect the way structure fields are packed into bytes or words; that is controlled by BYTES_BIG_ENDIAN.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;里面出现了“If the machine has no bit-field instructions”，所以倾向于还是机器为准的。&lt;/p&gt;
+&lt;p&gt;综上所述，我认为bit field的反向读取本质上也是由于计算机结构大小端实现的，编译器会先看机器是否有定义当然也可以改变定义，C语言标准中本身没有定义。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>防止stack overflow——内存地址杀毒</title>
         <link>https://sanbuphy.github.io/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/</link>
         <pubDate>Sat, 30 Jul 2022 16:08:27 +0800</pubDate>
@@ -9035,145 +9452,6 @@ Hi mackerel7! You&amp;#39;ve successfully authenticated, but GitHub does not pro
 &lt;h2 id=&#34;其他数学&#34;&gt;其他数学&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://mindhacks.cn/2008/09/21/the-magical-bayesian-method/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;数学之美番外篇：平凡而又神奇的贝叶斯方法&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title></title>
-        <link>https://sanbuphy.github.io/p/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://sanbuphy.github.io/p/</guid>
-        <description>&lt;p&gt;+++
-title = &amp;ldquo;C位段/位域(bit field)的排序原理&amp;rdquo;
-date = &amp;ldquo;2022-07-31T09:18:16+08:00&amp;rdquo;
-description = &amp;ldquo;反向排列的原因是C编译器，还是机器？&amp;rdquo;
-categories = [
-&amp;ldquo;C&amp;rdquo;
-]
-tags = [
-&amp;ldquo;C语言&amp;rdquo;,
-&amp;ldquo;基本功&amp;rdquo;
-]
-+++&lt;/p&gt;
-&lt;p&gt;在做PA的过程中，发现这样的一段代码（模拟cpu的过程）：&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 108; 
-			flex-basis: 261px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/images/1.jpg&#34; data-size=&#34;719x661&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/images/1.jpg&#34;
-			width=&#34;719&#34;
-			height=&#34;661&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/images/1_hu1b1c0d6cd8681b981052b127d1d0b03a_89441_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/images/1_hu1b1c0d6cd8681b981052b127d1d0b03a_89441_1024x0_resize_q75_box.jpg 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;那么问题就来了——为什么这里op位段会自动匹配前面的部分？（为什么不匹配后面） 和大端法有关系吗？&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;我怀疑就是小端定义，但不明白原因，于是开始了漫长的搜索&amp;hellip;..&lt;/p&gt;
-&lt;p&gt;（直接看结果【不一定对，如果有疑问欢迎提出一起讨论，谢谢，我对编译器也不熟悉】）：&lt;br&gt;
-我认为bit field的反向读取本质上也是由于计算机结构大小端实现的，编译器会先看机器是否有定义当然也可以改变定义，C语言标准中本身没有定义。）&lt;/p&gt;
-&lt;p&gt;查到了也有人遇到类似的问题：
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 130; 
-			flex-basis: 312px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/images/2.jpg&#34; data-size=&#34;719x552&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/images/2.jpg&#34;
-			width=&#34;719&#34;
-			height=&#34;552&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/images/2_hu49bc3661a9dae00847946ab189ada07c_41752_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/images/2_hu49bc3661a9dae00847946ab189ada07c_41752_1024x0_resize_q75_box.jpg 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;在一个&lt;a class=&#34;link&#34; href=&#34;https://downloads.ti.com/docs/esd/SPRUI04C/bit-fields-stdz0545438.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;编译器的网站&lt;/a&gt;下，我发现了这样一段话：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;For big-endian mode, bit fields are packed into registers from most significant bit (MSB) to least significant bit (LSB) in the order in which they are defined. Bit fields are packed in memory from most significant byte (MSbyte) to least significant byte (LSbyte). For little-endian mode, bit fields are packed into registers from the LSB to the MSB in the order in which they are defined, and packed in memory from LSbyte to MSbyte.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;那此时我们知道确实可能和大小端法是有关的,至少在C语言上是这样的。而C++上只给了说明，没有为什么，只给出了定义。&lt;br&gt;
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 181; 
-			flex-basis: 434px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/images/4.jpg&#34; data-size=&#34;1495x825&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/images/4.jpg&#34;
-			width=&#34;1495&#34;
-			height=&#34;825&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/images/4_hud4e476bde7169636115399407e5c21f1_125637_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/images/4_hud4e476bde7169636115399407e5c21f1_125637_1024x0_resize_q75_box.jpg 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;但问题又来了，一般机器中大小端看的是字节排序，但是我发的位域是对一个字节进行划分，一个字节内的bit也要遵循大小端排序吗？&lt;/p&gt;
-&lt;p&gt;在查阅C标准中我发现原来这个位域排布是&lt;strong&gt;implementation-dependent&lt;/strong&gt;的（也就是说不管怎么样，首先位域排布是C标准没有明确定义的，取决于编译器）
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 204; 
-			flex-basis: 489px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/images/5.jpg&#34; data-size=&#34;800x392&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/images/5.jpg&#34;
-			width=&#34;800&#34;
-			height=&#34;392&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/images/5_hu51ea6bb6635ccaa3ade16a364cf44263_42036_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/images/5_hu51ea6bb6635ccaa3ade16a364cf44263_42036_1024x0_resize_q75_box.jpg 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 161; 
-			flex-basis: 386px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/images/6.jpg&#34; data-size=&#34;1326x823&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/images/6.jpg&#34;
-			width=&#34;1326&#34;
-			height=&#34;823&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/images/6_hu8344c42327541e227437acab86c05c0c_137807_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/images/6_hu8344c42327541e227437acab86c05c0c_137807_1024x0_resize_q75_box.jpg 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Implementation dependent means that the standard says nothing about some occurance in C/C++ and leaves the choice up to the people who create compilers and operating systems. It means that what you use on one system/compiler may not work the same way on another, but the behavior is well defined for that particular implementation. For example, whether the result of a right bitwise shift on a signed variable results in a logical or arithmetic shift is implementation defined.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;那么我们的检索范围就可以缩小了，只要知道这个行为是不是编译器规定的即可。&lt;/p&gt;
-&lt;p&gt;继续查看&lt;a class=&#34;link&#34; href=&#34;https://gcc.gnu.org/onlinedocs/gccint/Bit-Fields.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GCC的手册&lt;/a&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;This represents a reference to a sign-extended bit-field contained or starting in loc (a memory or register reference). The bit-field is size bits wide and starts at bit pos. The compilation option BITS_BIG_ENDIAN says which end of the memory unit pos counts from.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;答案很接近了，我猜想只要知道BITS_BIG_ENDIAN是做什么的即可&lt;/p&gt;
-&lt;p&gt;同样继续查看&lt;a class=&#34;link&#34; href=&#34;https://www.cse.unr.edu/~sushil/class/cs202/help/man/gcc-2.7.0/gcc_181.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GCC的手册StorageLayout&lt;/a&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;BITS_BIG_ENDIAN&lt;/strong&gt; &lt;br&gt;
-Define this macro to have the value 1 if the most significant bit in a byte has the lowest number; otherwise define it to have the value zero. This means that bit-field instructions count from the most significant bit. If the machine has no bit-field instructions, then this must still be defined, but it doesn&amp;rsquo;t matter which value it is defined to. This macro need not be a constant. This macro does not affect the way structure fields are packed into bytes or words; that is controlled by BYTES_BIG_ENDIAN.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;里面出现了“If the machine has no bit-field instructions”，所以倾向于还是机器为准的。&lt;/p&gt;
-&lt;p&gt;综上所述，我认为bit field的反向读取本质上也是由于计算机结构大小端实现的，编译器会先看机器是否有定义当然也可以改变定义，C语言标准中本身没有定义。&lt;/p&gt;
 </description>
         </item>
         <item>

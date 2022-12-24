@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>c&#43;&#43; on 散步的小屋</title>
+    <title>C&#43;&#43; on 散步的小屋</title>
     <link>https://sanbuphy.github.io/tags/c&#43;&#43;/</link>
-    <description>Recent content in c&#43;&#43; on 散步的小屋</description>
+    <description>Recent content in C&#43;&#43; on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 14 Oct 2022 19:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 24 Dec 2022 17:18:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ubuntu下Clion利用远程Docker开发环境</title>
+      <link>https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Sat, 24 Dec 2022 17:18:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
+      <description>前言 最近在接触部分paddle源码，但由于本地搭建特容易出现环境依赖问题和其他奇怪的问题，故选择了docker编译。有很多朋友遇到这类问题第</description>
+    </item>
+    
     <item>
       <title>pybind11生成的so无法被import问题</title>
       <link>https://sanbuphy.github.io/p/pybind11%E7%94%9F%E6%88%90%E7%9A%84so%E6%97%A0%E6%B3%95%E8%A2%ABimport%E9%97%AE%E9%A2%98/</link>
