@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='全文经过各类参考的整理与摘抄（若有错误欢迎邮件告知，感谢。） 什么是虚函数 为什么需要虚函数？什么时候使用了虚函数？ 比如你有个游戏，游戏里有个虚'><title>虚函数基础与关键字virtual、override、final</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='虚函数基础与关键字virtual、override、final'>
+<meta property='og:description' content='全文经过各类参考的整理与摘抄（若有错误欢迎邮件告知，感谢。） 什么是虚函数 为什么需要虚函数？什么时候使用了虚函数？ 比如你有个游戏，游戏里有个虚'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C&#43;&#43;' /><meta property='article:tag' content='基本功' /><meta property='article:published_time' content='2022-12-24T17:14:16&#43;08:00'/><meta property='article:modified_time' content='2022-12-24T17:14:16&#43;08:00'/>
+<meta name="twitter:title" content="虚函数基础与关键字virtual、override、final">
+<meta name="twitter:description" content="全文经过各类参考的整理与摘抄（若有错误欢迎邮件告知，感谢。） 什么是虚函数 为什么需要虚函数？什么时候使用了虚函数？ 比如你有个游戏，游戏里有个虚">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/c&#43;&#43;/" >
+                C&#43;&#43;
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/">虚函数基础与关键字virtual、override、final</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 24, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 12 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>全文经过各类参考的整理与摘抄（若有错误欢迎邮件告知，感谢。）</p>
+<h2 id="什么是虚函数">什么是虚函数</h2>
+<p>为什么需要虚函数？什么时候使用了虚函数？</p>
+<p>比如你有个游戏，游戏里有个虚基类叫「怪物」，有<a class="link" href="https://www.zhihu.com/search?q=%e7%ba%af%e8%99%9a%e5%87%bd%e6%95%b0%5c&amp;search_source=Entity%5c&amp;hybrid_search_source=Entity%5c&amp;hybrid_search_extra=%7b%22sourceType%22:%22answer%22,%22sourceId%22:26263735%7d"  title="纯虚函数"
+     target="_blank" rel="noopener"
+    >纯虚函数</a> 「攻击」。然后派生出了三个子类「狼」「蜘蛛」「蟒蛇」，都实现了自己不同的「攻击」函数，比如狼是咬人，蜘蛛是吐丝，蟒蛇把你缠起来～～</p>
+<p>然后出现好多怪物的时候就可以定义一个 <a class="link" href="https://www.zhihu.com/search?q=%e8%99%9a%e5%9f%ba%e7%b1%bb%e6%8c%87%e9%92%88%e6%95%b0%e7%bb%84%5c&amp;search_source=Entity%5c&amp;hybrid_search_source=Entity%5c&amp;hybrid_search_extra=%7b%22sourceType%22:%22answer%22,%22sourceId%22:26263735%7d"  title="虚基类指针数组"
+     target="_blank" rel="noopener"
+    >虚基类指针数组</a>，把各种怪物的指针给它，然后迭代循环的时候直接 monster[i]-&gt;attack() 攻击玩家就行了，大概见下图：</p>
+<p><figure 
+	>
+	<a href="https://pica.zhimg.com/80/27e97e90be9ac729167740ee5c66a8ea_720w.webp?source=1940ef5c" >
+		<img src="https://pica.zhimg.com/80/27e97e90be9ac729167740ee5c66a8ea_720w.webp?source=1940ef5c"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>如果没有虚函数的话，管理一堆差不多但是类型又不一样的对象的时候就比较麻烦了。</p>
+<h3 id="虚函数需要注意的细节">虚函数需要注意的细节</h3>
+<ul>
+<li>只有成员函数才可定义为虚函数，友元/全局/static/构造函数都不可以</li>
+<li>构造函数不可以是虚函数，而析构函数可以且常常是虚函数。</li>
+<li>记得加上关键字virtual</li>
+<li>成员函数如果不是虚函数，其解析过程发生在编译时而非运行时</li>
+<li>派生类可以不覆盖（重写）它继承的虚函数</li>
+<li>派生类重写（覆盖）基类中的函数，<strong>其中函数名，参数列表，返回值类型都必须一致，并且重写（覆盖）的函数是virtual函数</strong></li>
+<li>虚函数在子类和父类中的访问权限可以不同</li>
+<li>相关规则：
+<ul>
+<li>①如果虚函数的返回值类型是基本数据类型：返回值类型必须相同</li>
+<li>②如果虚函数的返回值类型是类本身的指针或引用：返回值类型可以不同，但派生类的返回值类型小于基类返回值类型</li>
+<li>基类与派生类的虚函数名与参数列表相同，至于参数列表为什么一致是为了避免虚函数被隐藏</li>
+</ul>
+</li>
+</ul>
+<p>定义他为虚函数是为了允许用基类的指针来调用子类的这个函数，不代表没有实现。</p>
+<p>定义一个函数为纯虚函数，才代表函数没有被实现。定义纯虚函数是为了实现一个接口，起到一个规范的作用，规范继承这个类的程序员必须实现这个函数。（抽象类多用）</p>
+<p>基类通常都应该定义一个虚析构函数。即使该函数不执行任何实际操作！ </p>
+<h4 id="构造函数不能是虚函数">构造函数不能是虚函数</h4>
+<ol>
+<li>
+<p>从vptr角度解释</p>
+<p>vtable: 记录函数指针的一张表。 每个类维护一个虚表。 vptr: 指向虚表vtable的指针。 每个对象拥有一个vptr。</p>
+<p>C++标准并没有明确要求如何实现运行时多态，但是各编译器基本上都基于这种机制，加入小的修改。</p>
+<p>现代的C++编译器对于每一个多态类型，其所有的虚函数的地址都以一个表V-Table的方式存放在一起，虚函数表的首地址储存在每一个对象之中，称为虚表指针vptr，这个虚指针一般位于对象的起始地址。通过虚指针和偏移量计算出虚函数的真实地址实现调用。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 179; 
+			flex-basis: 430px"
+	>
+	<a href="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_8osLZNyGAP.png" data-size="810x452">
+		<img src="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_8osLZNyGAP.png"
+			width="810"
+			height="452"
+			srcset="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_8osLZNyGAP_hu17318aaa10834102ce621b6c8b5b233d_28049_480x0_resize_box_3.png 480w, /p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_8osLZNyGAP_hu17318aaa10834102ce621b6c8b5b233d_28049_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>虚函数的调用是通过虚函数表来查找的，而虚函数表由类的实例化对象的vptr指针(vptr可以参考C++的虚函数表指针vptr)指向，该指针存放在对象的内部空间中，需要调用构造函数完成初始化。如果构造函数是虚函数，那么调用构造函数就需要去找vptr，但此时vptr还没有初始化！</p>
+</li>
+<li>
+<p>从多态角度解释</p>
+</li>
+</ol>
+<p>虚函数主要是实现多态，在运行时才可以明确调用对象，根据传入的对象类型来调用函数，例如通过父类的指针或者引用来调用它的时候可以变成调用子类的那个成员函数。而构造函数是在创建对象时自己主动调用的，不可能通过父类的指针或者引用去调用。那使用虚函数也没有实际意义。</p>
+<p>在调用构造函数时还不能确定对象的真实类型（由于子类会调父类的构造函数）；并且构造函数的作用是提供初始化，在对象生命期仅仅运行一次，不是对象的动态行为，没有必要成为虚函数。</p>
+<ul>
+<li>构造对象时需要知道对象的实际类型，而虚函数行为是在运行期间才能确定实际类型的，由于对象还未构造成功，编译器无法知道对象的实际类型，俨然<strong>是个鸡和蛋的问题</strong>。</li>
+<li>如果构造函数是虚函数，那么构造函数的执行将依赖虚函数表，而虚函数表又是在构造函数中初始化的，而在构造对象期间，虚函数表又还没有被初始化，又<strong>是个死循环问题</strong>。</li>
+</ul>
+<p>从编译器的角度去看，构造函数就是为了在编译阶段确定对象类型、分配空间等工作，虚函数为了实现动态多态需要在运行期间才能确定具体的行为，显然构造函数不可能同时具备静态特性和动态特性。</p>
+<h4 id="析构函数可以且常是虚函数">析构函数可以且常是虚函数</h4>
+<p>这个原理上就很好理解啦，因为此时 vtable 已经初始化了，完全可以把析构函数放在虚函数表里面来调用。</p>
+<p>C++类有继承时，析构函数必须为虚函数。如果不是虚函数，则使用时可能存在内存泄漏的问题。</p>
+<p>假设我们有这样一种继承关系：   </p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 53; 
+			flex-basis: 128px"
+	>
+	<a href="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_ig9eGHrKpv.png" data-size="141x264">
+		<img src="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_ig9eGHrKpv.png"
+			width="141"
+			height="264"
+			srcset="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_ig9eGHrKpv_hu4fe48e549a097296de47a76b8eac8653_5980_480x0_resize_box_3.png 480w, /p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_ig9eGHrKpv_hu4fe48e549a097296de47a76b8eac8653_5980_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>如果我们以这种方式创建对象：
+SubClass* pObj = new SubClass();
+delete pObj;
+不管析构函数是否是虚函数(即是否加virtual关键词)，delete时基类和子类都会被释放；</p>
+<p>如果我们以这种方式创建对象：
+BaseClass* pObj = new SubClass();
+delete pObj;
+若析构函数是虚函数(即加上virtual关键词)，delete时基类和子类都会被释放；
+若析构函数不是虚函数(即不加virtual关键词)，delete时只释放基类，不释放子类；
+（1）基类的析构函数不是虚函数的话，删除指针时，只有基类的内存被释放，派生类的没有。这样就内存泄漏了。</p>
+<p>（2）析构函数不是虚函数的话，直接按指针类型调用该类型的析构函数代码，因为指针类型是基类，所以直接调用基类析构函数代码。</p>
+<p>（3）养成习惯：基类的析构一定virtual。但如果某个类不包含虚函数，一般表示它将不作为一个基类来使用，因此不使虚析构函数，否则增加一个虚函数表和虚指针，使得对象的体积增大。如果某个类将作为基类那么建议使用虚析构，包含虚函数则这条要求成为必然。无故使用虚析构函数和永远不使用一样是错误的。</p>
+<p>代码测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Father</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Father</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;contructor Father!&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">~</span><span class="n">Father</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;destructor Father!&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;};</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Son</span><span class="o">:</span><span class="k">public</span> <span class="n">Father</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Son</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;contructor Son!&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">~</span><span class="n">Son</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;destructor Son!&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;};</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Father</span> <span class="o">*</span><span class="n">pfather</span><span class="o">=</span><span class="k">new</span> <span class="n">Son</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">delete</span> <span class="n">pfather</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pfather</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/*输出结果为：
+</span></span></span><span class="line"><span class="cl"><span class="cm">    contructor Father!
+</span></span></span><span class="line"><span class="cl"><span class="cm">    contructor Son!
+</span></span></span><span class="line"><span class="cl"><span class="cm">    destructor Father!
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span></code></pre></div><h3 id="函数重载函数隐藏函数覆盖和函数重写">函数重载、函数隐藏、函数覆盖和函数重写</h3>
+<p>牢记以下几点，就可区分函数重载、函数隐藏、函数覆盖和函数重写的区别： </p>
+<p>（1）函数重载发生在相同作用域； （2）函数隐藏发生在不同作用域； （3）函数覆盖就是函数重写。准确地叫作虚函数覆盖和虚函数重写，也是函数隐藏的特例。</p>
+<p>关于三者的对比，李健老师在《编写高质量代码：改善C++程序的150个建议》给出了较为详细的总结，如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>三者</th>
+<th>作用域</th>
+<th>有无virtual</th>
+<th>函数名</th>
+<th>形参列表</th>
+<th>返回值类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>重载</td>
+<td>相同</td>
+<td>可有可无</td>
+<td>相同</td>
+<td>不同</td>
+<td>可同可不同</td>
+</tr>
+<tr>
+<td>隐藏</td>
+<td>不同</td>
+<td>可有可无</td>
+<td>相同</td>
+<td>可同可不同</td>
+<td>可同可不同</td>
+</tr>
+<tr>
+<td>重写</td>
+<td>不同</td>
+<td>有</td>
+<td>相同</td>
+<td>相同</td>
+<td>相同（协变）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="动态绑定">动态绑定</h3>
+<p>首先知道什么是静态什么是动态：</p>
+<ul>
+<li>静态绑定：程序编译过程中把函数调用与执行调用所需的代码相关联，这种绑定发生在编译期，程序未运行就已确定，也称为前期绑定。</li>
+<li>动态绑定：当某个虚函数通过指针或引用调用时，编译器产生的代码直到运行时才能确定到该调用哪个版本的函数（根据该指针所绑定的对象），这种发生于运行期，程序运行时才确定响应调用的方法，也称为后期绑定。</li>
+<li>动态绑定只有当我们通过指针或引用调用“虚函数”时才会发生，如果通过对象进行的函数调用，那么在编译阶段就确定该调用哪个版本的函数了（比如基函数的某个方法打印A，继承后改写打印的是B，同时运行基类和继承类的同样方法会发现打印出了AB而不是B，说明运行时才绑定。）</li>
+<li>如果派生类没有重写基类的虚函数，那么通过基类指针指向于派生类时，调用虚函数还是调用的基类的虚函数（因为派生类没有重写）</li>
+<li>动态绑定与“派生类对象转换为基类对象”是相似的，原理相同</li>
+</ul>
+<p>虚函数一定是运行期才绑定么？ - 知乎用户的回答 - 知乎 <a class="link" href="https://www.zhihu.com/question/491602524/answer/2165605549"  title="https://www.zhihu.com/question/491602524/answer/2165605549"
+     target="_blank" rel="noopener"
+    >https://www.zhihu.com/question/491602524/answer/2165605549</a></p>
+<h3 id="虚函数与多态">虚函数与多态</h3>
+<p>在C++泛型编程中可以基于模板template和重载override两种形式来实现静态多态。</p>
+<p>动态多态主要依赖于虚函数机制来实现，不同的编译器对虚函数机制的实现也有一些差异，本文主要介绍Linux环境下gcc/g++编译器的实现方法。</p>
+<blockquote>
+<p>多态本质上是一种泛型技术，说白了就是试图使用不变的代码来实现可变的算法，要么试图在编译时决定，要么试图在运行时决定。  ——左耳朵耗子-陈皓</p>
+</blockquote>
+<p>我们知道C++三大特征：继承、多态、封装。</p>
+<p>虚函数为多态提供了基础，并且借助于继承来发挥多态的优势，从而完善了语言设计的封装。</p>
+<p>下面就是运行时多态的简单例子。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Base</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">virtual</span> <span class="kt">void</span> <span class="n">show</span><span class="p">()</span> <span class="p">{</span> <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34; In Base </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Derived</span><span class="o">:</span> <span class="k">public</span> <span class="n">Base</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="n">show</span><span class="p">()</span> <span class="p">{</span> <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;In Derived </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">Base</span> <span class="o">*</span><span class="n">bp</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">bp</span><span class="o">-&gt;</span><span class="n">show</span><span class="p">();</span>  <span class="c1">// 运行时多态
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>运行结果：</p>
+<p>In Derived</p>
+<p>上面程序中最主要的一点是，使用了一个基类指针来调用子类的成员函数。虚函数的调用不依赖调用它的指针或引用本身的类型，而取决于引用或指针所指向的对象类型。</p>
+<h3 id="纯虚函数抽象类">纯虚函数（抽象类）</h3>
+<p>虚函数的声明以=0结束，便可将它声明为纯虚函数，包含纯虚函数的类不允许实例化，称为抽象类，但是纯虚函数也可以有函数体，纯虚函数提供了面向对象中接口的功能，类似于Java中的接口。</p>
+<p>语法格式为：virtual 返回值类型 函数名(函数参数) = 0;</p>
+<p><strong>需要抽象类的场景：</strong></p>
+<ul>
+<li>功能不应由基类去完成</li>
+<li>无法确认如何写基类的函数</li>
+<li>基类本身不应被实例化</li>
+</ul>
+<p>就像虽然有Animal类，但是并不能生成一个动物实例，并且Animal的类的成员函数无法定义，需要其派生类Tiger类、Fish类来具体实现</p>
+<h3 id="虚继承">虚继承</h3>
+<p>看这样一个例子：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 93; 
+			flex-basis: 223px"
+	>
+	<a href="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_4z8HH-jdfD.png" data-size="389x417">
+		<img src="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_4z8HH-jdfD.png"
+			width="389"
+			height="417"
+			srcset="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_4z8HH-jdfD_huf58c42db40b6cc5fe0c6e3bac4a47a87_38136_480x0_resize_box_3.png 480w, /p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_4z8HH-jdfD_huf58c42db40b6cc5fe0c6e3bac4a47a87_38136_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>B和C从A中继承，而D多重继承于B，C。那就意味着D中会有A中的两个拷贝。因为成员函数不体现在类的内存大小上，所以实际上可以看到的情况是D的内存分布中含有2组A的成员变量。如下代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">A</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">A</span><span class="p">()</span><span class="o">:</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">){};</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">printA</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">a</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">B</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">C</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">D</span><span class="o">:</span>  <span class="k">public</span> <span class="n">B</span> <span class="p">,</span>  <span class="k">public</span> <span class="n">C</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">D</span> <span class="n">d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="k">sizeof</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>输出d的大小为8。也就是d中有2个a成员变量。这样一来如果要使用a就报错了。谁知道你要用哪一个？同样的访问成员函数也会出现“二义性”这个问题。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">d.a<span class="o">=</span>10<span class="p">;</span>//error C2385: 对“a”的访问不明确
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">d.printA<span class="o">()</span><span class="p">;</span>//error C2385: 对“printA”的访问不明确
+</span></span></code></pre></div><p>即使成员函数有不同的形参表也不行，如下。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">A</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">A</span><span class="p">()</span><span class="o">:</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">){};</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">printA</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">a</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">B</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="n">printB</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;from B&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">C</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="n">printB</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;from C&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">D</span><span class="o">:</span>  <span class="k">public</span> <span class="n">B</span> <span class="p">,</span>  <span class="k">public</span> <span class="n">C</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">D</span> <span class="n">d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="k">sizeof</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">d</span><span class="p">.</span><span class="n">printB</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>当然你可以无耻地使用作用域来规避这个问题。但这并不是一个好主意。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">d</span><span class="p">.</span><span class="n">B</span><span class="o">::</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">d</span><span class="p">.</span><span class="n">C</span><span class="o">::</span><span class="n">printB</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span></code></pre></div><p>这时候虚继承就挺身而出，扛下搞定此问题的重担了。虚继承是一种机制，类通过虚继承指出它希望共享虚基类的状态。对给定的虚基类，无论该类在派生层次中作为虚基类出现多少次，只继承一个共享的基类子对象，共享基类子对象称为虚基类。虚基类用virtual声明继承关系就行了。这样一来，D就只有A的一份拷贝。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">A</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">A</span><span class="p">()</span><span class="o">:</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">){};</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">printA</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">a</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">B</span> <span class="o">:</span> <span class="k">virtual</span> <span class="k">public</span> <span class="n">A</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">C</span> <span class="o">:</span> <span class="k">virtual</span> <span class="k">public</span> <span class="n">A</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">D</span><span class="o">:</span>  <span class="k">public</span> <span class="n">B</span> <span class="p">,</span>  <span class="k">public</span> <span class="n">C</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">D</span> <span class="n">d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="k">sizeof</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">d</span><span class="p">.</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">d</span><span class="p">.</span><span class="n">printA</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>输出d的大小是12（包含了2个4字节的D类虚基指针和1个4字节的int型整数）。而a和printA()都可以正常访问。最典型的应用就是iostream继承于istream和ostream，而istream和ostream虚继承于ios。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">istream</span> <span class="o">:</span> <span class="k">virtual</span> <span class="k">public</span> <span class="n">ios</span><span class="p">{...};</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ostream</span> <span class="o">:</span> <span class="k">virtual</span> <span class="k">public</span> <span class="n">ios</span><span class="p">{...};</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">iostream</span> <span class="o">:</span> <span class="k">public</span> <span class="n">istream</span><span class="p">,</span> <span class="k">public</span> <span class="n">ostream</span><span class="p">{...};</span>
+</span></span></code></pre></div><h4 id="构造和析构顺序">构造和析构顺序</h4>
+<p>以本图为例</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 139; 
+			flex-basis: 335px"
+	>
+	<a href="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_B0BapM2SQ_.png" data-size="557x398">
+		<img src="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_B0BapM2SQ_.png"
+			width="557"
+			height="398"
+			srcset="/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_B0BapM2SQ__hu5219d9c21e3a079d38876fa461a3fb91_65928_480x0_resize_box_3.png 480w, /p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/image/image_B0BapM2SQ__hu5219d9c21e3a079d38876fa461a3fb91_65928_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">C<span class="o">()</span>
+</span></span><span class="line"><span class="cl">E<span class="o">()</span>
+</span></span><span class="line"><span class="cl">A<span class="o">()</span>
+</span></span><span class="line"><span class="cl">B<span class="o">()</span>
+</span></span><span class="line"><span class="cl">D<span class="o">()</span>
+</span></span><span class="line"><span class="cl">F<span class="o">()</span>
+</span></span><span class="line"><span class="cl">~F<span class="o">()</span>
+</span></span><span class="line"><span class="cl">~D<span class="o">()</span>
+</span></span><span class="line"><span class="cl">~B<span class="o">()</span>
+</span></span><span class="line"><span class="cl">~A<span class="o">()</span>
+</span></span><span class="line"><span class="cl">~E<span class="o">()</span>
+</span></span><span class="line"><span class="cl">~C<span class="o">()</span>
+</span></span></code></pre></div><p>可以看出，首先按声明顺序检查直接基类（包括其子树），看是否有虚基类，先初始化虚基类（例中首先初始化C和E）。一旦虚基类构造完毕，就按声明顺序调用非虚基类的构造函数（例中ABDF），析构的调用次序和构造调用次序相反。</p>
+<h2 id="常见关键字">常见关键字</h2>
+<h3 id="virtual">virtual</h3>
+<ul>
+<li>放在函数的返回值前面，用于表示该成员函数为虚函数</li>
+<li>父类虚函数前必须写；子类虚函数前可以省略（不困省不省略，该函数在子类中也是虚函数类型）</li>
+<li>virtual只能出现在类内部的声明语句之前而不能用于类外部的函数定义</li>
+</ul>
+<h3 id="override">override</h3>
+<p>一旦类中的某个函数被声明为虚函数，那么在所有的派生类中它都是虚函数。一个派生类的函数如果覆盖了某个继承而来的虚函数，那么它的形参类型必须与基类函数完全一致。</p>
+<blockquote>
+<p>派生类中如果定义了一个函数与基类中虚函数的名字相同但是形参列表不同，编译器会认为新定义的函数与基类中原有的函数是相互独立的。这会带来一个问题：如果我们本来希望派生类可以覆盖掉基类中的虚函数，<strong>但是一不小心把形参列表写错了，这可能与我们的本意不符。</strong></p>
+</blockquote>
+<p>C++11新标准提供了<code>override</code>关键字来<strong>显式地告知虚拟器进行重载，编译器将检查基类是否存在这样的虚函数，否则将无法通过编译。</strong> 这样的好处是使得程序员的意图更加清晰（覆盖基类中的虚函数），如果我们使用<code>override</code>关键字标记了某个函数但是该函数没有覆盖已有的虚函数，此时编译器会报错。</p>
+<p>他可以拦截以下错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">A</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">f1</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">f2</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">f3</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">calss</span> <span class="nl">B</span><span class="p">:</span><span class="k">public</span> <span class="n">A</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">f1</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="k">const</span> <span class="k">override</span><span class="p">;</span> <span class="c1">//正确
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">f2</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="k">override</span><span class="p">;</span>       <span class="c1">//错误，参数不一致
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">f3</span><span class="p">()</span><span class="k">override</span><span class="p">;</span>          <span class="c1">//错误，f3不是虚函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">f4</span><span class="p">()</span><span class="k">override</span><span class="p">;</span>          <span class="c1">//错误，B没有名为f4的函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></div><h3 id="final">final</h3>
+<ul>
+<li>如果我们定义的一个虚函数不想被派生类覆盖（重写），那么可以在虚函数之后添加一个final关键字，声明这个虚函数不可以被派生类所覆盖（重写）</li>
+<li>如果函数有尾指返回类型，那么要放在尾指返回类型后</li>
+</ul>
+<p><strong>(since C++11) final 对虚函数的多态性具有向下阻断作用。经 final 修饰的虚函数或经 final 修饰的类的所有虚函数，自该级起，不再具有多态性。</strong> 因此，此处一定是编译时绑定，而不是运行时绑定。</p>
+<p>业务代码中，对于多态类，如果确定一个虚函数不会再被覆盖，或者该类不会再被继承，则推荐标上 final。<strong>这可以为编译器提供非常有价值的编译优化信息，总而将原本需要推迟到运行期才能确定的虚函数调用提前在编译期就已确定。</strong> 如被调用的函数能与上层调用方一起进一步地做函数内联、<a class="link" href="https://www.zhihu.com/search?q=%e5%b8%b8%e9%87%8f%e6%8a%98%e5%8f%a0%5c&amp;search_source=Entity%5c&amp;hybrid_search_source=Entity%5c&amp;hybrid_search_extra=%7b%22sourceType%22:%22answer%22,%22sourceId%22:2165605549%7d"  title="常量折叠"
+     target="_blank" rel="noopener"
+    >常量折叠</a>、无用代码消除等优化，则可以压榨出非常可观的性能提升。</p>
+<h2 id="其他">其他</h2>
+<p>C++20里面解除了<a class="link" href="https://www.zhihu.com/search?q=%e8%99%9a%e5%87%bd%e6%95%b0%5c&amp;search_source=Entity%5c&amp;hybrid_search_source=Entity%5c&amp;hybrid_search_extra=%7b%22sourceType%22:%22answer%22,%22sourceId%22:2165019198%7d"  title="虚函数"
+     target="_blank" rel="noopener"
+    >虚函数</a>不能是 <code>constexpr</code>的限制，虚函数完全可以在编译期绑定，</p>
+<p>虚函数的话，不是“只能”在运行时动态绑定，也存在可以静态绑定的情况。你能看出来实际调用函数的场合，编译器也有一定可能看出来。这时函数去虚化作为一种优化存在。</p>
+<p>模拟虚函数表技术可参考：</p>
+<p>虚函数技术：多态的上下文+运行时动态类型识别+虚函数表及指针
+<a class="link" href="https://www.toutiao.com/article/7006183609581257228/?wid=1671356502138"  title="https://www.toutiao.com/article/7006183609581257228/?wid=1671356502138"
+     target="_blank" rel="noopener"
+    >https://www.toutiao.com/article/7006183609581257228/?wid=1671356502138</a></p>
+<p>C++中虚函数、虚继承内存模型</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/41309205"  title="https://zhuanlan.zhihu.com/p/41309205"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/41309205</a></p>
+<p>C++类的3种继承方式，分别是public继承，protected继承，private继承:</p>
+<p><a class="link" href="https://www.wuyuze.vip/2019/09/06/C-%e7%bb%a7%e6%89%bf%e5%85%b3%e7%b3%bb/"  title="https://www.wuyuze.vip/2019/09/06/C-继承关系/"
+     target="_blank" rel="noopener"
+    >https://www.wuyuze.vip/2019/09/06/C-继承关系/</a></p>
+<h2 id="reference">reference</h2>
+<p>c++虚函数的作用是什么？</p>
+<p><a class="link" href="https://www.zhihu.com/question/23971699"  title="https://www.zhihu.com/question/23971699"
+     target="_blank" rel="noopener"
+    >https://www.zhihu.com/question/23971699</a></p>
+<p>C++:44&mdash;关键字virtual、override、final</p>
+<p><a class="link" href="https://cloud.tencent.com/developer/article/1784495"  title="https://cloud.tencent.com/developer/article/1784495"
+     target="_blank" rel="noopener"
+    >https://cloud.tencent.com/developer/article/1784495</a></p>
+<p>虚函数一定是运行期才绑定么？</p>
+<p><a class="link" href="https://www.zhihu.com/question/491602524"  title="https://www.zhihu.com/question/491602524"
+     target="_blank" rel="noopener"
+    >https://www.zhihu.com/question/491602524</a></p>
+<p>C++继承(2) - 虚函数与运行时多态</p>
+<p><a class="link" href="https://blog.csdn.net/shltsh/article/details/45960377"  title="https://blog.csdn.net/shltsh/article/details/45960377"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/shltsh/article/details/45960377</a></p>
+<p>虚函数技术：多态的上下文+运行时动态类型识别+虚函数表及指针</p>
+<p><a class="link" href="https://www.toutiao.com/article/7006183609581257228/?wid=1671356502138"  title="https://www.toutiao.com/article/7006183609581257228/?wid=1671356502138"
+     target="_blank" rel="noopener"
+    >https://www.toutiao.com/article/7006183609581257228/?wid=1671356502138</a></p>
+<p>面试必知必会：理解 C++ 虚函数</p>
+<p><a class="link" href="https://toutiao.io/posts/zaxcvwp/preview"  title="https://toutiao.io/posts/zaxcvwp/preview"
+     target="_blank" rel="noopener"
+    >https://toutiao.io/posts/zaxcvwp/preview</a></p>
+<p>C++中函数重载、隐藏、覆盖和重写的区别</p>
+<p><a class="link" href="https://cloud.tencent.com/developer/article/1177174"  title="https://cloud.tencent.com/developer/article/1177174"
+     target="_blank" rel="noopener"
+    >https://cloud.tencent.com/developer/article/1177174</a></p>
+<p>C++ 构造函数和析构函数可以是虚函数嘛？</p>
+<p><a class="link" href="https://blog.csdn.net/qq_28584889/article/details/88749862"  title="https://blog.csdn.net/qq_28584889/article/details/88749862"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/qq_28584889/article/details/88749862</a></p>
+<p>菱形继承和虚继承</p>
+<p><a class="link" href="https://blog.csdn.net/jackystudio/article/details/17877219"  title="https://blog.csdn.net/jackystudio/article/details/17877219"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/jackystudio/article/details/17877219</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>
+        
+            <a href="/tags/%E5%9F%BA%E6%9C%AC%E5%8A%9F/">基本功</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Ubuntu下Clion利用远程Docker开发环境</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#什么是虚函数">什么是虚函数</a>
+      <ol>
+        <li><a href="#虚函数需要注意的细节">虚函数需要注意的细节</a>
+          <ol>
+            <li><a href="#构造函数不能是虚函数">构造函数不能是虚函数</a></li>
+            <li><a href="#析构函数可以且常是虚函数">析构函数可以且常是虚函数</a></li>
+          </ol>
+        </li>
+        <li><a href="#函数重载函数隐藏函数覆盖和函数重写">函数重载、函数隐藏、函数覆盖和函数重写</a></li>
+        <li><a href="#动态绑定">动态绑定</a></li>
+        <li><a href="#虚函数与多态">虚函数与多态</a></li>
+        <li><a href="#纯虚函数抽象类">纯虚函数（抽象类）</a></li>
+        <li><a href="#虚继承">虚继承</a>
+          <ol>
+            <li><a href="#构造和析构顺序">构造和析构顺序</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#常见关键字">常见关键字</a>
+      <ol>
+        <li><a href="#virtual">virtual</a></li>
+        <li><a href="#override">override</a></li>
+        <li><a href="#final">final</a></li>
+      </ol>
+    </li>
+    <li><a href="#其他">其他</a></li>
+    <li><a href="#reference">reference</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

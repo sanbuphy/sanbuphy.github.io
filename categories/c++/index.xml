@@ -17,6 +17,15 @@
     </item>
     
     <item>
+      <title>虚函数基础与关键字virtual、override、final</title>
+      <link>https://sanbuphy.github.io/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/</link>
+      <pubDate>Sat, 24 Dec 2022 17:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/</guid>
+      <description>全文经过各类参考的整理与摘抄（若有错误欢迎邮件告知，感谢。） 什么是虚函数 为什么需要虚函数？什么时候使用了虚函数？ 比如你有个游戏，游戏里有个虚</description>
+    </item>
+    
+    <item>
       <title>pybind11生成的so无法被import问题</title>
       <link>https://sanbuphy.github.io/p/pybind11%E7%94%9F%E6%88%90%E7%9A%84so%E6%97%A0%E6%B3%95%E8%A2%ABimport%E9%97%AE%E9%A2%98/</link>
       <pubDate>Fri, 14 Oct 2022 19:08:27 +0800</pubDate>
