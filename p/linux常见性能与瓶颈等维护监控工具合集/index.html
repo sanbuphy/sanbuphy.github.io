@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='内存、磁盘、cpu瓶颈监控以及各类性能检测工具大合集'><title>Linux常见性能与瓶颈等维护监控工具合集</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='Linux常见性能与瓶颈等维护监控工具合集'>
+<meta property='og:description' content='内存、磁盘、cpu瓶颈监控以及各类性能检测工具大合集'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='linux' /><meta property='article:published_time' content='2022-12-31T12:14:16&#43;08:00'/><meta property='article:modified_time' content='2022-12-31T12:14:16&#43;08:00'/>
+<meta name="twitter:title" content="Linux常见性能与瓶颈等维护监控工具合集">
+<meta name="twitter:description" content="内存、磁盘、cpu瓶颈监控以及各类性能检测工具大合集">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/linux/" >
+                linux
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/">Linux常见性能与瓶颈等维护监控工具合集</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        内存、磁盘、cpu瓶颈监控以及各类性能检测工具大合集
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 31, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 6 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h2 id="基础">基础</h2>
+<p>top 不多说 （我更喜欢htop有时候）</p>
+<p>ps 进程信息</p>
+<p>free 系统内存整体使用率</p>
+<p>ldd 动态链接信息</p>
+<p>nm 二进制符号表信息</p>
+<p>objdump 不多说</p>
+<p>readelf 不多说</p>
+<h2 id="sysstat工具介绍">sysstat工具介绍</h2>
+<p>sysstat主要作用是观察服务负载，比如cpu\内存的占用率，网络的使用率以及磁盘写入和读取的速度等。。。</p>
+<p><code>sudo apt install sysstat</code></p>
+<p>sysstat工具包含</p>
+<ol>
+<li>iostat工具提供cpu使用率以及硬盘吞吐效率</li>
+<li>mpstat提供单个或多个处理器相关数据</li>
+<li>pidstat 关于运行中的进程 任务 cpu 内存统计等信息</li>
+<li><strong>sar工具负责收集</strong>，报告并存储系统活跃信息（我感觉这个比较厉害）</li>
+</ol>
+<h3 id="sar">sar</h3>
+<p>常见问题：</p>
+<ul>
+<li>没有统计权限，参考：<a class="link" href="https://blog.csdn.net/lord_y/article/details/100139049"  title="https://blog.csdn.net/lord_y/article/details/100139049"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/lord_y/article/details/100139049</a></li>
+<li>无法打开/sysstat/sa02 没有那个文件或目录：<a class="link" href="https://blog.csdn.net/lord_y/article/details/100139049"  title="https://blog.csdn.net/lord_y/article/details/100139049"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/lord_y/article/details/100139049</a></li>
+<li>刚开统计权限后，要过一会儿才能在sar -u 看到具体的信息</li>
+</ul>
+<p>sar -u 回显说明</p>
+<p>主要看下面两条：</p>
+<p>若iowait过高表示存在I/O 瓶颈，即磁盘I/O无法满足业务需求</p>
+<p>若idle过低持续低于10，<strong>表示cpu使用率比较严重，最需要解决的资源是cpu</strong>，需要结合内存使用情况判断cpu是否瓶颈，若idle过高但系统响应慢，<strong>有可能是cpu等待分配内存，此时应加大内存容量</strong>。</p>
+<ul>
+<li>%user 用户模式下消耗的CPU时间的比例；</li>
+<li>%nice 通过nice改变了进程调度优先级的进程，在用户模式下消耗的CPU时间的比例</li>
+<li>%system 系统模式下消耗的CPU时间的比例；</li>
+<li><strong>%iowait</strong> CPU<strong>等待磁盘I/O导致空闲状态消耗的时间比例；</strong>（即cpu等待io的百分比）</li>
+<li>%steal 利用Xen等操作系统虚拟化技术，等待其它虚拟CPU计算占用的时间比例；</li>
+<li><strong>%idle</strong> CPU空闲时间比例；</li>
+</ul>
+<p>如果想要看实时的10条，可以使用<code>sar -u ALL 1 10</code></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 367; 
+			flex-basis: 882px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_3Jri4mqqTJ.png" data-size="1110x302">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_3Jri4mqqTJ.png"
+			width="1110"
+			height="302"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_3Jri4mqqTJ_hu7abf24a2dc6a6905b85d21d20ba252f9_80019_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_3Jri4mqqTJ_hu7abf24a2dc6a6905b85d21d20ba252f9_80019_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="sar--i-3-1--统计某个硬中断频率">sar -I 3 1  统计某个硬中断频率</h4>
+<p>可以用来看是否有异常的硬终端频率。</p>
+<p>比如硬盘中断过高有时候是内存炸了，swap过度。一直在硬盘中断。</p>
+<p>（Q：swap一般什么时候满了？  A:网络卡了发不出信息塞满缓存，一直在交换。。。或者空间碎片过多不连续导致卡爆，可能造成重启事故）</p>
+<h4 id="系统瓶颈判断方法">系统瓶颈判断方法：</h4>
+<p>除了常见的<strong>top和free</strong></p>
+<h4 id="1-怀疑cpu存在瓶颈">1-怀疑cpu存在瓶颈</h4>
+<p>可用两个指令查看：</p>
+<p>sar -u </p>
+<p>sar -q</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 161; 
+			flex-basis: 386px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_uGkuLEz1md.png" data-size="733x455">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_uGkuLEz1md.png"
+			width="733"
+			height="455"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_uGkuLEz1md_hu28ad4d52a3eecb2c4dd6b384d63004a9_101939_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_uGkuLEz1md_hu28ad4d52a3eecb2c4dd6b384d63004a9_101939_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="2-怀疑内存存在瓶颈可用">2-怀疑内存存在瓶颈可用</h4>
+<p>sar -B</p>
+<p>sar -r</p>
+<p>sar -w</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 176; 
+			flex-basis: 423px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_ZWKy3XScj6.png" data-size="1145x649">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_ZWKy3XScj6.png"
+			width="1145"
+			height="649"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_ZWKy3XScj6_hub06c0676a2260a4a5d6cea4587da5cc0_155586_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_ZWKy3XScj6_hub06c0676a2260a4a5d6cea4587da5cc0_155586_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h4 id="3-怀疑io存在瓶颈可用">3-怀疑I/O存在瓶颈，可用</h4>
+<p>sar -b</p>
+<p>sar -u</p>
+<p>sar -d</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 105; 
+			flex-basis: 253px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_dBk20yeyIb.png" data-size="1064x1008">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_dBk20yeyIb.png"
+			width="1064"
+			height="1008"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_dBk20yeyIb_huc66f539daef49fce5bab402c488eeda2_228557_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_dBk20yeyIb_huc66f539daef49fce5bab402c488eeda2_228557_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="pidstat">pidstat</h3>
+<p>查看cpu的使用情况，每秒统计一次</p>
+<ul>
+<li>查看进程的线程运行在那个cpu上，随便找了一个进程为例：</li>
+<li><code>pidstat -u -p 587990 -t</code></li>
+</ul>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 554; 
+			flex-basis: 1329px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_VJOZoY0kEe.png" data-size="870x157">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_VJOZoY0kEe.png"
+			width="870"
+			height="157"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_VJOZoY0kEe_hue20341c35343571ebf8b82fc1df2855a_42489_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_VJOZoY0kEe_hue20341c35343571ebf8b82fc1df2855a_42489_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>查看内存使用情况，每秒统计一次 统计三次</p>
+<p><code>pidstat -r -p 587990 1 3</code></p>
+<ul>
+<li>RSS 物理内存</li>
+<li>VSZ 虚拟内存</li>
+<li>majflt/s 大缺页次数，需要读磁盘</li>
+<li>minflt/s 小缺页次数，需要读内存</li>
+</ul>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 438; 
+			flex-basis: 1052px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_kTBOQkFVmX.png" data-size="728x166">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_kTBOQkFVmX.png"
+			width="728"
+			height="166"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_kTBOQkFVmX_hua3b4a5055f2b87c864a20cf2b703ad47_44814_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_kTBOQkFVmX_hua3b4a5055f2b87c864a20cf2b703ad47_44814_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p> </p>
+<h3 id="mpstat">mpstat</h3>
+<p>linux cpu实时监控，每秒显示一次cpu使用状态（类似top）</p>
+<p><code>mpstat -P ALL 1</code></p>
+<h2 id="perf">perf</h2>
+<p>系统性能分析工具，返回cpu正在执行的函数名以及调用栈。</p>
+<p><strong>perf能做什么</strong></p>
+<ul>
+<li>提供各种角度的系统性能分析，cpu/内存 磁盘 网络等等</li>
+<li>定位性能异常，辅助性能优化</li>
+</ul>
+<p><strong>需要掌握的</strong>部分</p>
+<ul>
+<li>性能数据收集
+<ul>
+<li>perf stat</li>
+<li>perf recordf</li>
+</ul>
+</li>
+<li>火焰图的生成
+<ul>
+<li>基于perf生成的svg图片，用于展示cpu调用栈</li>
+</ul>
+</li>
+</ul>
+<h2 id="strace">strace</h2>
+<p>跟踪系统调用与信号（syscall等。。）</p>
+<p>比如跟踪一号进程（init）</p>
+<p><code>sudo strace -p 1</code></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 163; 
+			flex-basis: 393px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_4Bfi3nofcj.png" data-size="729x445">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_4Bfi3nofcj.png"
+			width="729"
+			height="445"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_4Bfi3nofcj_hu6e36d5e96836a05b69a0e1fbab41ccbb_164318_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_4Bfi3nofcj_hu6e36d5e96836a05b69a0e1fbab41ccbb_164318_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>统计系统函数调用次数：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 170; 
+			flex-basis: 409px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_dYivCZ6YaX.png" data-size="704x413">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_dYivCZ6YaX.png"
+			width="704"
+			height="413"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_dYivCZ6YaX_hudff77e209f02b364498d4012b35845cc_58209_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_dYivCZ6YaX_hudff77e209f02b364498d4012b35845cc_58209_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>查看系统调用的时间</p>
+<p><code>sudo strace -p 1 -t</code> 精确到秒   -tt精确到微妙</p>
+<h4 id="strace能做的事情">strace能做的事情</h4>
+<ol>
+<li>判断线程是否卡死</li>
+<li>观察耗时操作有哪些</li>
+<li>观察加载了那些动态库</li>
+<li>观察打开了那些文件</li>
+</ol>
+<h2 id="lsof">lsof</h2>
+<p>查看进程打开文件信息，查看某个文件是否被打开</p>
+<ul>
+<li>lsof | grep deleted 处理磁盘已满但是找不到对应大文件的问题。 一种方法是kill相应进程，或者停掉这个文件的应用，让os自动回收磁盘空间。</li>
+</ul>
+<h2 id="dmesg注意-只最近1小时的信息">dmesg【<strong>注意 只最近1小时的信息！！！！！！！</strong>】</h2>
+<ul>
+<li>查看内核日志，内核日志也会被syslogd同步转储，转储位置取决于syslogd启动参数。</li>
+<li><strong>可以根据dmesg查询指定进程ID是否被系统杀掉</strong><code> dmesg | grep 进程id</code></li>
+<li><strong>注意 只最近1小时的信息！！！！！！！</strong></li>
+<li>比如linux的oom机制，某个进程占用很大的内存，会导致进程被kill了。。。。<code>cat /var/log/messages | grep Kill</code>是否查到了 Out of memory: Kill process、可以结合more less grep tail查看</li>
+</ul>
+<h2 id="proc">/proc</h2>
+<p>通过虚拟文件（内核数据结构可视化接口）获得内核信息，主要有：</p>
+<ol>
+<li>进程信息</li>
+<li>内存资源信息</li>
+<li>磁盘分区信息（proc只读，/sys 可以读写）</li>
+</ol>
+<h2 id="利用gdb查看死锁问题">利用gdb查看死锁问题</h2>
+<p>gdb attach查看死锁问题</p>
+<p>结论：锁的范围一定要控制好，在复杂的嵌套逻辑中更加需要谨慎。</p>
+<p>再调策过程中，碰到线程不运转的情况，猜测线程已经死锁僵死了，</p>
+<p>定位思路1：</p>
+<ol>
+<li>构造线程，<code>gdb attach $(pid)</code>进入线程</li>
+<li><code>info threads</code>直接查看线程堆栈，查看是否有线程一直在等待锁。</li>
+<li><code>thread $(gdb id)</code>查看线程堆栈</li>
+</ol>
+<p>定位思路2：</p>
+<ol>
+<li>top 查看要调试的进程id</li>
+<li><code>gdb pstack pid</code>进入trace模式</li>
+<li><code>thread apply all bt</code>查看所有线程的 back trace信息；</li>
+<li>查看所有等待锁的线程，找到最早的一个线程，在代码中找到对应的位置，对应锁的函数，具体锁在哪个线程。</li>
+<li><code>thread 定位锁线程id</code> bt查看bt信息</li>
+<li>使用f7进入然后 <code>p lockName</code>查看锁被哪个线程所拥有</li>
+</ol>
+<h2 id="taskset">taskset</h2>
+<p>busybox工具中的命令，可以将进程放到指定的cpu核上运行，绑核（亲和力）。</p>
+<h2 id="pstree">pstree</h2>
+<p>进程树父子关系</p>
+<h2 id="netstat">netstat</h2>
+<p>监控tcp/ip网络。显示路由表，实际网络连接和每一个网络接口设备的状态信息。</p>
+<p><code>netstat -tunlp</code>用于显示tcp udp 的端口和进程的相关情况</p>
+<p><code>netstat -tunlp | grep 端口号</code></p>
+<h2 id="vmstat">vmstat</h2>
+<p>属于sysstat包，可以展示给定时间间隔的服务器的状态值（CPU使用率，内存使用，虚拟内存交换情况）</p>
+<p>相比top，可以看到整个机器的cpu 内存 io使用情况，而不是各个进程的cpu 内存使用率。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 939; 
+			flex-basis: 2254px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_bBswbjr0pV.png" data-size="789x84">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_bBswbjr0pV.png"
+			width="789"
+			height="84"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_bBswbjr0pV_hu83996825c57fb73c0d93a66927d8bde4_16765_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_bBswbjr0pV_hu83996825c57fb73c0d93a66927d8bde4_16765_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="pidof">pidof</h2>
+<p>快速找到应用的pid，相当于 ps -ef | grep </p>
+<h2 id="lscpu">lscpu</h2>
+<p>不解释</p>
+<h2 id="valgrind">valgrind</h2>
+<p>用于linux程序的内存调试和代码剖析</p>
+<p>用于内存泄漏检测调试。（申请释放不匹配，二次释放，使用释放后内存，使用未初始化内存）</p>
+<h2 id="iotop">iotop</h2>
+<p>类似top ，更方便监控进程对磁盘读取情况</p>
+<p><code>sudo apt install iotop</code></p>
+<h2 id="iostat">iostat</h2>
+<p>对系统的磁盘操作活动进行监视（监视网卡、cpu、tty、磁盘的io负载情况）</p>
+<h2 id="clockdiff">clockdiff</h2>
+<p>测算设备间系统时间差</p>
+<h2 id="fuser">fuser</h2>
+<p><strong>显示所有正在使用指定的file，file system或者sockets的进程信息。</strong></p>
+<p>linux情况下，当用umount卸载挂载点会遇到device is busy提示，用fuser就可以查到谁在使用这个资源。当然使用umount -lf [挂载点] 也可以强制卸载</p>
+<p>假设无法卸载的设备为/dev/sdb1</p>
+<ol>
+<li>运行下面命令查看xx用户xx进程正在占用这个设备 <code>fuser -m -v /dev/sdb12</code></li>
+<li>运行命令沙了对应进程 <code>fuser -m -v -k /dev/sdb1</code> 或者<code>fuser -m -v -k -i /dev/sdb1</code>这个会在杀掉进程前进行确认！</li>
+<li>重新umount</li>
+</ol>
+<p>查看哪些程序使用tcp的80端口：</p>
+<p><code>fuser -n tcp 80</code>或者<code>fuser -v -n tcp 80</code>或者<code>fuser -v 80/tcp</code></p>
+<h2 id="dd">dd</h2>
+<p>用指定大小块拷贝文件，拷贝同时进行指定的转换（用于备份）</p>
+<h2 id="uptime">uptime</h2>
+<p>系统运行了多长时间。。。。查看多少个用户连接。。。以及平均负载值</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 1642; 
+			flex-basis: 3942px"
+	>
+	<a href="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_fqU3jylpQx.png" data-size="690x42">
+		<img src="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_fqU3jylpQx.png"
+			width="690"
+			height="42"
+			srcset="/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_fqU3jylpQx_hu5b4bd64c6b9882f58654b992f83fb50e_9191_480x0_resize_box_3.png 480w, /p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/image/image_fqU3jylpQx_hu5b4bd64c6b9882f58654b992f83fb50e_9191_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="reference">Reference</h2>
+<p>嵌入式无人驾驶系统进阶与调测（本文主要参考）</p>
+<p><a class="link" href="https://www.bilibili.com/video/BV1MA4y1S7zu/?spm_id_from=333.337.search-card.all.click"  title="https://www.bilibili.com/video/BV1MA4y1S7zu/?spm_id_from=333.337.search-card.all.click"
+     target="_blank" rel="noopener"
+    >https://www.bilibili.com/video/BV1MA4y1S7zu/?spm_id_from=333.337.search-card.all.click</a></p>
+<p>sar —— Linux 上最为全面的系统性能分析工具之一</p>
+<p><a class="link" href="https://shockerli.net/post/linux-tool-sar/"  title="https://shockerli.net/post/linux-tool-sar/"
+     target="_blank" rel="noopener"
+    >https://shockerli.net/post/linux-tool-sar/</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/linux/">linux</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2022 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#基础">基础</a></li>
+    <li><a href="#sysstat工具介绍">sysstat工具介绍</a>
+      <ol>
+        <li><a href="#sar">sar</a>
+          <ol>
+            <li><a href="#sar--i-3-1--统计某个硬中断频率">sar -I 3 1  统计某个硬中断频率</a></li>
+            <li><a href="#系统瓶颈判断方法">系统瓶颈判断方法：</a></li>
+            <li><a href="#1-怀疑cpu存在瓶颈">1-怀疑cpu存在瓶颈</a></li>
+            <li><a href="#2-怀疑内存存在瓶颈可用">2-怀疑内存存在瓶颈可用</a></li>
+            <li><a href="#3-怀疑io存在瓶颈可用">3-怀疑I/O存在瓶颈，可用</a></li>
+          </ol>
+        </li>
+        <li><a href="#pidstat">pidstat</a></li>
+        <li><a href="#mpstat">mpstat</a></li>
+      </ol>
+    </li>
+    <li><a href="#perf">perf</a></li>
+    <li><a href="#strace">strace</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#strace能做的事情">strace能做的事情</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#lsof">lsof</a></li>
+    <li><a href="#dmesg注意-只最近1小时的信息">dmesg【<strong>注意 只最近1小时的信息！！！！！！！</strong>】</a></li>
+    <li><a href="#proc">/proc</a></li>
+    <li><a href="#利用gdb查看死锁问题">利用gdb查看死锁问题</a></li>
+    <li><a href="#taskset">taskset</a></li>
+    <li><a href="#pstree">pstree</a></li>
+    <li><a href="#netstat">netstat</a></li>
+    <li><a href="#vmstat">vmstat</a></li>
+    <li><a href="#pidof">pidof</a></li>
+    <li><a href="#lscpu">lscpu</a></li>
+    <li><a href="#valgrind">valgrind</a></li>
+    <li><a href="#iotop">iotop</a></li>
+    <li><a href="#iostat">iostat</a></li>
+    <li><a href="#clockdiff">clockdiff</a></li>
+    <li><a href="#fuser">fuser</a></li>
+    <li><a href="#dd">dd</a></li>
+    <li><a href="#uptime">uptime</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -379,6 +379,15 @@ PermitRootLogin yes           #root能使用ssh登录</p>
 	</a>
 	
 </figure></p>
+<h3 id="tensorrt扩展解析">Tensorrt扩展解析</h3>
+<p>此时有些跳转还是失效的，因为根本没有选择对应编译选项与库，所以我们需要做两步操作：</p>
+<ol>
+<li>增加cmake 选项  <code>-DWITH_TENSORRT=ON</code></li>
+<li>在docker中根据 nvidia 官方教程安装 tensorrt：</li>
+</ol>
+<p><a class="link" href="https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html#installing-debian"  target="_blank" rel="noopener"
+    >https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html#installing-debian</a></p>
+<p>重新启动clion即可成功~（所有nvinfer1相关都点亮了）如果还出现不可跳转的情况，可以点击设置菜单中的 工具——与远程主机重新同步，然后符号加载完后就可以了，实在不行重启clion解决一切问题。</p>
 <h2 id="外传没clion但用vscode凑合">外传——没clion但用vscode凑合</h2>
 <blockquote>
 <p>“放过vscode吧！他只是一个编辑器，不是IDE！”——沃兹季硕德</p>
@@ -613,6 +622,7 @@ PermitRootLogin yes           #root能使用ssh登录</p>
       <ol>
         <li><a href="#注释每次重启docker后的操作">注释：每次重启docker后的操作</a></li>
         <li><a href="#cmake过程坑点注意">cmake过程坑点注意</a></li>
+        <li><a href="#tensorrt扩展解析">Tensorrt扩展解析</a></li>
       </ol>
     </li>
     <li><a href="#外传没clion但用vscode凑合">外传——没clion但用vscode凑合</a></li>

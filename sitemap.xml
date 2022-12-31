@@ -2,19 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://sanbuphy.github.io/categories/</loc>
+    <lastmod>2022-12-31T12:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/linux/</loc>
+    <lastmod>2022-12-31T12:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/categories/linux/</loc>
+    <lastmod>2022-12-31T12:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/p/linux%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%93%B6%E9%A2%88%E7%AD%89%E7%BB%B4%E6%8A%A4%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86/</loc>
+    <lastmod>2022-12-31T12:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/post/</loc>
+    <lastmod>2022-12-31T12:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/</loc>
+    <lastmod>2022-12-31T12:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/</loc>
+    <lastmod>2022-12-31T12:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/deploy/</loc>
+    <lastmod>2022-12-30T17:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/categories/deploy/</loc>
+    <lastmod>2022-12-30T17:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/p/ncnn%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%90%AC%E8%AF%BE%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2022-12-30T17:14:16+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/%E8%AE%B2%E5%BA%A7%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2022-12-30T17:14:16+08:00</lastmod>
+  </url><url>
     <loc>https://sanbuphy.github.io/tags/c&#43;&#43;/</loc>
     <lastmod>2022-12-24T17:18:16+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/categories/c&#43;&#43;/</loc>
-    <lastmod>2022-12-24T17:18:16+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/categories/</loc>
-    <lastmod>2022-12-24T17:18:16+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/post/</loc>
-    <lastmod>2022-12-24T17:18:16+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/tags/</loc>
     <lastmod>2022-12-24T17:18:16+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</loc>
@@ -24,9 +48,6 @@
     <lastmod>2022-12-24T17:18:16+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/tags/%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2022-12-24T17:18:16+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/</loc>
     <lastmod>2022-12-24T17:18:16+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/</loc>
@@ -154,12 +175,6 @@
   </url><url>
     <loc>https://sanbuphy.github.io/p/%E7%B3%BB%E7%BB%9F%E9%80%83%E7%94%9F%E8%88%B1%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</loc>
     <lastmod>2022-06-25T14:50:08+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/tags/linux/</loc>
-    <lastmod>2022-06-25T14:18:55+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/categories/linux/</loc>
-    <lastmod>2022-06-25T14:18:55+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/p/linux%E4%B8%ADsudosusu-%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</loc>
     <lastmod>2022-06-25T14:18:55+08:00</lastmod>

@@ -6,7 +6,34 @@
     <description>Recent content in Tags on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 24 Dec 2022 17:18:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 31 Dec 2022 12:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux</title>
+      <link>https://sanbuphy.github.io/tags/linux/</link>
+      <pubDate>Sat, 31 Dec 2022 12:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>deploy</title>
+      <link>https://sanbuphy.github.io/tags/deploy/</link>
+      <pubDate>Fri, 30 Dec 2022 17:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/tags/deploy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>讲座笔记</title>
+      <link>https://sanbuphy.github.io/tags/%E8%AE%B2%E5%BA%A7%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 30 Dec 2022 17:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/tags/%E8%AE%B2%E5%BA%A7%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>C&#43;&#43;</title>
       <link>https://sanbuphy.github.io/tags/c&#43;&#43;/</link>
@@ -76,15 +103,6 @@
       <pubDate>Sat, 13 Aug 2022 09:03:03 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/tags/python%E8%BF%9B%E9%98%B6/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Linux</title>
-      <link>https://sanbuphy.github.io/tags/linux/</link>
-      <pubDate>Sat, 25 Jun 2022 14:18:55 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/tags/linux/</guid>
       <description></description>
     </item>
     

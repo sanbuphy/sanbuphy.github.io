@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>讲座笔记 on 散步的小屋</title>
+    <link>https://sanbuphy.github.io/tags/%E8%AE%B2%E5%BA%A7%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 讲座笔记 on 散步的小屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 30 Dec 2022 17:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/%E8%AE%B2%E5%BA%A7%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ncnn设计理念与软件工程（听课笔记）</title>
+      <link>https://sanbuphy.github.io/p/ncnn%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%90%AC%E8%AF%BE%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 30 Dec 2022 17:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/ncnn%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%90%AC%E8%AF%BE%E7%AC%94%E8%AE%B0/</guid>
+      <description>开头安利了一下各种有趣的库（nihui姐姐的知乎也可以看看 这里面有很多不错的项目实现。 关于ncnn的所有资料 https://github.com/zchrissirhcz/awesome-ncnn ncnn源码解析相关资料推荐：</description>
+    </item>
+    
+  </channel>
+</rss>
