@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='简单介绍计算图、自动微分、动静统一的相关知识'><title>AI框架之计算图的前世今生（笔记）</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='AI框架之计算图的前世今生（笔记）'>
+<meta property='og:description' content='简单介绍计算图、自动微分、动静统一的相关知识'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='DLSystem' /><meta property='article:tag' content='讲座笔记' /><meta property='article:published_time' content='2023-01-02T11:14:16&#43;08:00'/><meta property='article:modified_time' content='2023-01-02T11:14:16&#43;08:00'/>
+<meta name="twitter:title" content="AI框架之计算图的前世今生（笔记）">
+<meta name="twitter:description" content="简单介绍计算图、自动微分、动静统一的相关知识">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dlsystem/" >
+                DLSystem
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/">AI框架之计算图的前世今生（笔记）</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        简单介绍计算图、自动微分、动静统一的相关知识
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 02, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 8 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>【注意：多图，难以加载建议科学上网】</p>
+<p><a class="link" href="https://www.bilibili.com/video/BV1hD4y1k7Ty/"  title="https://www.bilibili.com/video/BV1hD4y1k7Ty/"
+     target="_blank" rel="noopener"
+    >https://www.bilibili.com/video/BV1hD4y1k7Ty/</a></p>
+<p>感谢原视频作者，华为昇腾架构师ZOMI酱（我愿称之为肝帝！）的超级贡献，有个视频提到了他录制的时候是凌晨一点（还有其他的休息时间）</p>
+<p>可以看出他是真正热爱深度学习编译器、AI框架相关工作的，向他学习/致敬！绝对值得一键三连</p>
+<h2 id="第二节-为什么都用计算图">第二节-为什么都用计算图</h2>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 103; 
+			flex-basis: 249px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_WPXSvgMaAn.png" data-size="952x917">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_WPXSvgMaAn.png"
+			width="952"
+			height="917"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_WPXSvgMaAn_hu5620eb1720bd1b3f8ec466cfa157d7b2_358831_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_WPXSvgMaAn_hu5620eb1720bd1b3f8ec466cfa157d7b2_358831_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 292; 
+			flex-basis: 702px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_jT8--cM1uY.png" data-size="1452x496">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_jT8--cM1uY.png"
+			width="1452"
+			height="496"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_jT8--cM1uY_hu80ac4746762a08153784c94e90874f53_102009_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_jT8--cM1uY_hu80ac4746762a08153784c94e90874f53_102009_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="21神经网络框架遇到的问题">2.1神经网络框架遇到的问题</h3>
+<p>首要的问题是我们能够如何定义神经网络</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 192; 
+			flex-basis: 461px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_EQsp1P5qX4.png" data-size="2165x1127">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_EQsp1P5qX4.png"
+			width="2165"
+			height="1127"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_EQsp1P5qX4_hu9197e17830f322c0ea4ed38cd52f0ff5_942854_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_EQsp1P5qX4_hu9197e17830f322c0ea4ed38cd52f0ff5_942854_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>除了程序表示的问题，还要研究怎么让我们的表示在硬件框架能够高效执行。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 171; 
+			flex-basis: 411px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_FZWLdQ4vnD.png" data-size="1826x1066">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_FZWLdQ4vnD.png"
+			width="1826"
+			height="1066"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_FZWLdQ4vnD_hu392242b2078e53d262bf6661c2814657_917446_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_FZWLdQ4vnD_hu392242b2078e53d262bf6661c2814657_917446_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>深度学习如何进行运行时管理？如何编译呢？如何适配不同后端？</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 231; 
+			flex-basis: 556px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_-EJ_5ZYyel.png" data-size="2138x922">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_-EJ_5ZYyel.png"
+			width="2138"
+			height="922"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_-EJ_5ZYyel_huc8aa4ec567d63d712ad543838fe5e354_836682_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_-EJ_5ZYyel_huc8aa4ec567d63d712ad543838fe5e354_836682_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>综上所述，我们先给出了统一表示——计算图</p>
+<h3 id="22基于计算图的基本框架组成">2.2基于计算图的基本框架组成</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 241; 
+			flex-basis: 579px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xazwMlzaVE.png" data-size="2116x876">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xazwMlzaVE.png"
+			width="2116"
+			height="876"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xazwMlzaVE_hu0d4deb0f0125ec36c2cbd8f3fcbdae4f_731994_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xazwMlzaVE_hu0d4deb0f0125ec36c2cbd8f3fcbdae4f_731994_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>形状这么理解（从3，2，5反着理解）：我们有个元素为5的数组，然后这样的数组有两排；这样两排的数组一共有三大块。</p>
+<p>为什么使用张量而不用其他数据结构的优点如上所述。上层表示为张量数组，说明有了统一数据结构可以做一个统一的内存映射，方便做切片等操作。'</p>
+<h3 id="23不同数据的张量化表示">2.3不同数据的张量化表示</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 190; 
+			flex-basis: 457px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_bbGfXJYjCj.png" data-size="1630x855">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_bbGfXJYjCj.png"
+			width="1630"
+			height="855"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_bbGfXJYjCj_hufcdf403737a9dc70031ac8dcda80763a_549372_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_bbGfXJYjCj_hufcdf403737a9dc70031ac8dcda80763a_549372_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="24基于计算图的计算框架">2.4基于计算图的计算框架</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 192; 
+			flex-basis: 462px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_bW8DsKf9Py.png" data-size="1776x921">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_bW8DsKf9Py.png"
+			width="1776"
+			height="921"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_bW8DsKf9Py_hu823a095b79649ac39c6687bceade8820_579707_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_bW8DsKf9Py_hu823a095b79649ac39c6687bceade8820_579707_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>算子有大有小，小到加减乘除大到右边的那些一堆。</p>
+<p>计算图（DAG）计算框架</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 266; 
+			flex-basis: 640px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_5lau5J_gjC.png" data-size="1930x723">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_5lau5J_gjC.png"
+			width="1930"
+			height="723"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_5lau5J_gjC_hu5e014c5d1298850935b180c2febf93da_526765_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_5lau5J_gjC_hu5e014c5d1298850935b180c2febf93da_526765_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>特殊的操作会复杂化计算图。（后续会说）</p>
+<p>这里说的计算图比较简略，想看详细的版本可参考：</p>
+<p>深度学习入门与Pytorch|2.1 计算图的概念与理解 - aHiiLn的文章 - 知乎
+<a class="link" href="https://zhuanlan.zhihu.com/p/412542969"  title="https://zhuanlan.zhihu.com/p/412542969"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/412542969</a></p>
+<h2 id="第三节-怎么用计算图表示自动微分">第三节-怎么用计算图表示自动微分</h2>
+<h3 id="31复习训练过程">3.1复习训练过程</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 177; 
+			flex-basis: 426px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_XXVQVAZTXA.png" data-size="2464x1387">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_XXVQVAZTXA.png"
+			width="2464"
+			height="1387"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_XXVQVAZTXA_hu99f7611fe936f006973932092d916a3a_1521317_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_XXVQVAZTXA_hu99f7611fe936f006973932092d916a3a_1521317_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 212; 
+			flex-basis: 508px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_mjZznuQveT.png" data-size="2432x1147">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_mjZznuQveT.png"
+			width="2432"
+			height="1147"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_mjZznuQveT_hu2edc0b6dea5acaee90a2ec99d14f94fb_2223845_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_mjZznuQveT_hu2edc0b6dea5acaee90a2ec99d14f94fb_2223845_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>反向传播过程就是为了找到最小鞍点（高度非凸函数）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 208; 
+			flex-basis: 500px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_a52Bb_PLkn.png" data-size="2359x1132">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_a52Bb_PLkn.png"
+			width="2359"
+			height="1132"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_a52Bb_PLkn_hua3e5e32627639f629e2fcab2701836e1_773847_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_a52Bb_PLkn_hua3e5e32627639f629e2fcab2701836e1_773847_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>为什么说自动生成反向计算程序？是因为前向是人工构造的；反向很复杂，我们希望系统可以帮助我们构建。</p>
+<h3 id="32反向传播与微分">3.2反向传播与微分</h3>
+<p>比如这样的一个网络模型（我们只写了正向传播）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 183; 
+			flex-basis: 441px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ZNDWQhjjM8.png" data-size="1379x750">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ZNDWQhjjM8.png"
+			width="1379"
+			height="750"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ZNDWQhjjM8_hueb4ba9ff4535ae3ded3929248bc584ec_627632_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ZNDWQhjjM8_hueb4ba9ff4535ae3ded3929248bc584ec_627632_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p> 那右边的反向程序怎么办？不能手写，希望框架能够自动帮我们构建（构建DAG的有向无环图，即计算图表达我们的正向和反向）</p>
+<p>我们回顾一下自动微分里面涉及到的简单微分方式：</p>
+<p><strong>首先是符号微分：</strong></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 144; 
+			flex-basis: 347px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_EwwKnk1yG3.png" data-size="1210x836">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_EwwKnk1yG3.png"
+			width="1210"
+			height="836"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_EwwKnk1yG3_hua9373619f3a6361d7149e9270968fd00_437950_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_EwwKnk1yG3_hua9373619f3a6361d7149e9270968fd00_437950_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>（注意到表达式膨胀以及无法求导的算子）</p>
+<p><strong>第二种方法——数值微分</strong></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 132; 
+			flex-basis: 318px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_uDypFm1ChB.png" data-size="1121x844">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_uDypFm1ChB.png"
+			width="1121"
+			height="844"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_uDypFm1ChB_hu6bbd35f4b71a2a8fd3cc59eedff8e62c_384344_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_uDypFm1ChB_hu6bbd35f4b71a2a8fd3cc59eedff8e62c_384344_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="33自动微分">3.3自动微分</h3>
+<p><strong>第三种方式——自动微分！</strong></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 163; 
+			flex-basis: 392px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ysbcFS2Kje.png" data-size="1338x818">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ysbcFS2Kje.png"
+			width="1338"
+			height="818"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ysbcFS2Kje_huc383461964fee2375bf765cf07ca3da6_472624_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ysbcFS2Kje_huc383461964fee2375bf765cf07ca3da6_472624_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>那么什么是中间变量呢？？</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 295; 
+			flex-basis: 709px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_VDxdYsoHCG.png" data-size="1662x562">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_VDxdYsoHCG.png"
+			width="1662"
+			height="562"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_VDxdYsoHCG_huf3ccb2d40678507c3a193d2b55b2c3fa_248398_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_VDxdYsoHCG_huf3ccb2d40678507c3a193d2b55b2c3fa_248398_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>比如v-1到v5都是中间变量。每经过一个边运算产生一个中间变量。（分治法）</p>
+<p>前面看的是正向的，我们再看看反向。</p>
+<p>在反向传播中，偏导数也算中间变量。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 199; 
+			flex-basis: 479px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_FkSAvhjl_n.png" data-size="1648x825">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_FkSAvhjl_n.png"
+			width="1648"
+			height="825"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_FkSAvhjl_n_hu5ae089403ae28294f553ba9dc9d92ebf_467117_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_FkSAvhjl_n_hu5ae089403ae28294f553ba9dc9d92ebf_467117_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 191; 
+			flex-basis: 460px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xamuDCrCBc.png" data-size="1628x848">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xamuDCrCBc.png"
+			width="1628"
+			height="848"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xamuDCrCBc_hu89f2953e92f46530faea66f202273c73_419299_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xamuDCrCBc_hu89f2953e92f46530faea66f202273c73_419299_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>黄色部分是神经网络的“一层”，把他当成一个抽象函数 Y = G(X) ，其中X是v1,v2组成的一个抽象张量；输出Y就是v3,v4。</p>
+<p>为了更好的在数学上表示Y对X的导数我们引入了雅可比矩阵。 我们计算完最终的导数f(x1,x2）后就要开始反向传播的过程。 我们在v4,v3反向传播的时候先暂时把它当作：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 338; 
+			flex-basis: 813px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_GdkXPzNHu4.png" data-size="661x195">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_GdkXPzNHu4.png"
+			width="661"
+			height="195"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_GdkXPzNHu4_huad2e924cc67a2ee11c9e8ffa024fc2e1_49341_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_GdkXPzNHu4_huad2e924cc67a2ee11c9e8ffa024fc2e1_49341_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>（实际上这个玩意儿是为了求反向输出：）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 197; 
+			flex-basis: 473px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_qrIKXS9X2c.png" data-size="602x305">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_qrIKXS9X2c.png"
+			width="602"
+			height="305"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_qrIKXS9X2c_hu3a219c6bd1fa122c1307d44f74b792f4_86031_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_qrIKXS9X2c_hu3a219c6bd1fa122c1307d44f74b792f4_86031_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 157; 
+			flex-basis: 378px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_6Fkphumov0.png" data-size="1211x767">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_6Fkphumov0.png"
+			width="1211"
+			height="767"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_6Fkphumov0_hu26e33fb16aaa5438ba908a3a8286392a_345264_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_6Fkphumov0_hu26e33fb16aaa5438ba908a3a8286392a_345264_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>可以看出每个结点无论前后都是接受输入给出输出。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 194; 
+			flex-basis: 467px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image__S66MrWoHp.png" data-size="1651x847">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image__S66MrWoHp.png"
+			width="1651"
+			height="847"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image__S66MrWoHp_hud0452139ec4e873ea562b3d3d9a4f441_553763_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image__S66MrWoHp_hud0452139ec4e873ea562b3d3d9a4f441_553763_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>我们把计算图分离出来看是这样的，注意到有时候我们还是会用到正向的变量，所以我们要吧中间变量存下来。所以说占据显存。。。因为神经网络会存大量的中间变量数据。</p>
+<p>两个小问题：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 557; 
+			flex-basis: 1338px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_8bLs3_eIOP.png" data-size="920x165">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_8bLs3_eIOP.png"
+			width="920"
+			height="165"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_8bLs3_eIOP_hu4af5bc4051455f788962f59e786153d5_67368_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_8bLs3_eIOP_hu4af5bc4051455f788962f59e786153d5_67368_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接下来看几种自动微分的形式：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 208; 
+			flex-basis: 501px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ugBw-UWCdn.png" data-size="1631x781">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ugBw-UWCdn.png"
+			width="1631"
+			height="781"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ugBw-UWCdn_hud4f96c9bae1daecb6a236d27f074e844_504569_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ugBw-UWCdn_hud4f96c9bae1daecb6a236d27f074e844_504569_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 205; 
+			flex-basis: 492px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_4JmcHmeFEJ.png" data-size="1594x777">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_4JmcHmeFEJ.png"
+			width="1594"
+			height="777"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_4JmcHmeFEJ_hu4e687ab39c26a23c24e53dcf950b10ac_481513_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_4JmcHmeFEJ_hu4e687ab39c26a23c24e53dcf950b10ac_481513_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>看一下mindspore的优化实现</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 200; 
+			flex-basis: 480px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_9ak2q2k3NY.png" data-size="1681x840">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_9ak2q2k3NY.png"
+			width="1681"
+			height="840"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_9ak2q2k3NY_huacf481cd6a49657391a2e5f6b6ca11f2_471942_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_9ak2q2k3NY_huacf481cd6a49657391a2e5f6b6ca11f2_471942_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>最后复习一下，有了某个语言表示的计算图（正向）然后有了自动微分，有了正反向的计算图，然后就可以成为深度学习训练之前的完整的计算图。</p>
+<h3 id="34-pytorch和tensorflow的区别">3.4 pytorch和tensorflow的区别</h3>
+<p>这个是自己的额外整理部分。以这样一个计算图为例：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 59; 
+			flex-basis: 142px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_99GhPbM0W7.png" data-size="283x476">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_99GhPbM0W7.png"
+			width="283"
+			height="476"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_99GhPbM0W7_hub780c1d153af499f5a45f7e32f2dfe13_28562_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_99GhPbM0W7_hub780c1d153af499f5a45f7e32f2dfe13_28562_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 99; 
+			flex-basis: 238px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ssY0vmMZ1F.png" data-size="653x656">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ssY0vmMZ1F.png"
+			width="653"
+			height="656"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ssY0vmMZ1F_hu0b2ee7bd755eae4e01c2bc8509983dba_299249_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ssY0vmMZ1F_hu0b2ee7bd755eae4e01c2bc8509983dba_299249_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 84; 
+			flex-basis: 202px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_laNWauuK75.png" data-size="415x491">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_laNWauuK75.png"
+			width="415"
+			height="491"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_laNWauuK75_hu58f97bd3ae0d7d51b0eff76fba92ca3d_169413_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_laNWauuK75_hu58f97bd3ae0d7d51b0eff76fba92ca3d_169413_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>左边是tensorflow的静态图，先构建然后进入运行时；右边是torch动态图，相当于每一个输出都可以在不同环节得到。类似静态编译和动态编译。</p>
+<p>左图从代码中可以看出静态结构，因为我们可以看到，一旦在一个会话中，我们不能定义新的操作（或节点），可使用sess.run()方法中的feed_dict属性来改变输入变量。他的缺点是：</p>
+<ul>
+<li>对可变维度输入的扩展性很差。例如，一个CNN（卷积神经网络）架构有一个静态的计算图，在28×28的图像上训练，如果没有大量的预处理模板代码，在不同尺寸的图像（如100×100）上就不会有好的表现。</li>
+<li>调试性差。这些都是很难调试的，主要是因为用户无法接触到信息流是如何发生的。 erg:假设用户创建了一个畸形的静态图，用户无法直接跟踪这个错误，直到TensorFlow会话在计算反向传播和前向传播时发现一个错误。当模型巨大时，这就成为一个主要问题，因为它既浪费了用户的时间又浪费了计算资源。</li>
+</ul>
+<p>pytorch动态图相关的优点为：</p>
+<ul>
+<li>对不同维度输入的可扩展性。对不同维度的输入有很好的扩展性，因为新的预处理层可以动态地加入到网络本身。</li>
+<li>调试容易。这些都是非常容易调试的，也是很多人从Tensorflow转向Pytorch的原因之一。由于节点是在任何信息流经它们之前动态创建的，因此错误变得非常容易发现，因为用户完全控制了训练过程中使用的变量。</li>
+</ul>
+<h2 id="第四节-计算图优化和执行">第四节 计算图优化和执行</h2>
+<h3 id="41-图优化">4.1 图优化</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 196; 
+			flex-basis: 471px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_wN7r_zNx9X.png" data-size="1721x876">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_wN7r_zNx9X.png"
+			width="1721"
+			height="876"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_wN7r_zNx9X_hu396b3514f48da33bff6097f85ae76631_540053_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_wN7r_zNx9X_hu396b3514f48da33bff6097f85ae76631_540053_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>计算图的好处是作为高层IR表现，把前端具体实现和后者优化隔离。</p>
+<p>计算图的优化是编译器做的：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 185; 
+			flex-basis: 445px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_tlzr9NibPS.png" data-size="1609x866">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_tlzr9NibPS.png"
+			width="1609"
+			height="866"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_tlzr9NibPS_hu282ec415d1a70b7693aba29981cae780_395482_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_tlzr9NibPS_hu282ec415d1a70b7693aba29981cae780_395482_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<ul>
+<li>常量折叠：有些常量计算比如1+1可以在编译期就算出来，没必要在运行时计算</li>
+<li>常量传播：常量传播，顾名思义，就是把常量传播到使用了这个常量的地方去，用常量替换原来的变量。<a class="link" href="https://www.modb.pro/db/524829"  title="https://www.modb.pro/db/524829"
+     target="_blank" rel="noopener"
+    >https://www.modb.pro/db/524829</a></li>
+<li><a class="link" href="https://blog.csdn.net/qq_36287943/article/details/104974597"  title="https://blog.csdn.net/qq_36287943/article/details/104974597"
+     target="_blank" rel="noopener"
+    >https://blog.csdn.net/qq_36287943/article/details/104974597</a></li>
+<li>算子融合：小算子变成大算子</li>
+</ul>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 180; 
+			flex-basis: 432px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_t8I5xOGi_M.png" data-size="1641x910">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_t8I5xOGi_M.png"
+			width="1641"
+			height="910"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_t8I5xOGi_M_hu762ade4fb8013e78857658889bd32c9d_357314_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_t8I5xOGi_M_hu762ade4fb8013e78857658889bd32c9d_357314_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>7 是一些反向的操作。。。（如下图显示）</p>
+<p>他的计算时根据依赖关系丢到一个算子列表，然后计算单元根据我们的算子列表计算出结果。</p>
+<h3 id="42-算子调度">4.2 算子调度</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 212; 
+			flex-basis: 509px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ovXODptiHa.png" data-size="1704x802">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ovXODptiHa.png"
+			width="1704"
+			height="802"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ovXODptiHa_hu20efee746c55a315b88a7cd836c85d1b_399560_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ovXODptiHa_hu20efee746c55a315b88a7cd836c85d1b_399560_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 196; 
+			flex-basis: 472px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_WfF5IMr4NV.png" data-size="1635x830">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_WfF5IMr4NV.png"
+			width="1635"
+			height="830"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_WfF5IMr4NV_hue68b65df6465c518158647fcd29bb0ca_430886_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_WfF5IMr4NV_hue68b65df6465c518158647fcd29bb0ca_430886_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>在不同的线程池并行（多计算核）可以提高我们的算子计算速度。 </p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 216; 
+			flex-basis: 520px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_Kc4P-uus5y.png" data-size="1664x767">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_Kc4P-uus5y.png"
+			width="1664"
+			height="767"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_Kc4P-uus5y_hub476fcc919221bdd869b6a3c3a0afe64_494808_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_Kc4P-uus5y_hub476fcc919221bdd869b6a3c3a0afe64_494808_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>假设我们有四台计算设备，对于Inception模块，我们可能不同的算子模块会放到不同的计算设备中运行（下图左侧）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 202; 
+			flex-basis: 486px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_Vo6HWfeeYg.png" data-size="1672x825">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_Vo6HWfeeYg.png"
+			width="1672"
+			height="825"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_Vo6HWfeeYg_hu97e39c026d0970881e476e3f1a993edd_544227_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_Vo6HWfeeYg_hu97e39c026d0970881e476e3f1a993edd_544227_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>一旦放在不同设备就有多种调度模式，这里没那么简单，我们还要看看如何处理信息的切分（数据是怎么切分的？怎么分到不同的设备的？）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 202; 
+			flex-basis: 486px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ymAfkrfrVf.png" data-size="1602x791">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ymAfkrfrVf.png"
+			width="1602"
+			height="791"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ymAfkrfrVf_hu35c82f7026bac6974ea8830a12273570_495538_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ymAfkrfrVf_hu35c82f7026bac6974ea8830a12273570_495538_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>切分后可能通过send算子也可能是通讯原语进行传输。</p>
+<p>有关通讯原语可参考openmmlab 的相关推文：</p>
+<p>AI框架基础技术之深度学习中的通信优化</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/348982652"  title="https://zhuanlan.zhihu.com/p/348982652"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/348982652</a></p>
+<p>或本视频作者的文章：分布式训练硬核技术——通信原语<a class="link" href="https://zhuanlan.zhihu.com/p/465967735"  title="https://zhuanlan.zhihu.com/p/465967735"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/465967735</a></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 192; 
+			flex-basis: 461px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_BFOdSa0u5_.png" data-size="1440x749">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_BFOdSa0u5_.png"
+			width="1440"
+			height="749"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_BFOdSa0u5__hu4d3f29f8095de227af5969a39eaea41d_311703_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_BFOdSa0u5__hu4d3f29f8095de227af5969a39eaea41d_311703_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>实际上这个是非常困难的问题，因为我要考虑计算图怎么切分，怎么切分可以让我的组合优化问题效率更高（对算子进行分发和通讯的手段）</p>
+<h2 id="第五节-ai框架如何表示控制流">第五节 AI框架如何表示控制流</h2>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 187; 
+			flex-basis: 448px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_8KteGhdOcC.png" data-size="1173x627">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_8KteGhdOcC.png"
+			width="1173"
+			height="627"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_8KteGhdOcC_hua82cc060b1fdd4f920687bfac9472ac8_186553_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_8KteGhdOcC_hua82cc060b1fdd4f920687bfac9472ac8_186553_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>AI框架在设计的时候就像做到前后端分离，为了解决这个问题提出了统一标识计算图，通过统一描述可以帮助前端用户更灵活编写算法；计算图也影响了后续优化方式和系统拓展；</p>
+<h3 id="51-控制流">5.1 控制流</h3>
+<p>以transformer为例：除了if还有很多for循环。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 156; 
+			flex-basis: 375px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_k-eBKwDOub.png" data-size="1642x1049">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_k-eBKwDOub.png"
+			width="1642"
+			height="1049"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_k-eBKwDOub_hu9a8870a4d33c9b755574961fec088bff_998862_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_k-eBKwDOub_hu9a8870a4d33c9b755574961fec088bff_998862_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>现在主流有了三种解决方案：（分别是ten py mindspore)</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 223; 
+			flex-basis: 536px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UzmhmBT31M.png" data-size="1450x649">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UzmhmBT31M.png"
+			width="1450"
+			height="649"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UzmhmBT31M_hu537a1da0f36d7b25c5a81c9459deeaa8_363817_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UzmhmBT31M_hu537a1da0f36d7b25c5a81c9459deeaa8_363817_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>ten和torch最新版本也开始引入第三种方案。</p>
+<h3 id="52-tensorflow静态图控制流实现x20">5.2 tensorflow静态图控制流实现 </h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 184; 
+			flex-basis: 443px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ecqTkOUr24.png" data-size="1604x868">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ecqTkOUr24.png"
+			width="1604"
+			height="868"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ecqTkOUr24_hu5b01c546d070b6a8fd7a0fafd206d126_488646_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ecqTkOUr24_hu5b01c546d070b6a8fd7a0fafd206d126_488646_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>静态图的控制流原语就是下列图提到的 Enter等那五个，提前声明的好处是可以获得统一描述，不需要反复切换前端语言和运行时，都在runtime解决。</p>
+<p>tf很麻烦要用到各种cond的基础api，虽然封装高层次api比如case之类的还是很难用；torch根据第三种源码转换的方式，可以把前端语句映射到对应的基础控制流api。</p>
+<p>举个例子，一起看看tensorflow里面是怎么添加控制流原语的：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 190; 
+			flex-basis: 456px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_LnGTxiK3P_.png" data-size="1658x872">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_LnGTxiK3P_.png"
+			width="1658"
+			height="872"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_LnGTxiK3P__huf9ea1fd058a2196a045db694d80886b8_721513_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_LnGTxiK3P__huf9ea1fd058a2196a045db694d80886b8_721513_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>在tensorflow后面需要调用两个while loop进行嵌套表达。在底层的表达是有一个excution frame帧（里面是一个scope），里面保存了算子的上下文信息；嵌套for就使用了嵌套的执行帧。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 209; 
+			flex-basis: 503px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ky8AKBgonF.png" data-size="1633x779">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ky8AKBgonF.png"
+			width="1633"
+			height="779"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ky8AKBgonF_hu9689bdbee9483348b34c2b6fa34704de_377626_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ky8AKBgonF_hu9689bdbee9483348b34c2b6fa34704de_377626_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>cond是用了 switch和merge原语组成的。实际上还是很难理解使用的&hellip;&hellip;.</p>
+<p>更复杂的操作就是while loop的操作（难怪tf越来越少人用。。）</p>
+<p>接下来看看提供控制流原语的优缺点：（缺点太太太明显了。。需要花时间学习控制流到底是怎么表达和使用的，而且计算图被这么复杂化真的没法看了）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 207; 
+			flex-basis: 496px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_2qmL5QB8nn.png" data-size="1623x784">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_2qmL5QB8nn.png"
+			width="1623"
+			height="784"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_2qmL5QB8nn_hu9871232fb9159c4a0e25061bd6416217_565979_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_2qmL5QB8nn_hu9871232fb9159c4a0e25061bd6416217_565979_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="53-pytorch动态图控制流实现x20">5.3 pytorch动态图控制流实现 </h3>
+<p>对于torch而言，选择的是复用用户前端api语言控制流语句。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 194; 
+			flex-basis: 465px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_RjxUgBWH3m.png" data-size="1620x835">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_RjxUgBWH3m.png"
+			width="1620"
+			height="835"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_RjxUgBWH3m_huddcbe747bb5c1eaa89bacf680ae16fe6_574102_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_RjxUgBWH3m_huddcbe747bb5c1eaa89bacf680ae16fe6_574102_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>后端直接选择用库的行为执行算子，如果遇到控制流就在python里面执行。这个最大的好处就是可以灵活使用控制流而且马上输出张量的计算结果。缺点就是可能会带来性能问题，还有runtime开销。。。。无法进行全局计算图优化。</p>
+<h3 id="54-mindspore静态图控制流实现x20">5.4 mindspore静态图控制流实现 </h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 201; 
+			flex-basis: 483px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_M0_poENot1.png" data-size="1647x817">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_M0_poENot1.png"
+			width="1647"
+			height="817"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_M0_poENot1_huc33d9683e1b517c3d31f7d21af1368c2_539986_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_M0_poENot1_huc33d9683e1b517c3d31f7d21af1368c2_539986_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接下来再看看mindspore的做法，源码解析展开和转换计算图。比如可以吧for变成串行的；if和else可以变成两个子图，运行时动态选择子图进行运算。这个好处是用户可以一定程度使用前端宿主控制流语言，同时也可以加速运行时效率，可以全局优化。</p>
+<p>但是算子选择需要硬件支持。。。。部分python控制流代码也不能表示，有一定程度的约束性（并不是完成自由）</p>
+<h2 id="第六节-ai框架如何实现动静统一torch和mindspore的动静统一现状">第六节 AI框架如何实现动静统一，torch和mindspore的动静统一现状</h2>
+<h3 id="61动态图转换为静态图的方法">6.1动态图转换为静态图的方法</h3>
+<p>（paddle也有，然后mindspore说是第一次提出的）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 350; 
+			flex-basis: 840px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_M60-SbLj3w.png" data-size="1338x382">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_M60-SbLj3w.png"
+			width="1338"
+			height="382"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_M60-SbLj3w_hud408d58f43a912d018ec4f2a9fcb5ac4_304317_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_M60-SbLj3w_hud408d58f43a912d018ec4f2a9fcb5ac4_304317_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接下来看看具体是怎么实现的 <strong>,先看下trace</strong></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 208; 
+			flex-basis: 500px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_NNyHnEnsXN.png" data-size="1326x636">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_NNyHnEnsXN.png"
+			width="1326"
+			height="636"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_NNyHnEnsXN_hu18a92ddf8f40034d2a728c51762dea38_300572_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_NNyHnEnsXN_hu18a92ddf8f40034d2a728c51762dea38_300572_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>Trace的坏处是因为基于用户代码进行追踪，但这个覆盖率不一定全；所以遍历后变成静态图可能会造成图损失，实际上这个在实际框架比较少。。。。</p>
+<p>以JIT（Just In Time）为例，其实是基于源代码解析。jit是运行时动态编译，在内存里生成和运行一段代码，一边编译一边执行。</p>
+<p><strong>基于源码解析的JIT方式</strong>如下：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 196; 
+			flex-basis: 471px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UN2Z4L1Ocs.png" data-size="1655x842">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UN2Z4L1Ocs.png"
+			width="1655"
+			height="842"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UN2Z4L1Ocs_hu43c976b67df394bcc8bedfe2c6a6d1a7_596530_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UN2Z4L1Ocs_hu43c976b67df394bcc8bedfe2c6a6d1a7_596530_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 200; 
+			flex-basis: 482px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_gaCVfCMGsz.png" data-size="1657x825">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_gaCVfCMGsz.png"
+			width="1657"
+			height="825"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_gaCVfCMGsz_hu816d4b34f164a195c51b329af4a68b59_540425_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_gaCVfCMGsz_hu816d4b34f164a195c51b329af4a68b59_540425_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 296; 
+			flex-basis: 711px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UPnMuaVOIc.png" data-size="1378x465">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UPnMuaVOIc.png"
+			width="1378"
+			height="465"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UPnMuaVOIc_hu3a7a739c6010f724fab3748d03239139_318948_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_UPnMuaVOIc_hu3a7a739c6010f724fab3748d03239139_318948_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>4 是一种对于123的解决方式。</p>
+<h2 id="第七节-计算图的挑战与未来">第七节 计算图的挑战与未来</h2>
+<p>首先回顾一下计算图的基础数据结构：首先是用正向DAG构建反向DAG，计算图主要由节点和边构成的，所以可以叫做数据流图。计算图出现的好处是有了一个统一的表示，做到了分层解耦。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 204; 
+			flex-basis: 491px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xoD_O8xCRc.png" data-size="1608x785">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xoD_O8xCRc.png"
+			width="1608"
+			height="785"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xoD_O8xCRc_hu1fe3c06a966bf5f39737c436017feee8_501903_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_xoD_O8xCRc_hu1fe3c06a966bf5f39737c436017feee8_501903_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>重要的就是三个优化层！</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 209; 
+			flex-basis: 502px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ejFv7H4RBA.png" data-size="1630x778">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ejFv7H4RBA.png"
+			width="1630"
+			height="778"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ejFv7H4RBA_hu6701d5183e369569002e0c145b1147ec_534306_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_ejFv7H4RBA_hu6701d5183e369569002e0c145b1147ec_534306_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><strong>作者给出的思考：</strong></p>
+<p>一定需要明确的分层解耦?</p>
+<p>pytorch没那么多层为什么这么成功？</p>
+<p>新的diffusion和transform底层优化如何改变？</p>
+<p>计算图不能解决AI 业务的哪些问题？</p>
+<p>再来看更多：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 220; 
+			flex-basis: 528px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_2X8c2qUDg9.png" data-size="1681x764">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_2X8c2qUDg9.png"
+			width="1681"
+			height="764"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_2X8c2qUDg9_hucd92c1cba37a858d9879afc107c579e8_791806_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_2X8c2qUDg9_hucd92c1cba37a858d9879afc107c579e8_791806_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 210; 
+			flex-basis: 504px"
+	>
+	<a href="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_aI745HViYv.png" data-size="1710x813">
+		<img src="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_aI745HViYv.png"
+			width="1710"
+			height="813"
+			srcset="/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_aI745HViYv_hu17dcca775de10003ec7ac22faf402f09_829100_480x0_resize_box_3.png 480w, /p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/image/image_aI745HViYv_hu17dcca775de10003ec7ac22faf402f09_829100_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/dlsystem/">DLSystem</a>
+        
+            <a href="/tags/%E8%AE%B2%E5%BA%A7%E7%AC%94%E8%AE%B0/">讲座笔记</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2023 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#第二节-为什么都用计算图">第二节-为什么都用计算图</a>
+      <ol>
+        <li><a href="#21神经网络框架遇到的问题">2.1神经网络框架遇到的问题</a></li>
+        <li><a href="#22基于计算图的基本框架组成">2.2基于计算图的基本框架组成</a></li>
+        <li><a href="#23不同数据的张量化表示">2.3不同数据的张量化表示</a></li>
+        <li><a href="#24基于计算图的计算框架">2.4基于计算图的计算框架</a></li>
+      </ol>
+    </li>
+    <li><a href="#第三节-怎么用计算图表示自动微分">第三节-怎么用计算图表示自动微分</a>
+      <ol>
+        <li><a href="#31复习训练过程">3.1复习训练过程</a></li>
+        <li><a href="#32反向传播与微分">3.2反向传播与微分</a></li>
+        <li><a href="#33自动微分">3.3自动微分</a></li>
+        <li><a href="#34-pytorch和tensorflow的区别">3.4 pytorch和tensorflow的区别</a></li>
+      </ol>
+    </li>
+    <li><a href="#第四节-计算图优化和执行">第四节 计算图优化和执行</a>
+      <ol>
+        <li><a href="#41-图优化">4.1 图优化</a></li>
+        <li><a href="#42-算子调度">4.2 算子调度</a></li>
+      </ol>
+    </li>
+    <li><a href="#第五节-ai框架如何表示控制流">第五节 AI框架如何表示控制流</a>
+      <ol>
+        <li><a href="#51-控制流">5.1 控制流</a></li>
+        <li><a href="#52-tensorflow静态图控制流实现x20">5.2 tensorflow静态图控制流实现 </a></li>
+        <li><a href="#53-pytorch动态图控制流实现x20">5.3 pytorch动态图控制流实现 </a></li>
+        <li><a href="#54-mindspore静态图控制流实现x20">5.4 mindspore静态图控制流实现 </a></li>
+      </ol>
+    </li>
+    <li><a href="#第六节-ai框架如何实现动静统一torch和mindspore的动静统一现状">第六节 AI框架如何实现动静统一，torch和mindspore的动静统一现状</a>
+      <ol>
+        <li><a href="#61动态图转换为静态图的方法">6.1动态图转换为静态图的方法</a></li>
+      </ol>
+    </li>
+    <li><a href="#第七节-计算图的挑战与未来">第七节 计算图的挑战与未来</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

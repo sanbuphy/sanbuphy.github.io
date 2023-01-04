@@ -6,7 +6,16 @@
     <description>Recent content in 讲座笔记 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 Dec 2022 17:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/%E8%AE%B2%E5%BA%A7%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Jan 2023 11:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/%E8%AE%B2%E5%BA%A7%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI框架之计算图的前世今生（笔记）</title>
+      <link>https://sanbuphy.github.io/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 02 Jan 2023 11:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/</guid>
+      <description>【注意：多图，难以加载建议科学上网】 https://www.bilibili.com/video/BV1hD4y1k7Ty/ 感谢原视频作者，华为昇腾架构师ZOMI酱（我愿称之为肝帝！）的超级贡献，有个视频提到了他录制的时候是凌</description>
+    </item>
+    
     <item>
       <title>ncnn设计理念与软件工程（听课笔记）</title>
       <link>https://sanbuphy.github.io/p/ncnn%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%90%AC%E8%AF%BE%E7%AC%94%E8%AE%B0/</link>

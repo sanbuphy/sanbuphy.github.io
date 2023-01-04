@@ -6,7 +6,16 @@
     <description>Recent content in Categories on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 31 Dec 2022 12:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Jan 2023 11:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DLSystem</title>
+      <link>https://sanbuphy.github.io/categories/dlsystem/</link>
+      <pubDate>Mon, 02 Jan 2023 11:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/dlsystem/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>linux</title>
       <link>https://sanbuphy.github.io/categories/linux/</link>
