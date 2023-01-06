@@ -71,6 +71,15 @@
     </item>
     
     <item>
+      <title>详解机器/深度学习中常见评价指标</title>
+      <link>https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</link>
+      <pubDate>Tue, 12 Apr 2022 20:53:41 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</guid>
+      <description>待进一步完善&amp;hellip;龟速填坑中 评价指标的基石 所有复杂问题都是简单问题的重复， 为了理解所有指标，首先需了解“四大天王”与“三大护法” 四</description>
+    </item>
+    
+    <item>
       <title>小猫也能看懂的反向传播算法</title>
       <link>https://sanbuphy.github.io/p/%E5%B0%8F%E7%8C%AB%E4%B9%9F%E8%83%BD%E7%9C%8B%E6%87%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sat, 29 Jan 2022 16:18:00 +0800</pubDate>
@@ -104,6 +113,15 @@
       
       <guid>https://sanbuphy.github.io/p/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E7%AE%80%E6%98%93%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%8C/</guid>
       <description>初始介绍 符号规定 在本文中，我们做如下规定： Matrix矩阵为：$\mathbf{A}, \mathbf{X}, \mathbf{Y}$ Vector向量（规定为$\color{red} {</description>
+    </item>
+    
+    <item>
+      <title>《机器学习》西瓜书笔记(一)</title>
+      <link>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Tue, 11 Jan 2022 20:53:41 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>本文为个人对西瓜书不成熟的一些理解和资料整理，欢迎批评指出意见，谢谢！(可邮箱联系physicoada@gmail.com) 西瓜书章节一 绪论</description>
     </item>
     
   </channel>

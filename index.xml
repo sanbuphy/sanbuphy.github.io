@@ -2097,7 +2097,13 @@ PermitRootLogin yes           #root能使用ssh登录&lt;/p&gt;
 &lt;p&gt;我的话是生成了clangd需要使用的compile_commands.json 文件。在paddle的根目录下使用这个即可成功！（CMAKE_EXPORT_COMPILE_COMMANDS为了生成json）&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cmake .  -B build  -DPY_VERSION&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;3.7 -DWITH_GPU&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ON -DCMAKE_EXPORT_COMPILE_COMMANDS&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装生成完后重启vscode即可看到一个index加载过程，等待全部完成后就可以体验基本功能的跳转了（虽然肯定还是没有clion强大，但是对于没有clion的情况下还需要什么自行车呢？而且比GNU  global的提示肯定是更全更舒适的）&lt;/p&gt;
-&lt;h2 id=&#34;reference&#34;&gt;reference&lt;/h2&gt;
+&lt;p&gt;如果你想要vscode识别cmake参数，可以在.vscode的settings中添加：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;cmake.configureArgs&amp;#34;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;#34;-DPY_VERSION=3.7&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;#34;-DWITH_GPU=ON&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;#34;-DWITH_TENSORRT=ON&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ],
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;reference&lt;/h2&gt;
 &lt;p&gt;使用ssh连接docker服务器的方法_docker&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.anquanclub.cn/6674.html&#34;  title=&#34;https://www.anquanclub.cn/6674.html&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -9344,6 +9350,43 @@ Define this macro to have the value 1 if the most significant bit in a byte has 
 </description>
         </item>
         <item>
+        <title>利用笔记本电脑进行推流</title>
+        <link>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/</link>
+        <pubDate>Sun, 31 Jul 2022 08:32:51 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E6%8E%A8%E6%B5%81/</guid>
+        <description>&lt;p&gt;开始测试多线程的检测与英伟达板卡拉流压力测试，摄像头不够就用笔记本上。本文实现功能：&lt;/p&gt;
+&lt;p&gt;将本地摄像头作为设备获取图像，用电脑建立服务器推送rtsp流并在其他同网段电脑下拉流。&lt;/p&gt;
+&lt;p&gt;使用软件:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FFmpeg(音视频编解码)&lt;/li&gt;
+&lt;li&gt;EasyDarwin(流媒体服务器)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;完整参考以下文章即可：（记得推送IP要改成指定的一个IP，而不是127那指的是本地IP）&lt;/p&gt;
+&lt;p&gt;如果不能连接，除了ping之外还要用curl ip:port或者telnet等检测，如果不行就把推流机的公共防火墙关闭。（之前我没有关闭防火墙是不能拉流的）&lt;/p&gt;
+&lt;p&gt;如果用的是ubuntu拉流，还要看看是不是虚拟网卡有所影响（虚拟网卡的ip不同可能访问策略优先）&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/NOWSHUT/article/details/108540109&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;流媒体服务器配置与管理——使用FFmpeg推流到EasyDarwin中再通过VLC观看&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_30455365/article/details/97686191&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;EasyDarwin+ffmpeg进行PC(摄像头+麦克风)流媒体直播服务&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/fkbiubiubiu/article/details/124028614&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;ffmpeg&amp;ndash;使用命令+EasyDarwin推流笔记本摄像头&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/EasyDarwin/EasyDarwin&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;EasyDarwin开源流媒体服务器&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>防止stack overflow——内存地址杀毒</title>
         <link>https://sanbuphy.github.io/p/%E9%98%B2%E6%AD%A2stack-overflow%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E6%9D%80%E6%AF%92/</link>
         <pubDate>Sat, 30 Jul 2022 16:08:27 +0800</pubDate>
@@ -10367,6 +10410,268 @@ c）u：标明一个单元的长度。&lt;code&gt;b&lt;/code&gt;是一个 &lt;co
 </description>
         </item>
         <item>
+        <title>Disco Diffusion关键字大赏</title>
+        <link>https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/</link>
+        <pubDate>Thu, 12 May 2022 22:25:38 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/</guid>
+        <description>&lt;img src="https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry2.png" alt="Featured image of post Disco Diffusion关键字大赏" /&gt;&lt;p&gt;长话短说，直接贴图！     &lt;br&gt;
+[部分收集自b站]    &lt;br&gt;
+以下是图片及其对应生成输入（因为图片命名更改了格式，含有&amp;rsquo;_&amp;lsquo;字样，请自行处理一下或者写一个 str.replace()方法替换成空格,且吧末尾的200去除）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 166; 
+			flex-basis: 400px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/HUNLI.png&#34; data-size=&#34;724x434&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/HUNLI.png&#34;
+			width=&#34;724&#34;
+			height=&#34;434&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/HUNLI_hu57be4c8cf4f569af55fe8eb4b8314839_438511_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/HUNLI_hu57be4c8cf4f569af55fe8eb4b8314839_438511_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;A_beautiful_painting_of_a_romantic_and_elegant_wedding_at_sunset_A_bride_white_wedding_dress_A_church_by_the_sea_rose_beach_light_effect_Dream_Caspar_David_Friedrich_artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;A_beautiful_painting_of_a_romantic_and_elegant_wedding_at_sunset_A_bride_white_wedding_dress_A_church_by_the_sea_rose_beach_light_effect_Dream_Caspar_David_Friedrich_artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 161; 
+			flex-basis: 387px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/SHITOU.png&#34; data-size=&#34;729x452&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/SHITOU.png&#34;
+			width=&#34;729&#34;
+			height=&#34;452&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/SHITOU_hu8083aaaf20cdd3d99879a2639271d59e_414287_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/SHITOU_hu8083aaaf20cdd3d99879a2639271d59e_414287_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Light_effect_Dream_Galaxy_StarsGreg_Rutkowski_Unreal_engine_Artstation_Towering_waves_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Light_effect_Dream_Galaxy_StarsGreg_Rutkowski_Unreal_engine_Artstation_Towering_waves_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 165; 
+			flex-basis: 397px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/YANHUA.png&#34; data-size=&#34;726x438&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/YANHUA.png&#34;
+			width=&#34;726&#34;
+			height=&#34;438&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/YANHUA_hu8f3409a8ecaf71a4b684177f986ed425_456326_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/YANHUA_hu8f3409a8ecaf71a4b684177f986ed425_456326_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Splendid_colorful_fireworks_in_the_sky_desert_Dream_Karlsimon_Greg_Rutkowski_Unreal_Engine_James_Gurney_Artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Splendid_colorful_fireworks_in_the_sky_desert_Dream_Karlsimon_Greg_Rutkowski_Unreal_Engine_James_Gurney_Artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 166; 
+			flex-basis: 398px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/MONTAIN.png&#34; data-size=&#34;734x442&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/MONTAIN.png&#34;
+			width=&#34;734&#34;
+			height=&#34;442&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/MONTAIN_hud9303e8d604812231fc0e33d72e201be_498004_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/MONTAIN_hud9303e8d604812231fc0e33d72e201be_498004_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;The_mountains_follow_the_plains_and_the_river_flows_into_the_great_wildernessTrending_on_artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;The_mountains_follow_the_plains_and_the_river_flows_into_the_great_wildernessTrending_on_artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 169; 
+			flex-basis: 406px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/A.png&#34; data-size=&#34;729x430&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/A.png&#34;
+			width=&#34;729&#34;
+			height=&#34;430&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/A_hube4f578665231f9dfbcf5eb27c3b0db1_532799_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/A_hube4f578665231f9dfbcf5eb27c3b0db1_532799_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;A_beautiful_painting_of_a_building_full_of_sakura_bridge_clouds_sunset_fairy_tale_Distant_town_light_effect_dream_Josan_Gonzalez_artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;A_beautiful_painting_of_a_building_full_of_sakura_bridge_clouds_sunset_fairy_tale_Distant_town_light_effect_dream_Josan_Gonzalez_artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 167; 
+			flex-basis: 401px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/aa.png&#34; data-size=&#34;732x438&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/aa.png&#34;
+			width=&#34;732&#34;
+			height=&#34;438&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/aa_huc7c0fda3e1a58e30459cc92c7e704eb1_442887_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/aa_huc7c0fda3e1a58e30459cc92c7e704eb1_442887_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;a_beautiful_painting_of_mysterious_hard_sci-fi_city_at_sunset_clouds_neon_light_Cyberpunk_Magnificent_Greg_Rutkowski_artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;a_beautiful_painting_of_mysterious_hard_sci-fi_city_at_sunset_clouds_neon_light_Cyberpunk_Magnificent_Greg_Rutkowski_artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 164; 
+			flex-basis: 395px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/Gurney.png&#34; data-size=&#34;727x441&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/Gurney.png&#34;
+			width=&#34;727&#34;
+			height=&#34;441&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/Gurney_hudb41ae815dc886e639faad6927e24700_488825_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/Gurney_hudb41ae815dc886e639faad6927e24700_488825_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;A_Moonlit_Night_On_The_Spring_River_Greg_Rutkowski_James_Gurney_Artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;A_Moonlit_Night_On_The_Spring_River_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;br&gt;
+ps:你可能难以想象，他的英文出自《春江花月夜》↑&lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 165; 
+			flex-basis: 396px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/The.png&#34; data-size=&#34;729x441&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/The.png&#34;
+			width=&#34;729&#34;
+			height=&#34;441&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/The_hud85a1b68218c2832f0eda41de8337f3f_519532_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/The_hud85a1b68218c2832f0eda41de8337f3f_519532_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;The_peach_blossom_lover_plants_peach_trees_in_days_fine_Greg_Rutkowski_James_Gurney_Artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;The_peach_blossom_lover_plants_peach_trees_in_days_fine_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;br&gt;
+ps:你可能难以想象，他的英文出自唐寅的《桃花庵歌》“桃花仙人种桃树” ↑&lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 165; 
+			flex-basis: 397px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/chunjiang.png&#34; data-size=&#34;726x438&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/chunjiang.png&#34;
+			width=&#34;726&#34;
+			height=&#34;438&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/chunjiang_hu185441241326638446cae9d50a00cfdd_507576_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/chunjiang_hu185441241326638446cae9d50a00cfdd_507576_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;A_Moonlit_Night_On_The_Spring_Riverromantic_In_the_morning_Greg_Rutkowski_James_Gurney_Artstation_160&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;A_Moonlit_Night_On_The_Spring_Riverromantic_In_the_morning_Greg_Rutkowski_James_Gurney_Artstation_160&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;br&gt;
+ps:你可能难以想象，他的英文出自《春江花月夜》↑ &lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 167; 
+			flex-basis: 401px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/renjian.png&#34; data-size=&#34;739x442&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/renjian.png&#34;
+			width=&#34;739&#34;
+			height=&#34;442&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/renjian_hu3cf4696608d098394a7d787ab0891042_528197_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/renjian_hu3cf4696608d098394a7d787ab0891042_528197_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Change_is_the_WayGreat_seas_have_turned_into_fieldsTrending_on_artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Change_is_the_WayGreat_seas_have_turned_into_fieldsTrending_on_artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;br&gt;
+ps:你可能难以想象，他的英文出自【人间正道是沧桑】↑&lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 166; 
+			flex-basis: 399px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry.png&#34; data-size=&#34;734x441&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry.png&#34;
+			width=&#34;734&#34;
+			height=&#34;441&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry_hu829ff27670732ab1c894e3f69a29609b_502882_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry_hu829ff27670732ab1c894e3f69a29609b_502882_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Cherry_blossoms_grand_palaces_above_clouds_rivers_sunshine_dream_Greg_Rutkowski_James_Gurney_Artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Cherry_blossoms_grand_palaces_above_clouds_rivers_sunshine_dream_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 168; 
+			flex-basis: 404px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry2.png&#34; data-size=&#34;739x438&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry2.png&#34;
+			width=&#34;739&#34;
+			height=&#34;438&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry2_hud0ddbd73ac71be0ebba682dec347f5c6_597770_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/cherry2_hud0ddbd73ac71be0ebba682dec347f5c6_597770_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Cherry_blossoms_village_river_sunshine_dream_Greg_Rutkowski_James_Gurney_Artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Cherry_blossoms_village_river_sunshine_dream_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 166; 
+			flex-basis: 400px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/light.png&#34; data-size=&#34;1280x768&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/light.png&#34;
+			width=&#34;1280&#34;
+			height=&#34;768&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/light_hu0063c7a84883bab5857c98c452ef4eb3_978613_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/disco-diffusion%E5%85%B3%E9%94%AE%E5%AD%97%E5%A4%A7%E8%B5%8F/light_hu0063c7a84883bab5857c98c452ef4eb3_978613_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;In_the_morning_light_some_ancient_Chinese_buildings_on_the_mountains_sakura_mysterious_and_serene_landscape_clouds_river_Ivan_Aivazovsky_artstation_200&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;In_the_morning_light_some_ancient_Chinese_buildings_on_the_mountains_sakura_mysterious_and_serene_landscape_clouds_river_Ivan_Aivazovsky_artstation_200&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>python中多进程、多线程概念的进阶探讨</title>
         <link>https://sanbuphy.github.io/p/python%E4%B8%AD%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A6%82%E5%BF%B5%E7%9A%84%E8%BF%9B%E9%98%B6%E6%8E%A2%E8%AE%A8/</link>
         <pubDate>Sun, 24 Apr 2022 19:23:03 +0800</pubDate>
@@ -10557,6 +10862,139 @@ if __name__ == &amp;#39;__main__&amp;#39;:
     &gt;python主线程捕获子线程异常&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.biancheng.net/os/process.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;操作系统&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>详解机器/深度学习中常见评价指标</title>
+        <link>https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</link>
+        <pubDate>Tue, 12 Apr 2022 20:53:41 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</guid>
+        <description>&lt;p&gt;待进一步完善&amp;hellip;龟速填坑中&lt;/p&gt;
+&lt;h1 id=&#34;评价指标的基石&#34;&gt;评价指标的基石&lt;/h1&gt;
+&lt;p&gt;所有复杂问题都是简单问题的重复， &lt;br&gt;
+为了理解所有指标，首先需了解“四大天王”与“三大护法”&lt;/p&gt;
+&lt;h2 id=&#34;四大天王tpfp-tnfn&#34;&gt;四大天王——TP|FP TN|FN&lt;/h2&gt;
+&lt;p&gt;我们认为positive代表了阳性（或者说正样本），   &lt;br&gt;
+而Negative代表了阴性（负样本)，那么在二分类中我们根据猜测的对错很容易排列出2x2种情况：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;True&lt;/th&gt;
+&lt;th&gt;False&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Positive&lt;/td&gt;
+&lt;td&gt;TP(猜对了阳)&lt;/td&gt;
+&lt;td&gt;FP(猜错了阳)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Negative&lt;/td&gt;
+&lt;td&gt;TN(猜对了阴)&lt;/td&gt;
+&lt;td&gt;FN(猜错了阴)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;其中&lt;strong&gt;左半边&lt;/strong&gt;表示真值和我的猜测一致（猜对了），&lt;strong&gt;右半边&lt;/strong&gt;表示真值和我的猜测不一致（猜错了）；&lt;br&gt;
+&lt;strong&gt;上半边&lt;/strong&gt;表示猜测阳性的全体 $P$，&lt;strong&gt;下半边&lt;/strong&gt;表示猜测阴性的全体$N$。&lt;br&gt;
+&lt;strong&gt;TP+FN&lt;/strong&gt;表示真值阳性的全体，&lt;strong&gt;TN+FP&lt;/strong&gt;表示真值阴性的全体。&lt;/p&gt;
+&lt;h2 id=&#34;三大护法preaccrecall&#34;&gt;三大护法——Pre、ACC、Recall&lt;/h2&gt;
+&lt;p&gt;根据四大金刚，我们容易得出常见模型中的三个评价指标，
+(为什么不能只看一个呢？因为容易被“浮云遮望眼”)&lt;/p&gt;
+&lt;h3 id=&#34;preprecision-精确率又称查准率&#34;&gt;Pre(Precision 精确率又称查准率)&lt;/h3&gt;
+&lt;p&gt;精确和准确在中文上看起来是一个意思，但实际上有微小的区别；   &lt;br&gt;
+我们可以通过投标的例子来理解什么是精确，什么是准确。     &lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 108; 
+			flex-basis: 259px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre.png&#34; data-size=&#34;443x410&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre.png&#34;
+			width=&#34;443&#34;
+			height=&#34;410&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre_hu293cc79c30269c7ee26490aff220e369_50239_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre_hu293cc79c30269c7ee26490aff220e369_50239_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;精确率是度量信噪的一种方式，是对偏差程度的反应（标准差大就不精确）&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;精确率是度量信噪的一种方式，是对偏差程度的反应（标准差大就不精确）&lt;/figcaption&gt;
+	
+&lt;/figure&gt;
+从上图可知，精确率高的数据其标准差较小，也就是“我投中了，投中的差别不大”;在二分类中或者说判断是否阳性中，我们关注的重点是在我对阳性的判断中，是否判断对了(存不存在错判阳性的偏差）；如果精确率高，就说明我预测阳性偏差小，阳性就是真的阳性，较少出差错。     &lt;br&gt;
+总结来说，精确率高指的是“我对正例判断出差错（偏差）的情况怎么样？”，也就是： &lt;br&gt;
+$$
+Precision = \frac{TP}{P} = \frac{TP}{TP+FP}
+$$ &lt;br&gt;
+精确率越高，说明我对正例/阳性判断的偏差越小，也就是TP占总判断阳性中的比例越大。
+这时候可能会有聪明的同学问了，那为什么我们不考虑对负例判断的偏差呢，比如构建一个TN/TN+FN的指标？ &lt;br&gt;
+其实是有的，一般的，Pre还有更深入的名字叫“positive predictive value (PPV)”，显然也有对应的“Negative predictive value (NPV) ” 只是因为负样本通常较少，正样本较多；所以把PPV作为一个更常用的指标，归为精确率。&lt;/p&gt;
+&lt;h3 id=&#34;accaccuracy-准确率&#34;&gt;ACC(Accuracy 准确率)&lt;/h3&gt;
+&lt;p&gt;为什么说精准但“精确不一定准确呢”？&lt;br&gt;
+你可以这么想，精密仪器显然是为了误差小，那精密仪器一定能得到准确结果吗？————答案是不一定，比如你没有调零!(做过大物实验的朋友都知道~)     &lt;br&gt;
+没有调零就好像y=kx+b中多了一个b，也就是投标图像中的“整体偏移真值” （下图的上半部分）    &lt;br&gt;
+虽然很精确，但很不准确！！   &lt;br&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 159; 
+			flex-basis: 383px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc.png&#34; data-size=&#34;651x407&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc.png&#34;
+			width=&#34;651&#34;
+			height=&#34;407&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc_hu8a5893a2dc9a5dc60e3917fd76bdb1c7_115874_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AF%A6%E8%A7%A3%E6%9C%BA%E5%99%A8/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/pre-acc_hu8a5893a2dc9a5dc60e3917fd76bdb1c7_115874_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;左半侧更不准确，右半侧更准确&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;左半侧更不准确，右半侧更准确&lt;/figcaption&gt;
+	
+&lt;/figure&gt;
+准确率更容易理解，准确率考虑的是更“全局”的结果是否正确， &lt;br&gt;
+也就是在我所有预测的结果中，我到底预测的“好不好”，
+即：
+$$
+Accuracy = \frac{TP+TN}{所有预测} = \frac{TP+TN}{TP+FP+TN+FN}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;recall召回率又称查全率&#34;&gt;Recall(召回率又称查全率)&lt;/h3&gt;
+&lt;p&gt;顾名思义，查全的意思就是“我查的全不全”，我是否把所有的阳性覆盖到了（阳性全体为P），&lt;/p&gt;
+&lt;p&gt;$$
+Recall =  \frac{TP}{阳性全体}=  \frac{TP}{TP+FN}
+$$
+&lt;strong&gt;有时候查全率很高，但精确率很低。&lt;/strong&gt;     &lt;br&gt;
+比如我有3个阳性，97个阴性。我预测100个全为阳性（此时P=100且TP=3，FP=97），0个阴性；此时查全率为：3/3=100% ！&lt;br&gt;
+但此时精确率为：3%。。。。。这显然是没有意义的。   &lt;br&gt;
+&lt;strong&gt;有时候精确率很高，但查全率很低。&lt;/strong&gt;     &lt;br&gt;
+比如我还是有3个阳性，97个阴性。我刚好预测对某1个为阳性（此时P=1且TP=1，FP=0），99个阴性；此时精确率为：100% ！   &lt;br&gt;
+但此时查全率为：33.333%。。。。。这显然也是意义不大的。  &lt;br&gt;
+&lt;strong&gt;查全率与精确率存在互逆关系&lt;/strong&gt;&lt;br&gt;
+我们能够隐约发现查全率和精确率的互逆关系，但究竟是为什么呢？ &lt;br&gt;
+仔细观察可以发现，Recall和Pre只在分母有差别，其中Recall的分母是TP+FN【不变量】，而Pre的分母是TP+FP【可变量】。&lt;br&gt;
+为了提高Recall，我们需要增大TP，而分母不变； &lt;br&gt;
+但Pre中如果TP增加了FP也会跟着增加（我需要判断的东西变多了，精确率会下降，错误的概率会变大），分子的TP增加小于分母的TP+FP总体的增加。所以查全率和精确率是互逆的。&lt;/p&gt;
+&lt;h2 id=&#34;f1rpcrocauc&#34;&gt;F1、RPC、Roc、AUC&lt;/h2&gt;
+&lt;p&gt;在充分了解了四大金刚与三大护法后，我们进一步来研究他们的衍生变体：&lt;/p&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/xys430381_1/article/details/90770520&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;机器学习基础&amp;mdash;分类与检测的评价指标&amp;mdash;AP，mAP，PRC曲线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/240435991&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;分类问题中的一些指标概念-Roc|AUC|Pre|Recall|ACC|AP|mAP|F1总结&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.pianshen.com/article/4398957319/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;分类器的ROC曲线及相关指标（ROC、AUC、ACC）详解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/DOwFP4Qk4A415N8t8ibhAw&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCC — 机器学习中优于F1-score和accuracy的一个性能评价指标&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://towardsdatascience.com/should-i-look-at-precision-recall-or-specificity-sensitivity-3946158aace1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Data Science in Medicine — Precision &amp;amp; Recall or Specificity &amp;amp; Sensitivity?&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         </item>
@@ -11538,6 +11976,130 @@ $$&lt;/p&gt;
 </description>
         </item>
         <item>
+        <title>《机器学习》西瓜书笔记(一)</title>
+        <link>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+        <pubDate>Tue, 11 Jan 2022 20:53:41 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+        <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;本文为个人对西瓜书不成熟的一些理解和资料整理，欢迎批评指出意见，谢谢！(可邮箱联系physicoada@gmail.com)&lt;/p&gt;
+&lt;h2 id=&#34;西瓜书章节一--绪论&#34;&gt;西瓜书章节一  绪论&lt;/h2&gt;
+&lt;p&gt;文字版浓缩可参考：&lt;a class=&#34;link&#34; href=&#34;https://github.com/Vay-keen/Machine-learning-learning-notes/blob/master/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%281%29--%E7%BB%AA%E8%AE%BA.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;周志华机器学习笔记1 by:Vay-keen&lt;/a&gt;&lt;br&gt;
+简易版思维导图：&lt;a class=&#34;link&#34; href=&#34;https://github.com/Sophia-11/Machine-Learning-Notes/tree/master/ch1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;周志华第一章 by:Sophia-11&lt;/a&gt; &lt;br&gt;
+其中一些计算问题:&lt;/p&gt;
+&lt;h3 id=&#34;p21-如何理解假设空间&#34;&gt;p21 如何理解假设空间&lt;/h3&gt;
+&lt;p&gt;考虑到通配符，假设如文中一般原始参数的取值分别为3，3，3；则总可能值为(3+1)（3+1）（3+1）+1=65种  &lt;br&gt;
+或者更复杂一些，可以枚举求得：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/63186122&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;枚举法理解版本空间&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;p22-如何理解版本空间&#34;&gt;p22 如何理解版本空间&lt;/h3&gt;
+&lt;p&gt;简单而言，版本空间用于对学习内容进行收敛，是为了收敛假设空间从而使其成为与数据集一致的所有假设的子集集合。本质是缩减假设范围，也就是我们研究问题的范围。操作上可形象理解为“矩阵边界的集合”，有上下界，需要有一定的泛化程度。 &lt;br&gt;
+从图上理解：
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 203; 
+			flex-basis: 487px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-1.png&#34; data-size=&#34;1277x629&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-1.png&#34;
+			width=&#34;1277&#34;
+			height=&#34;629&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-1_huad3feedb23b3964bb693bb0476f346b0_72292_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-1_huad3feedb23b3964bb693bb0476f346b0_72292_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Photo by WIKI&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Photo by WIKI&lt;/figcaption&gt;
+	
+&lt;/figure&gt;  &lt;br&gt;
+从假设空间的分布缩减理解：&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/5ba037200102&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;version space算法&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;p24-nfl定理的推导理解&#34;&gt;p24 NFL定理的推导理解&lt;/h3&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 163; 
+			flex-basis: 392px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-2.jpg&#34; data-size=&#34;1103x675&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-2.jpg&#34;
+			width=&#34;1103&#34;
+			height=&#34;675&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-2_hued8527f6c7ce47642931d657b143adb6_224800_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-2_hued8527f6c7ce47642931d657b143adb6_224800_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Photo by 我自己&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Photo by 我自己&lt;/figcaption&gt;
+	
+&lt;/figure&gt;
+如果还不能理解，可以参考：&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/113126712&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;浅谈NFL没有免费的午餐定理&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://www.cxyzjd.com/article/wyf2017/107669811&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;NFL公式推导&lt;/a&gt;  &lt;br&gt;
+如果还不能理解1/2，可参考南瓜书中的真实函数展开&lt;/p&gt;
+&lt;h2 id=&#34;西瓜书章节二--模型评估与选择&#34;&gt;西瓜书章节二  模型评估与选择&lt;/h2&gt;
+&lt;p&gt;文字浓缩版可参考：&lt;a class=&#34;link&#34; href=&#34;https://github.com/Vay-keen/Machine-learning-learning-notes/blob/master/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%282%29--%E6%80%A7%E8%83%BD%E5%BA%A6%E9%87%8F.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;性能度量方法&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://github.com/Vay-keen/Machine-learning-learning-notes/blob/master/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%283%29--%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C%26%E6%96%B9%E5%B7%AE%26%E5%81%8F%E5%B7%AE.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;假设检验&amp;amp;方差&amp;amp;偏差&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;加强理解查准率查全率以及rocauc&#34;&gt;加强理解查准率、查全率以及ROC、AUC&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/kMD8d5R/article/details/98552574&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;一文带你彻底理解ROC曲线和AUC值&lt;/a&gt;     &lt;br&gt;
+本文用患病的例子生动形象直观解释了所有概念。
+那么，ROC、AUC具体是如何计算的呢？   &lt;br&gt;
+请参考南瓜书(2.20)公式，以及(2.21)。&lt;/p&gt;
+&lt;h3 id=&#34;p61-如何理解噪声与f独立从而使得最后项为0&#34;&gt;p61 如何理解噪声与f独立从而使得最后项为0&lt;/h3&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 83; 
+			flex-basis: 199px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-3.jpg&#34; data-size=&#34;930x1117&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-3.jpg&#34;
+			width=&#34;930&#34;
+			height=&#34;1117&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-3_huc8117000bb929691b7e4c48a4c5416fd_209137_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-3_huc8117000bb929691b7e4c48a4c5416fd_209137_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Photo by 我自己&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Photo by 我自己&lt;/figcaption&gt;
+	
+&lt;/figure&gt;
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 95; 
+			flex-basis: 229px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-4.jpg&#34; data-size=&#34;913x955&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-4.jpg&#34;
+			width=&#34;913&#34;
+			height=&#34;955&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-4_hufa255f0a000590d94cc0589d7b9444cf_219395_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A5%BF%E7%93%9C%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%80/chigua1-4_hufa255f0a000590d94cc0589d7b9444cf_219395_1024x0_resize_q75_box.jpg 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Photo by 我自己&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Photo by 我自己&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;其他问题&#34;&gt;其他问题&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://www.matrix67.com/blog/archives/105&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;什么是P问题、NP问题和NPC问题&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;部分内容未补全，慢慢补全&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>利用git生成SSH并与github连接</title>
         <link>https://sanbuphy.github.io/p/%E5%88%A9%E7%94%A8git%E7%94%9F%E6%88%90ssh%E5%B9%B6%E4%B8%8Egithub%E8%BF%9E%E6%8E%A5/</link>
         <pubDate>Wed, 05 Jan 2022 22:54:06 +0800</pubDate>
@@ -11902,612 +12464,6 @@ Hi mackerel7! You&amp;#39;ve successfully authenticated, but GitHub does not pro
 &lt;h2 id=&#34;其他数学&#34;&gt;其他数学&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://mindhacks.cn/2008/09/21/the-magical-bayesian-method/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;数学之美番外篇：平凡而又神奇的贝叶斯方法&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title></title>
-        <link>https://sanbuphy.github.io/p/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://sanbuphy.github.io/p/</guid>
-        <description>&lt;p&gt;+++
-title = &amp;ldquo;Disco Diffusion关键字大赏&amp;rdquo;
-date = &amp;ldquo;2022-05-12T22:25:38+08:00&amp;rdquo;
-description = &amp;ldquo;展示一些比较好看的生成图及其对应输入&amp;rdquo;
-categories = [
-&amp;ldquo;深度学习&amp;rdquo;,
-&amp;ldquo;杂七杂八知识&amp;rdquo;
-]
-tags = [
-&amp;ldquo;Deep learning&amp;rdquo;,
-&amp;ldquo;python&amp;rdquo;,
-]
-image = &amp;ldquo;cherry2.png&amp;rdquo;
-+++&lt;/p&gt;
-&lt;p&gt;长话短说，直接贴图！     &lt;br&gt;
-[部分收集自b站]    &lt;br&gt;
-以下是图片及其对应生成输入（因为图片命名更改了格式，含有&amp;rsquo;_&amp;lsquo;字样，请自行处理一下或者写一个 str.replace()方法替换成空格,且吧末尾的200去除）&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 166; 
-			flex-basis: 400px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/HUNLI.png&#34; data-size=&#34;724x434&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/HUNLI.png&#34;
-			width=&#34;724&#34;
-			height=&#34;434&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/HUNLI_hu57be4c8cf4f569af55fe8eb4b8314839_438511_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/HUNLI_hu57be4c8cf4f569af55fe8eb4b8314839_438511_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;A_beautiful_painting_of_a_romantic_and_elegant_wedding_at_sunset_A_bride_white_wedding_dress_A_church_by_the_sea_rose_beach_light_effect_Dream_Caspar_David_Friedrich_artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;A_beautiful_painting_of_a_romantic_and_elegant_wedding_at_sunset_A_bride_white_wedding_dress_A_church_by_the_sea_rose_beach_light_effect_Dream_Caspar_David_Friedrich_artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 161; 
-			flex-basis: 387px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/SHITOU.png&#34; data-size=&#34;729x452&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/SHITOU.png&#34;
-			width=&#34;729&#34;
-			height=&#34;452&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/SHITOU_hu8083aaaf20cdd3d99879a2639271d59e_414287_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/SHITOU_hu8083aaaf20cdd3d99879a2639271d59e_414287_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;Light_effect_Dream_Galaxy_StarsGreg_Rutkowski_Unreal_engine_Artstation_Towering_waves_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;Light_effect_Dream_Galaxy_StarsGreg_Rutkowski_Unreal_engine_Artstation_Towering_waves_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 165; 
-			flex-basis: 397px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/YANHUA.png&#34; data-size=&#34;726x438&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/YANHUA.png&#34;
-			width=&#34;726&#34;
-			height=&#34;438&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/YANHUA_hu8f3409a8ecaf71a4b684177f986ed425_456326_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/YANHUA_hu8f3409a8ecaf71a4b684177f986ed425_456326_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;Splendid_colorful_fireworks_in_the_sky_desert_Dream_Karlsimon_Greg_Rutkowski_Unreal_Engine_James_Gurney_Artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;Splendid_colorful_fireworks_in_the_sky_desert_Dream_Karlsimon_Greg_Rutkowski_Unreal_Engine_James_Gurney_Artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 166; 
-			flex-basis: 398px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/MONTAIN.png&#34; data-size=&#34;734x442&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/MONTAIN.png&#34;
-			width=&#34;734&#34;
-			height=&#34;442&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/MONTAIN_hud9303e8d604812231fc0e33d72e201be_498004_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/MONTAIN_hud9303e8d604812231fc0e33d72e201be_498004_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;The_mountains_follow_the_plains_and_the_river_flows_into_the_great_wildernessTrending_on_artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;The_mountains_follow_the_plains_and_the_river_flows_into_the_great_wildernessTrending_on_artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 169; 
-			flex-basis: 406px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/A.png&#34; data-size=&#34;729x430&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/A.png&#34;
-			width=&#34;729&#34;
-			height=&#34;430&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/A_hube4f578665231f9dfbcf5eb27c3b0db1_532799_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/A_hube4f578665231f9dfbcf5eb27c3b0db1_532799_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;A_beautiful_painting_of_a_building_full_of_sakura_bridge_clouds_sunset_fairy_tale_Distant_town_light_effect_dream_Josan_Gonzalez_artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;A_beautiful_painting_of_a_building_full_of_sakura_bridge_clouds_sunset_fairy_tale_Distant_town_light_effect_dream_Josan_Gonzalez_artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 167; 
-			flex-basis: 401px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/aa.png&#34; data-size=&#34;732x438&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/aa.png&#34;
-			width=&#34;732&#34;
-			height=&#34;438&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/aa_huc7c0fda3e1a58e30459cc92c7e704eb1_442887_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/aa_huc7c0fda3e1a58e30459cc92c7e704eb1_442887_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;a_beautiful_painting_of_mysterious_hard_sci-fi_city_at_sunset_clouds_neon_light_Cyberpunk_Magnificent_Greg_Rutkowski_artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;a_beautiful_painting_of_mysterious_hard_sci-fi_city_at_sunset_clouds_neon_light_Cyberpunk_Magnificent_Greg_Rutkowski_artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 164; 
-			flex-basis: 395px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/Gurney.png&#34; data-size=&#34;727x441&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/Gurney.png&#34;
-			width=&#34;727&#34;
-			height=&#34;441&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/Gurney_hudb41ae815dc886e639faad6927e24700_488825_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/Gurney_hudb41ae815dc886e639faad6927e24700_488825_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;A_Moonlit_Night_On_The_Spring_River_Greg_Rutkowski_James_Gurney_Artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;A_Moonlit_Night_On_The_Spring_River_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;br&gt;
-ps:你可能难以想象，他的英文出自《春江花月夜》↑&lt;br&gt;
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 165; 
-			flex-basis: 396px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/The.png&#34; data-size=&#34;729x441&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/The.png&#34;
-			width=&#34;729&#34;
-			height=&#34;441&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/The_hud85a1b68218c2832f0eda41de8337f3f_519532_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/The_hud85a1b68218c2832f0eda41de8337f3f_519532_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;The_peach_blossom_lover_plants_peach_trees_in_days_fine_Greg_Rutkowski_James_Gurney_Artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;The_peach_blossom_lover_plants_peach_trees_in_days_fine_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;br&gt;
-ps:你可能难以想象，他的英文出自唐寅的《桃花庵歌》“桃花仙人种桃树” ↑&lt;br&gt;
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 165; 
-			flex-basis: 397px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/chunjiang.png&#34; data-size=&#34;726x438&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/chunjiang.png&#34;
-			width=&#34;726&#34;
-			height=&#34;438&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/chunjiang_hu185441241326638446cae9d50a00cfdd_507576_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/chunjiang_hu185441241326638446cae9d50a00cfdd_507576_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;A_Moonlit_Night_On_The_Spring_Riverromantic_In_the_morning_Greg_Rutkowski_James_Gurney_Artstation_160&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;A_Moonlit_Night_On_The_Spring_Riverromantic_In_the_morning_Greg_Rutkowski_James_Gurney_Artstation_160&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;br&gt;
-ps:你可能难以想象，他的英文出自《春江花月夜》↑ &lt;br&gt;
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 167; 
-			flex-basis: 401px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/renjian.png&#34; data-size=&#34;739x442&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/renjian.png&#34;
-			width=&#34;739&#34;
-			height=&#34;442&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/renjian_hu3cf4696608d098394a7d787ab0891042_528197_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/renjian_hu3cf4696608d098394a7d787ab0891042_528197_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;Change_is_the_WayGreat_seas_have_turned_into_fieldsTrending_on_artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;Change_is_the_WayGreat_seas_have_turned_into_fieldsTrending_on_artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;br&gt;
-ps:你可能难以想象，他的英文出自【人间正道是沧桑】↑&lt;br&gt;
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 166; 
-			flex-basis: 399px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/cherry.png&#34; data-size=&#34;734x441&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/cherry.png&#34;
-			width=&#34;734&#34;
-			height=&#34;441&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/cherry_hu829ff27670732ab1c894e3f69a29609b_502882_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/cherry_hu829ff27670732ab1c894e3f69a29609b_502882_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;Cherry_blossoms_grand_palaces_above_clouds_rivers_sunshine_dream_Greg_Rutkowski_James_Gurney_Artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;Cherry_blossoms_grand_palaces_above_clouds_rivers_sunshine_dream_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 168; 
-			flex-basis: 404px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/cherry2.png&#34; data-size=&#34;739x438&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/cherry2.png&#34;
-			width=&#34;739&#34;
-			height=&#34;438&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/cherry2_hud0ddbd73ac71be0ebba682dec347f5c6_597770_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/cherry2_hud0ddbd73ac71be0ebba682dec347f5c6_597770_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;Cherry_blossoms_village_river_sunshine_dream_Greg_Rutkowski_James_Gurney_Artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;Cherry_blossoms_village_river_sunshine_dream_Greg_Rutkowski_James_Gurney_Artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 166; 
-			flex-basis: 400px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/light.png&#34; data-size=&#34;1280x768&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/light.png&#34;
-			width=&#34;1280&#34;
-			height=&#34;768&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/light_hu0063c7a84883bab5857c98c452ef4eb3_978613_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/light_hu0063c7a84883bab5857c98c452ef4eb3_978613_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;In_the_morning_light_some_ancient_Chinese_buildings_on_the_mountains_sakura_mysterious_and_serene_landscape_clouds_river_Ivan_Aivazovsky_artstation_200&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;In_the_morning_light_some_ancient_Chinese_buildings_on_the_mountains_sakura_mysterious_and_serene_landscape_clouds_river_Ivan_Aivazovsky_artstation_200&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title></title>
-        <link>https://sanbuphy.github.io/p/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://sanbuphy.github.io/p/</guid>
-        <description>&lt;p&gt;+++&lt;/p&gt;
-&lt;p&gt;title = &amp;ldquo;利用笔记本电脑进行推流&amp;rdquo;
-description = &amp;ldquo;将本地摄像头内容推送给同网段的其他电脑&amp;rdquo;
-date = &amp;ldquo;2022-07-31T08:32:51+08:00&amp;rdquo;
-math = &amp;lsquo;True&amp;rsquo;
-categories = [
-&amp;ldquo;杂七杂八知识&amp;rdquo;,
-&amp;ldquo;音视频相关&amp;rdquo;
-]
-+++
-开始测试多线程的检测与英伟达板卡拉流压力测试，摄像头不够就用笔记本上。本文实现功能：&lt;/p&gt;
-&lt;p&gt;将本地摄像头作为设备获取图像，用电脑建立服务器推送rtsp流并在其他同网段电脑下拉流。&lt;/p&gt;
-&lt;p&gt;使用软件:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;FFmpeg(音视频编解码)&lt;/li&gt;
-&lt;li&gt;EasyDarwin(流媒体服务器)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;完整参考以下文章即可：（记得推送IP要改成指定的一个IP，而不是127那指的是本地IP）&lt;/p&gt;
-&lt;p&gt;如果不能连接，除了ping之外还要用curl ip:port或者telnet等检测，如果不行就把推流机的公共防火墙关闭。（之前我没有关闭防火墙是不能拉流的）&lt;/p&gt;
-&lt;p&gt;如果用的是ubuntu拉流，还要看看是不是虚拟网卡有所影响（虚拟网卡的ip不同可能访问策略优先）&lt;/p&gt;
-&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/NOWSHUT/article/details/108540109&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;流媒体服务器配置与管理——使用FFmpeg推流到EasyDarwin中再通过VLC观看&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_30455365/article/details/97686191&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;EasyDarwin+ffmpeg进行PC(摄像头+麦克风)流媒体直播服务&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/fkbiubiubiu/article/details/124028614&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;ffmpeg&amp;ndash;使用命令+EasyDarwin推流笔记本摄像头&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/EasyDarwin/EasyDarwin&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;EasyDarwin开源流媒体服务器&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        <item>
-        <title></title>
-        <link>https://sanbuphy.github.io/p/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://sanbuphy.github.io/p/</guid>
-        <description>&lt;p&gt;+++
-title = &amp;ldquo;《机器学习》西瓜书笔记(一)&amp;rdquo;
-date = &amp;ldquo;2022-01-11T20:53:41+08:00&amp;rdquo;
-description =  &amp;ldquo;绪论、模型评估与选择&amp;rdquo;
-categories = [
-&amp;ldquo;机器学习&amp;rdquo;,
-&amp;ldquo;笔记&amp;rdquo;
-]
-tags = [
-&amp;ldquo;Machine learning&amp;rdquo;,&lt;/p&gt;
-&lt;p&gt;]
-+++&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;p&gt;本文为个人对西瓜书不成熟的一些理解和资料整理，欢迎批评指出意见，谢谢！(可邮箱联系physicoada@gmail.com)&lt;/p&gt;
-&lt;h2 id=&#34;西瓜书章节一--绪论&#34;&gt;西瓜书章节一  绪论&lt;/h2&gt;
-&lt;p&gt;文字版浓缩可参考：&lt;a class=&#34;link&#34; href=&#34;https://github.com/Vay-keen/Machine-learning-learning-notes/blob/master/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%281%29--%E7%BB%AA%E8%AE%BA.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;周志华机器学习笔记1 by:Vay-keen&lt;/a&gt;&lt;br&gt;
-简易版思维导图：&lt;a class=&#34;link&#34; href=&#34;https://github.com/Sophia-11/Machine-Learning-Notes/tree/master/ch1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;周志华第一章 by:Sophia-11&lt;/a&gt; &lt;br&gt;
-其中一些计算问题:&lt;/p&gt;
-&lt;h3 id=&#34;p21-如何理解假设空间&#34;&gt;p21 如何理解假设空间&lt;/h3&gt;
-&lt;p&gt;考虑到通配符，假设如文中一般原始参数的取值分别为3，3，3；则总可能值为(3+1)（3+1）（3+1）+1=65种  &lt;br&gt;
-或者更复杂一些，可以枚举求得：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/63186122&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;枚举法理解版本空间&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;p22-如何理解版本空间&#34;&gt;p22 如何理解版本空间&lt;/h3&gt;
-&lt;p&gt;简单而言，版本空间用于对学习内容进行收敛，是为了收敛假设空间从而使其成为与数据集一致的所有假设的子集集合。本质是缩减假设范围，也就是我们研究问题的范围。操作上可形象理解为“矩阵边界的集合”，有上下界，需要有一定的泛化程度。 &lt;br&gt;
-从图上理解：
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 203; 
-			flex-basis: 487px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/chigua1-1.png&#34; data-size=&#34;1277x629&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/chigua1-1.png&#34;
-			width=&#34;1277&#34;
-			height=&#34;629&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/chigua1-1_huad3feedb23b3964bb693bb0476f346b0_72292_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/chigua1-1_huad3feedb23b3964bb693bb0476f346b0_72292_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;Photo by WIKI&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;Photo by WIKI&lt;/figcaption&gt;
-	
-&lt;/figure&gt;  &lt;br&gt;
-从假设空间的分布缩减理解：&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/5ba037200102&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;version space算法&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;p24-nfl定理的推导理解&#34;&gt;p24 NFL定理的推导理解&lt;/h3&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 163; 
-			flex-basis: 392px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/chigua1-2.jpg&#34; data-size=&#34;1103x675&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/chigua1-2.jpg&#34;
-			width=&#34;1103&#34;
-			height=&#34;675&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/chigua1-2_hued8527f6c7ce47642931d657b143adb6_224800_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/chigua1-2_hued8527f6c7ce47642931d657b143adb6_224800_1024x0_resize_q75_box.jpg 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;Photo by 我自己&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;Photo by 我自己&lt;/figcaption&gt;
-	
-&lt;/figure&gt;
-如果还不能理解，可以参考：&lt;br&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/113126712&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;浅谈NFL没有免费的午餐定理&lt;/a&gt;&lt;br&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://www.cxyzjd.com/article/wyf2017/107669811&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;NFL公式推导&lt;/a&gt;  &lt;br&gt;
-如果还不能理解1/2，可参考南瓜书中的真实函数展开&lt;/p&gt;
-&lt;h2 id=&#34;西瓜书章节二--模型评估与选择&#34;&gt;西瓜书章节二  模型评估与选择&lt;/h2&gt;
-&lt;p&gt;文字浓缩版可参考：&lt;a class=&#34;link&#34; href=&#34;https://github.com/Vay-keen/Machine-learning-learning-notes/blob/master/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%282%29--%E6%80%A7%E8%83%BD%E5%BA%A6%E9%87%8F.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;性能度量方法&lt;/a&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://github.com/Vay-keen/Machine-learning-learning-notes/blob/master/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%283%29--%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C%26%E6%96%B9%E5%B7%AE%26%E5%81%8F%E5%B7%AE.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;假设检验&amp;amp;方差&amp;amp;偏差&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;加强理解查准率查全率以及rocauc&#34;&gt;加强理解查准率、查全率以及ROC、AUC&lt;/h3&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/kMD8d5R/article/details/98552574&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;一文带你彻底理解ROC曲线和AUC值&lt;/a&gt;     &lt;br&gt;
-本文用患病的例子生动形象直观解释了所有概念。
-那么，ROC、AUC具体是如何计算的呢？   &lt;br&gt;
-请参考南瓜书(2.20)公式，以及(2.21)。&lt;/p&gt;
-&lt;h3 id=&#34;p61-如何理解噪声与f独立从而使得最后项为0&#34;&gt;p61 如何理解噪声与f独立从而使得最后项为0&lt;/h3&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 83; 
-			flex-basis: 199px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/chigua1-3.jpg&#34; data-size=&#34;930x1117&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/chigua1-3.jpg&#34;
-			width=&#34;930&#34;
-			height=&#34;1117&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/chigua1-3_huc8117000bb929691b7e4c48a4c5416fd_209137_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/chigua1-3_huc8117000bb929691b7e4c48a4c5416fd_209137_1024x0_resize_q75_box.jpg 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;Photo by 我自己&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;Photo by 我自己&lt;/figcaption&gt;
-	
-&lt;/figure&gt;
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 95; 
-			flex-basis: 229px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/chigua1-4.jpg&#34; data-size=&#34;913x955&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/chigua1-4.jpg&#34;
-			width=&#34;913&#34;
-			height=&#34;955&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/chigua1-4_hufa255f0a000590d94cc0589d7b9444cf_219395_480x0_resize_q75_box.jpg 480w, https://sanbuphy.github.io/p/chigua1-4_hufa255f0a000590d94cc0589d7b9444cf_219395_1024x0_resize_q75_box.jpg 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;Photo by 我自己&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;Photo by 我自己&lt;/figcaption&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;h2 id=&#34;其他问题&#34;&gt;其他问题&lt;/h2&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://www.matrix67.com/blog/archives/105&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;什么是P问题、NP问题和NPC问题&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;部分内容未补全，慢慢补全&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title></title>
-        <link>https://sanbuphy.github.io/p/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://sanbuphy.github.io/p/</guid>
-        <description>&lt;p&gt;+++
-title = &amp;ldquo;详解机器/深度学习中常见评价指标&amp;rdquo;
-date = &amp;ldquo;2022-04-12T20:53:41+08:00&amp;rdquo;
-description =  &amp;ldquo;Pre、ACC、Recall、F1、RPC、Roc、AUC、IOU、AP、mAP&amp;rdquo;
-math = &amp;lsquo;True&amp;rsquo;
-categories = [
-&amp;ldquo;深度学习&amp;rdquo;,
-&amp;ldquo;笔记&amp;rdquo;
-]
-tags = [
-&amp;ldquo;Machine learning&amp;rdquo;,
-&amp;ldquo;Deep learning&amp;rdquo;
-]
-+++
-待进一步完善&amp;hellip;龟速填坑中&lt;/p&gt;
-&lt;h1 id=&#34;评价指标的基石&#34;&gt;评价指标的基石&lt;/h1&gt;
-&lt;p&gt;所有复杂问题都是简单问题的重复， &lt;br&gt;
-为了理解所有指标，首先需了解“四大天王”与“三大护法”&lt;/p&gt;
-&lt;h2 id=&#34;四大天王tpfp-tnfn&#34;&gt;四大天王——TP|FP TN|FN&lt;/h2&gt;
-&lt;p&gt;我们认为positive代表了阳性（或者说正样本），   &lt;br&gt;
-而Negative代表了阴性（负样本)，那么在二分类中我们根据猜测的对错很容易排列出2x2种情况：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;&lt;/th&gt;
-&lt;th&gt;True&lt;/th&gt;
-&lt;th&gt;False&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Positive&lt;/td&gt;
-&lt;td&gt;TP(猜对了阳)&lt;/td&gt;
-&lt;td&gt;FP(猜错了阳)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Negative&lt;/td&gt;
-&lt;td&gt;TN(猜对了阴)&lt;/td&gt;
-&lt;td&gt;FN(猜错了阴)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;其中&lt;strong&gt;左半边&lt;/strong&gt;表示真值和我的猜测一致（猜对了），&lt;strong&gt;右半边&lt;/strong&gt;表示真值和我的猜测不一致（猜错了）；&lt;br&gt;
-&lt;strong&gt;上半边&lt;/strong&gt;表示猜测阳性的全体 $P$，&lt;strong&gt;下半边&lt;/strong&gt;表示猜测阴性的全体$N$。&lt;br&gt;
-&lt;strong&gt;TP+FN&lt;/strong&gt;表示真值阳性的全体，&lt;strong&gt;TN+FP&lt;/strong&gt;表示真值阴性的全体。&lt;/p&gt;
-&lt;h2 id=&#34;三大护法preaccrecall&#34;&gt;三大护法——Pre、ACC、Recall&lt;/h2&gt;
-&lt;p&gt;根据四大金刚，我们容易得出常见模型中的三个评价指标，
-(为什么不能只看一个呢？因为容易被“浮云遮望眼”)&lt;/p&gt;
-&lt;h3 id=&#34;preprecision-精确率又称查准率&#34;&gt;Pre(Precision 精确率又称查准率)&lt;/h3&gt;
-&lt;p&gt;精确和准确在中文上看起来是一个意思，但实际上有微小的区别；   &lt;br&gt;
-我们可以通过投标的例子来理解什么是精确，什么是准确。     &lt;br&gt;
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 108; 
-			flex-basis: 259px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/pre.png&#34; data-size=&#34;443x410&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/pre.png&#34;
-			width=&#34;443&#34;
-			height=&#34;410&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/pre_hu293cc79c30269c7ee26490aff220e369_50239_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/pre_hu293cc79c30269c7ee26490aff220e369_50239_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;精确率是度量信噪的一种方式，是对偏差程度的反应（标准差大就不精确）&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;精确率是度量信噪的一种方式，是对偏差程度的反应（标准差大就不精确）&lt;/figcaption&gt;
-	
-&lt;/figure&gt;
-从上图可知，精确率高的数据其标准差较小，也就是“我投中了，投中的差别不大”;在二分类中或者说判断是否阳性中，我们关注的重点是在我对阳性的判断中，是否判断对了(存不存在错判阳性的偏差）；如果精确率高，就说明我预测阳性偏差小，阳性就是真的阳性，较少出差错。     &lt;br&gt;
-总结来说，精确率高指的是“我对正例判断出差错（偏差）的情况怎么样？”，也就是： &lt;br&gt;
-$$
-Precision = \frac{TP}{P} = \frac{TP}{TP+FP}
-$$ &lt;br&gt;
-精确率越高，说明我对正例/阳性判断的偏差越小，也就是TP占总判断阳性中的比例越大。
-这时候可能会有聪明的同学问了，那为什么我们不考虑对负例判断的偏差呢，比如构建一个TN/TN+FN的指标？ &lt;br&gt;
-其实是有的，一般的，Pre还有更深入的名字叫“positive predictive value (PPV)”，显然也有对应的“Negative predictive value (NPV) ” 只是因为负样本通常较少，正样本较多；所以把PPV作为一个更常用的指标，归为精确率。&lt;/p&gt;
-&lt;h3 id=&#34;accaccuracy-准确率&#34;&gt;ACC(Accuracy 准确率)&lt;/h3&gt;
-&lt;p&gt;为什么说精准但“精确不一定准确呢”？&lt;br&gt;
-你可以这么想，精密仪器显然是为了误差小，那精密仪器一定能得到准确结果吗？————答案是不一定，比如你没有调零!(做过大物实验的朋友都知道~)     &lt;br&gt;
-没有调零就好像y=kx+b中多了一个b，也就是投标图像中的“整体偏移真值” （下图的上半部分）    &lt;br&gt;
-虽然很精确，但很不准确！！   &lt;br&gt;
-&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 159; 
-			flex-basis: 383px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/pre-acc.png&#34; data-size=&#34;651x407&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/pre-acc.png&#34;
-			width=&#34;651&#34;
-			height=&#34;407&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/pre-acc_hu8a5893a2dc9a5dc60e3917fd76bdb1c7_115874_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/pre-acc_hu8a5893a2dc9a5dc60e3917fd76bdb1c7_115874_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			alt=&#34;左半侧更不准确，右半侧更准确&#34;&gt;
-	&lt;/a&gt;
-	
-	&lt;figcaption&gt;左半侧更不准确，右半侧更准确&lt;/figcaption&gt;
-	
-&lt;/figure&gt;
-准确率更容易理解，准确率考虑的是更“全局”的结果是否正确， &lt;br&gt;
-也就是在我所有预测的结果中，我到底预测的“好不好”，
-即：
-$$
-Accuracy = \frac{TP+TN}{所有预测} = \frac{TP+TN}{TP+FP+TN+FN}
-$$&lt;/p&gt;
-&lt;h3 id=&#34;recall召回率又称查全率&#34;&gt;Recall(召回率又称查全率)&lt;/h3&gt;
-&lt;p&gt;顾名思义，查全的意思就是“我查的全不全”，我是否把所有的阳性覆盖到了（阳性全体为P），&lt;/p&gt;
-&lt;p&gt;$$
-Recall =  \frac{TP}{阳性全体}=  \frac{TP}{TP+FN}
-$$
-&lt;strong&gt;有时候查全率很高，但精确率很低。&lt;/strong&gt;     &lt;br&gt;
-比如我有3个阳性，97个阴性。我预测100个全为阳性（此时P=100且TP=3，FP=97），0个阴性；此时查全率为：3/3=100% ！&lt;br&gt;
-但此时精确率为：3%。。。。。这显然是没有意义的。   &lt;br&gt;
-&lt;strong&gt;有时候精确率很高，但查全率很低。&lt;/strong&gt;     &lt;br&gt;
-比如我还是有3个阳性，97个阴性。我刚好预测对某1个为阳性（此时P=1且TP=1，FP=0），99个阴性；此时精确率为：100% ！   &lt;br&gt;
-但此时查全率为：33.333%。。。。。这显然也是意义不大的。  &lt;br&gt;
-&lt;strong&gt;查全率与精确率存在互逆关系&lt;/strong&gt;&lt;br&gt;
-我们能够隐约发现查全率和精确率的互逆关系，但究竟是为什么呢？ &lt;br&gt;
-仔细观察可以发现，Recall和Pre只在分母有差别，其中Recall的分母是TP+FN【不变量】，而Pre的分母是TP+FP【可变量】。&lt;br&gt;
-为了提高Recall，我们需要增大TP，而分母不变； &lt;br&gt;
-但Pre中如果TP增加了FP也会跟着增加（我需要判断的东西变多了，精确率会下降，错误的概率会变大），分子的TP增加小于分母的TP+FP总体的增加。所以查全率和精确率是互逆的。&lt;/p&gt;
-&lt;h2 id=&#34;f1rpcrocauc&#34;&gt;F1、RPC、Roc、AUC&lt;/h2&gt;
-&lt;p&gt;在充分了解了四大金刚与三大护法后，我们进一步来研究他们的衍生变体：&lt;/p&gt;
-&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/xys430381_1/article/details/90770520&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;机器学习基础&amp;mdash;分类与检测的评价指标&amp;mdash;AP，mAP，PRC曲线&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/240435991&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;分类问题中的一些指标概念-Roc|AUC|Pre|Recall|ACC|AP|mAP|F1总结&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.pianshen.com/article/4398957319/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;分类器的ROC曲线及相关指标（ROC、AUC、ACC）详解&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/DOwFP4Qk4A415N8t8ibhAw&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;MCC — 机器学习中优于F1-score和accuracy的一个性能评价指标&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://towardsdatascience.com/should-i-look-at-precision-recall-or-specificity-sensitivity-3946158aace1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Data Science in Medicine — Precision &amp;amp; Recall or Specificity &amp;amp; Sensitivity?&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 </description>
         </item>
         

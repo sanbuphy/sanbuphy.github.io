@@ -398,7 +398,13 @@ PermitRootLogin yes           #root能使用ssh登录</p>
 <p>我的话是生成了clangd需要使用的compile_commands.json 文件。在paddle的根目录下使用这个即可成功！（CMAKE_EXPORT_COMPILE_COMMANDS为了生成json）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cmake .  -B build  -DPY_VERSION<span class="o">=</span>3.7 -DWITH_GPU<span class="o">=</span>ON -DCMAKE_EXPORT_COMPILE_COMMANDS<span class="o">=</span><span class="m">1</span>
 </span></span></code></pre></div><p>安装生成完后重启vscode即可看到一个index加载过程，等待全部完成后就可以体验基本功能的跳转了（虽然肯定还是没有clion强大，但是对于没有clion的情况下还需要什么自行车呢？而且比GNU  global的提示肯定是更全更舒适的）</p>
-<h2 id="reference">reference</h2>
+<p>如果你想要vscode识别cmake参数，可以在.vscode的settings中添加：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">    &#34;cmake.configureArgs&#34;: [
+</span></span><span class="line"><span class="cl">        &#34;-DPY_VERSION=3.7&#34;,
+</span></span><span class="line"><span class="cl">        &#34;-DWITH_GPU=ON&#34;,
+</span></span><span class="line"><span class="cl">        &#34;-DWITH_TENSORRT=ON&#34;,
+</span></span><span class="line"><span class="cl">    ],
+</span></span></code></pre></div><h2 id="reference">reference</h2>
 <p>使用ssh连接docker服务器的方法_docker</p>
 <p><a class="link" href="https://www.anquanclub.cn/6674.html"  title="https://www.anquanclub.cn/6674.html"
      target="_blank" rel="noopener"
