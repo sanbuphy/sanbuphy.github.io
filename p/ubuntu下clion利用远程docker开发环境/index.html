@@ -110,7 +110,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 7 分钟
+                    阅读时长: 8 分钟
                 </time>
             </div>
         
@@ -126,7 +126,7 @@
 <li>直接用vscode gnu global凑合就完事了  （缺点：符号信息缺失）</li>
 <li>找个其他可以的服务器编译 （缺点：需要钱）</li>
 <li>其他codespace之类的东西 （缺点：速度慢）</li>
-<li>直接用 vscode attach docker就完事了（缺点：想要用到clangd配合cmake的compile的json生成完整符号信息，但是attach后我发现我不能给它安装vscode的clangd插件）</li>
+<li>直接用 vscode attach docker就完事了（缺点：想要用到clangd配合cmake的compile的json生成完整符号信息，但是attach后我发现我不能给它安装vscode的clangd插件）💡【注意！】后来我换台电脑进入到他挂载好文件的项目后发现这个还是可以安装的，可能在我原来那台电脑上有bug。。。。或者vscode版本不对。。那这样对于不复杂的场景可以直接用vscode attach就可以了。不过但不管怎么样这个ssh方式可以适配绝大多数情况和各类IDE。。。。</li>
 </ul>
 <p>综上所述，我们需要一个强大的统一开发环境使用，这时候最好的选择就是docker了，clion可以完美支持c++项目的跳转以及cmake的调试以及符号信息的获取，所以我们使用clion进行符号跳转的查看。</p>
 <p>但clion不像vscode可以很方便的attach，我们需要远程ssh进行处理</p>
