@@ -6,7 +6,16 @@
     <description>Recent content in DLSystem on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 02 Jan 2023 11:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/dlsystem/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 23 Jan 2023 11:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/tags/dlsystem/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI框架与AI编译器相关笔记</title>
+      <link>https://sanbuphy.github.io/p/ai%E6%A1%86%E6%9E%B6%E4%B8%8Eai%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 23 Jan 2023 11:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/ai%E6%A1%86%E6%9E%B6%E4%B8%8Eai%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</guid>
+      <description>爆肝了一段时间，针对zomi酱视频做了对应笔记，学到很多，更新如下： 日常感谢昇腾架构师ZOMI酱 （我愿称之为肝帝！）的超级贡献，欢迎一键三连</description>
+    </item>
+    
     <item>
       <title>AI框架之计算图的前世今生（笔记）</title>
       <link>https://sanbuphy.github.io/p/ai%E6%A1%86%E6%9E%B6%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E7%AC%94%E8%AE%B0/</link>

@@ -110,7 +110,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 15 分钟
+                    阅读时长: 16 分钟
                 </time>
             </div>
         
@@ -294,6 +294,7 @@
 <li>注释：当然，为了方便你可以自行改造，使用 /etc/init.d/ 目录中的服务命令或 service 命令替代systemctl。</li>
 </ul>
 </li>
+<li>注意！WSL2经常会与主机时间不同步，这可能会造成很多问题（包括proxy用不了），你最好设置一个启动脚本或自己执行<code>sudo hwclock -s</code>强制对WSL2时间进行同步，可使用<code>hwclock</code>查看WSL的当前时间</li>
 </ul>
 <p><strong>正则表达式相关</strong></p>
 <ul>
@@ -354,6 +355,8 @@
 <p>-it 以及加上了host命令进入docker后（比如：）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">nvidia-docker run --name paddle-test -v <span class="nv">$PWD</span>:/paddle --network<span class="o">=</span>host -it <span class="o">[</span>registry.baidubce.com/paddlepaddle/paddle:latest-gpu-cuda10.2-cudnn7-dev<span class="o">](</span>http://registry.baidubce.com/paddlepaddle/paddle:latest-gpu-cuda10.2-cudnn7-dev<span class="o">)</span> /bin/bash
 </span></span></code></pre></div><p>此时在内部可以看到两个网卡，我们可以监听172ip的某个端口，然后使用</p>
+<p>export ALL_PROXY=&quot;<a class="link" href="http://172.17.0.1:8888/"  target="_blank" rel="noopener"
+    >http://172.17.0.1:8888/</a>&quot;</p>
 <p><code>export ALL_PROXY=socks5://172.17.0.1:1088</code> 即可使用proxy。（有时候还不够用，可以加上https的）（不需要host network 只需要bind 172即可使用）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span><span class="s2">&#34;http://172.17.0.1:8888/&#34;</span>
 </span></span><span class="line"><span class="cl">
@@ -484,6 +487,9 @@
 <p>如何实现最小的hello world?</p>
 <p><a class="link" href="https://cjting.me/2020/12/10/tiny-x64-helloworld/"  target="_blank" rel="noopener"
     >https://cjting.me/2020/12/10/tiny-x64-helloworld/</a></p>
+<p>Linux 内核揭密（一系列关于 Linux 内核和其内在机理的帖子。）</p>
+<p><a class="link" href="https://xinqiu.gitbooks.io/linux-inside-zh/content/"  target="_blank" rel="noopener"
+    >https://xinqiu.gitbooks.io/linux-inside-zh/content/</a></p>
 <h3 id="计算机网络学习">计算机网络学习</h3>
 <p>课程类待补充</p>
 <p>其他文章：</p>
@@ -512,6 +518,10 @@
 <p>GitHub&rsquo;s largest open-source algorithm library</p>
 <p><a class="link" href="https://the-algorithms.com/"  target="_blank" rel="noopener"
     >https://the-algorithms.com/</a></p>
+<h3 id="设计模式">设计模式</h3>
+<p>一个图文并茂的设计模式学习网站</p>
+<p><a class="link" href="http://refactoringguru.cn/design-patterns"  target="_blank" rel="noopener"
+    >refactoringguru.cn/design-patterns</a></p>
 <h3 id="深度学习大类">深度学习大类</h3>
 <h4 id="有关理论基础但我还是建议直接看李宏毅">有关理论基础（但我还是建议直接看李宏毅）</h4>
 <p><strong>周志华</strong></p>
@@ -693,6 +703,9 @@
 <p>tensorrt 插件自生成（腾讯TPAT）</p>
 <p><a class="link" href="https://github.com/Tencent/TPAT"  target="_blank" rel="noopener"
     >https://github.com/Tencent/TPAT</a></p>
+<p>大缺弦的在线onnx转换器</p>
+<p><a class="link" href="https://convertmodel.com/"  target="_blank" rel="noopener"
+    >https://convertmodel.com/</a></p>
 <h4 id="实例参考">实例参考</h4>
 <p>各种开发版的基础功能调通</p>
 <p><a class="link" href="https://blog.csdn.net/sxj731533730"  target="_blank" rel="noopener"
@@ -1226,6 +1239,7 @@
         <li><a href="#操作系统与体系结构">操作系统与体系结构</a></li>
         <li><a href="#计算机网络学习">计算机网络学习</a></li>
         <li><a href="#数据结构与算法">数据结构与算法</a></li>
+        <li><a href="#设计模式">设计模式</a></li>
         <li><a href="#深度学习大类">深度学习大类</a>
           <ol>
             <li><a href="#有关理论基础但我还是建议直接看李宏毅">有关理论基础（但我还是建议直接看李宏毅）</a></li>
