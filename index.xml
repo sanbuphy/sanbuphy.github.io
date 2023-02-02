@@ -2747,6 +2747,12 @@ delete pObj;
 &lt;p&gt;如何开机自动挂载新硬盘（非ubuntu安装硬盘）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_27370437/article/details/117806294&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://blog.csdn.net/qq_27370437/article/details/117806294&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;vscode相关&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自动格式化python代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;首先安装google的格式化程序：&lt;code&gt;pip install yapf&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;然后键入&lt;code&gt;ctrl+shift+p&lt;/code&gt;然后输入&lt;code&gt;settings&lt;/code&gt;往下找到用户的json，如果你是WSL的话就要找到对应WSL的config，然后输入&lt;code&gt; &amp;quot;python.formatting.provider&amp;quot;: &amp;quot;yapf&amp;quot;&lt;/code&gt;。之后只要使用&lt;code&gt;Alt+shift+F&lt;/code&gt;即可格式化整体的python项目代码。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;git相关&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;git常见操作整理&lt;/li&gt;
@@ -2801,6 +2807,32 @@ delete pObj;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;WSL2常见疑难解答&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;windows上安装ubuntu(WSL2)：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;1、在microsoft下载ubuntu 2、根据下列方式导出并导入镜像，防止占用C盘空间（默认安装在C盘）&lt;a class=&#34;link&#34; href=&#34;http://t.zoukankan.com/davidchild-p-15606786.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://t.zoukankan.com/davidchild-p-15606786.html&lt;/a&gt;   （用这个方法还可以及时快照保存~&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装WSL2专用systemctl【目前（2023/02/02）只能用于20.04,请勿在22.04中使用！】&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/DamionGans/ubuntu-wsl2-systemd-script&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/DamionGans/ubuntu-wsl2-systemd-script&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;WSL中如何使用win v2ray的proxy：（直接在wsl里面跑即可）
+&lt;ul&gt;
+&lt;li&gt;第一步 安装：&lt;a class=&#34;link&#34; href=&#34;https://github.com/v2fly/fhs-install-v2ray&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/v2fly/fhs-install-v2ray&lt;/a&gt;（安装后其他步骤参考&lt;a class=&#34;link&#34; href=&#34;https://gukaifeng.cn/posts/linux-pei-zhi-v2ray-he-proxychains-shi-xian-ming-ling-xing-dai-li-wu-tu-xing-jie-mian/#1-3-%e5%90%af%e5%8a%a8-V2Ray&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://gukaifeng.cn/posts/linux-pei-zhi-v2ray-he-proxychains-shi-xian-ming-ling-xing-dai-li-wu-tu-xing-jie-mian/#1-3-启动-V2Ray&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;第二步 启动：（因为WSL无法用systemctl，所以直接运行即可（或者自己去安装一下wsl2的systemctl），你可以后台运行，也可以在一个终端中运行起来，然后新开一个终端去export ALLproxy之类的就好，参考docker的做法，或者使用proxychains4也可以。）在终端中运行&lt;code&gt;/usr/local/bin/v2ray run -config /usr/local/etc/v2ray/config.json&lt;/code&gt; 即可启动！&lt;/li&gt;
+&lt;li&gt;第三步 使用：就当作一个已经监听了某个端口的proxy使用即可&lt;/li&gt;
+&lt;li&gt;注释：当然，为了方便你可以自行改造，使用 /etc/init.d/ 目录中的服务命令或 service 命令替代systemctl。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;注意！WSL2经常会与主机时间不同步，这可能会造成很多问题（包括proxy用不了），你最好设置一个启动脚本或自己执行&lt;code&gt;sudo hwclock -s&lt;/code&gt;强制对WSL2时间进行同步，可使用&lt;code&gt;sudo hwclock&lt;/code&gt;查看WSL的当前时间，&lt;/li&gt;
+&lt;li&gt;以防出现奇怪问题你可以经常对WSL做快照：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_43425561/article/details/115765148&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/weixin_43425561/article/details/115765148&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;windows常见工具箱&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;有关win家的镜像源以及VS等的纯净安装文件，以及各种网络工程师能用到的软件程序安装包&lt;/li&gt;
@@ -2817,21 +2849,6 @@ delete pObj;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Chuyu-Team/Dism-Multi-language&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/Chuyu-Team/Dism-Multi-language&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;windows上安装ubuntu(WSL2)： 1、在microsoft下载ubuntu 2、根据下列方式导出并导入镜像，防止占用C盘空间（默认安装在C盘）&lt;a class=&#34;link&#34; href=&#34;http://t.zoukankan.com/davidchild-p-15606786.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;http://t.zoukankan.com/davidchild-p-15606786.html&lt;/a&gt;   （用这个方法还可以及时快照保存~&lt;/li&gt;
-&lt;li&gt;WSL中如何使用win v2ray的proxy：（直接在wsl里面跑即可）
-&lt;ul&gt;
-&lt;li&gt;第一步 安装：&lt;a class=&#34;link&#34; href=&#34;https://github.com/v2fly/fhs-install-v2ray&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/v2fly/fhs-install-v2ray&lt;/a&gt;（安装后其他步骤参考&lt;a class=&#34;link&#34; href=&#34;https://gukaifeng.cn/posts/linux-pei-zhi-v2ray-he-proxychains-shi-xian-ming-ling-xing-dai-li-wu-tu-xing-jie-mian/#1-3-%e5%90%af%e5%8a%a8-V2Ray&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://gukaifeng.cn/posts/linux-pei-zhi-v2ray-he-proxychains-shi-xian-ming-ling-xing-dai-li-wu-tu-xing-jie-mian/#1-3-启动-V2Ray&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;第二步 启动：（因为WSL无法用systemctl，所以直接运行即可，你可以后台运行，也可以在一个终端中运行起来，然后新开一个终端去export ALLproxy之类的就好，参考docker的做法，或者使用proxychains4也可以。）在终端中运行&lt;code&gt;/usr/local/bin/v2ray run -config /usr/local/etc/v2ray/config.json&lt;/code&gt; 即可启动！&lt;/li&gt;
-&lt;li&gt;第三步 使用：就当作一个已经监听了某个端口的proxy使用即可&lt;/li&gt;
-&lt;li&gt;注释：当然，为了方便你可以自行改造，使用 /etc/init.d/ 目录中的服务命令或 service 命令替代systemctl。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;注意！WSL2经常会与主机时间不同步，这可能会造成很多问题（包括proxy用不了），你最好设置一个启动脚本或自己执行&lt;code&gt;sudo hwclock -s&lt;/code&gt;强制对WSL2时间进行同步，可使用&lt;code&gt;hwclock&lt;/code&gt;查看WSL的当前时间&lt;/li&gt;
-&lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;正则表达式相关&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;正则表达式入门与练习&lt;/li&gt;
@@ -2860,12 +2877,31 @@ delete pObj;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yeasy.gitbook.io/docker_practice/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://yeasy.gitbook.io/docker_practice/&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
+&lt;li&gt;在WSL2下使用docker&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;【你只需要安装docker desktop然后参考这个教程，点点就能用了】：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://dockerdocs.cn/docker-for-windows/wsl/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://dockerdocs.cn/docker-for-windows/wsl/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;可以很方便使用！无需按照命令行安装即可使用docker！&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装docker后启动时遇到：Failed to connect to bus: Host is down（我在WSL2遇到，非必要不使用，最好还是先安装一下systemctl确保能用）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 运行下列操作即可，然后 sudo systemctl daemon-reload&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# https://gist.github.com/alyleite/ca8b10581dbecd722d9dcc35b50d9b2b&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt-get update &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo apt-get install -yqq daemonize dbus-user-session fontconfig
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;basic.target
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;exec&lt;/span&gt; sudo nsenter -t &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;pidof systemd&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -a su - &lt;span class=&#34;nv&#34;&gt;$LOGNAME&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;snap version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;使docker能够避免输入sudo（通过 docker info检查是否要sudo才可输出）&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.yisu.com/zixun/139260.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.yisu.com/zixun/139260.html&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;NVIDIA docker&lt;/li&gt;
+&lt;li&gt;NVIDIA docker——nvidia-docker2的相关安装&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker&lt;/a&gt;&lt;/p&gt;
@@ -3263,47 +3299,7 @@ delete pObj;
 &lt;p&gt;StableDiffusion Int8量化教程与ONNX导出推理&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;c与汇编&#34;&gt;C与汇编&lt;/h2&gt;
-&lt;p&gt;翁恺的相关视频(入门和进阶)&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.icourse163.org/u/wengkai?userId=318013&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.icourse163.org/u/wengkai?userId=318013&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;100个GDB小技巧：&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wizardforcel.gitbooks.io/100-gdb-tips/content/part1.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://wizardforcel.gitbooks.io/100-gdb-tips/content/part1.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;标准库收录网站&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cplusplus.com/reference/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.cplusplus.com/reference/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;汇编语言在线解析网站&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://godbolt.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://godbolt.org/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;内联汇编学习&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://baijiahao.baidu.com/s?id=1722268508697136684&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://baijiahao.baidu.com/s?id=1722268508697136684&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/1782e14a0766&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.jianshu.com/p/1782e14a0766&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&amp;ldquo;undefined reference to XXX&amp;quot;问题总结&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Captain1986/CaptainBlackboard/blob/master/D#0001-undefined_reference_to_XXX/D#0001.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/Captain1986/CaptainBlackboard/blob/master/D%230001-undefined_reference_to_XXX/D%230001.md&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;有关硬件开发（嵌入式）的推荐个人博客列表&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/JesseGuoX/DoHard&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/JesseGuoX/DoHard&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;A curated list of C good stuff.&lt;/p&gt;
-&lt;p&gt;This project does &lt;em&gt;not&lt;/em&gt; index anything C++-related; only pure C stuff is considered.&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/sanbuphy/awesome-c&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/sanbuphy/awesome-c&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;LLVM编译过程&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wget https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/llvm-10.0.0.src.tar.xz
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tar xvJf llvm-10.0.0.src.tar.xz
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; llvm-10.0.0.src
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir build
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; build
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cmake .. -DLLVM_ENABLE_RTTI:BOOL&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ON -DBUILD_SHARED_LIBS:BOOL&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;OFF -DCMAKE_BUILD_TYPE&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;Release -DLLVM_TARGETS_TO_BUILD&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;“X86&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;NVPTX” -DLLVM_ENABLE_ASSERTIONS&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ON
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 如果你想在 NVIDIA Jetson TX2 上进行构建, 请使用 -DLLVM_TARGETS_TO_BUILD=&amp;#34;ARM;NVPTX&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;make -j &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo make install
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 检查你安装的 LLVM 版本&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;llvm-config —version  &lt;span class=&#34;c1&#34;&gt;# 应该是 10.0.0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;python&#34;&gt;python&lt;/h2&gt;
+&lt;h2 id=&#34;python&#34;&gt;python&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;anaconda基础&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;国内的anaconda镜像下载&lt;/li&gt;
@@ -3346,6 +3342,14 @@ delete pObj;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_42272869/article/details/122471357&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://blog.csdn.net/weixin_42272869/article/details/122471357&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;conda常见命令和疑难问题解答：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;有时候你可能会遇到类似&lt;code&gt;Solving environment: failed with initial frozen solve. Retrying with flexible solve.&lt;/code&gt;的问题，先耐心等等！让他遍历重试完各个库（我在conda安装cling的时候遇到）&lt;/p&gt;
+&lt;p&gt;如果还是有问题再按照网上的方法进行更新conda或者重新安装conda。（或者不要在base下安装）&lt;/p&gt;
+&lt;p&gt;删除虚拟环境：&lt;code&gt;conda remove -n ENV_NAME —all&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;conda更新：&lt;code&gt;conda update anaconda&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;conda所有库更新：&lt;code&gt;conda update --all&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;awesome项目（包含了绝大部分的python相关资源）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/vinta/awesome-python&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/vinta/awesome-python&lt;/a&gt;&lt;/p&gt;
@@ -3389,7 +3393,51 @@ delete pObj;
 &lt;p&gt;很不错的python状态机（可以画成图）展示工具：&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/laike9m/Cyberbrain&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/laike9m/Cyberbrain&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;c&#34;&gt;C++&lt;/h2&gt;
+&lt;h2 id=&#34;c与汇编&#34;&gt;C与汇编&lt;/h2&gt;
+&lt;p&gt;翁恺的相关视频(入门和进阶)&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.icourse163.org/u/wengkai?userId=318013&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.icourse163.org/u/wengkai?userId=318013&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;100个GDB小技巧：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wizardforcel.gitbooks.io/100-gdb-tips/content/part1.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://wizardforcel.gitbooks.io/100-gdb-tips/content/part1.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;标准库收录网站&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cplusplus.com/reference/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.cplusplus.com/reference/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;汇编语言在线解析网站&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://godbolt.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://godbolt.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;内联汇编学习&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://baijiahao.baidu.com/s?id=1722268508697136684&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://baijiahao.baidu.com/s?id=1722268508697136684&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/1782e14a0766&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.jianshu.com/p/1782e14a0766&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;undefined reference to XXX&amp;quot;问题总结&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Captain1986/CaptainBlackboard/blob/master/D#0001-undefined_reference_to_XXX/D#0001.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/Captain1986/CaptainBlackboard/blob/master/D%230001-undefined_reference_to_XXX/D%230001.md&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;有关硬件开发（嵌入式）的推荐个人博客列表&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/JesseGuoX/DoHard&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/JesseGuoX/DoHard&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A curated list of C good stuff.&lt;/p&gt;
+&lt;p&gt;This project does &lt;em&gt;not&lt;/em&gt; index anything C++-related; only pure C stuff is considered.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/sanbuphy/awesome-c&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/sanbuphy/awesome-c&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;LLVM编译过程&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wget https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/llvm-10.0.0.src.tar.xz
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tar xvJf llvm-10.0.0.src.tar.xz
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; llvm-10.0.0.src
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir build
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; build
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cmake .. -DLLVM_ENABLE_RTTI:BOOL&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ON -DBUILD_SHARED_LIBS:BOOL&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;OFF -DCMAKE_BUILD_TYPE&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;Release -DLLVM_TARGETS_TO_BUILD&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;“X86&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;NVPTX” -DLLVM_ENABLE_ASSERTIONS&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ON
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 如果你想在 NVIDIA Jetson TX2 上进行构建, 请使用 -DLLVM_TARGETS_TO_BUILD=&amp;#34;ARM;NVPTX&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;make -j &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo make install
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 检查你安装的 LLVM 版本&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;llvm-config —version  &lt;span class=&#34;c1&#34;&gt;# 应该是 10.0.0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;C语言的jupyter notebook拓展安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip install jupyter-c-kernel
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;install_c_kernel
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jupyter kernelspec list
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;c&#34;&gt;C++&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;c++入门学习（看自己兴趣按需索取）&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;浙大翁恺（简单，适合快速过一遍）：&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1dE41167hJ?p=34&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -3414,13 +3462,31 @@ delete pObj;
     &gt;https://github.com/fffaraz/awesome-cpp&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://jobbole.github.io/awesome-python-cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;http://jobbole.github.io/awesome-python-cn/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Modern CMake 简体中文版&lt;/p&gt;
+&lt;p&gt;cmake 快速编译安装：&lt;/p&gt;
+&lt;p&gt;前往官网下载最新发行版：&lt;a class=&#34;link&#34; href=&#34;https://cmake.org/download/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cmake.org/download/&lt;/a&gt;     然后如下运行即可：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;#卸载旧版本&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt-get autoremove cmake
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;#安装新版本&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./configure
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;make -j20
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo make install
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;#如果此时cmake --verion 没有变化或者不存在，把下面这个加入程序到环境变量即可&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;vim ~/.bashrc
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# export PATH=/usr/local/share/cmake-3.25:$PATH&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt; ~/.bashrc   
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Modern CMake 简体中文版&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://modern-cmake-cn.github.io/Modern-CMake-zh_CN/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://modern-cmake-cn.github.io/Modern-CMake-zh_CN/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;cmakelist生成的makefile调试用make VERBOSE=1 而不是 make -nb&lt;/p&gt;
 &lt;p&gt;cmake快速入门&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/6844903557183832078&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://juejin.cn/post/6844903557183832078&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;CMake菜谱（CMake Cookbook中文版）（面向实际应用小工具，推荐）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bookstack.cn/read/CMake-Cookbook/README.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.bookstack.cn/read/CMake-Cookbook/README.md&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;C++ reference（字典）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://en.cppreference.com/w/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://en.cppreference.com/w/&lt;/a&gt;&lt;/p&gt;
@@ -3442,6 +3508,12 @@ delete pObj;
 &lt;p&gt;C++ Standard Draft Sources（一起成为语言律师）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/cplusplus/draft&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/cplusplus/draft&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;详细的C/C++编程规范指南，由360质量工程部编著，适用于桌面、服务端及嵌入式软件系统。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Qihoo360/safe-rules&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/Qihoo360/safe-rules&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;程序可移植性保证cmake。可获取系统信息、编译器、平台、指令集等信息。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bookstack.cn/read/CMake-Cookbook/content-chapter2-2.5-chinese.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.bookstack.cn/read/CMake-Cookbook/content-chapter2-2.5-chinese.md&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;c的杂物间&#34;&gt;C++的杂物间&lt;/h3&gt;
 &lt;p&gt;DJI thermal analysis tool  相关教程（日文&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://qiita.com/tutu/items/b5cf2b39dd30786d9064&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -3453,6 +3525,10 @@ delete pObj;
 &lt;p&gt;ffmpeg原理 罗上文&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://ffmpeg.xianwaizhiyin.net/cover.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://ffmpeg.xianwaizhiyin.net/cover.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;程序性能优化&#34;&gt;程序性能优化&lt;/h2&gt;
+&lt;p&gt;性能优化实战收集（包括听风扇声音测性能）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/plantegg/programmer_case&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/plantegg/programmer_case&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;学术论文&#34;&gt;学术论文&lt;/h2&gt;
 &lt;p&gt;查询接受率的网站:&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.openresearch.org/wiki/Main_Page&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -3493,6 +3569,10 @@ delete pObj;
 &lt;p&gt;偏极客的新闻网，无广告，而且有一套防刷热度算法，也不搞推荐算法&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://news.ycombinator.com/news&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://news.ycombinator.com/news&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;其他有趣的项目&#34;&gt;其他有趣的项目&lt;/h2&gt;
+&lt;p&gt;CodeGeeX: 多语言代码生成模型（代码生成与代码翻译）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/THUDM/CodeGeeX/blob/main/README_zh.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/THUDM/CodeGeeX/blob/main/README_zh.md&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Whisper AI剪视频小工具&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1Pe4y1t7de/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.bilibili.com/video/BV1Pe4y1t7de/&lt;/a&gt;&lt;/p&gt;

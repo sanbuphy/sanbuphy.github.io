@@ -110,7 +110,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 16 分钟
+                    阅读时长: 18 分钟
                 </time>
             </div>
         
@@ -211,6 +211,12 @@
 <p>如何开机自动挂载新硬盘（非ubuntu安装硬盘）</p>
 <p><a class="link" href="https://blog.csdn.net/qq_27370437/article/details/117806294"  target="_blank" rel="noopener"
     >https://blog.csdn.net/qq_27370437/article/details/117806294</a></p>
+<p><strong>vscode相关</strong></p>
+<ul>
+<li>自动格式化python代码</li>
+</ul>
+<p>首先安装google的格式化程序：<code>pip install yapf</code></p>
+<p>然后键入<code>ctrl+shift+p</code>然后输入<code>settings</code>往下找到用户的json，如果你是WSL的话就要找到对应WSL的config，然后输入<code> &quot;python.formatting.provider&quot;: &quot;yapf&quot;</code>。之后只要使用<code>Alt+shift+F</code>即可格式化整体的python项目代码。</p>
 <p><strong>git相关</strong></p>
 <ul>
 <li>git常见操作整理</li>
@@ -265,6 +271,32 @@
 </ul>
 </li>
 </ul>
+<p><strong>WSL2常见疑难解答</strong></p>
+<ul>
+<li>windows上安装ubuntu(WSL2)：</li>
+</ul>
+<p>1、在microsoft下载ubuntu 2、根据下列方式导出并导入镜像，防止占用C盘空间（默认安装在C盘）<a class="link" href="http://t.zoukankan.com/davidchild-p-15606786.html"  target="_blank" rel="noopener"
+    >http://t.zoukankan.com/davidchild-p-15606786.html</a>   （用这个方法还可以及时快照保存~</p>
+<ul>
+<li>安装WSL2专用systemctl【目前（2023/02/02）只能用于20.04,请勿在22.04中使用！】</li>
+</ul>
+<p><a class="link" href="https://github.com/DamionGans/ubuntu-wsl2-systemd-script"  target="_blank" rel="noopener"
+    >https://github.com/DamionGans/ubuntu-wsl2-systemd-script</a></p>
+<ul>
+<li>WSL中如何使用win v2ray的proxy：（直接在wsl里面跑即可）
+<ul>
+<li>第一步 安装：<a class="link" href="https://github.com/v2fly/fhs-install-v2ray"  target="_blank" rel="noopener"
+    >https://github.com/v2fly/fhs-install-v2ray</a>（安装后其他步骤参考<a class="link" href="https://gukaifeng.cn/posts/linux-pei-zhi-v2ray-he-proxychains-shi-xian-ming-ling-xing-dai-li-wu-tu-xing-jie-mian/#1-3-%e5%90%af%e5%8a%a8-V2Ray"  target="_blank" rel="noopener"
+    >https://gukaifeng.cn/posts/linux-pei-zhi-v2ray-he-proxychains-shi-xian-ming-ling-xing-dai-li-wu-tu-xing-jie-mian/#1-3-启动-V2Ray</a></li>
+<li>第二步 启动：（因为WSL无法用systemctl，所以直接运行即可（或者自己去安装一下wsl2的systemctl），你可以后台运行，也可以在一个终端中运行起来，然后新开一个终端去export ALLproxy之类的就好，参考docker的做法，或者使用proxychains4也可以。）在终端中运行<code>/usr/local/bin/v2ray run -config /usr/local/etc/v2ray/config.json</code> 即可启动！</li>
+<li>第三步 使用：就当作一个已经监听了某个端口的proxy使用即可</li>
+<li>注释：当然，为了方便你可以自行改造，使用 /etc/init.d/ 目录中的服务命令或 service 命令替代systemctl。</li>
+</ul>
+</li>
+<li>注意！WSL2经常会与主机时间不同步，这可能会造成很多问题（包括proxy用不了），你最好设置一个启动脚本或自己执行<code>sudo hwclock -s</code>强制对WSL2时间进行同步，可使用<code>sudo hwclock</code>查看WSL的当前时间，</li>
+<li>以防出现奇怪问题你可以经常对WSL做快照：<a class="link" href="https://blog.csdn.net/weixin_43425561/article/details/115765148"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/weixin_43425561/article/details/115765148</a></li>
+</ul>
 <p><strong>windows常见工具箱</strong></p>
 <ul>
 <li>有关win家的镜像源以及VS等的纯净安装文件，以及各种网络工程师能用到的软件程序安装包</li>
@@ -281,21 +313,6 @@
 </ul>
 <p><a class="link" href="https://github.com/Chuyu-Team/Dism-Multi-language"  target="_blank" rel="noopener"
     >https://github.com/Chuyu-Team/Dism-Multi-language</a></p>
-<ul>
-<li>windows上安装ubuntu(WSL2)： 1、在microsoft下载ubuntu 2、根据下列方式导出并导入镜像，防止占用C盘空间（默认安装在C盘）<a class="link" href="http://t.zoukankan.com/davidchild-p-15606786.html"  target="_blank" rel="noopener"
-    >http://t.zoukankan.com/davidchild-p-15606786.html</a>   （用这个方法还可以及时快照保存~</li>
-<li>WSL中如何使用win v2ray的proxy：（直接在wsl里面跑即可）
-<ul>
-<li>第一步 安装：<a class="link" href="https://github.com/v2fly/fhs-install-v2ray"  target="_blank" rel="noopener"
-    >https://github.com/v2fly/fhs-install-v2ray</a>（安装后其他步骤参考<a class="link" href="https://gukaifeng.cn/posts/linux-pei-zhi-v2ray-he-proxychains-shi-xian-ming-ling-xing-dai-li-wu-tu-xing-jie-mian/#1-3-%e5%90%af%e5%8a%a8-V2Ray"  target="_blank" rel="noopener"
-    >https://gukaifeng.cn/posts/linux-pei-zhi-v2ray-he-proxychains-shi-xian-ming-ling-xing-dai-li-wu-tu-xing-jie-mian/#1-3-启动-V2Ray</a></li>
-<li>第二步 启动：（因为WSL无法用systemctl，所以直接运行即可，你可以后台运行，也可以在一个终端中运行起来，然后新开一个终端去export ALLproxy之类的就好，参考docker的做法，或者使用proxychains4也可以。）在终端中运行<code>/usr/local/bin/v2ray run -config /usr/local/etc/v2ray/config.json</code> 即可启动！</li>
-<li>第三步 使用：就当作一个已经监听了某个端口的proxy使用即可</li>
-<li>注释：当然，为了方便你可以自行改造，使用 /etc/init.d/ 目录中的服务命令或 service 命令替代systemctl。</li>
-</ul>
-</li>
-<li>注意！WSL2经常会与主机时间不同步，这可能会造成很多问题（包括proxy用不了），你最好设置一个启动脚本或自己执行<code>sudo hwclock -s</code>强制对WSL2时间进行同步，可使用<code>hwclock</code>查看WSL的当前时间</li>
-</ul>
 <p><strong>正则表达式相关</strong></p>
 <ul>
 <li>正则表达式入门与练习</li>
@@ -324,12 +341,31 @@
 <p><a class="link" href="https://yeasy.gitbook.io/docker_practice/"  target="_blank" rel="noopener"
     >https://yeasy.gitbook.io/docker_practice/</a></p>
 <ul>
+<li>在WSL2下使用docker</li>
+</ul>
+<p>【你只需要安装docker desktop然后参考这个教程，点点就能用了】：</p>
+<p><a class="link" href="https://dockerdocs.cn/docker-for-windows/wsl/"  target="_blank" rel="noopener"
+    >https://dockerdocs.cn/docker-for-windows/wsl/</a></p>
+<p>可以很方便使用！无需按照命令行安装即可使用docker！</p>
+<ul>
+<li>安装docker后启动时遇到：Failed to connect to bus: Host is down（我在WSL2遇到，非必要不使用，最好还是先安装一下systemctl确保能用）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="c1"># 运行下列操作即可，然后 sudo systemctl daemon-reload</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://gist.github.com/alyleite/ca8b10581dbecd722d9dcc35b50d9b2b</span>
+</span></span><span class="line"><span class="cl">sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get install -yqq daemonize dbus-user-session fontconfig
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit<span class="o">=</span>basic.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">exec</span> sudo nsenter -t <span class="k">$(</span>pidof systemd<span class="k">)</span> -a su - <span class="nv">$LOGNAME</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">snap version
+</span></span></code></pre></div><ul>
 <li>使docker能够避免输入sudo（通过 docker info检查是否要sudo才可输出）</li>
 </ul>
 <p><a class="link" href="https://www.yisu.com/zixun/139260.html"  target="_blank" rel="noopener"
     >https://www.yisu.com/zixun/139260.html</a></p>
 <ul>
-<li>NVIDIA docker</li>
+<li>NVIDIA docker——nvidia-docker2的相关安装</li>
 </ul>
 <p><a class="link" href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker"  target="_blank" rel="noopener"
     >https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker</a></p>
@@ -727,47 +763,7 @@
 <p>StableDiffusion Int8量化教程与ONNX导出推理</p>
 <p><a class="link" href="https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw"  target="_blank" rel="noopener"
     >https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw</a></p>
-<h2 id="c与汇编">C与汇编</h2>
-<p>翁恺的相关视频(入门和进阶)</p>
-<p><a class="link" href="https://www.icourse163.org/u/wengkai?userId=318013"  target="_blank" rel="noopener"
-    >https://www.icourse163.org/u/wengkai?userId=318013</a></p>
-<p>100个GDB小技巧：</p>
-<p><a class="link" href="https://wizardforcel.gitbooks.io/100-gdb-tips/content/part1.html"  target="_blank" rel="noopener"
-    >https://wizardforcel.gitbooks.io/100-gdb-tips/content/part1.html</a></p>
-<p>标准库收录网站</p>
-<p><a class="link" href="https://www.cplusplus.com/reference/"  target="_blank" rel="noopener"
-    >https://www.cplusplus.com/reference/</a></p>
-<p>汇编语言在线解析网站</p>
-<p><a class="link" href="https://godbolt.org/"  target="_blank" rel="noopener"
-    >https://godbolt.org/</a></p>
-<p>内联汇编学习</p>
-<p><a class="link" href="https://baijiahao.baidu.com/s?id=1722268508697136684"  target="_blank" rel="noopener"
-    >https://baijiahao.baidu.com/s?id=1722268508697136684</a></p>
-<p><a class="link" href="https://www.jianshu.com/p/1782e14a0766"  target="_blank" rel="noopener"
-    >https://www.jianshu.com/p/1782e14a0766</a></p>
-<p>&ldquo;undefined reference to XXX&quot;问题总结</p>
-<p><a class="link" href="https://github.com/Captain1986/CaptainBlackboard/blob/master/D#0001-undefined_reference_to_XXX/D#0001.md"  target="_blank" rel="noopener"
-    >https://github.com/Captain1986/CaptainBlackboard/blob/master/D%230001-undefined_reference_to_XXX/D%230001.md</a></p>
-<p>有关硬件开发（嵌入式）的推荐个人博客列表</p>
-<p><a class="link" href="https://github.com/JesseGuoX/DoHard"  target="_blank" rel="noopener"
-    >https://github.com/JesseGuoX/DoHard</a></p>
-<p>A curated list of C good stuff.</p>
-<p>This project does <em>not</em> index anything C++-related; only pure C stuff is considered.</p>
-<p><a class="link" href="https://github.com/sanbuphy/awesome-c"  target="_blank" rel="noopener"
-    >https://github.com/sanbuphy/awesome-c</a></p>
-<p>LLVM编译过程</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">wget https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/llvm-10.0.0.src.tar.xz
-</span></span><span class="line"><span class="cl">tar xvJf llvm-10.0.0.src.tar.xz
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> llvm-10.0.0.src
-</span></span><span class="line"><span class="cl">mkdir build
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> build
-</span></span><span class="line"><span class="cl">cmake .. -DLLVM_ENABLE_RTTI:BOOL<span class="o">=</span>ON -DBUILD_SHARED_LIBS:BOOL<span class="o">=</span>OFF -DCMAKE_BUILD_TYPE<span class="o">=</span>Release -DLLVM_TARGETS_TO_BUILD<span class="o">=</span>“X86<span class="p">;</span>NVPTX” -DLLVM_ENABLE_ASSERTIONS<span class="o">=</span>ON
-</span></span><span class="line"><span class="cl"><span class="c1"># 如果你想在 NVIDIA Jetson TX2 上进行构建, 请使用 -DLLVM_TARGETS_TO_BUILD=&#34;ARM;NVPTX&#34;</span>
-</span></span><span class="line"><span class="cl">make -j <span class="m">8</span>
-</span></span><span class="line"><span class="cl">sudo make install
-</span></span><span class="line"><span class="cl"><span class="c1"># 检查你安装的 LLVM 版本</span>
-</span></span><span class="line"><span class="cl">llvm-config —version  <span class="c1"># 应该是 10.0.0</span>
-</span></span></code></pre></div><h2 id="python">python</h2>
+<h2 id="python">python</h2>
 <p><strong>anaconda基础</strong></p>
 <ul>
 <li>国内的anaconda镜像下载</li>
@@ -810,6 +806,14 @@
 </ul>
 <p><a class="link" href="https://blog.csdn.net/weixin_42272869/article/details/122471357"  target="_blank" rel="noopener"
     >https://blog.csdn.net/weixin_42272869/article/details/122471357</a></p>
+<ul>
+<li>conda常见命令和疑难问题解答：</li>
+</ul>
+<p>有时候你可能会遇到类似<code>Solving environment: failed with initial frozen solve. Retrying with flexible solve.</code>的问题，先耐心等等！让他遍历重试完各个库（我在conda安装cling的时候遇到）</p>
+<p>如果还是有问题再按照网上的方法进行更新conda或者重新安装conda。（或者不要在base下安装）</p>
+<p>删除虚拟环境：<code>conda remove -n ENV_NAME —all</code></p>
+<p>conda更新：<code>conda update anaconda</code></p>
+<p>conda所有库更新：<code>conda update --all</code></p>
 <p>awesome项目（包含了绝大部分的python相关资源）</p>
 <p><a class="link" href="https://github.com/vinta/awesome-python"  target="_blank" rel="noopener"
     >https://github.com/vinta/awesome-python</a></p>
@@ -853,7 +857,51 @@
 <p>很不错的python状态机（可以画成图）展示工具：</p>
 <p><a class="link" href="https://github.com/laike9m/Cyberbrain"  target="_blank" rel="noopener"
     >https://github.com/laike9m/Cyberbrain</a></p>
-<h2 id="c">C++</h2>
+<h2 id="c与汇编">C与汇编</h2>
+<p>翁恺的相关视频(入门和进阶)</p>
+<p><a class="link" href="https://www.icourse163.org/u/wengkai?userId=318013"  target="_blank" rel="noopener"
+    >https://www.icourse163.org/u/wengkai?userId=318013</a></p>
+<p>100个GDB小技巧：</p>
+<p><a class="link" href="https://wizardforcel.gitbooks.io/100-gdb-tips/content/part1.html"  target="_blank" rel="noopener"
+    >https://wizardforcel.gitbooks.io/100-gdb-tips/content/part1.html</a></p>
+<p>标准库收录网站</p>
+<p><a class="link" href="https://www.cplusplus.com/reference/"  target="_blank" rel="noopener"
+    >https://www.cplusplus.com/reference/</a></p>
+<p>汇编语言在线解析网站</p>
+<p><a class="link" href="https://godbolt.org/"  target="_blank" rel="noopener"
+    >https://godbolt.org/</a></p>
+<p>内联汇编学习</p>
+<p><a class="link" href="https://baijiahao.baidu.com/s?id=1722268508697136684"  target="_blank" rel="noopener"
+    >https://baijiahao.baidu.com/s?id=1722268508697136684</a></p>
+<p><a class="link" href="https://www.jianshu.com/p/1782e14a0766"  target="_blank" rel="noopener"
+    >https://www.jianshu.com/p/1782e14a0766</a></p>
+<p>&ldquo;undefined reference to XXX&quot;问题总结</p>
+<p><a class="link" href="https://github.com/Captain1986/CaptainBlackboard/blob/master/D#0001-undefined_reference_to_XXX/D#0001.md"  target="_blank" rel="noopener"
+    >https://github.com/Captain1986/CaptainBlackboard/blob/master/D%230001-undefined_reference_to_XXX/D%230001.md</a></p>
+<p>有关硬件开发（嵌入式）的推荐个人博客列表</p>
+<p><a class="link" href="https://github.com/JesseGuoX/DoHard"  target="_blank" rel="noopener"
+    >https://github.com/JesseGuoX/DoHard</a></p>
+<p>A curated list of C good stuff.</p>
+<p>This project does <em>not</em> index anything C++-related; only pure C stuff is considered.</p>
+<p><a class="link" href="https://github.com/sanbuphy/awesome-c"  target="_blank" rel="noopener"
+    >https://github.com/sanbuphy/awesome-c</a></p>
+<p>LLVM编译过程</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">wget https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/llvm-10.0.0.src.tar.xz
+</span></span><span class="line"><span class="cl">tar xvJf llvm-10.0.0.src.tar.xz
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> llvm-10.0.0.src
+</span></span><span class="line"><span class="cl">mkdir build
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> build
+</span></span><span class="line"><span class="cl">cmake .. -DLLVM_ENABLE_RTTI:BOOL<span class="o">=</span>ON -DBUILD_SHARED_LIBS:BOOL<span class="o">=</span>OFF -DCMAKE_BUILD_TYPE<span class="o">=</span>Release -DLLVM_TARGETS_TO_BUILD<span class="o">=</span>“X86<span class="p">;</span>NVPTX” -DLLVM_ENABLE_ASSERTIONS<span class="o">=</span>ON
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果你想在 NVIDIA Jetson TX2 上进行构建, 请使用 -DLLVM_TARGETS_TO_BUILD=&#34;ARM;NVPTX&#34;</span>
+</span></span><span class="line"><span class="cl">make -j <span class="m">8</span>
+</span></span><span class="line"><span class="cl">sudo make install
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查你安装的 LLVM 版本</span>
+</span></span><span class="line"><span class="cl">llvm-config —version  <span class="c1"># 应该是 10.0.0</span>
+</span></span></code></pre></div><p>C语言的jupyter notebook拓展安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">pip install jupyter-c-kernel
+</span></span><span class="line"><span class="cl">install_c_kernel
+</span></span><span class="line"><span class="cl">jupyter kernelspec list
+</span></span></code></pre></div><h2 id="c">C++</h2>
 <p><strong>c++入门学习（看自己兴趣按需索取）</strong></p>
 <ul>
 <li>浙大翁恺（简单，适合快速过一遍）：<a class="link" href="https://www.bilibili.com/video/BV1dE41167hJ?p=34"  target="_blank" rel="noopener"
@@ -878,13 +926,31 @@
     >https://github.com/fffaraz/awesome-cpp</a></p>
 <p><a class="link" href="http://jobbole.github.io/awesome-python-cn/"  target="_blank" rel="noopener"
     >http://jobbole.github.io/awesome-python-cn/</a></p>
-<p>Modern CMake 简体中文版</p>
+<p>cmake 快速编译安装：</p>
+<p>前往官网下载最新发行版：<a class="link" href="https://cmake.org/download/"  target="_blank" rel="noopener"
+    >https://cmake.org/download/</a>     然后如下运行即可：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="c1">#卸载旧版本</span>
+</span></span><span class="line"><span class="cl">sudo apt-get autoremove cmake
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#安装新版本</span>
+</span></span><span class="line"><span class="cl">./configure
+</span></span><span class="line"><span class="cl">make -j20
+</span></span><span class="line"><span class="cl">sudo make install
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#如果此时cmake --verion 没有变化或者不存在，把下面这个加入程序到环境变量即可</span>
+</span></span><span class="line"><span class="cl">vim ~/.bashrc
+</span></span><span class="line"><span class="cl"><span class="c1"># export PATH=/usr/local/share/cmake-3.25:$PATH</span>
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> ~/.bashrc   
+</span></span></code></pre></div><p>Modern CMake 简体中文版</p>
 <p><a class="link" href="https://modern-cmake-cn.github.io/Modern-CMake-zh_CN/"  target="_blank" rel="noopener"
     >https://modern-cmake-cn.github.io/Modern-CMake-zh_CN/</a></p>
 <p>cmakelist生成的makefile调试用make VERBOSE=1 而不是 make -nb</p>
 <p>cmake快速入门</p>
 <p><a class="link" href="https://juejin.cn/post/6844903557183832078"  target="_blank" rel="noopener"
     >https://juejin.cn/post/6844903557183832078</a></p>
+<p>CMake菜谱（CMake Cookbook中文版）（面向实际应用小工具，推荐）</p>
+<p><a class="link" href="https://www.bookstack.cn/read/CMake-Cookbook/README.md"  target="_blank" rel="noopener"
+    >https://www.bookstack.cn/read/CMake-Cookbook/README.md</a></p>
 <p>C++ reference（字典）</p>
 <p><a class="link" href="https://en.cppreference.com/w/"  target="_blank" rel="noopener"
     >https://en.cppreference.com/w/</a></p>
@@ -906,6 +972,12 @@
 <p>C++ Standard Draft Sources（一起成为语言律师）</p>
 <p><a class="link" href="https://github.com/cplusplus/draft"  target="_blank" rel="noopener"
     >https://github.com/cplusplus/draft</a></p>
+<p>详细的C/C++编程规范指南，由360质量工程部编著，适用于桌面、服务端及嵌入式软件系统。</p>
+<p><a class="link" href="https://github.com/Qihoo360/safe-rules"  target="_blank" rel="noopener"
+    >https://github.com/Qihoo360/safe-rules</a></p>
+<p>程序可移植性保证cmake。可获取系统信息、编译器、平台、指令集等信息。</p>
+<p><a class="link" href="https://www.bookstack.cn/read/CMake-Cookbook/content-chapter2-2.5-chinese.md"  target="_blank" rel="noopener"
+    >https://www.bookstack.cn/read/CMake-Cookbook/content-chapter2-2.5-chinese.md</a></p>
 <h3 id="c的杂物间">C++的杂物间</h3>
 <p>DJI thermal analysis tool  相关教程（日文</p>
 <p><a class="link" href="https://qiita.com/tutu/items/b5cf2b39dd30786d9064"  target="_blank" rel="noopener"
@@ -917,6 +989,10 @@
 <p>ffmpeg原理 罗上文</p>
 <p><a class="link" href="https://ffmpeg.xianwaizhiyin.net/cover.html"  target="_blank" rel="noopener"
     >https://ffmpeg.xianwaizhiyin.net/cover.html</a></p>
+<h2 id="程序性能优化">程序性能优化</h2>
+<p>性能优化实战收集（包括听风扇声音测性能）</p>
+<p><a class="link" href="https://github.com/plantegg/programmer_case"  target="_blank" rel="noopener"
+    >https://github.com/plantegg/programmer_case</a></p>
 <h2 id="学术论文">学术论文</h2>
 <p>查询接受率的网站:</p>
 <p><a class="link" href="https://www.openresearch.org/wiki/Main_Page"  target="_blank" rel="noopener"
@@ -957,6 +1033,10 @@
 <p>偏极客的新闻网，无广告，而且有一套防刷热度算法，也不搞推荐算法</p>
 <p><a class="link" href="https://news.ycombinator.com/news"  target="_blank" rel="noopener"
     >https://news.ycombinator.com/news</a></p>
+<h2 id="其他有趣的项目">其他有趣的项目</h2>
+<p>CodeGeeX: 多语言代码生成模型（代码生成与代码翻译）</p>
+<p><a class="link" href="https://github.com/THUDM/CodeGeeX/blob/main/README_zh.md"  target="_blank" rel="noopener"
+    >https://github.com/THUDM/CodeGeeX/blob/main/README_zh.md</a></p>
 <p>Whisper AI剪视频小工具</p>
 <p><a class="link" href="https://www.bilibili.com/video/BV1Pe4y1t7de/"  target="_blank" rel="noopener"
     >https://www.bilibili.com/video/BV1Pe4y1t7de/</a></p>
@@ -1274,20 +1354,22 @@
         <li><a href="#有趣的深度学习小程序与应用">有趣的深度学习小程序与应用</a></li>
       </ol>
     </li>
-    <li><a href="#c与汇编">C与汇编</a></li>
     <li><a href="#python">python</a>
       <ol>
         <li><a href="#实例项目等">实例项目等</a></li>
       </ol>
     </li>
+    <li><a href="#c与汇编">C与汇编</a></li>
     <li><a href="#c">C++</a>
       <ol>
         <li><a href="#c的杂物间">C++的杂物间</a></li>
         <li><a href="#音视频相关">音视频相关</a></li>
       </ol>
     </li>
+    <li><a href="#程序性能优化">程序性能优化</a></li>
     <li><a href="#学术论文">学术论文</a></li>
     <li><a href="#其他日常使用网站">其他日常使用网站</a></li>
+    <li><a href="#其他有趣的项目">其他有趣的项目</a></li>
     <li><a href="#有趣的故事">有趣的故事</a></li>
     <li><a href="#心理健康建设">心理健康建设</a></li>
     <li><a href="#英语">英语</a>
