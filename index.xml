@@ -1918,10 +1918,10 @@ src/main/resources目录用来存放资源文件，如application.yml文件，my
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以通过&lt;code&gt;ps -e |grep ssh&lt;/code&gt;查看服务是否启动&lt;/p&gt;
 &lt;p&gt;第四步：修改配置文件，通过vim编辑器打开配置文件 &lt;code&gt;vim /etc/ssh/sshd_config&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;在配置文件中随便找个地方写入以下内容(#号后是注释)&lt;/p&gt;
-&lt;p&gt;PubkeyAuthentication yes        #启用公钥私钥配对认证方式
-AuthorizedKeysFile .ssh/authorized_keys #公钥文件路径
-PermitRootLogin yes           #root能使用ssh登录&lt;/p&gt;
-&lt;p&gt;&lt;figure 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;PubkeyAuthentication yes        #启用公钥私钥配对认证方式
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;AuthorizedKeysFile .ssh/authorized\_keys #公钥文件路径
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;PermitRootLogin yes           #root能使用ssh登录
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
 	
 		class=&#34;gallery-image&#34; 
 		style=&#34;
@@ -2014,13 +2014,14 @@ PermitRootLogin yes           #root能使用ssh登录&lt;/p&gt;
 	
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;cmake选项中需要加入&lt;code&gt;-DPY_VERSION=3.7 -DWITH_GPU=ON&lt;/code&gt;  这是我们需要的cmake参数&lt;/p&gt;
+&lt;p&gt;如果你想要带上tensorrt编译，可以这么写：&lt;code&gt;-DPY_VERSION=3.7 -DWITH_GPU=ON -DWITH_TENSORRT=ON&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;环境处需要带上&lt;code&gt;PATH=/usr/local/cuda/bin/nvcc&lt;/code&gt;是因为有可能cmake过程中（我遇到了）遇到了这个提示&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;  No CMAKE_CUDA_COMPILER could be found.
 
   Tell CMake where to find the compiler by setting either the environment
   variable &amp;#34;CUDACXX&amp;#34; or the CMake cache entry CMAKE_CUDA_COMPILER to the full
   path to the compiler, or to the compiler name if it is in the PATH.
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;你可以把&lt;code&gt;export PATH=/usr/local/cuda/bin:$PATH&lt;/code&gt;直接附加到终端或者是加入到环境变量中。&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;同时你需要&lt;code&gt;export PATH=/usr/local/cuda/bin:$PATH&lt;/code&gt;直接附加到终端或者是加入到环境变量中。&lt;/p&gt;
 &lt;h3 id=&#34;三管理同步&#34;&gt;三、管理同步&lt;/h3&gt;
 &lt;p&gt;其实他的用法就是创建一个tmp（你可以在映射中看到）&lt;/p&gt;
 &lt;p&gt;然后把文件拷贝进去编译后再把信息拿回来。&lt;/p&gt;

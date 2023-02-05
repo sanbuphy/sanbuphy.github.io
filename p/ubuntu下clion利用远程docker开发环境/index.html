@@ -185,10 +185,10 @@
 </span></span></code></pre></div><p>可以通过<code>ps -e |grep ssh</code>查看服务是否启动</p>
 <p>第四步：修改配置文件，通过vim编辑器打开配置文件 <code>vim /etc/ssh/sshd_config</code></p>
 <p>在配置文件中随便找个地方写入以下内容(#号后是注释)</p>
-<p>PubkeyAuthentication yes        #启用公钥私钥配对认证方式
-AuthorizedKeysFile .ssh/authorized_keys #公钥文件路径
-PermitRootLogin yes           #root能使用ssh登录</p>
-<p><figure 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">PubkeyAuthentication yes        #启用公钥私钥配对认证方式
+</span></span><span class="line"><span class="cl">AuthorizedKeysFile .ssh/authorized\_keys #公钥文件路径
+</span></span><span class="line"><span class="cl">PermitRootLogin yes           #root能使用ssh登录
+</span></span></code></pre></div><p><figure 
 	
 		class="gallery-image" 
 		style="
@@ -281,13 +281,14 @@ PermitRootLogin yes           #root能使用ssh登录</p>
 	
 </figure></p>
 <p>cmake选项中需要加入<code>-DPY_VERSION=3.7 -DWITH_GPU=ON</code>  这是我们需要的cmake参数</p>
+<p>如果你想要带上tensorrt编译，可以这么写：<code>-DPY_VERSION=3.7 -DWITH_GPU=ON -DWITH_TENSORRT=ON</code></p>
 <p>环境处需要带上<code>PATH=/usr/local/cuda/bin/nvcc</code>是因为有可能cmake过程中（我遇到了）遇到了这个提示</p>
 <pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">  No CMAKE_CUDA_COMPILER could be found.
 
   Tell CMake where to find the compiler by setting either the environment
   variable &#34;CUDACXX&#34; or the CMake cache entry CMAKE_CUDA_COMPILER to the full
   path to the compiler, or to the compiler name if it is in the PATH.
-</code></pre><p>你可以把<code>export PATH=/usr/local/cuda/bin:$PATH</code>直接附加到终端或者是加入到环境变量中。</p>
+</code></pre><p>同时你需要<code>export PATH=/usr/local/cuda/bin:$PATH</code>直接附加到终端或者是加入到环境变量中。</p>
 <h3 id="三管理同步">三、管理同步</h3>
 <p>其实他的用法就是创建一个tmp（你可以在映射中看到）</p>
 <p>然后把文件拷贝进去编译后再把信息拿回来。</p>
