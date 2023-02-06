@@ -2,10 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sanbuphy.github.io/p/ai%E6%A1%86%E6%9E%B6%E4%B8%8Eai%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2023-01-23T11:14:16+08:00</lastmod>
-  </url><url>
     <loc>https://sanbuphy.github.io/categories/</loc>
+    <lastmod>2023-02-06T12:08:27+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/c%E8%AF%AD%E8%A8%80/</loc>
+    <lastmod>2023-02-06T12:08:27+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/post/</loc>
+    <lastmod>2023-02-06T12:08:27+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/tags/</loc>
+    <lastmod>2023-02-06T12:08:27+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/</loc>
+    <lastmod>2023-02-06T12:08:27+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/</loc>
+    <lastmod>2023-02-06T12:08:27+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</loc>
+    <lastmod>2023-02-06T12:08:27+08:00</lastmod>
+  </url><url>
+    <loc>https://sanbuphy.github.io/p/ai%E6%A1%86%E6%9E%B6%E4%B8%8Eai%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2023-01-23T11:14:16+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/tags/dlsystem/</loc>
@@ -14,16 +32,7 @@
     <loc>https://sanbuphy.github.io/categories/dlsystem/</loc>
     <lastmod>2023-01-23T11:14:16+08:00</lastmod>
   </url><url>
-    <loc>https://sanbuphy.github.io/post/</loc>
-    <lastmod>2023-01-23T11:14:16+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/tags/</loc>
-    <lastmod>2023-01-23T11:14:16+08:00</lastmod>
-  </url><url>
     <loc>https://sanbuphy.github.io/tags/%E8%AE%B2%E5%BA%A7%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2023-01-23T11:14:16+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/</loc>
     <lastmod>2023-01-23T11:14:16+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/p/%E7%BA%AA%E5%BF%B5%E6%88%91%E7%9A%84%E7%88%B7%E7%88%B7/</loc>
@@ -67,15 +76,6 @@
   </url><url>
     <loc>https://sanbuphy.github.io/p/%E8%99%9A%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%85%B3%E9%94%AE%E5%AD%97virtualoverridefinal/</loc>
     <lastmod>2022-12-24T17:14:16+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/tags/c%E8%AF%AD%E8%A8%80/</loc>
-    <lastmod>2022-12-23T12:08:27+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/</loc>
-    <lastmod>2022-12-23T12:08:27+08:00</lastmod>
-  </url><url>
-    <loc>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</loc>
-    <lastmod>2022-12-23T12:08:27+08:00</lastmod>
   </url><url>
     <loc>https://sanbuphy.github.io/tags/python/</loc>
     <lastmod>2022-12-04T11:23:03+08:00</lastmod>
