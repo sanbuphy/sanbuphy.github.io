@@ -77,7 +77,7 @@
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://xushanxiang.com/ref/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://xushanxiang.com/ref/&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;基本操作&#34;&gt;基本操作&lt;/h3&gt;
-&lt;h4 id=&#34;gdbvimgitshell等常见linux操作基础慢慢来在使用中学&#34;&gt;&lt;strong&gt;GDB、VIM、GIT、SHELL等常见linux操作基础（慢慢来，在使用中学&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;gdbvimgitshell等常见linux操作基础慢慢来在使用中学&#34;&gt;GDB、VIM、GIT、SHELL等常见linux操作基础（慢慢来，在使用中学&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;The Missing Semester of Your CS Education 中文版（强烈推荐）
 &lt;ul&gt;
@@ -98,8 +98,16 @@
     &gt;https://github.com/jlevy/the-art-of-command-line&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;如何学习写shell脚本（封装）可参考的项目：&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;系统相关及系统信息相关&#34;&gt;&lt;strong&gt;系统相关及系统信息相关&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/sanbuphy/vimplus/blob/master/install.sh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/sanbuphy/vimplus/blob/master/install.sh&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;shell和程序开头的字符画LOGO生成工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://tools.kalvinbg.cn/txt/ascii&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://tools.kalvinbg.cn/txt/ascii&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;系统相关及系统信息相关&#34;&gt;系统相关及系统信息相关&lt;/h4&gt;
 &lt;p&gt;如何开机自动挂载新硬盘（非ubuntu安装硬盘）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_27370437/article/details/117806294&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://blog.csdn.net/qq_27370437/article/details/117806294&lt;/a&gt;&lt;/p&gt;
@@ -121,13 +129,13 @@
     &gt;https://blog.csdn.net/FX677588/article/details/78681325&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/1430839&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://cloud.tencent.com/developer/article/1430839&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;vscode相关&#34;&gt;&lt;strong&gt;vscode相关&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;vscode相关&#34;&gt;vscode相关&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;自动格式化python代码&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;首先安装google的格式化程序：&lt;code&gt;pip install yapf&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;然后键入&lt;code&gt;ctrl+shift+p&lt;/code&gt;然后输入&lt;code&gt;settings&lt;/code&gt;往下找到用户的json，如果你是WSL的话就要找到对应WSL的config，然后输入&lt;code&gt; &amp;quot;python.formatting.provider&amp;quot;: &amp;quot;yapf&amp;quot;&lt;/code&gt;。之后只要使用&lt;code&gt;Alt+shift+F&lt;/code&gt;即可格式化整体的python项目代码。&lt;/p&gt;
-&lt;h4 id=&#34;git相关&#34;&gt;&lt;strong&gt;git相关&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;git相关&#34;&gt;git相关&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;git常见操作整理&lt;/li&gt;
 &lt;/ul&gt;
@@ -153,7 +161,7 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/shiftkey/desktop/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/shiftkey/desktop/releases&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;ubuntu常见疑难解答&#34;&gt;&lt;strong&gt;ubuntu常见疑难解答&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;ubuntu常见疑难解答&#34;&gt;ubuntu常见疑难解答&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;快速下载ubuntu镜像: 找到官网下载链接后使用wget下载&lt;/p&gt;
@@ -181,12 +189,17 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;wsl2常见疑难解答&#34;&gt;&lt;strong&gt;WSL2常见疑难解答&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;wsl2常见疑难解答&#34;&gt;WSL2常见疑难解答&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;windows上安装ubuntu(WSL2)：&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;1、在microsoft下载ubuntu 2、根据下列方式导出并导入镜像，防止占用C盘空间（默认安装在C盘）&lt;a class=&#34;link&#34; href=&#34;http://t.zoukankan.com/davidchild-p-15606786.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;http://t.zoukankan.com/davidchild-p-15606786.html&lt;/a&gt;   （用这个方法还可以及时快照保存~&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;WSL2常用命令（开启关闭甚至注销等等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/windows/wsl/basic-commands&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://learn.microsoft.com/zh-cn/windows/wsl/basic-commands&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;安装WSL2专用systemctl【目前（2023/02/02）只能用于20.04,请勿在22.04中使用！】（慎重使用，可能会导致pycharm连接出现问题，请先快照后再进行尝试！&lt;/li&gt;
 &lt;/ul&gt;
@@ -207,7 +220,7 @@
 &lt;li&gt;以防出现奇怪问题你可以经常对WSL做快照：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_43425561/article/details/115765148&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://blog.csdn.net/weixin_43425561/article/details/115765148&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;windows常见工具箱&#34;&gt;&lt;strong&gt;windows常见工具箱&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;windows常见工具箱&#34;&gt;windows常见工具箱&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;有关win家的镜像源以及VS等的纯净安装文件，以及各种网络工程师能用到的软件程序安装包&lt;/li&gt;
 &lt;/ul&gt;
@@ -228,7 +241,12 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://daniel-sc.github.io/bash-shell-to-bat-converter/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://daniel-sc.github.io/bash-shell-to-bat-converter/&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;正则表达式相关&#34;&gt;&lt;strong&gt;正则表达式相关&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;windows-linux命令行对照表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.geeksforgeeks.org/linux-vs-windows-commands/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.geeksforgeeks.org/linux-vs-windows-commands/&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;正则表达式相关&#34;&gt;正则表达式相关&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;正则表达式入门与练习&lt;/li&gt;
 &lt;/ul&gt;
@@ -249,7 +267,7 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://obkoro1.com/web_accumulate/codeBlack/%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f%e6%94%b6%e9%9b%86.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;http://obkoro1.com/web_accumulate/codeBlack/正则表达式收集.html&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;docker相关&#34;&gt;&lt;strong&gt;docker相关&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;docker相关&#34;&gt;docker相关&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;docker的一切：&lt;/li&gt;
 &lt;/ul&gt;
@@ -619,12 +637,13 @@
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html#installing-debian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html#installing-debian&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;安装cuda结束后记得把这两个命令加入到~/.bashrc 然后source，且记得修改对应版本（如cuda-11.5）&lt;/li&gt;
+&lt;li&gt;安装cuda结束后记得把这两个命令加入到~/.bashrc 然后source。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;如果你想要修改版本，可以修改cuda的软链接（选择其他版本的cuda），或者在bashrc中的cuda后面加上版本，如cuda-11.2&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;（具体的安装和卸载也可以参考&lt;a class=&#34;link&#34; href=&#34;https://flywine.blog.csdn.net/article/details/81879514&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://flywine.blog.csdn.net/article/details/81879514&lt;/a&gt;）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;/usr/local/cuda-11.5/bin:&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; 
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;/usr/local/cuda-11.5/lib64:&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;/usr/local/cuda/bin:&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;/usr/local/cuda/lib64:&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;解决nvcc版本不一致问题（可能的方法，更换runtime映射&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://qiyuan-z.github.io/2022/01/06/%e8%a7%a3%e5%86%b3nvidia-smi%e5%92%8cnvcc%e6%98%be%e7%a4%ba%e4%bf%a1%e6%81%af%e4%b8%8e%e6%89%80%e5%ae%89%e8%a3%85CUDA%e7%89%88%e6%9c%ac%e4%b8%8d%e4%b8%80%e8%87%b4%e9%97%ae%e9%a2%98/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://qiyuan-z.github.io/2022/01/06/解决nvidia-smi和nvcc显示信息与所安装CUDA版本不一致问题/&lt;/a&gt;&lt;/p&gt;
@@ -641,15 +660,17 @@
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /&amp;#39;&lt;/span&gt; &amp;gt; /etc/apt/sources.list.d/cuda.list
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-key adv --recv-keys --keyserver keyserver.ubuntu.com  &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;加入报错的密钥&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt update
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;解决类似 &lt;code&gt;error code is libcuda.so: cannot open shared object file: No such file or directory&lt;/code&gt;的问题：&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/54249577/importerror-libcuda-so-1-cannot-open-shared-object-file&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://stackoverflow.com/questions/54249577/importerror-libcuda-so-1-cannot-open-shared-object-file&lt;/a&gt;&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;解决类似 &lt;code&gt;error code is libcuda.so: cannot open shared object file: No such file or directory&lt;/code&gt;的问题：&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/54249577/importerror-libcuda-so-1-cannot-open-shared-object-file&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://stackoverflow.com/questions/54249577/importerror-libcuda-so-1-cannot-open-shared-object-file&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 此处我们搜索的是libcuda.so&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo find /usr/ -name &lt;span class=&#34;s1&#34;&gt;&amp;#39;libcuda.so&amp;#39;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;#有时候搜索的是libcuda.so.*&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 这一步是为了找到所在文件夹，我在WSL中搜到了几个文件夹下，我任意加入一个文件夹到LD_PATH：&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 假如前一步发现libcuda的位置为：/usr/lib/wsl/lib/libcuda.so&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 告诉系统要在这里找，你也可以把这句话加入到~/.bashrc然后source ~/.bashrc&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$LD_LIBRARY_PATH&lt;/span&gt;:/usr/lib/wsl/lib  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$LD_LIBRARY_PATH&lt;/span&gt;:/usr/local/cuda/targets/x86_64-linux/lib  
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此时再次运行就不会报错了！&lt;/p&gt;
 &lt;h3 id=&#34;其他&#34;&gt;其他&lt;/h3&gt;
 &lt;p&gt;快速下载torch安装包（wget下载然后直接pip install）&lt;/p&gt;
@@ -676,9 +697,6 @@
 &lt;p&gt;Build &amp;amp; Share Delightful Machine Learning Apps&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://gradio.app/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://gradio.app/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;CUDA C++ Programming Guide&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html&lt;/a&gt;&lt;/p&gt;
 &lt;h4 id=&#34;推理加速量化框架&#34;&gt;推理&amp;amp;加速量化框架&lt;/h4&gt;
 &lt;p&gt;ncnn&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Tencent/ncnn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -951,13 +969,19 @@
 &lt;p&gt;ffmpeg原理 罗上文&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://ffmpeg.xianwaizhiyin.net/cover.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://ffmpeg.xianwaizhiyin.net/cover.html&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;cuda相关&#34;&gt;cuda相关&lt;/h3&gt;
+&lt;h3 id=&#34;cuda&#34;&gt;CUDA&lt;/h3&gt;
 &lt;p&gt;适合入门的小型Python编译器项目（包含cuda相关内容）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/603352525&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://zhuanlan.zhihu.com/p/603352525&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;cuda学习教程&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://space.bilibili.com/37270391/channel/seriesdetail?sid=1454805&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://space.bilibili.com/37270391/channel/seriesdetail?sid=1454805&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;CUDA-Programming-Guide-in-Chinese&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/HeKun-NVIDIA/CUDA-Programming-Guide-in-Chinese&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/HeKun-NVIDIA/CUDA-Programming-Guide-in-Chinese&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;CUDA C++ Programming Guide&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;程序性能优化&#34;&gt;程序性能优化&lt;/h2&gt;
 &lt;p&gt;性能优化实战收集（包括听风扇声音测性能）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/plantegg/programmer_case&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
