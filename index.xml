@@ -6,7 +6,310 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 06 Feb 2023 12:08:27 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 24 Feb 2023 23:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Huggingface optimum介绍</title>
+        <link>https://sanbuphy.github.io/p/huggingface-optimum%E4%BB%8B%E7%BB%8D/</link>
+        <pubDate>Fri, 24 Feb 2023 23:14:16 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/huggingface-optimum%E4%BB%8B%E7%BB%8D/</guid>
+        <description>&lt;p&gt;具体请参考文档：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://huggingface.co/docs/optimum/index&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://huggingface.co/docs/optimum/index&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;实际上，huggingface 的optimum就是对onnxruntime  optimizer的包装， 如果你是huggingface上面获取的模型，有model和config，那就可以直接通过optimum进行进一步图优化和简单的fp16量化。如果你是自己的自然语言模型，那就只能用onnxruntime的optimizer进行处理了。但实际上应该是一个东西，本质只是一层包装。&lt;/p&gt;
+&lt;p&gt;它的默认选项如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Gelu fusion with &lt;code&gt;disable_gelu_fusion=False&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;Layer Normalization fusion with &lt;code&gt;disable_layer_norm_fusion=False&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;Attention fusion with &lt;code&gt;disable_attention_fusion=False&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;SkipLayerNormalization fusion with &lt;code&gt;disable_skip_layer_norm_fusion=False&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;Add Bias and SkipLayerNormalization fusion with &lt;code&gt;disable_bias_skip_layer_norm_fusion=False&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;Add Bias and Gelu / FastGelu fusion with &lt;code&gt;disable_bias_gelu_fusion=False&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;Gelu approximation with &lt;code&gt;enable_gelu_approximation=True&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具体可以在&lt;code&gt;optimum/onnxruntime/configuration.py&lt;/code&gt;文件中看到对应的实现：&lt;/p&gt;
+&lt;p&gt;OptimizationConfig的Attributes注释写的很明白了，每个功能的作用和为什么要设置True和Flase&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    OptimizationConfig is the configuration class handling all the ONNX Runtime optimization parameters.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    There are two stacks of optimizations:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        1. The ONNX Runtime general-purpose optimization tool: it can work on any ONNX model.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        2. The ONNX Runtime transformers optimization tool: it can only work on a subset of transformers models.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    Attributes:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        optimization_level (`int`, defaults to 1):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Optimization level performed by ONNX Runtime of the loaded graph.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Supported optimization level are 0, 1, 2 and 99.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;                - 0: will disable all optimizations
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;                - 1: will enable basic optimizations
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;                - 2: will enable basic and extended optimizations, including complex node fusions applied to the nodes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;                assigned to the CPU or CUDA execution provider, making the resulting optimized graph hardware dependent
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;                - 99: will enable all available optimizations including layout optimizations
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        optimize_for_gpu (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to optimize the model for GPU inference.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            The optimized graph might contain operators for GPU or CPU only when `optimization_level` &amp;gt; 1.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        fp16 (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether all weights and nodes should be converted from float32 to float16.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        enable_transformers_specific_optimizations (`bool`, defaults to `True`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to only use `transformers` specific optimizations on top of ONNX Runtime general optimizations.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_gelu_fusion (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to disable the Gelu fusion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_layer_norm_fusion (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to disable Layer Normalization fusion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_attention_fusion (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to disable Attention fusion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_skip_layer_norm_fusion (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to disable SkipLayerNormalization fusion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_bias_skip_layer_norm_fusion (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to disable Add Bias and SkipLayerNormalization fusion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_bias_gelu_fusion (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to disable Add Bias and Gelu / FastGelu fusion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_embed_layer_norm_fusion (`bool`, defaults to `True`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to disable EmbedLayerNormalization fusion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            The default value is set to `True` since this fusion is incompatible with ONNX Runtime quantization.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        enable_gelu_approximation (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to enable Gelu / BiasGelu to FastGelu conversion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            The default value is set to `False` since this approximation might slightly impact the model&amp;#39;s accuracy.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        use_mask_index (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to use mask index instead of raw attention mask in the attention operator.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        no_attention_mask (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to not use attention masks. Only works for bert model type.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_embed_layer_norm (`bool`, defaults to `True`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to disable EmbedLayerNormalization fusion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            The default value is set to `True` since this fusion is incompatible with ONNX Runtime quantization
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_shape_inference (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Whether to disable symbolic shape inference.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            The default value is set to `False` but symbolic shape inference might cause issues sometimes.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        use_multi_head_attention (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Experimental argument. Use MultiHeadAttention instead of Attention operator, which has merged weights for Q/K/V projection,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            which might be faster in some cases since 3 MatMul is merged into one.&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            &amp;#34;Note that MultiHeadAttention might be slower than Attention since MatMul of input projection is excluded. &amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            &amp;#34;MultiHeadAttention has only CUDA implementation so the model can only run with CUDAExecutionProvider.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        enable_gemm_fast_gelu (`bool`, defaults to `True`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Enable GemmfastGelu fusion.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        use_raw_attention_mask (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Use raw attention mask. Use this option if your input is not right-side padding. This might deactivate fused attention and get worse performance.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_group_norm (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Do not fuse GroupNorm. Only works for model_type=unet.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        disable_packed_kv (`bool`, defaults to `False`):
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            Do not use packed kv in cross attention. Only works for model_type=unet.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里可能有些人会感觉奇怪，什么叫做&lt;code&gt;99: will enable all available optimizations including layout optimizations&lt;/code&gt;，这个你可以尝试使用优化后就会看到对应的布局转换（根据不同硬件可能适配的数据构造不同）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;AutoOptimizationConfig&lt;/code&gt;是optimum内部的优化逻辑，最后还是以onnxruntime的为准。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;AutoOptimizationConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    Factory to create common `OptimizationConfig`.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;_LEVELS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;O1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;optimization_level&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;enable_transformers_specific_optimizations&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;False&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;O2&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;optimization_level&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;enable_transformers_specific_optimizations&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;O3&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;optimization_level&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;enable_transformers_specific_optimizations&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;enable_gelu_approximation&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;O4&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;optimization_level&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;enable_transformers_specific_optimizations&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;enable_gelu_approximation&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;s2&#34;&gt;&amp;#34;fp16&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果你想对模型进行量化，在无法使用optimum的加载情况下，完全可以参考optimum对onnxruntime的包装自行处理，在&lt;code&gt;AutoQuantizationConfig&lt;/code&gt;的方法中有很多针对对应指令集的量化配置，比如vnni：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;avx512_vnni&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;is_static&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;bool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;QuantFormat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;mode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;QuantizationMode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;use_symmetric_activations&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;False&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;use_symmetric_weights&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;per_channel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;nodes_to_quantize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NodeName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;nodes_to_exclude&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NodeName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;operators_to_quantize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NodeName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ORT_FULLY_CONNECTED_OPERATORS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;QuantizationConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        When targeting Intel AVX512-VNNI CPU underlying execution engine leverage the CPU instruction VPDPBUSD to
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        compute  &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\\&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;i32 += i8(w) * u8(x)&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\\&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; within a single instruction.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        AVX512-VNNI (AVX512 Vector Neural Network Instruction)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        is an x86 extension Instruction set and is a part of the AVX-512 ISA.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        AVX512 VNNI is designed to accelerate convolutional neural network for INT8 inference.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :param is_static: Boolean flag to indicate whether we target static or dynamic quantization.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :param format: Targeted ONNX Runtime quantization format.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            When targeting dynamic quantization mode, the default value is `QuantFormat.QOperator` whereas the default
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            value for static quantization mode is `QuantFormat.QLinearOps`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :param mode: Targeted ONNX Runtime quantization mode, default is QLinearOps to match QDQ format.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            When targeting dynamic quantization mode, the default value is `QuantFormat.QOperator` whereas the default
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            value for static quantization mode is `QuantFormat.QLinearOps`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :param use_symmetric_activations:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :param use_symmetric_weights:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :param per_channel: Whether we should quantize per-channel (also known as &amp;#34;per-row&amp;#34;). Enabling this can
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;            increase overall accuracy while making the quantized model heavier.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :param nodes_to_quantize:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :param nodes_to_exclude:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :param operators_to_quantize:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        :return:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;        &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;ensure_valid_mode_or_raise&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_static&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mode&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;default_quantization_parameters&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_static&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;QuantizationConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;is_static&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_static&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nb&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;mode&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;activations_dtype&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;QuantType&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;QUInt8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;activations_symmetric&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;use_symmetric_activations&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;weights_dtype&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;QuantType&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;QInt8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;weights_symmetric&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;use_symmetric_weights&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;per_channel&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;per_channel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;reduce_range&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;False&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;nodes_to_quantize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nodes_to_quantize&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;or&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;nodes_to_exclude&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nodes_to_exclude&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;or&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;operators_to_quantize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;operators_to_quantize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里面的&lt;code&gt;QuantizationConfig&lt;/code&gt;本质是对&lt;code&gt;onnxruntime.quantization&lt;/code&gt;的包装，参考设计后可以改造出自己的方案，同时对于静态离线量化要注意到&lt;code&gt;CalibrationConfig&lt;/code&gt;，具体你可以调试一次过程查看每一步的参数就可以大概明白数据是怎么流动的。&lt;/p&gt;
+&lt;p&gt;如果你想直接使用huggingface  optimum对支持模型的优化，你可以参考以下流程：&lt;/p&gt;
+&lt;p&gt;优化过程：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;optimum.onnxruntime.configuration&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;OptimizationConfig&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;optimum.onnxruntime.optimization&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ORTOptimizer&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;  &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ORTModelForSequenceClassification&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_pretrained&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;uer/roberta-base-finetuned-dianping-chinese&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;from_transformers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;optimization_config&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;OptimizationConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;optimization_level&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;#0,1,2,99&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;enable_transformers_specific_optimizations&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;optimize_for_gpu&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;False&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 创建优化器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;optimizer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ORTOptimizer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_pretrained&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 保存模型配置文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;save_dir&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;my_optimized&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;optimizer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optimize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;save_dir&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;save_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optimization_config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optimization_config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;优化后加载：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;ort_opt_model&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ORTModelForSequenceClassification&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_pretrained&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;save_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;opt_onnx_classifier_new&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pipeline&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;text-classification&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ort_opt_model&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tokenizer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tokenizer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;device&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;result&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;opt_onnx_classifier_new&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;测试测试测试&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>编译器链接与ldconfig、LD_LIBRARY_PATH</title>
+        <link>https://sanbuphy.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E9%93%BE%E6%8E%A5%E4%B8%8Eldconfigld_library_path/</link>
+        <pubDate>Fri, 24 Feb 2023 23:14:16 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E9%93%BE%E6%8E%A5%E4%B8%8Eldconfigld_library_path/</guid>
+        <description>&lt;p&gt;总的来说，日常我们经常会遇到的动态库找不到问题，首先遇事不决ldd看依赖，然后丢到搜索路径（usr/lib等）即可。（cmake有问题就message出来看那个变量有问题。。。或者开调试strace等等）&lt;/p&gt;
+&lt;p&gt;什么是ldconfig，从linux man可以知道：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ldconfig&lt;/strong&gt; creates the necessary links and cache to the most recent shared libraries found in the directories specified on the command line, in the file &lt;em&gt;/etc/ld.so.conf&lt;/em&gt;, and in the trusted directories (&lt;em&gt;/lib&lt;/em&gt; and &lt;em&gt;/usr/lib&lt;/em&gt;). The cache is used by the &lt;strong&gt;run-time linker&lt;/strong&gt;, &lt;a class=&#34;link&#34; href=&#34;http://ld.so&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;em&gt;ld.so&lt;/em&gt;&lt;/a&gt; or &lt;a class=&#34;link&#34; href=&#34;http://ld-linux.so&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;em&gt;ld-linux.so&lt;/em&gt;&lt;/a&gt;. &lt;strong&gt;ldconfig&lt;/strong&gt; checks the header and filenames of the libraries it encounters when determining which versions should have their links updated.&lt;/p&gt;
+&lt;p&gt;什么是&lt;strong&gt;run-time linker&lt;/strong&gt;呢？&lt;/p&gt;
+&lt;p&gt;The programs ld.so and ld-linux.so* find and load the shared objects (shared libraries) needed by a program, prepare the program to run, and then run it.&lt;/p&gt;
+&lt;h2 id=&#34;ldconfig与ld_path&#34;&gt;ldconfig与LD_PATH&lt;/h2&gt;
+&lt;p&gt;（转自&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/my-show-time/p/15250435.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.cnblogs.com/my-show-time/p/15250435.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;1、往/lib和/usr/lib里面加东西，是不用修改/etc/ld.so.conf文件的，但是添加完后需要调用下ldconfig，不然添加的library会找不到。&lt;/p&gt;
+&lt;p&gt;2、如果添加的library不在/lib和/usr/lib里面的话，就需要修改/etc/ld.so.conf文件，往该文件追加library所在的路径，然后也需要重新调用下ldconfig命令。或者在/etc/ld.so.conf.d/下添加*.conf的文件并追加library的路径，然后执行ldconfig。比如在安装MySQL的时候，其库文件/usr/local/mysql/lib，就需要追加到/etc/ld.so.conf文件中。命令如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;/usr/local/mysql/lib&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt;/etc/ld.so.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ldconfig -v &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep mysql
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查看缓存文件所保存的所有共享库&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ldconfig -p&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;3、如果添加的library不在/lib或/usr/lib下，且没有权限操作写/etc/ld.so.conf文件的话，这时只需要将路径放到LD_LIBRARY_PATH环境变更就可以了。&lt;/p&gt;
+&lt;p&gt;可以用命令 export** **来临时生效&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;以上做法，只是临时设置变量 LD_LIBRARY_PATH ，下次开机这个变量将失效；如何把这个值持续写到 LD_LIBRARY_PATH 里呢？&lt;/p&gt;
+&lt;p&gt;我们可以在 &lt;strong&gt;~/.bashrc&lt;/strong&gt; 或者 &lt;strong&gt;~/.bash_profile&lt;/strong&gt; 中加入 export 语句，前者在每次登陆和每次打开 shell 都读取一次，后者只在登陆时读取一次。我的习惯是加到 &lt;strong&gt;~/.bashrc&lt;/strong&gt; 中.在该文件的未尾，可采用如下语句来使设置生效：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;以上是&lt;code&gt;bash&lt;/code&gt;配置环境变量的格式&lt;code&gt;csh&lt;/code&gt;的格式有所不同：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;setenv LD_LIBRARY_PATH {LD_LIBRARY_PATH}:{my_HOME}/lib&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;修改完后，记得关掉当前终端并重新打开一个新的终端，从而使上面的配置生效。&lt;/p&gt;
+&lt;h2 id=&#34;编译过程的搜索路径&#34;&gt;编译过程的搜索路径&lt;/h2&gt;
+&lt;p&gt;转自：&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/MresJrkdnZ8iDGCP6WzR4Q&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mp.weixin.qq.com/s/MresJrkdnZ8iDGCP6WzR4Q&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 去哪里找头文件 相当于gcc/clang 中的-I(i的大写字母)参数  &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;include_directories&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;GTEST_INCLUDE_DIR&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;include_directories&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;GMOCK_INCLUDE_DIR&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 去哪里找库文件 .so .dll .dylib 相当于gcc 中的-L参数  &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;link_directories&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;GTEST_LINK_DIR&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;link_directories&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;GMOCK_LINK_DIR&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;尽管如此，设置成这种情况还是有时候找不到（还没有彻底解决和理解这个过程），这种情况下只要暴力的改变cmake的动态库搜索路径即可（比如直接在usr/local/lib中查找需要的某些动态库）&lt;/p&gt;
+&lt;h2 id=&#34;链接库的路径搜索顺序&#34;&gt;链接库的路径搜索顺序&lt;/h2&gt;
+&lt;p&gt;以下来自linux man ld.so&lt;/p&gt;
+&lt;p&gt;If a shared object dependency does not contain a slash, then it&lt;/p&gt;
+&lt;p&gt;is searched for in the following order:&lt;/p&gt;
+&lt;p&gt;o  Using the directories specified in the DT_RPATH dynamic&lt;/p&gt;
+&lt;p&gt;section attribute of the binary if present and DT_RUNPATH&lt;/p&gt;
+&lt;p&gt;attribute does not exist.  Use of DT_RPATH is deprecated.&lt;/p&gt;
+&lt;p&gt;o  Using the environment variable &lt;strong&gt;LD_LIBRARY_PATH&lt;/strong&gt;, unless the&lt;/p&gt;
+&lt;p&gt;executable is being run in secure-execution mode (see below),&lt;/p&gt;
+&lt;p&gt;in which case this variable is ignored.&lt;/p&gt;
+&lt;p&gt;o  Using the directories specified in the DT_RUNPATH dynamic&lt;/p&gt;
+&lt;p&gt;section attribute of the binary if present.  Such directories&lt;/p&gt;
+&lt;p&gt;are searched only to find those objects required by DT_NEEDED&lt;/p&gt;
+&lt;p&gt;(direct dependencies) entries and do not apply to those&lt;/p&gt;
+&lt;p&gt;objects&amp;rsquo; children, which must themselves have their own&lt;/p&gt;
+&lt;p&gt;DT_RUNPATH entries.  This is unlike DT_RPATH, which is applied&lt;/p&gt;
+&lt;p&gt;to searches for all children in the dependency tree.&lt;/p&gt;
+&lt;p&gt;o  From the cache file &lt;em&gt;/etc/ld.so.cache&lt;/em&gt;, which contains a&lt;/p&gt;
+&lt;p&gt;compiled list of candidate shared objects previously found in&lt;/p&gt;
+&lt;p&gt;the augmented library path.  If, however, the binary was&lt;/p&gt;
+&lt;p&gt;linked with the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, shared objects in&lt;/p&gt;
+&lt;p&gt;the default paths are skipped.  Shared objects installed in&lt;/p&gt;
+&lt;p&gt;hardware capability directories (see below) are preferred to&lt;/p&gt;
+&lt;p&gt;other shared objects.&lt;/p&gt;
+&lt;p&gt;o  In the default path &lt;em&gt;/lib&lt;/em&gt;, and then &lt;em&gt;/usr/lib&lt;/em&gt;.  (On some 64-bit&lt;/p&gt;
+&lt;p&gt;architectures, the default paths for 64-bit shared objects are&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;/lib64&lt;/em&gt;, and then &lt;em&gt;/usr/lib64&lt;/em&gt;.)  If the binary was linked with&lt;/p&gt;
+&lt;p&gt;the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, this step is skipped.&lt;/p&gt;
+&lt;p&gt;转自：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/458193070&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/458193070&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;gcc在&lt;strong&gt;编译时&lt;/strong&gt;按照如下顺序寻找所需要的库文件：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;gcc会去找&lt;code&gt;-L&lt;/code&gt;指定的目录&lt;/li&gt;
+&lt;li&gt;再找gcc的环境变量&lt;code&gt;LIBRARY_PATH&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;再找内定目录&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;/lib和/lib64&lt;/li&gt;
+&lt;li&gt;/usr/lib 和/usr/lib64&lt;/li&gt;
+&lt;li&gt;/usr/local/lib和/usr/local/lib64&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这是当初编译 gcc 时写在程序内的。&lt;/p&gt;
+&lt;p&gt;这里有两个问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;默认情况下，gcc编译时只会查找相应的头文件，而不会连接具体的lib。也就是说只要include设置完全，就可以编译通过。它没有进一步检查include中的类和函数有没有实现，而是在运行时才开始查找。所以就会经常发生编译可以通过，但运行时却无法运行，因为在运行时它找不到相关类或者函数的实现。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这时，使用&lt;code&gt;-Wl&lt;/code&gt;,&lt;code&gt;--no-undefined&lt;/code&gt;参数，如果使用了 include 文件，链接器却找不到相应的实现，就会产生错误提示。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编译时默认不查找当前目录，需要使用&lt;code&gt;-L ./&lt;/code&gt;指定&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;运行时&lt;/strong&gt;动态库的搜索路径的先后顺序是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;编译目标代码时指定的动态库搜索路径；这是通过gcc的参数&lt;code&gt;-Wl,-rpath=&lt;/code&gt;指定。当指定多个动态库搜索路径时，路径之间用冒号 ：分隔&lt;/li&gt;
+&lt;li&gt;环境变量&lt;code&gt;LD_LIBRARY_PATH&lt;/code&gt;指定的动态库搜索路径&lt;/li&gt;
+&lt;li&gt;配置文件&lt;code&gt;/etc/ld.so.conf&lt;/code&gt;中指定的动态库搜索路径&lt;/li&gt;
+&lt;li&gt;默认的动态库搜索路径，如：&lt;code&gt;/lib&lt;/code&gt;, &lt;code&gt;/usr/lib&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
         <title>我的计算机学习网站集合</title>
         <link>https://sanbuphy.github.io/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/</link>
         <pubDate>Mon, 06 Feb 2023 12:08:27 +0800</pubDate>
@@ -129,6 +432,9 @@
     &gt;https://blog.csdn.net/FX677588/article/details/78681325&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/1430839&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://cloud.tencent.com/developer/article/1430839&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如何及时获取可视化的CPU频率和使用率信息：(Linux 查看CPU当前运行频率和温度)&lt;/p&gt;
+&lt;p&gt;sudo pip install s-tui&lt;/p&gt;
+&lt;p&gt;sudo s-tui&lt;/p&gt;
 &lt;h4 id=&#34;vscode相关&#34;&gt;vscode相关&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;自动格式化python代码&lt;/li&gt;
@@ -161,6 +467,11 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/shiftkey/desktop/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/shiftkey/desktop/releases&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;git的rebase的使用说明（可用于合并多次commit,修改commit等情况）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/4a8f4af4e803&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.jianshu.com/p/4a8f4af4e803&lt;/a&gt;&lt;/p&gt;
 &lt;h4 id=&#34;ubuntu常见疑难解答&#34;&gt;ubuntu常见疑难解答&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -191,6 +502,11 @@
 &lt;/ul&gt;
 &lt;h4 id=&#34;wsl2常见疑难解答&#34;&gt;WSL2常见疑难解答&lt;/h4&gt;
 &lt;ul&gt;
+&lt;li&gt;WSL入坑指南（很全的资料，包括开发环境的配置）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://dowww.spencerwoo.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://dowww.spencerwoo.com/&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
 &lt;li&gt;windows上安装ubuntu(WSL2)：&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;1、在microsoft下载ubuntu 2、根据下列方式导出并导入镜像，防止占用C盘空间（默认安装在C盘）&lt;a class=&#34;link&#34; href=&#34;http://t.zoukankan.com/davidchild-p-15606786.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -219,7 +535,15 @@
 &lt;li&gt;注意！WSL2经常会与主机时间不同步，这可能会造成很多问题（包括proxy用不了），你最好设置一个启动脚本或自己执行&lt;code&gt;sudo hwclock -s&lt;/code&gt;强制对WSL2时间进行同步，可使用&lt;code&gt;sudo hwclock&lt;/code&gt;查看WSL的当前时间，&lt;/li&gt;
 &lt;li&gt;以防出现奇怪问题你可以经常对WSL做快照：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_43425561/article/details/115765148&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://blog.csdn.net/weixin_43425561/article/details/115765148&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;改变/增加WSL2的内存、swap空间大小&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;在C盘的用户主目录下（比如我的是C:\Users\sanbu）创建&lt;code&gt;.wslconfig&lt;/code&gt;文件夹，在里面输入&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[wsl2]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;memory=8GB
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;swap=16GB
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 为 WSL 2 虚拟机分配的处理器核心数量
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# processors=&amp;lt;number&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在配置设置完之后，在powershell执行&lt;code&gt;wsl --shutdown&lt;/code&gt;命令进行关闭，随后再打开即可（注意，如果你使用了docker-desktop，实际上也是基于wsl2构建的，所以也会影响到的对应环境的资源&lt;/p&gt;
 &lt;h4 id=&#34;windows常见工具箱&#34;&gt;windows常见工具箱&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;有关win家的镜像源以及VS等的纯净安装文件，以及各种网络工程师能用到的软件程序安装包&lt;/li&gt;
@@ -422,6 +746,9 @@
 &lt;p&gt;linux inside  讲解了一下linux内部运行机制，比如Program startup process in userspace&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://0xax.gitbooks.io/linux-insides/content/Misc/linux-misc-4.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://0xax.gitbooks.io/linux-insides/content/Misc/linux-misc-4.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;苏剑林的空间（从数学再到NLP再到天文都有涉猎&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://spaces.ac.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://spaces.ac.cn/&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;操作系统与体系结构&#34;&gt;操作系统与体系结构&lt;/h3&gt;
 &lt;p&gt;南京大学计算机基础（袁春风）CSAPP的青春版，但比csapp好懂得多（强烈不建议一开始就读csapp&lt;/p&gt;
 &lt;p&gt;赶时间可以直接看配套书。&lt;/p&gt;
@@ -511,7 +838,7 @@
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://refactoringguru.cn/design-patterns&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;refactoringguru.cn/design-patterns&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;深度学习大类&#34;&gt;深度学习大类&lt;/h2&gt;
-&lt;h3 id=&#34;有关理论基础但我还是建议直接看李宏毅&#34;&gt;有关理论基础（但我还是建议直接看李宏毅）&lt;/h3&gt;
+&lt;h3 id=&#34;理论基础时间少直接看李沐李宏毅&#34;&gt;理论基础（时间少直接看李沐/李宏毅）&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;周志华&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;南瓜书主页&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://datawhalechina.github.io/pumpkin-book/#/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -560,6 +887,18 @@
 &lt;p&gt;pytorch底层源码解析（一个很不错的博主）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/rossiXYZ/category/1626268.html?page=5&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.cnblogs.com/rossiXYZ/category/1626268.html?page=5&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;手写深度学习入门项目&#34;&gt;手写深度学习入门项目&lt;/h3&gt;
+&lt;p&gt;小土堆 pytorch学习&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://space.bilibili.com/203989554?spm_id_from=333.337.search-card.all.click&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://space.bilibili.com/203989554&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;霹雳吧啦Wz 图像分类篇章 以及目标检测&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://space.bilibili.com/18161609/channel/collectiondetail?sid=48290&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://space.bilibili.com/18161609/channel/collectiondetail?sid=48290&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;手写YOLO系列和fast rcnn系列：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1JR4y1g77H?spm_id_from=333.999.0.0&amp;amp;vd_source=a6509cab8ccb8b81d6a70af693cc008f&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.bilibili.com/video/BV1JR4y1g77H&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://space.bilibili.com/472467171&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://space.bilibili.com/472467171&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;开源库项目&#34;&gt;开源库/项目&lt;/h3&gt;
 &lt;p&gt;OpenMMLab&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://openmmlab.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -585,26 +924,22 @@
     &gt;https://www.huaxiaozhuan.com/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;有关实践方法论的总结：&lt;a class=&#34;link&#34; href=&#34;https://www.huaxiaozhuan.com/%e6%b7%b1%e5%ba%a6%e5%ad%a6%e4%b9%a0/chapters/18_practical.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.huaxiaozhuan.com/深度学习/chapters/18_practical.html&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;手写深度学习项目&#34;&gt;手写深度学习项目&lt;/h3&gt;
-&lt;p&gt;小土堆 pytorch学习&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://space.bilibili.com/203989554?spm_id_from=333.337.search-card.all.click&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://space.bilibili.com/203989554&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;霹雳吧啦Wz 图像分类篇章 以及目标检测&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://space.bilibili.com/18161609/channel/collectiondetail?sid=48290&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://space.bilibili.com/18161609/channel/collectiondetail?sid=48290&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;手写YOLO系列和fast rcnn系列：&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1JR4y1g77H?spm_id_from=333.999.0.0&amp;amp;vd_source=a6509cab8ccb8b81d6a70af693cc008f&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.bilibili.com/video/BV1JR4y1g77H&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://space.bilibili.com/472467171&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://space.bilibili.com/472467171&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;王树森（小红书算法工程师、基础模型团队负责人）老师的推荐系统、强化学习相关课程&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/wangshusen/RecommenderSystem&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/wangshusen/RecommenderSystem&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/wangshusen/DRL&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/wangshusen/DRL&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;在线数据集网站&#34;&gt;在线数据集网站&lt;/h3&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://universe.roboflow.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://universe.roboflow.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;NLPDataSet（刘聪NLP收集的各种nlp数据集，接近50个。。。）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/liucongg/NLPDataSet&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/liucongg/NLPDataSet&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;3d感知相关&#34;&gt;3D感知相关&lt;/h3&gt;
 &lt;p&gt;从零开始搭一套激光SLAM出来, 通过代码的角度一点一点地深入学习激光SLAM.&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/xiangli0608/Creating-2D-laser-slam-from-scratch&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/xiangli0608/Creating-2D-laser-slam-from-scratch&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;nvidia-cuda类安装与常见问题&#34;&gt;NVIDIA CUDA类安装与常见问题&lt;/h3&gt;
+&lt;h3 id=&#34;nvidia环境配置常见问题&#34;&gt;NVIDIA环境配置常见问题&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;显卡驱动安装快速方法：&lt;/li&gt;
 &lt;/ul&gt;
@@ -684,6 +1019,19 @@
 &lt;p&gt;深度学习500问&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/shliang0603/Awesome-DeepLearning-500FAQ&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/shliang0603/Awesome-DeepLearning-500FAQ&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;mlsystem&#34;&gt;MLsystem&lt;/h3&gt;
+&lt;p&gt;ML system 入坑指南&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/608318764&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/608318764&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;微软出品 人工智能系统&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/microsoft/AI-System&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/microsoft/AI-System&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;《机器学习系统：设计和实现》（个人觉得很好
+&lt;a class=&#34;link&#34; href=&#34;https://openmlsys.github.io/#&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://openmlsys.github.io/#&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;MLIR 文章视频汇总（MLIR目的是做一个通用、可复用的编译器框架&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/141256429&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/141256429&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;深度学习部署&#34;&gt;深度学习部署&lt;/h3&gt;
 &lt;p&gt;GiantPandaCV&lt;/p&gt;
 &lt;p&gt;国内最好的部署相关公众平台之一，涉及部署的内容比较多且硬核，五星推荐。&lt;/p&gt;
@@ -697,6 +1045,10 @@
 &lt;p&gt;Build &amp;amp; Share Delightful Machine Learning Apps&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://gradio.app/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://gradio.app/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Optimum :&lt;/p&gt;
+&lt;p&gt;Optimum is an extension of 🤗 Transformers that provides a set of performance optimization tools to train and run models on targeted hardware with maximum efficiency.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://huggingface.co/docs/optimum/index&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://huggingface.co/docs/optimum/index&lt;/a&gt;&lt;/p&gt;
 &lt;h4 id=&#34;推理加速量化框架&#34;&gt;推理&amp;amp;加速量化框架&lt;/h4&gt;
 &lt;p&gt;ncnn&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Tencent/ncnn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -735,14 +1087,18 @@
 &lt;p&gt;高性能推理，TensorRT C++/Python库，tensorrt学习参考&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/shouxieai/tensorRT_Pro&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/shouxieai/tensorRT_Pro&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;有趣的深度学习小程序与应用&#34;&gt;有趣的深度学习小程序与应用&lt;/h3&gt;
-&lt;p&gt;比disco diffusion更强大的绘制工具SD：&lt;/p&gt;
-&lt;p&gt;在自己电脑运行Stable Diffusion和完整项目下载&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/syEkqbBSmTwdi_cPB6Kd3g&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://mp.weixin.qq.com/s/syEkqbBSmTwdi_cPB6Kd3g&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;StableDiffusion Int8量化教程与ONNX导出推理&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A lite C++ toolkit of awesome AI models with ONNXRuntime, NCNN, MNN and TNN. YOLOv5, YOLOX, YOLOP, YOLOv6, YOLOR, MODNet, YOLOX, YOLOv7, YOLOv8. MNN, NCNN, TNN, ONNXRuntime.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/DefTruth/lite.ai.toolkit/blob/main/README.zh.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/DefTruth/lite.ai.toolkit/blob/main/README.zh.md&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;onxxruntime源码带读&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/530925674&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/530925674&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;美团视觉GPU推理服务部署架构优化实践（美团关于GPU的推理部署有很多不错的文章&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/605094862&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/605094862&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;NCNN底层源码带读&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/588809520&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/588809520&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;python&#34;&gt;python&lt;/h2&gt;
 &lt;h3 id=&#34;anaconda基础&#34;&gt;&lt;strong&gt;anaconda基础&lt;/strong&gt;&lt;/h3&gt;
 &lt;ul&gt;
@@ -794,6 +1150,10 @@
 &lt;p&gt;删除虚拟环境：&lt;code&gt;conda remove -n ENV_NAME —all&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;conda更新：&lt;code&gt;conda update anaconda&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;conda所有库更新：&lt;code&gt;conda update --all&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;导出自己安装的那些包（freeze是全部！）：使用pipreqs库&lt;/li&gt;
+&lt;li&gt;powershell下看不到（base）之类的虚拟库信息，显示出脚本安全问题无法启用，可在powershell管理员模式下输入&lt;code&gt;Set-ExecutionPolicy -ExecutionPolicy RemoteSigned&lt;/code&gt;即可解决问题。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;awesome项目（包含了绝大部分的python相关资源）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/vinta/awesome-python&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/vinta/awesome-python&lt;/a&gt;&lt;/p&gt;
@@ -1032,7 +1392,20 @@
 &lt;p&gt;黑白照片上色&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://palette.fm/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://palette.fm/&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;其他有趣的项目&#34;&gt;其他有趣的项目&lt;/h2&gt;
+&lt;p&gt;让你“爱”上 GitHub，解决访问时图裂、加载慢的问题。（无需安装）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/521xueweihan/GitHub520&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/521xueweihan/GitHub520&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;有趣的项目&#34;&gt;有趣的项目&lt;/h2&gt;
+&lt;p&gt;比disco diffusion更强大的绘制工具SD：&lt;/p&gt;
+&lt;p&gt;在自己电脑运行Stable Diffusion和完整项目下载&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/syEkqbBSmTwdi_cPB6Kd3g&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mp.weixin.qq.com/s/syEkqbBSmTwdi_cPB6Kd3g&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;StableDiffusion Int8量化教程与ONNX导出推理&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;ChatGPT 中文调教指南&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/PlexPt/awesome-chatgpt-prompts-zh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/PlexPt/awesome-chatgpt-prompts-zh&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;CodeGeeX: 多语言代码生成模型（代码生成与代码翻译）&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/THUDM/CodeGeeX/blob/main/README_zh.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/THUDM/CodeGeeX/blob/main/README_zh.md&lt;/a&gt;&lt;/p&gt;

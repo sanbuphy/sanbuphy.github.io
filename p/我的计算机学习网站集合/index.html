@@ -110,7 +110,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 20 分钟
+                    阅读时长: 22 分钟
                 </time>
             </div>
         
@@ -237,6 +237,9 @@
     >https://blog.csdn.net/FX677588/article/details/78681325</a></p>
 <p><a class="link" href="https://cloud.tencent.com/developer/article/1430839"  target="_blank" rel="noopener"
     >https://cloud.tencent.com/developer/article/1430839</a></p>
+<p>如何及时获取可视化的CPU频率和使用率信息：(Linux 查看CPU当前运行频率和温度)</p>
+<p>sudo pip install s-tui</p>
+<p>sudo s-tui</p>
 <h4 id="vscode相关">vscode相关</h4>
 <ul>
 <li>自动格式化python代码</li>
@@ -269,6 +272,11 @@
 </ul>
 <p><a class="link" href="https://github.com/shiftkey/desktop/releases"  target="_blank" rel="noopener"
     >https://github.com/shiftkey/desktop/releases</a></p>
+<ul>
+<li>git的rebase的使用说明（可用于合并多次commit,修改commit等情况）</li>
+</ul>
+<p><a class="link" href="https://www.jianshu.com/p/4a8f4af4e803"  target="_blank" rel="noopener"
+    >https://www.jianshu.com/p/4a8f4af4e803</a></p>
 <h4 id="ubuntu常见疑难解答">ubuntu常见疑难解答</h4>
 <ul>
 <li>
@@ -299,6 +307,11 @@
 </ul>
 <h4 id="wsl2常见疑难解答">WSL2常见疑难解答</h4>
 <ul>
+<li>WSL入坑指南（很全的资料，包括开发环境的配置）</li>
+</ul>
+<p><a class="link" href="https://dowww.spencerwoo.com/"  target="_blank" rel="noopener"
+    >https://dowww.spencerwoo.com/</a></p>
+<ul>
 <li>windows上安装ubuntu(WSL2)：</li>
 </ul>
 <p>1、在microsoft下载ubuntu 2、根据下列方式导出并导入镜像，防止占用C盘空间（默认安装在C盘）<a class="link" href="http://t.zoukankan.com/davidchild-p-15606786.html"  target="_blank" rel="noopener"
@@ -327,7 +340,15 @@
 <li>注意！WSL2经常会与主机时间不同步，这可能会造成很多问题（包括proxy用不了），你最好设置一个启动脚本或自己执行<code>sudo hwclock -s</code>强制对WSL2时间进行同步，可使用<code>sudo hwclock</code>查看WSL的当前时间，</li>
 <li>以防出现奇怪问题你可以经常对WSL做快照：<a class="link" href="https://blog.csdn.net/weixin_43425561/article/details/115765148"  target="_blank" rel="noopener"
     >https://blog.csdn.net/weixin_43425561/article/details/115765148</a></li>
+<li>改变/增加WSL2的内存、swap空间大小</li>
 </ul>
+<p>在C盘的用户主目录下（比如我的是C:\Users\sanbu）创建<code>.wslconfig</code>文件夹，在里面输入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[wsl2]
+</span></span><span class="line"><span class="cl">memory=8GB
+</span></span><span class="line"><span class="cl">swap=16GB
+</span></span><span class="line"><span class="cl"># 为 WSL 2 虚拟机分配的处理器核心数量
+</span></span><span class="line"><span class="cl"># processors=&lt;number&gt;
+</span></span></code></pre></div><p>在配置设置完之后，在powershell执行<code>wsl --shutdown</code>命令进行关闭，随后再打开即可（注意，如果你使用了docker-desktop，实际上也是基于wsl2构建的，所以也会影响到的对应环境的资源</p>
 <h4 id="windows常见工具箱">windows常见工具箱</h4>
 <ul>
 <li>有关win家的镜像源以及VS等的纯净安装文件，以及各种网络工程师能用到的软件程序安装包</li>
@@ -530,6 +551,9 @@
 <p>linux inside  讲解了一下linux内部运行机制，比如Program startup process in userspace</p>
 <p><a class="link" href="https://0xax.gitbooks.io/linux-insides/content/Misc/linux-misc-4.html"  target="_blank" rel="noopener"
     >https://0xax.gitbooks.io/linux-insides/content/Misc/linux-misc-4.html</a></p>
+<p>苏剑林的空间（从数学再到NLP再到天文都有涉猎</p>
+<p><a class="link" href="https://spaces.ac.cn/"  target="_blank" rel="noopener"
+    >https://spaces.ac.cn/</a></p>
 <h3 id="操作系统与体系结构">操作系统与体系结构</h3>
 <p>南京大学计算机基础（袁春风）CSAPP的青春版，但比csapp好懂得多（强烈不建议一开始就读csapp</p>
 <p>赶时间可以直接看配套书。</p>
@@ -619,7 +643,7 @@
 <p><a class="link" href="http://refactoringguru.cn/design-patterns"  target="_blank" rel="noopener"
     >refactoringguru.cn/design-patterns</a></p>
 <h2 id="深度学习大类">深度学习大类</h2>
-<h3 id="有关理论基础但我还是建议直接看李宏毅">有关理论基础（但我还是建议直接看李宏毅）</h3>
+<h3 id="理论基础时间少直接看李沐李宏毅">理论基础（时间少直接看李沐/李宏毅）</h3>
 <p><strong>周志华</strong></p>
 <p>南瓜书主页</p>
 <p><a class="link" href="https://datawhalechina.github.io/pumpkin-book/#/"  target="_blank" rel="noopener"
@@ -668,6 +692,18 @@
 <p>pytorch底层源码解析（一个很不错的博主）</p>
 <p><a class="link" href="https://www.cnblogs.com/rossiXYZ/category/1626268.html?page=5"  target="_blank" rel="noopener"
     >https://www.cnblogs.com/rossiXYZ/category/1626268.html?page=5</a></p>
+<h3 id="手写深度学习入门项目">手写深度学习入门项目</h3>
+<p>小土堆 pytorch学习</p>
+<p><a class="link" href="https://space.bilibili.com/203989554?spm_id_from=333.337.search-card.all.click"  target="_blank" rel="noopener"
+    >https://space.bilibili.com/203989554</a></p>
+<p>霹雳吧啦Wz 图像分类篇章 以及目标检测</p>
+<p><a class="link" href="https://space.bilibili.com/18161609/channel/collectiondetail?sid=48290"  target="_blank" rel="noopener"
+    >https://space.bilibili.com/18161609/channel/collectiondetail?sid=48290</a></p>
+<p>手写YOLO系列和fast rcnn系列：</p>
+<p><a class="link" href="https://www.bilibili.com/video/BV1JR4y1g77H?spm_id_from=333.999.0.0&amp;vd_source=a6509cab8ccb8b81d6a70af693cc008f"  target="_blank" rel="noopener"
+    >https://www.bilibili.com/video/BV1JR4y1g77H</a></p>
+<p><a class="link" href="https://space.bilibili.com/472467171"  target="_blank" rel="noopener"
+    >https://space.bilibili.com/472467171</a></p>
 <h3 id="开源库项目">开源库/项目</h3>
 <p>OpenMMLab</p>
 <p><a class="link" href="https://openmmlab.com/"  target="_blank" rel="noopener"
@@ -693,26 +729,22 @@
     >https://www.huaxiaozhuan.com/</a></p>
 <p>有关实践方法论的总结：<a class="link" href="https://www.huaxiaozhuan.com/%e6%b7%b1%e5%ba%a6%e5%ad%a6%e4%b9%a0/chapters/18_practical.html"  target="_blank" rel="noopener"
     >https://www.huaxiaozhuan.com/深度学习/chapters/18_practical.html</a></p>
-<h3 id="手写深度学习项目">手写深度学习项目</h3>
-<p>小土堆 pytorch学习</p>
-<p><a class="link" href="https://space.bilibili.com/203989554?spm_id_from=333.337.search-card.all.click"  target="_blank" rel="noopener"
-    >https://space.bilibili.com/203989554</a></p>
-<p>霹雳吧啦Wz 图像分类篇章 以及目标检测</p>
-<p><a class="link" href="https://space.bilibili.com/18161609/channel/collectiondetail?sid=48290"  target="_blank" rel="noopener"
-    >https://space.bilibili.com/18161609/channel/collectiondetail?sid=48290</a></p>
-<p>手写YOLO系列和fast rcnn系列：</p>
-<p><a class="link" href="https://www.bilibili.com/video/BV1JR4y1g77H?spm_id_from=333.999.0.0&amp;vd_source=a6509cab8ccb8b81d6a70af693cc008f"  target="_blank" rel="noopener"
-    >https://www.bilibili.com/video/BV1JR4y1g77H</a></p>
-<p><a class="link" href="https://space.bilibili.com/472467171"  target="_blank" rel="noopener"
-    >https://space.bilibili.com/472467171</a></p>
+<p>王树森（小红书算法工程师、基础模型团队负责人）老师的推荐系统、强化学习相关课程</p>
+<p><a class="link" href="https://github.com/wangshusen/RecommenderSystem"  target="_blank" rel="noopener"
+    >https://github.com/wangshusen/RecommenderSystem</a></p>
+<p><a class="link" href="https://github.com/wangshusen/DRL"  target="_blank" rel="noopener"
+    >https://github.com/wangshusen/DRL</a></p>
 <h3 id="在线数据集网站">在线数据集网站</h3>
 <p><a class="link" href="https://universe.roboflow.com/"  target="_blank" rel="noopener"
     >https://universe.roboflow.com/</a></p>
+<p>NLPDataSet（刘聪NLP收集的各种nlp数据集，接近50个。。。）</p>
+<p><a class="link" href="https://github.com/liucongg/NLPDataSet"  target="_blank" rel="noopener"
+    >https://github.com/liucongg/NLPDataSet</a></p>
 <h3 id="3d感知相关">3D感知相关</h3>
 <p>从零开始搭一套激光SLAM出来, 通过代码的角度一点一点地深入学习激光SLAM.</p>
 <p><a class="link" href="https://github.com/xiangli0608/Creating-2D-laser-slam-from-scratch"  target="_blank" rel="noopener"
     >https://github.com/xiangli0608/Creating-2D-laser-slam-from-scratch</a></p>
-<h3 id="nvidia-cuda类安装与常见问题">NVIDIA CUDA类安装与常见问题</h3>
+<h3 id="nvidia环境配置常见问题">NVIDIA环境配置常见问题</h3>
 <ul>
 <li>显卡驱动安装快速方法：</li>
 </ul>
@@ -792,6 +824,19 @@
 <p>深度学习500问</p>
 <p><a class="link" href="https://github.com/shliang0603/Awesome-DeepLearning-500FAQ"  target="_blank" rel="noopener"
     >https://github.com/shliang0603/Awesome-DeepLearning-500FAQ</a></p>
+<h3 id="mlsystem">MLsystem</h3>
+<p>ML system 入坑指南</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/608318764"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/608318764</a></p>
+<p>微软出品 人工智能系统</p>
+<p><a class="link" href="https://github.com/microsoft/AI-System"  target="_blank" rel="noopener"
+    >https://github.com/microsoft/AI-System</a></p>
+<p>《机器学习系统：设计和实现》（个人觉得很好
+<a class="link" href="https://openmlsys.github.io/#"  target="_blank" rel="noopener"
+    >https://openmlsys.github.io/#</a></p>
+<p>MLIR 文章视频汇总（MLIR目的是做一个通用、可复用的编译器框架</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/141256429"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/141256429</a></p>
 <h3 id="深度学习部署">深度学习部署</h3>
 <p>GiantPandaCV</p>
 <p>国内最好的部署相关公众平台之一，涉及部署的内容比较多且硬核，五星推荐。</p>
@@ -805,6 +850,10 @@
 <p>Build &amp; Share Delightful Machine Learning Apps</p>
 <p><a class="link" href="https://gradio.app/"  target="_blank" rel="noopener"
     >https://gradio.app/</a></p>
+<p>Optimum :</p>
+<p>Optimum is an extension of 🤗 Transformers that provides a set of performance optimization tools to train and run models on targeted hardware with maximum efficiency.</p>
+<p><a class="link" href="https://huggingface.co/docs/optimum/index"  target="_blank" rel="noopener"
+    >https://huggingface.co/docs/optimum/index</a></p>
 <h4 id="推理加速量化框架">推理&amp;加速量化框架</h4>
 <p>ncnn</p>
 <p><a class="link" href="https://github.com/Tencent/ncnn"  target="_blank" rel="noopener"
@@ -843,14 +892,18 @@
 <p>高性能推理，TensorRT C++/Python库，tensorrt学习参考</p>
 <p><a class="link" href="https://github.com/shouxieai/tensorRT_Pro"  target="_blank" rel="noopener"
     >https://github.com/shouxieai/tensorRT_Pro</a></p>
-<h3 id="有趣的深度学习小程序与应用">有趣的深度学习小程序与应用</h3>
-<p>比disco diffusion更强大的绘制工具SD：</p>
-<p>在自己电脑运行Stable Diffusion和完整项目下载</p>
-<p><a class="link" href="https://mp.weixin.qq.com/s/syEkqbBSmTwdi_cPB6Kd3g"  target="_blank" rel="noopener"
-    >https://mp.weixin.qq.com/s/syEkqbBSmTwdi_cPB6Kd3g</a></p>
-<p>StableDiffusion Int8量化教程与ONNX导出推理</p>
-<p><a class="link" href="https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw"  target="_blank" rel="noopener"
-    >https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw</a></p>
+<p>A lite C++ toolkit of awesome AI models with ONNXRuntime, NCNN, MNN and TNN. YOLOv5, YOLOX, YOLOP, YOLOv6, YOLOR, MODNet, YOLOX, YOLOv7, YOLOv8. MNN, NCNN, TNN, ONNXRuntime.</p>
+<p><a class="link" href="https://github.com/DefTruth/lite.ai.toolkit/blob/main/README.zh.md"  target="_blank" rel="noopener"
+    >https://github.com/DefTruth/lite.ai.toolkit/blob/main/README.zh.md</a></p>
+<p>onxxruntime源码带读</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/530925674"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/530925674</a></p>
+<p>美团视觉GPU推理服务部署架构优化实践（美团关于GPU的推理部署有很多不错的文章</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/605094862"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/605094862</a></p>
+<p>NCNN底层源码带读</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/588809520"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/588809520</a></p>
 <h2 id="python">python</h2>
 <h3 id="anaconda基础"><strong>anaconda基础</strong></h3>
 <ul>
@@ -902,6 +955,10 @@
 <p>删除虚拟环境：<code>conda remove -n ENV_NAME —all</code></p>
 <p>conda更新：<code>conda update anaconda</code></p>
 <p>conda所有库更新：<code>conda update --all</code></p>
+<ul>
+<li>导出自己安装的那些包（freeze是全部！）：使用pipreqs库</li>
+<li>powershell下看不到（base）之类的虚拟库信息，显示出脚本安全问题无法启用，可在powershell管理员模式下输入<code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned</code>即可解决问题。</li>
+</ul>
 <p>awesome项目（包含了绝大部分的python相关资源）</p>
 <p><a class="link" href="https://github.com/vinta/awesome-python"  target="_blank" rel="noopener"
     >https://github.com/vinta/awesome-python</a></p>
@@ -1140,7 +1197,20 @@
 <p>黑白照片上色</p>
 <p><a class="link" href="https://palette.fm/"  target="_blank" rel="noopener"
     >https://palette.fm/</a></p>
-<h2 id="其他有趣的项目">其他有趣的项目</h2>
+<p>让你“爱”上 GitHub，解决访问时图裂、加载慢的问题。（无需安装）</p>
+<p><a class="link" href="https://github.com/521xueweihan/GitHub520"  target="_blank" rel="noopener"
+    >https://github.com/521xueweihan/GitHub520</a></p>
+<h2 id="有趣的项目">有趣的项目</h2>
+<p>比disco diffusion更强大的绘制工具SD：</p>
+<p>在自己电脑运行Stable Diffusion和完整项目下载</p>
+<p><a class="link" href="https://mp.weixin.qq.com/s/syEkqbBSmTwdi_cPB6Kd3g"  target="_blank" rel="noopener"
+    >https://mp.weixin.qq.com/s/syEkqbBSmTwdi_cPB6Kd3g</a></p>
+<p>StableDiffusion Int8量化教程与ONNX导出推理</p>
+<p><a class="link" href="https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw"  target="_blank" rel="noopener"
+    >https://mp.weixin.qq.com/s/18EIga7w9y1FG0oWcnysIw</a></p>
+<p>ChatGPT 中文调教指南</p>
+<p><a class="link" href="https://github.com/PlexPt/awesome-chatgpt-prompts-zh"  target="_blank" rel="noopener"
+    >https://github.com/PlexPt/awesome-chatgpt-prompts-zh</a></p>
 <p>CodeGeeX: 多语言代码生成模型（代码生成与代码翻译）</p>
 <p><a class="link" href="https://github.com/THUDM/CodeGeeX/blob/main/README_zh.md"  target="_blank" rel="noopener"
     >https://github.com/THUDM/CodeGeeX/blob/main/README_zh.md</a></p>
@@ -1457,21 +1527,21 @@
     </li>
     <li><a href="#深度学习大类">深度学习大类</a>
       <ol>
-        <li><a href="#有关理论基础但我还是建议直接看李宏毅">有关理论基础（但我还是建议直接看李宏毅）</a></li>
+        <li><a href="#理论基础时间少直接看李沐李宏毅">理论基础（时间少直接看李沐/李宏毅）</a></li>
         <li><a href="#李宏毅相关课程"><strong>李宏毅相关课程</strong></a></li>
+        <li><a href="#手写深度学习入门项目">手写深度学习入门项目</a></li>
         <li><a href="#开源库项目">开源库/项目</a></li>
-        <li><a href="#手写深度学习项目">手写深度学习项目</a></li>
         <li><a href="#在线数据集网站">在线数据集网站</a></li>
         <li><a href="#3d感知相关">3D感知相关</a></li>
-        <li><a href="#nvidia-cuda类安装与常见问题">NVIDIA CUDA类安装与常见问题</a></li>
+        <li><a href="#nvidia环境配置常见问题">NVIDIA环境配置常见问题</a></li>
         <li><a href="#其他">其他</a></li>
+        <li><a href="#mlsystem">MLsystem</a></li>
         <li><a href="#深度学习部署">深度学习部署</a>
           <ol>
             <li><a href="#推理加速量化框架">推理&amp;加速量化框架</a></li>
             <li><a href="#实例参考">实例参考</a></li>
           </ol>
         </li>
-        <li><a href="#有趣的深度学习小程序与应用">有趣的深度学习小程序与应用</a></li>
       </ol>
     </li>
     <li><a href="#python">python</a>
@@ -1491,7 +1561,7 @@
     <li><a href="#程序性能优化">程序性能优化</a></li>
     <li><a href="#学术论文">学术论文</a></li>
     <li><a href="#其他日常使用网站">其他日常使用网站</a></li>
-    <li><a href="#其他有趣的项目">其他有趣的项目</a></li>
+    <li><a href="#有趣的项目">有趣的项目</a></li>
     <li><a href="#有趣的故事">有趣的故事</a></li>
     <li><a href="#心理健康建设">心理健康建设</a></li>
     <li><a href="#英语">英语</a>

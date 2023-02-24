@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Transformer架构模型的图优化与量化工具'><title>Huggingface optimum介绍</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/huggingface-optimum%E4%BB%8B%E7%BB%8D/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='Huggingface optimum介绍'>
+<meta property='og:description' content='Transformer架构模型的图优化与量化工具'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/huggingface-optimum%E4%BB%8B%E7%BB%8D/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='DL部署' /><meta property='article:published_time' content='2023-02-24T23:14:16&#43;08:00'/><meta property='article:modified_time' content='2023-02-24T23:14:16&#43;08:00'/>
+<meta name="twitter:title" content="Huggingface optimum介绍">
+<meta name="twitter:description" content="Transformer架构模型的图优化与量化工具">
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu6463d9446fa8a7e91f670d049d5ab438_588913_300x0_resize_box_3.png" width="300"
+                            height="305" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍉</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">散步的小屋</a></h1>
+        <h2 class="site-description">不懂就问 不会就学</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:physicoada@gmail.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-messages" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+  <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/sanbuphy'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' target="_blank">
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E7%BE%A4%E6%98%9F/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>群星</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dl%E9%83%A8%E7%BD%B2/" >
+                DL部署
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/huggingface-optimum%E4%BB%8B%E7%BB%8D/">Huggingface optimum介绍</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        Transformer架构模型的图优化与量化工具
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 24, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>具体请参考文档：</p>
+<p><a class="link" href="https://huggingface.co/docs/optimum/index"  target="_blank" rel="noopener"
+    >https://huggingface.co/docs/optimum/index</a></p>
+<p>实际上，huggingface 的optimum就是对onnxruntime  optimizer的包装， 如果你是huggingface上面获取的模型，有model和config，那就可以直接通过optimum进行进一步图优化和简单的fp16量化。如果你是自己的自然语言模型，那就只能用onnxruntime的optimizer进行处理了。但实际上应该是一个东西，本质只是一层包装。</p>
+<p>它的默认选项如下：</p>
+<ul>
+<li>Gelu fusion with <code>disable_gelu_fusion=False</code>,</li>
+<li>Layer Normalization fusion with <code>disable_layer_norm_fusion=False</code>,</li>
+<li>Attention fusion with <code>disable_attention_fusion=False</code>,</li>
+<li>SkipLayerNormalization fusion with <code>disable_skip_layer_norm_fusion=False</code>,</li>
+<li>Add Bias and SkipLayerNormalization fusion with <code>disable_bias_skip_layer_norm_fusion=False</code>,</li>
+<li>Add Bias and Gelu / FastGelu fusion with <code>disable_bias_gelu_fusion=False</code>,</li>
+<li>Gelu approximation with <code>enable_gelu_approximation=True</code>.</li>
+</ul>
+<p>具体可以在<code>optimum/onnxruntime/configuration.py</code>文件中看到对应的实现：</p>
+<p>OptimizationConfig的Attributes注释写的很明白了，每个功能的作用和为什么要设置True和Flase</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    OptimizationConfig is the configuration class handling all the ONNX Runtime optimization parameters.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    There are two stacks of optimizations:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        1. The ONNX Runtime general-purpose optimization tool: it can work on any ONNX model.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        2. The ONNX Runtime transformers optimization tool: it can only work on a subset of transformers models.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Attributes:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        optimization_level (`int`, defaults to 1):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Optimization level performed by ONNX Runtime of the loaded graph.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Supported optimization level are 0, 1, 2 and 99.
+</span></span></span><span class="line"><span class="cl"><span class="s2">                - 0: will disable all optimizations
+</span></span></span><span class="line"><span class="cl"><span class="s2">                - 1: will enable basic optimizations
+</span></span></span><span class="line"><span class="cl"><span class="s2">                - 2: will enable basic and extended optimizations, including complex node fusions applied to the nodes
+</span></span></span><span class="line"><span class="cl"><span class="s2">                assigned to the CPU or CUDA execution provider, making the resulting optimized graph hardware dependent
+</span></span></span><span class="line"><span class="cl"><span class="s2">                - 99: will enable all available optimizations including layout optimizations
+</span></span></span><span class="line"><span class="cl"><span class="s2">        optimize_for_gpu (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to optimize the model for GPU inference.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            The optimized graph might contain operators for GPU or CPU only when `optimization_level` &gt; 1.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        fp16 (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether all weights and nodes should be converted from float32 to float16.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        enable_transformers_specific_optimizations (`bool`, defaults to `True`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to only use `transformers` specific optimizations on top of ONNX Runtime general optimizations.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_gelu_fusion (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to disable the Gelu fusion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_layer_norm_fusion (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to disable Layer Normalization fusion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_attention_fusion (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to disable Attention fusion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_skip_layer_norm_fusion (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to disable SkipLayerNormalization fusion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_bias_skip_layer_norm_fusion (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to disable Add Bias and SkipLayerNormalization fusion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_bias_gelu_fusion (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to disable Add Bias and Gelu / FastGelu fusion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_embed_layer_norm_fusion (`bool`, defaults to `True`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to disable EmbedLayerNormalization fusion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            The default value is set to `True` since this fusion is incompatible with ONNX Runtime quantization.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        enable_gelu_approximation (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to enable Gelu / BiasGelu to FastGelu conversion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            The default value is set to `False` since this approximation might slightly impact the model&#39;s accuracy.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        use_mask_index (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to use mask index instead of raw attention mask in the attention operator.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        no_attention_mask (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to not use attention masks. Only works for bert model type.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_embed_layer_norm (`bool`, defaults to `True`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to disable EmbedLayerNormalization fusion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            The default value is set to `True` since this fusion is incompatible with ONNX Runtime quantization
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_shape_inference (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Whether to disable symbolic shape inference.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            The default value is set to `False` but symbolic shape inference might cause issues sometimes.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        use_multi_head_attention (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Experimental argument. Use MultiHeadAttention instead of Attention operator, which has merged weights for Q/K/V projection,
+</span></span></span><span class="line"><span class="cl"><span class="s2">            which might be faster in some cases since 3 MatMul is merged into one.&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">            &#34;Note that MultiHeadAttention might be slower than Attention since MatMul of input projection is excluded. &#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">            &#34;MultiHeadAttention has only CUDA implementation so the model can only run with CUDAExecutionProvider.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        enable_gemm_fast_gelu (`bool`, defaults to `True`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Enable GemmfastGelu fusion.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        use_raw_attention_mask (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Use raw attention mask. Use this option if your input is not right-side padding. This might deactivate fused attention and get worse performance.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_group_norm (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Do not fuse GroupNorm. Only works for model_type=unet.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        disable_packed_kv (`bool`, defaults to `False`):
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Do not use packed kv in cross attention. Only works for model_type=unet.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span></code></pre></div><p>这里可能有些人会感觉奇怪，什么叫做<code>99: will enable all available optimizations including layout optimizations</code>，这个你可以尝试使用优化后就会看到对应的布局转换（根据不同硬件可能适配的数据构造不同）</p>
+<p><code>AutoOptimizationConfig</code>是optimum内部的优化逻辑，最后还是以onnxruntime的为准。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">AutoOptimizationConfig</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Factory to create common `OptimizationConfig`.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">_LEVELS</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;O1&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;optimization_level&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;enable_transformers_specific_optimizations&#34;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;O2&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;optimization_level&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;enable_transformers_specific_optimizations&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;O3&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;optimization_level&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;enable_transformers_specific_optimizations&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;enable_gelu_approximation&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;O4&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;optimization_level&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;enable_transformers_specific_optimizations&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;enable_gelu_approximation&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;fp16&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>如果你想对模型进行量化，在无法使用optimum的加载情况下，完全可以参考optimum对onnxruntime的包装自行处理，在<code>AutoQuantizationConfig</code>的方法中有很多针对对应指令集的量化配置，比如vnni：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">avx512_vnni</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">is_static</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantFormat</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantizationMode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">use_symmetric_activations</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">use_symmetric_weights</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">per_channel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nodes_to_quantize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">NodeName</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nodes_to_exclude</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">NodeName</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">operators_to_quantize</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeName</span><span class="p">]</span> <span class="o">=</span> <span class="n">ORT_FULLY_CONNECTED_OPERATORS</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantizationConfig</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        When targeting Intel AVX512-VNNI CPU underlying execution engine leverage the CPU instruction VPDPBUSD to
+</span></span></span><span class="line"><span class="cl"><span class="s2">        compute  </span><span class="se">\\</span><span class="s2">i32 += i8(w) * u8(x)</span><span class="se">\\</span><span class="s2"> within a single instruction.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        AVX512-VNNI (AVX512 Vector Neural Network Instruction)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        is an x86 extension Instruction set and is a part of the AVX-512 ISA.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        AVX512 VNNI is designed to accelerate convolutional neural network for INT8 inference.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param is_static: Boolean flag to indicate whether we target static or dynamic quantization.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param format: Targeted ONNX Runtime quantization format.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            When targeting dynamic quantization mode, the default value is `QuantFormat.QOperator` whereas the default
+</span></span></span><span class="line"><span class="cl"><span class="s2">            value for static quantization mode is `QuantFormat.QLinearOps`
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param mode: Targeted ONNX Runtime quantization mode, default is QLinearOps to match QDQ format.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            When targeting dynamic quantization mode, the default value is `QuantFormat.QOperator` whereas the default
+</span></span></span><span class="line"><span class="cl"><span class="s2">            value for static quantization mode is `QuantFormat.QLinearOps`
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param use_symmetric_activations:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param use_symmetric_weights:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param per_channel: Whether we should quantize per-channel (also known as &#34;per-row&#34;). Enabling this can
+</span></span></span><span class="line"><span class="cl"><span class="s2">            increase overall accuracy while making the quantized model heavier.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param nodes_to_quantize:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param nodes_to_exclude:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param operators_to_quantize:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :return:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ensure_valid_mode_or_raise</span><span class="p">(</span><span class="n">is_static</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">format</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">default_quantization_parameters</span><span class="p">(</span><span class="n">is_static</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">QuantizationConfig</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">is_static</span><span class="o">=</span><span class="n">is_static</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">activations_dtype</span><span class="o">=</span><span class="n">QuantType</span><span class="o">.</span><span class="n">QUInt8</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">activations_symmetric</span><span class="o">=</span><span class="n">use_symmetric_activations</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">weights_dtype</span><span class="o">=</span><span class="n">QuantType</span><span class="o">.</span><span class="n">QInt8</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">weights_symmetric</span><span class="o">=</span><span class="n">use_symmetric_weights</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">per_channel</span><span class="o">=</span><span class="n">per_channel</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">reduce_range</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nodes_to_quantize</span><span class="o">=</span><span class="n">nodes_to_quantize</span> <span class="ow">or</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nodes_to_exclude</span><span class="o">=</span><span class="n">nodes_to_exclude</span> <span class="ow">or</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">            <span class="n">operators_to_quantize</span><span class="o">=</span><span class="n">operators_to_quantize</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span></code></pre></div><p>这里面的<code>QuantizationConfig</code>本质是对<code>onnxruntime.quantization</code>的包装，参考设计后可以改造出自己的方案，同时对于静态离线量化要注意到<code>CalibrationConfig</code>，具体你可以调试一次过程查看每一步的参数就可以大概明白数据是怎么流动的。</p>
+<p>如果你想直接使用huggingface  optimum对支持模型的优化，你可以参考以下流程：</p>
+<p>优化过程：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">optimum.onnxruntime.configuration</span> <span class="kn">import</span> <span class="n">OptimizationConfig</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">optimum.onnxruntime.optimization</span> <span class="kn">import</span> <span class="n">ORTOptimizer</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span>  <span class="o">=</span> <span class="n">ORTModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&#34;uer/roberta-base-finetuned-dianping-chinese&#34;</span><span class="p">,</span> <span class="n">from_transformers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">optimization_config</span> <span class="o">=</span> <span class="n">OptimizationConfig</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">optimization_level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1">#0,1,2,99</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enable_transformers_specific_optimizations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">optimize_for_gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建优化器</span>
+</span></span><span class="line"><span class="cl"><span class="n">optimizer</span> <span class="o">=</span> <span class="n">ORTOptimizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 保存模型配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="n">save_dir</span> <span class="o">=</span> <span class="s2">&#34;my_optimized&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">save_dir</span><span class="o">=</span><span class="n">save_dir</span><span class="p">,</span> <span class="n">optimization_config</span><span class="o">=</span><span class="n">optimization_config</span><span class="p">)</span>
+</span></span></code></pre></div><p>优化后加载：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="n">ort_opt_model</span> <span class="o">=</span> <span class="n">ORTModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">save_dir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">opt_onnx_classifier_new</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&#34;text-classification&#34;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">ort_opt_model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">opt_onnx_classifier_new</span> <span class="p">(</span><span class="s2">&#34;测试测试测试&#34;</span><span class="p">)</span>
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/dl%E9%83%A8%E7%BD%B2/">DL部署</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2023 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
