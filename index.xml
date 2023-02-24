@@ -1112,7 +1112,9 @@
 &lt;p&gt;有关AI编译器后端优化的内容：主要介绍了算子分类、算子计算和调度区别与解耦、调度树、简单的算子优化手工方式（可能开了比较高的编译器优化就会自动做：循环交换、循环变量实例化提前、表达式外放、循环终止调用），算子循环优化（循环展开、循环分块、循环重排（主要cache相关）、循环融合、循环拆分），指令和存储优化如向量化（这个很多也有研究，有拓展）、张量化、访存延迟（gpu core）、存储分配优化以及简单的 auto tuning。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/600622073&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;AI编译器之后端优化（笔记）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;更多更新中&amp;hellip;&amp;hellip;（zomi酱真的太肝了这个速度。。。。完全赶不上）&lt;/p&gt;
+&lt;p&gt;有关模型部署加速的一些内容（量化剪枝和蒸馏的简单入门知识）&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/603745783&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AI推理引擎——离线压缩（笔记&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
