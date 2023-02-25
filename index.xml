@@ -6,7 +6,323 @@
         <description>Recent content on 散步的小屋</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 24 Feb 2023 23:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 25 Feb 2023 07:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>计算机上的时间</title>
+        <link>https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/</link>
+        <pubDate>Sat, 25 Feb 2023 07:14:16 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/</guid>
+        <description>&lt;p&gt;以后将会把延时比较的资料都搜集到这个帖子&lt;/p&gt;
+&lt;p&gt;以下转自：&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/4087280/approximate-cost-to-access-various-caches-and-main-memory&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://stackoverflow.com/questions/4087280/approximate-cost-to-access-various-caches-and-main-memory&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           0.5 ns - CPU L1 dCACHE reference
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;   ns - speed-of-light &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;a photon&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; travel a &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; ft &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;30.5cm&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; distance
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;   ns - CPU L1 iCACHE Branch mispredict
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt;   ns - CPU L2  CACHE reference
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;m&#34;&gt;71&lt;/span&gt;   ns - CPU cross-QPI/NUMA best  &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; on XEON E5-46*
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;   ns - MUTEX lock/unlock
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;   ns - own DDR MEMORY reference
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         &lt;span class=&#34;m&#34;&gt;135&lt;/span&gt;   ns - CPU cross-QPI/NUMA best  &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; on XEON E7-*
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         &lt;span class=&#34;m&#34;&gt;202&lt;/span&gt;   ns - CPU cross-QPI/NUMA worst &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; on XEON E7-*
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         &lt;span class=&#34;m&#34;&gt;325&lt;/span&gt;   ns - CPU cross-QPI/NUMA worst &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; on XEON E5-46*
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      10,000   ns - Compress 1K bytes with Zippy PROCESS
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      20,000   ns - Send 2K bytes over &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; Gbps NETWORK
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;     250,000   ns - Read &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; MB sequentially from MEMORY
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;     500,000   ns - Round trip within a same DataCenter
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  10,000,000   ns - DISK seek
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  10,000,000   ns - Read &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; MB sequentially from NETWORK
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  30,000,000   ns - Read &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; MB sequentially from DISK
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 150,000,000   ns - Send a NETWORK packet CA -&amp;gt; Netherlands
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; ns&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; us&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; ms&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2020: Still some improvements, prediction &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2025&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;             0.1 ns - NOP
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;             0.3 ns - XOR, ADD, SUB
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;             0.5 ns - CPU L1 dCACHE reference           &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;1st introduced in late 80-ies &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;             0.9 ns - JMP SHORT
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;             &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;   ns - speed-of-light &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;a photon&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; travel a &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; ft &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;30.5cm&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; distance -- will stay, throughout any foreseeable future :o&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;?~~~~~~~~~~~ &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;   ns - MUL &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; i**2 &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; MUL i, i &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;~~~~~~~~~ doing this 1,000 x is &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;us&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; 1,000,000 x is &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;ms&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; 1,000,000,000 x is &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;s&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; ~~~~~~~~~~~~~~~~~~~~~~~~~
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           3~4   ns - CPU L2  CACHE reference           &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;2020/Q1&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;             &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;   ns - CPU L1 iCACHE Branch mispredict
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;             &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt;   ns - CPU L2  CACHE reference
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;   ns - DIV
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt;   ns - CPU L3  CACHE reference           &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;2020/Q1 considered slow on 28c Skylake&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;m&#34;&gt;71&lt;/span&gt;   ns - CPU cross-QPI/NUMA best  &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; on XEON E5-46*
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;   ns - MUTEX lock/unlock
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;   ns - own DDR MEMORY reference
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;m&#34;&gt;135&lt;/span&gt;   ns - CPU cross-QPI/NUMA best  &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; on XEON E7-*
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;m&#34;&gt;202&lt;/span&gt;   ns - CPU cross-QPI/NUMA worst &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; on XEON E7-*
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;m&#34;&gt;325&lt;/span&gt;   ns - CPU cross-QPI/NUMA worst &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; on XEON E5-46*
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;Q&amp;gt;~~~~~ 5,000   ns - QPU on-chip QUBO &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; quantum annealer minimiser &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; Qop &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        10,000   ns - Compress 1K bytes with a Zippy PROCESS
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        20,000   ns - Send     2K bytes over &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; Gbps  NETWORK
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;       250,000   ns - Read   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; MB sequentially from  MEMORY
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;       500,000   ns - Round trip within a same DataCenter
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;?~~~ 2,500,000   ns - Read  &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; MB sequentially from  MEMORY~~&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;about an empty python process to copy on spawn&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;~~~~ x &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; + nProcesses &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; on spawned process instantiation&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;s&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;, yet an empty python interpreter is indeed not a real-world, production-grade use-case, is it?
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    10,000,000   ns - DISK seek
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    10,000,000   ns - Read   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; MB sequentially from  NETWORK
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;?~~ 25,000,000   ns - Read &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt; MB sequentially from  MEMORY~~&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;somewhat light python process to copy on spawn&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;~~~~ x &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; + nProcesses &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; on spawned process instantiation&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;s&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    30,000,000   ns - Read &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; MB sequentially from a  DISK
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;?~~ 36,000,000   ns - Pickle.dump&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; SER a &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; MB object &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; IPC-transfer and remote DES in spawned process~~~~~~~~ x &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; a single 10MB parameter-payload SER/DES + add an IPC-transport costs thereof or NETWORK-grade transport costs, &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; going into &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;distributed-computing&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; model Cluster ecosystem
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   150,000,000   ns - Send a NETWORK packet CA -&amp;gt; Netherlands
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; ns&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; us&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; ms&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;下图出自量化体系方法：
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 278; 
+			flex-basis: 668px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/1.png&#34; data-size=&#34;1301x467&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/1.png&#34;
+			width=&#34;1301&#34;
+			height=&#34;467&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/1_hub6a4c8e8bb20a212cf7ed8a4704d2853_235198_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/1_hub6a4c8e8bb20a212cf7ed8a4704d2853_235198_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;参考：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/konghhhhh/article/details/120463330&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/konghhhhh/article/details/120463330&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/question/488790905&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.zhihu.com/question/488790905&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>耗时性能优化软件测试总结</title>
+        <link>https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+        <pubDate>Sat, 25 Feb 2023 06:14:16 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+        <description>&lt;h2 id=&#34;通用类&#34;&gt;通用类&lt;/h2&gt;
+&lt;h3 id=&#34;vtuneintel&#34;&gt;Vtune（Intel）&lt;/h3&gt;
+&lt;h4 id=&#34;简介&#34;&gt;简介&lt;/h4&gt;
+&lt;p&gt;VTune是 Intel 提供性能分析软件，VTune Amplifier XE 2011 集成了Intel VTune Performance Analyzer 和 Thread Profiler的主要功能，同时吸取了Performance Tool Utility 这个产品的优点。&lt;/p&gt;
+&lt;p&gt;perf 看不到L3cache 等硬件特性，需要更强大的工具。&lt;/p&gt;
+&lt;p&gt;其中，Vtune Performance Analyzer是性能分析工具，找到软件性能热点、瓶颈部分；&lt;/p&gt;
+&lt;p&gt;Vtune Threading Profiler是线程性能检测工具 , 分析负载平衡、同步开销过大等线程相关的性能问题。&lt;/p&gt;
+&lt;p&gt;VTune Amplifier XE 可以指明在相关的硬件资源上应用程序的改善点，具体来说，使用该软件用户获取的信息主要有以下几点：&lt;/p&gt;
+&lt;p&gt;l         确定占用大量处理器时间的区域(热点)；&lt;/p&gt;
+&lt;p&gt;l         查看应用运行过程中的情况(通过检测绑定process)；&lt;/p&gt;
+&lt;p&gt;l         没有充分的有效利用可用的处理器时间的代码；&lt;/p&gt;
+&lt;p&gt;l         影响应用程序性能的同步对象；&lt;/p&gt;
+&lt;p&gt;l         应用程序是否浪费时间在输入输出操作上，在哪里浪费的，为何浪费；&lt;/p&gt;
+&lt;p&gt;l         对比不同的同步方法、不同的线程数量、不同的算法之间对性能的影响；&lt;/p&gt;
+&lt;p&gt;l         线程的活动状态和状态的转换；&lt;/p&gt;
+&lt;p&gt;l         代码中与硬件相关的性能瓶颈(如缓存缺失、分支预测失败等)；&lt;/p&gt;
+&lt;p&gt;官方安装地址：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.intel.com/content/www/us/en/develop/documentation/vtune-install-guide/top.html&#34;  title=&#34;https://www.intel.com/content/www/us/en/develop/documentation/vtune-install-guide/top.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.intel.com/content/www/us/en/develop/documentation/vtune-install-guide/top.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;使用指南：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.intel.com/content/www/us/en/develop/documentation/get-started-with-vtune/top/linux-os.html&#34;  title=&#34;https://www.intel.com/content/www/us/en/develop/documentation/get-started-with-vtune/top/linux-os.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.intel.com/content/www/us/en/develop/documentation/get-started-with-vtune/top/linux-os.html&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;python代码分析指南&#34;&gt;python代码分析指南&lt;/h4&gt;
+&lt;p&gt;python代码分析指南：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.intel.com/content/www/us/en/develop/documentation/vtune-help/top/analyze-performance/code-profiling-scenarios/python-code-analysis.html&#34;  title=&#34;https://www.intel.com/content/www/us/en/develop/documentation/vtune-help/top/analyze-performance/code-profiling-scenarios/python-code-analysis.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.intel.com/content/www/us/en/develop/documentation/vtune-help/top/analyze-performance/code-profiling-scenarios/python-code-analysis.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;视频教程：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.intel.com/content/www/us/en/developer/videos/performance-analysis-of-python-applications-with-intel-vtune-amplifier.html&#34;  title=&#34;https://www.intel.com/content/www/us/en/developer/videos/performance-analysis-of-python-applications-with-intel-vtune-amplifier.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.intel.com/content/www/us/en/developer/videos/performance-analysis-of-python-applications-with-intel-vtune-amplifier.html&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;c代码分析指南&#34;&gt;C++代码分析指南&lt;/h4&gt;
+&lt;p&gt;待定&lt;/p&gt;
+&lt;p&gt;本次在 WSL2 ubuntu20.04环境下进行python代码的性能测试。（如果是可执行文件就更简单了，直接输入地址就行）&lt;/p&gt;
+&lt;p&gt;我选择的是online安装，令人惊喜的是WSL2完美支持安装过程中的gui显示。&lt;/p&gt;
+&lt;p&gt;安装完了后source进行变量的配置，然后使用&lt;code&gt;vtune-gui&lt;/code&gt;打开软件，在这过程中遇到了几个动态链接库缺失问题：&lt;code&gt;libatk-1.0.so.0&lt;/code&gt; 以及 &lt;code&gt;libcups.so.2&lt;/code&gt;以及&lt;code&gt; libgtk-3.so.0&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;分别使用以下命令解决：（估计是WSL2会遇到这个问题）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt-get install -y libatk-bridge2.0-0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt-get install -y libcups2
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt install -y libgtk-3-0  &lt;span class=&#34;c1&#34;&gt;#如果这个不管用可以选择安装：sudo apt install -y libgtk-3-dev&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt install -y libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt install -y libasound2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;即可成功进入主界面&lt;code&gt;vtune-gui&lt;/code&gt; （如果进不去请先确保使用了source）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 171; 
+			flex-basis: 412px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_PsNsZUSzFS.png&#34; data-size=&#34;1284x747&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_PsNsZUSzFS.png&#34;
+			width=&#34;1284&#34;
+			height=&#34;747&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_PsNsZUSzFS_hue7f939fe33b0d805984728edd124d3e0_155818_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_PsNsZUSzFS_hue7f939fe33b0d805984728edd124d3e0_155818_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;接下来选择 configure analysis 然后输入解释器地址以及对应的parameter（就是python文件的地址）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 167; 
+			flex-basis: 401px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_YAykT4kVMI.png&#34; data-size=&#34;788x471&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_YAykT4kVMI.png&#34;
+			width=&#34;788&#34;
+			height=&#34;471&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_YAykT4kVMI_hu922a8545fe2d1eca17877cdfd8eaa283_34622_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_YAykT4kVMI_hu922a8545fe2d1eca17877cdfd8eaa283_34622_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;进去后发现粒度还是太细，我想要代码和函数层面的信息，所以继续尝试其他东西。&lt;/p&gt;
+&lt;p&gt;CPU性能指标（其实这个应该看vtune更好一点&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/521597381?utm_id=0%5c&amp;amp;utm_medium=social%5c&amp;amp;utm_psn=1604820983428329473%5c&amp;amp;utm_source=qzone%5c&amp;amp;utm_oi=751534157867290624&#34;  title=&#34;https://zhuanlan.zhihu.com/p/521597381?utm_id=0\&amp;amp;utm_medium=social\&amp;amp;utm_psn=1604820983428329473\&amp;amp;utm_source=qzone\&amp;amp;utm_oi=751534157867290624&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/521597381?utm_id=0&amp;amp;utm_medium=social&amp;amp;utm_psn=1604820983428329473&amp;amp;utm_source=qzone&amp;amp;utm_oi=751534157867290624&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;google perftools&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/GODYCA/archive/2013/05/28/3104281.html&#34;  title=&#34;https://www.cnblogs.com/GODYCA/archive/2013/05/28/3104281.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.cnblogs.com/GODYCA/archive/2013/05/28/3104281.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;python&#34;&gt;python&lt;/h2&gt;
+&lt;h3 id=&#34;cprofile&#34;&gt;cprofile&lt;/h3&gt;
+&lt;p&gt;目前最推荐使用cprofile，标准库提供的工具，使用方法如下：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;python -m cProfile -o out.prof my_test.py &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;产生的序列化文件可以通过一个叫做 snakeviz 的工具进行可视化，具体效果可参考：&lt;/p&gt;
+&lt;p&gt;官网：&lt;a class=&#34;link&#34; href=&#34;https://jiffyclub.github.io/snakeviz/&#34;  title=&#34;https://jiffyclub.github.io/snakeviz/&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://jiffyclub.github.io/snakeviz/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;github：&lt;a class=&#34;link&#34; href=&#34;https://github.com/jiffyclub/snakeviz/&#34;  title=&#34;https://github.com/jiffyclub/snakeviz/&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/jiffyclub/snakeviz/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;但是这个只适合对大部分自己写的或者是完全自己实现的小模块进行测试，要做到更随心所欲的控制我自己写了一个工具，稳定后开源。&lt;/p&gt;
+&lt;p&gt;你只要&lt;code&gt;pip install snakeviz&lt;/code&gt;，然后&lt;code&gt;snakeviz out.prof&lt;/code&gt;就可以在产生的网页服务中查看python性能开销的火焰图了。&lt;/p&gt;
+&lt;h3 id=&#34;line_profiler&#34;&gt;line_profiler&lt;/h3&gt;
+&lt;p&gt;PyInstrument也不错，但还是更喜欢 line_profiler&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/pyutils/line_profiler&#34;  title=&#34;https://github.com/pyutils/line_profiler&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/pyutils/line_profiler&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/88193562&#34;  title=&#34;https://zhuanlan.zhihu.com/p/88193562&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/88193562&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;可视化插件：【注意，只能在商业版上使用，无法在社区版上使用】&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/215302708&#34;  title=&#34;https://zhuanlan.zhihu.com/p/215302708&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/215302708&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;但是这里我只能在windows上成功测试（windows上安装的python解释器和pytcharm），WSL下无法成功生成，感兴趣的朋友可以用ubuntu系统试试看是只能在windows上看还是WSL支持不好。&lt;/p&gt;
+&lt;p&gt;使用流程如下：&lt;/p&gt;
+&lt;p&gt;1、准备测试代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;time&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;line_profiler_pycharm&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;profile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@profile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;fun1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;fun1&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sleep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@profile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;fun2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;fun2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sleep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@profile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;fun3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;fun3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sleep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@profile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;fun4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;fun4&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sleep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@profile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;fun5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;fun5&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sleep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;fun4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;fun1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;fun2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;fun3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;fun5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2、pycharm上安装插件：&lt;/p&gt;
+&lt;p&gt;插件中搜索&lt;code&gt;line_profiler_pycharm&lt;/code&gt;安装后重启即可&lt;/p&gt;
+&lt;p&gt;3、安装line_profiler和pycharm适配用库&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; pip install line_profiler
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; pip install line_profiler_pycharm
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;4、开始运行&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 371; 
+			flex-basis: 891px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_yZC25-yXvj.png&#34; data-size=&#34;747x201&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_yZC25-yXvj.png&#34;
+			width=&#34;747&#34;
+			height=&#34;201&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_yZC25-yXvj_hu47984ed3a2bb0cb0feb4b3f94c5cf7cc_27063_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_yZC25-yXvj_hu47984ed3a2bb0cb0feb4b3f94c5cf7cc_27063_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;然后就能看到详细的报告：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 169; 
+			flex-basis: 407px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_kbfK83C6ti.png&#34; data-size=&#34;923x543&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_kbfK83C6ti.png&#34;
+			width=&#34;923&#34;
+			height=&#34;543&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_kbfK83C6ti_hu73a190e5c80f3c2ffca15560191362d0_63262_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_kbfK83C6ti_hu73a190e5c80f3c2ffca15560191362d0_63262_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;更详细的代码级的分析以及内存瓶颈分析可以参考：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/392210020&#34;  title=&#34;https://zhuanlan.zhihu.com/p/392210020&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/392210020&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.vicyu.com/2017/12/26/more-about-python-profiling/&#34;  title=&#34;https://blog.vicyu.com/2017/12/26/more-about-python-profiling/&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.vicyu.com/2017/12/26/more-about-python-profiling/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;案例参考：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/dechinphy/p/line-profiler.html&#34;  title=&#34;https://www.cnblogs.com/dechinphy/p/line-profiler.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.cnblogs.com/dechinphy/p/line-profiler.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;c&#34;&gt;c++&lt;/h2&gt;
+&lt;p&gt;函数粒度直接使用 google benchmark&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.vicyu.com/2017/12/26/more-about-python-profiling/&#34;  title=&#34;https://blog.vicyu.com/2017/12/26/more-about-python-profiling/&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.vicyu.com/2017/12/26/more-about-python-profiling/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://geek-docs.com/numpy/numpy-tutorials/parallelizing-a-numpy-vector-operation.html&#34;  title=&#34;https://geek-docs.com/numpy/numpy-tutorials/parallelizing-a-numpy-vector-operation.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://geek-docs.com/numpy/numpy-tutorials/parallelizing-a-numpy-vector-operation.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;算子层级的profile&#34;&gt;算子层级的profile&lt;/h2&gt;
+&lt;p&gt;其他工具待更新。&lt;/p&gt;
+&lt;p&gt;参考paddle lite&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://paddlelite.paddlepaddle.org.cn/user_guides/profiler.html&#34;  title=&#34;https://paddlelite.paddlepaddle.org.cn/user_guides/profiler.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://paddlelite.paddlepaddle.org.cn/user_guides/profiler.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;paddle lite支持的算子信息：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://paddlelite.paddlepaddle.org.cn/user_guides/opt/opt_bin.html&#34;  title=&#34;https://paddlelite.paddlepaddle.org.cn/user_guides/opt/opt_bin.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://paddlelite.paddlepaddle.org.cn/user_guides/opt/opt_bin.html&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Huggingface optimum介绍</title>
         <link>https://sanbuphy.github.io/p/huggingface-optimum%E4%BB%8B%E7%BB%8D/</link>
         <pubDate>Fri, 24 Feb 2023 23:14:16 +0800</pubDate>
@@ -252,32 +568,44 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;尽管如此，设置成这种情况还是有时候找不到（还没有彻底解决和理解这个过程），这种情况下只要暴力的改变cmake的动态库搜索路径即可（比如直接在usr/local/lib中查找需要的某些动态库）&lt;/p&gt;
 &lt;h2 id=&#34;链接库的路径搜索顺序&#34;&gt;链接库的路径搜索顺序&lt;/h2&gt;
 &lt;p&gt;以下来自linux man ld.so&lt;/p&gt;
-&lt;p&gt;If a shared object dependency does not contain a slash, then it&lt;/p&gt;
-&lt;p&gt;is searched for in the following order:&lt;/p&gt;
-&lt;p&gt;o  Using the directories specified in the DT_RPATH dynamic&lt;/p&gt;
-&lt;p&gt;section attribute of the binary if present and DT_RUNPATH&lt;/p&gt;
-&lt;p&gt;attribute does not exist.  Use of DT_RPATH is deprecated.&lt;/p&gt;
-&lt;p&gt;o  Using the environment variable &lt;strong&gt;LD_LIBRARY_PATH&lt;/strong&gt;, unless the&lt;/p&gt;
-&lt;p&gt;executable is being run in secure-execution mode (see below),&lt;/p&gt;
-&lt;p&gt;in which case this variable is ignored.&lt;/p&gt;
-&lt;p&gt;o  Using the directories specified in the DT_RUNPATH dynamic&lt;/p&gt;
-&lt;p&gt;section attribute of the binary if present.  Such directories&lt;/p&gt;
-&lt;p&gt;are searched only to find those objects required by DT_NEEDED&lt;/p&gt;
-&lt;p&gt;(direct dependencies) entries and do not apply to those&lt;/p&gt;
-&lt;p&gt;objects&amp;rsquo; children, which must themselves have their own&lt;/p&gt;
-&lt;p&gt;DT_RUNPATH entries.  This is unlike DT_RPATH, which is applied&lt;/p&gt;
-&lt;p&gt;to searches for all children in the dependency tree.&lt;/p&gt;
-&lt;p&gt;o  From the cache file &lt;em&gt;/etc/ld.so.cache&lt;/em&gt;, which contains a&lt;/p&gt;
-&lt;p&gt;compiled list of candidate shared objects previously found in&lt;/p&gt;
-&lt;p&gt;the augmented library path.  If, however, the binary was&lt;/p&gt;
-&lt;p&gt;linked with the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, shared objects in&lt;/p&gt;
-&lt;p&gt;the default paths are skipped.  Shared objects installed in&lt;/p&gt;
-&lt;p&gt;hardware capability directories (see below) are preferred to&lt;/p&gt;
-&lt;p&gt;other shared objects.&lt;/p&gt;
-&lt;p&gt;o  In the default path &lt;em&gt;/lib&lt;/em&gt;, and then &lt;em&gt;/usr/lib&lt;/em&gt;.  (On some 64-bit&lt;/p&gt;
-&lt;p&gt;architectures, the default paths for 64-bit shared objects are&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;/lib64&lt;/em&gt;, and then &lt;em&gt;/usr/lib64&lt;/em&gt;.)  If the binary was linked with&lt;/p&gt;
-&lt;p&gt;the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, this step is skipped.&lt;/p&gt;
+&lt;p&gt;If a shared object dependency does not contain a slash, then it
+is searched for in the following order:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Using the directories specified in the DT_RPATH dynamic
+section attribute of the binary if present and DT_RUNPATH
+attribute does not exist.  Use of DT_RPATH is deprecated.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Using the environment variable &lt;strong&gt;LD_LIBRARY_PATH&lt;/strong&gt;, unless the
+executable is being run in secure-execution mode (see below),
+in which case this variable is ignored.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Using the directories specified in the DT_RUNPATH dynamic
+section attribute of the binary if present.  Such directories
+are searched only to find those objects required by DT_NEEDED
+(direct dependencies) entries and do not apply to those
+objects&amp;rsquo; children, which must themselves have their own
+DT_RUNPATH entries.  This is unlike DT_RPATH, which is applied
+to searches for all children in the dependency tree.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From the cache file &lt;em&gt;/etc/ld.so.cache&lt;/em&gt;, which contains a
+compiled list of candidate shared objects previously found in
+the augmented library path.  If, however, the binary was
+linked with the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, shared objects in
+the default paths are skipped.  Shared objects installed in
+hardware capability directories (see below) are preferred to
+other shared objects.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In the default path &lt;em&gt;/lib&lt;/em&gt;, and then &lt;em&gt;/usr/lib&lt;/em&gt;.  (On some 64-bit
+architectures, the default paths for 64-bit shared objects are
+&lt;em&gt;/lib64&lt;/em&gt;, and then &lt;em&gt;/usr/lib64&lt;/em&gt;.)  If the binary was linked with
+the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, this step is skipped.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;转自：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/458193070&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://zhuanlan.zhihu.com/p/458193070&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;gcc在&lt;strong&gt;编译时&lt;/strong&gt;按照如下顺序寻找所需要的库文件：&lt;/p&gt;
@@ -307,6 +635,324 @@
 &lt;li&gt;配置文件&lt;code&gt;/etc/ld.so.conf&lt;/code&gt;中指定的动态库搜索路径&lt;/li&gt;
 &lt;li&gt;默认的动态库搜索路径，如：&lt;code&gt;/lib&lt;/code&gt;, &lt;code&gt;/usr/lib&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>灵活使用IDE搭建远程Docker开发环境</title>
+        <link>https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+        <pubDate>Wed, 22 Feb 2023 22:18:16 +0800</pubDate>
+        
+        <guid>https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
+        <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;最近在接触部分paddle源码，但由于本地搭建特容易出现环境依赖问题和其他奇怪的问题，故选择了docker编译。有很多朋友遇到这类问题第一想法便是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直接用vscode gnu global凑合就完事了  （缺点：符号信息缺失）&lt;/li&gt;
+&lt;li&gt;找个其他可以的服务器编译 （缺点：需要钱）&lt;/li&gt;
+&lt;li&gt;其他codespace之类的东西 （缺点：速度慢）&lt;/li&gt;
+&lt;li&gt;直接用 vscode attach docker就完事了（缺点：想要用到clangd配合cmake的compile的json生成完整符号信息，但是attach后我发现我不能给它安装vscode的clangd插件）💡【注意！】后来我换台电脑进入到他挂载好文件的项目后发现这个还是可以安装的，可能在我原来那台电脑上有bug。。。。或者vscode版本不对。。那这样对于不复杂的场景可以直接用vscode attach就可以了。不过但不管怎么样这个ssh方式可以适配绝大多数情况和各类IDE。。。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;综上所述，我们需要一个强大的统一开发环境使用，这时候最好的选择就是docker了，clion可以完美支持c++项目的跳转以及cmake的调试以及符号信息的获取，所以我们使用clion进行符号跳转的查看。&lt;/p&gt;
+&lt;p&gt;但clion不像vscode可以很方便的attach，我们需要远程ssh进行处理&lt;/p&gt;
+&lt;p&gt;具体编译细节和各平台的编译过程可参考paddle官方手册：&lt;a class=&#34;link&#34; href=&#34;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&#34;  title=&#34;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;一docker基础依赖安装&#34;&gt;一、docker基础依赖安装&lt;/h2&gt;
+&lt;p&gt;如果没有pull docker，先使用：&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-gpu-cuda10.2-cudnn7-dev&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;因为我的是11.5的cuda，所以使用&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;pull之后直接run：&lt;/p&gt;
+&lt;p&gt;注意！【这里和官方建议不同的是我没有用&lt;code&gt;--network=host&lt;/code&gt;而是用&lt;code&gt;-p 50003:22&lt;/code&gt;为了ssh的端口映射】&lt;/p&gt;
+&lt;p&gt;值得注意的是，WSL2中我们不需要安装nvidia-docker，直接使用docker-desktop关联的环境然后docker就可以使用nvidia相关的容器。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.docker.com/blog/wsl-2-gpu-support-for-docker-desktop-on-nvidia-gpus/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.docker.com/blog/wsl-2-gpu-support-for-docker-desktop-on-nvidia-gpus/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_29462849/article/details/118160182&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/qq_29462849/article/details/118160182&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;nvidia-docker run --name paddle-test -v &lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;:/paddle -p 50003:22 -it registry.baidubce.com/paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82 /bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果你已经run了，直接docker exec -it即可，或者在vscode或clion中直接attach到终端。&lt;/p&gt;
+&lt;h2 id=&#34;二换源&#34;&gt;二、换源&lt;/h2&gt;
+&lt;p&gt;进入docker终端后首先对docker内进行一波换源：vim 修改 &lt;code&gt;/etc/apt/sources.list&lt;/code&gt;  全部替换为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;三ssh依赖安装与启动&#34;&gt;三、ssh依赖安装与启动&lt;/h2&gt;
+&lt;p&gt;接下来的操作大体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.anquanclub.cn/6674.html&#34;  title=&#34;https://www.anquanclub.cn/6674.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.anquanclub.cn/6674.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;第一步：安装依赖&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get update
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get install passwd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get install openssh-server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get install rsync  &lt;span class=&#34;c1&#34;&gt;#后续clion同步文件需要用到&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;第二步：设置登录名密码：通过&lt;code&gt;passwd&lt;/code&gt;命令来设置root的密码，比如123456&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 834; 
+			flex-basis: 2002px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5.png&#34; data-size=&#34;559x67&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5.png&#34;
+			width=&#34;559&#34;
+			height=&#34;67&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5_hu5c46e2f3951d86f1f368434ef6e6043b_3027_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5_hu5c46e2f3951d86f1f368434ef6e6043b_3027_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;第三步：启动ssh服务&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;记得把这句话加入到 ~/.bashrc 否则每次重启docker都要自己写。&lt;/p&gt;
+&lt;p&gt;可以通过&lt;code&gt;ps -e |grep ssh&lt;/code&gt;查看服务是否启动&lt;/p&gt;
+&lt;p&gt;第四步：修改配置文件，通过vim编辑器打开配置文件 &lt;code&gt;vim /etc/ssh/sshd_config&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在配置文件中随便找个地方写入以下内容(#号后是注释)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;PubkeyAuthentication yes        #启用公钥私钥配对认证方式
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;AuthorizedKeysFile .ssh/authorized\_keys #公钥文件路径
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;PermitRootLogin yes           #root能使用ssh登录
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 221; 
+			flex-basis: 532px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c.png&#34; data-size=&#34;732x330&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c.png&#34;
+			width=&#34;732&#34;
+			height=&#34;330&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c_hu3e46f3a38853578056b79309fe9b03c3_47837_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c_hu3e46f3a38853578056b79309fe9b03c3_47837_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;第五步：重启服务&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh restart
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这时候就可以愉快的ssh操作docker了！&lt;/p&gt;
+&lt;p&gt;你可以在终端中进行测试，使用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -p &lt;span class=&#34;m&#34;&gt;50003&lt;/span&gt; root@127.0.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输入123456密码发现可以成功进入，这时候已经基本成功，接下来进入到clion配置的环节&lt;/p&gt;
+&lt;h2 id=&#34;四clion配置&#34;&gt;四、Clion配置&lt;/h2&gt;
+&lt;p&gt;接下来进入到clion配置的环节，只要处理好这几个部分就可以完美体验！&lt;/p&gt;
+&lt;p&gt;主要参考：&lt;a class=&#34;link&#34; href=&#34;https://imhuwq.com/2018/12/02/Clion%20%e4%bd%bf%e7%94%a8%20Docker%20%e4%bd%9c%e4%b8%ba%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83/&#34;  title=&#34;https://imhuwq.com/2018/12/02/Clion 使用 Docker 作为开发环境/&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://imhuwq.com/2018/12/02/Clion 使用 Docker 作为开发环境/&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;一工具链设置&#34;&gt;一、工具链设置&lt;/h3&gt;
+&lt;p&gt;在 Clion &lt;code&gt;Settings-Build,Execution,Deployment-Toolchains&lt;/code&gt; 页面先新建一个 Toolchains 设置，名字叫 &lt;strong&gt;my-project&lt;/strong&gt; 吧，类型选 &lt;strong&gt;Remote Host&lt;/strong&gt;。 Credential 设置里面填入 Container 的 IP。端口、用户名和密码按自己创建 Docker 镜像的时候来设置。由于我是从源码编译的 Cmake，所以需要变更一下 Cmake 地址为 &lt;code&gt;/usr/local/bin/cmake&lt;/code&gt;。大家自己会意，按情况来改就好:&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/1.png&#34; &gt;
+		&lt;img src=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/1.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我的参考实现：（点+号选择远程主机）【如果没有检测到，到cmake或者其他东西，在docker内apt安装一下就好；g++编译器可能自动搜索不到，所以&lt;code&gt;whereis g++&lt;/code&gt;看一下地址，然后填入即可】&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 167; 
+			flex-basis: 402px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y.png&#34; data-size=&#34;1691x1008&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y.png&#34;
+			width=&#34;1691&#34;
+			height=&#34;1008&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y_hu7e3631587e962849cf654a0e57f6a6bf_169337_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y_hu7e3631587e962849cf654a0e57f6a6bf_169337_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;这里插播一下傅傅猪的建议：
+补充一个操作，toochainl那边 可以直接把ssh的配置拖动到最前面&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;工具链设置在 Clion Settings-Build,Execution,Deployment-Toolchains 页面先新建一个 Toolchains 设置，名字叫 my-project 吧。 这里的几个toolchains是可以拖动的，你把docker的那个toolchain拖动到最前面也可以&lt;/li&gt;
+&lt;li&gt;然后有两个坑点，有时候头文件找不到，可以用shift shift, 选择resync with remote hosts&lt;/li&gt;
+&lt;li&gt;还有就是docker里的tmp代码目录找不到了，就shift shift 选择reload cmake project,重新传输一下代码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;二cmake设定&#34;&gt;二、CMAKE设定&lt;/h3&gt;
+&lt;p&gt;创建 Toolchains 配置后，在 &lt;code&gt;Settings-Build,Execution,Deployment-CMake&lt;/code&gt; 页面的 &lt;strong&gt;Toolchain&lt;/strong&gt; 下拉菜单里面选择刚才创建的 &lt;code&gt;my-project&lt;/code&gt;。 然后点击 &lt;strong&gt;Apply&lt;/strong&gt; 保存到目前为止的配置:&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/2.png&#34; &gt;
+		&lt;img src=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/2.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我的实现参考：（工具链选择第一步设定的）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 151; 
+			flex-basis: 364px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq.png&#34; data-size=&#34;1595x1051&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq.png&#34;
+			width=&#34;1595&#34;
+			height=&#34;1051&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq_hu5b8e2db90939ab51ad6f4fbc196a4338_245370_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq_hu5b8e2db90939ab51ad6f4fbc196a4338_245370_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;cmake选项中需要加入&lt;code&gt;-DPY_VERSION=3.7 -DWITH_GPU=ON&lt;/code&gt;  这是我们需要的cmake参数&lt;/p&gt;
+&lt;p&gt;如果你想要带上tensorrt编译，可以这么写：&lt;code&gt;-DPY_VERSION=3.7 -DWITH_GPU=ON -DWITH_TENSORRT=ON&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;  No CMAKE_CUDA_COMPILER could be found.
+
+  Tell CMake where to find the compiler by setting either the environment
+  variable &amp;#34;CUDACXX&amp;#34; or the CMake cache entry CMAKE_CUDA_COMPILER to the full
+  path to the compiler, or to the compiler name if it is in the PATH.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;同时你需要&lt;code&gt;export PATH=/usr/local/cuda/bin:$PATH&lt;/code&gt;直接附加到终端或者是加入到环境变量中,否则会找不到。&lt;/p&gt;
+&lt;h3 id=&#34;三管理同步&#34;&gt;三、管理同步&lt;/h3&gt;
+&lt;p&gt;其实他的用法就是创建一个tmp（你可以在映射中看到）&lt;/p&gt;
+&lt;p&gt;然后把文件拷贝进去编译后再把信息拿回来。&lt;/p&gt;
+&lt;p&gt;记得测试连接，根路径自动检测即可&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 139; 
+			flex-basis: 334px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6.png&#34; data-size=&#34;1407x1011&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6.png&#34;
+			width=&#34;1407&#34;
+			height=&#34;1011&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6_hud6cd5b412ceb42f9f108c8be0f5a576c_137213_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6_hud6cd5b412ceb42f9f108c8be0f5a576c_137213_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;五快乐体验&#34;&gt;五、快乐体验&lt;/h2&gt;
+&lt;h3 id=&#34;注释每次重启docker后的操作&#34;&gt;注释：每次重启docker后的操作&lt;/h3&gt;
+&lt;p&gt;需要注意的是，每次重启后我们都需要在docker终端内启动一下ssh服务否则不能使用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这时候已经大功告成，我们可以在下面选择对应的开发环境（如果它没有自动切换的话）&lt;/p&gt;
+&lt;p&gt;这时候你会看到它正在传输文件，并且开始有个漫长的符号表加载过程（需要一点点时间，但重复打开后就不需要时间了！）&lt;/p&gt;
+&lt;p&gt;如果出现问题可以修改后（大部分是环境变量的问题，根据上面的第二步骤进行修改即可）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 174; 
+			flex-basis: 418px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c__.png&#34; data-size=&#34;1767x1014&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c__.png&#34;
+			width=&#34;1767&#34;
+			height=&#34;1014&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c___hud89c0241eed683c92027b8133f4d0989_213182_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c___hud89c0241eed683c92027b8133f4d0989_213182_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;经过漫长的等待我们就可以看到结果了。&lt;/p&gt;
+&lt;h3 id=&#34;cmake过程坑点注意&#34;&gt;cmake过程坑点注意&lt;/h3&gt;
+&lt;p&gt;cmake过程中可能需要下载一些仓库，但无法成功下载（网络原因），你可以bind 172.17.0.1 走proxy，或者使用这个方法：参考自&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/isLinXu/p/16693491.html&#34;  title=&#34;https://www.cnblogs.com/isLinXu/p/16693491.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.cnblogs.com/isLinXu/p/16693491.html&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;由于在paddle源码编译过程中，需要安装相应的依赖库，这些依赖库是通过github仓库拉取源码的形式下载下来的。  
+若docker环境下能够网络通畅的使用github，可跳过此项。  
+若网络情况不稳定，那么这里建议参考下面，分别将这些仓库手动clone下来，同时要注意当前的目录（放在根目录）。（因为是映射目录，你可以找各种方法在本地下载后放到目标位置即可，有必要的话弄一下DNS）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;extern_gflags &lt;a class=&#34;link&#34; href=&#34;https://github.com/gflags/gflags.git&#34;  title=&#34;https://github.com/gflags/gflags.git&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/gflags/gflags.git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;extern_cryptopp &lt;a class=&#34;link&#34; href=&#34;https://github.com/weidai11/cryptopp.git&#34;  title=&#34;https://github.com/weidai11/cryptopp.git&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/weidai11/cryptopp.git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;extern_mkldnn &lt;a class=&#34;link&#34; href=&#34;https://github.com/oneapi-src/oneDNN&#34;  title=&#34;https://github.com/oneapi-src/oneDNN&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/oneapi-src/oneDNN&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;extern_warpctc git clone &lt;a class=&#34;link&#34; href=&#34;https://github.com/espnet/warp-ctc.git&#34;  title=&#34;https://github.com/espnet/warp-ctc.git&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/espnet/warp-ctc.git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;extern_protobuf &lt;a class=&#34;link&#34; href=&#34;https://github.com/protocolbuffers/protobuf.git&#34;  title=&#34;https://github.com/protocolbuffers/protobuf.git&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/protocolbuffers/protobuf.git&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;虽然有些符号还是不能看到定义和实现，但已经足够看代码了（支持绝大部分，而且可以自由跳转）！（有些是cuda调用so本来就不能看到）&lt;/p&gt;
+&lt;p&gt;享受符号跳转带来的遍历把。（有了那个小标志就说明全部加载完成，如果加载符号表过程中卡住了卡了非常久，可以尝试重启clion）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 153; 
+			flex-basis: 369px&#34;
+	&gt;
+	&lt;a href=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o.png&#34; data-size=&#34;1449x941&#34;&gt;
+		&lt;img src=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o.png&#34;
+			width=&#34;1449&#34;
+			height=&#34;941&#34;
+			srcset=&#34;https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o_hu2337592e0bb0f8726e3ddd99912b7f27_167429_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o_hu2337592e0bb0f8726e3ddd99912b7f27_167429_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;tensorrt扩展解析&#34;&gt;Tensorrt扩展解析&lt;/h3&gt;
+&lt;p&gt;此时有些跳转还是失效的，因为根本没有选择对应编译选项与库，所以我们需要做两步操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;增加cmake 选项  &lt;code&gt;-DWITH_TENSORRT=ON&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;在docker中根据 nvidia 官方教程安装 tensorrt：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html#installing-debian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html#installing-debian&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;重新启动clion即可成功~（所有nvinfer1相关都点亮了）如果还出现不可跳转的情况，可以点击设置菜单中的 工具——与远程主机重新同步，然后符号加载完后就可以了，实在不行重启clion解决一切问题。&lt;/p&gt;
+&lt;h2 id=&#34;外传没clion但用vscode凑合&#34;&gt;外传——没clion但用vscode凑合&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“放过vscode吧！他只是一个编辑器，不是IDE！”——沃兹季硕德&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;vscode下我们可以使用clangd+cmake插件实现一定的跳转功能，之前我们知道了用docker直接attach到vscode是失败的，不能安装插件。&lt;/p&gt;
+&lt;p&gt;但clion展示了他的强大功力（可以ssh后使用目标编译链进行编译和符号表的导入操作），那我们可以大胆猜想可以用vscode也直接ssh到docker然后看下是否可以安装插件。&lt;/p&gt;
+&lt;p&gt;幸运的是，vscode 在ssh链接docker后是可以安装clangd和cmake插件的，我们只需安装好插件然后配置好下方的build的相关参数，等他自己构建即可。&lt;/p&gt;
+&lt;p&gt;我的话是生成了clangd需要使用的compile_commands.json 文件。在paddle的根目录下使用这个即可成功！（CMAKE_EXPORT_COMPILE_COMMANDS为了生成json）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cmake .  -B build  -DPY_VERSION&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;3.7 -DWITH_GPU&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ON -DCMAKE_EXPORT_COMPILE_COMMANDS&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装生成完后重启vscode即可看到一个index加载过程，等待全部完成后就可以体验基本功能的跳转了（虽然肯定还是没有clion强大，但是对于没有clion的情况下还需要什么自行车呢？而且比GNU  global的提示肯定是更全更舒适的）&lt;/p&gt;
+&lt;p&gt;如果你想要vscode识别cmake参数，可以在.vscode的settings中添加：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;cmake.configureArgs&amp;#34;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;#34;-DPY_VERSION=3.7&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;#34;-DWITH_GPU=ON&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;#34;-DWITH_TENSORRT=ON&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ],
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;reference&lt;/h2&gt;
+&lt;p&gt;使用ssh连接docker服务器的方法_docker&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.anquanclub.cn/6674.html&#34;  title=&#34;https://www.anquanclub.cn/6674.html&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.anquanclub.cn/6674.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;【健忘笔记】Clion连接docker远程开发&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/429270402&#34;  title=&#34;https://zhuanlan.zhihu.com/p/429270402&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/429270402&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;备忘-docker常用命令&#34;&gt;备忘-Docker常用命令&lt;/h2&gt;
+&lt;p&gt;参考：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/410056073&#34;  title=&#34;https://zhuanlan.zhihu.com/p/410056073&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/410056073&lt;/a&gt;  &lt;/p&gt;
 </description>
         </item>
         <item>
@@ -3295,312 +3941,6 @@ src/main/resources目录用来存放资源文件，如application.yml文件，my
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/348587668&#34;  title=&#34;https://zhuanlan.zhihu.com/p/348587668&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://zhuanlan.zhihu.com/p/348587668&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>Ubuntu下Clion利用远程Docker开发环境</title>
-        <link>https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
-        <pubDate>Sat, 24 Dec 2022 17:18:16 +0800</pubDate>
-        
-        <guid>https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;最近在接触部分paddle源码，但由于本地搭建特容易出现环境依赖问题和其他奇怪的问题，故选择了docker编译。有很多朋友遇到这类问题第一想法便是：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;直接用vscode gnu global凑合就完事了  （缺点：符号信息缺失）&lt;/li&gt;
-&lt;li&gt;找个其他可以的服务器编译 （缺点：需要钱）&lt;/li&gt;
-&lt;li&gt;其他codespace之类的东西 （缺点：速度慢）&lt;/li&gt;
-&lt;li&gt;直接用 vscode attach docker就完事了（缺点：想要用到clangd配合cmake的compile的json生成完整符号信息，但是attach后我发现我不能给它安装vscode的clangd插件）💡【注意！】后来我换台电脑进入到他挂载好文件的项目后发现这个还是可以安装的，可能在我原来那台电脑上有bug。。。。或者vscode版本不对。。那这样对于不复杂的场景可以直接用vscode attach就可以了。不过但不管怎么样这个ssh方式可以适配绝大多数情况和各类IDE。。。。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;综上所述，我们需要一个强大的统一开发环境使用，这时候最好的选择就是docker了，clion可以完美支持c++项目的跳转以及cmake的调试以及符号信息的获取，所以我们使用clion进行符号跳转的查看。&lt;/p&gt;
-&lt;p&gt;但clion不像vscode可以很方便的attach，我们需要远程ssh进行处理&lt;/p&gt;
-&lt;p&gt;具体编译细节和各平台的编译过程可参考paddle官方手册：&lt;a class=&#34;link&#34; href=&#34;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&#34;  title=&#34;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;一docker基础依赖安装&#34;&gt;一、docker基础依赖安装&lt;/h2&gt;
-&lt;p&gt;如果没有pull docker，先使用：&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-gpu-cuda10.2-cudnn7-dev&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;因为我的是11.5的cuda，所以使用&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;pull之后直接run：&lt;/p&gt;
-&lt;p&gt;注意！【这里和官方建议不同的是我没有用&lt;code&gt;--network=host&lt;/code&gt;而是用&lt;code&gt;-p 50003:22&lt;/code&gt;为了ssh的端口映射】&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;nvidia-docker run --name paddle-test -v &lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;:/paddle -p 50003:22 -it registry.baidubce.com/paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82 /bin/bash
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果你已经run了，直接docker exec -it即可，或者在vscode或clion中直接attach到终端。&lt;/p&gt;
-&lt;h2 id=&#34;二换源&#34;&gt;二、换源&lt;/h2&gt;
-&lt;p&gt;进入docker终端后首先对docker内进行一波换源：vim 修改 &lt;code&gt;/etc/apt/sources.list&lt;/code&gt;  全部替换为：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;三ssh依赖安装与启动&#34;&gt;三、ssh依赖安装与启动&lt;/h2&gt;
-&lt;p&gt;接下来的操作大体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.anquanclub.cn/6674.html&#34;  title=&#34;https://www.anquanclub.cn/6674.html&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.anquanclub.cn/6674.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;第一步：安装依赖&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get update
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get install passwd
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get install openssh-server
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get install rsync  &lt;span class=&#34;c1&#34;&gt;#后续clion同步文件需要用到&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;第二步：设置登录名密码：通过&lt;code&gt;passwd&lt;/code&gt;命令来设置root的密码，比如123456&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 834; 
-			flex-basis: 2002px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5.png&#34; data-size=&#34;559x67&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5.png&#34;
-			width=&#34;559&#34;
-			height=&#34;67&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5_hu5c46e2f3951d86f1f368434ef6e6043b_3027_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hh_TJBQvY5_hu5c46e2f3951d86f1f368434ef6e6043b_3027_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;第三步：启动ssh服务&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh start
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以通过&lt;code&gt;ps -e |grep ssh&lt;/code&gt;查看服务是否启动&lt;/p&gt;
-&lt;p&gt;第四步：修改配置文件，通过vim编辑器打开配置文件 &lt;code&gt;vim /etc/ssh/sshd_config&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;在配置文件中随便找个地方写入以下内容(#号后是注释)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;PubkeyAuthentication yes        #启用公钥私钥配对认证方式
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;AuthorizedKeysFile .ssh/authorized\_keys #公钥文件路径
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;PermitRootLogin yes           #root能使用ssh登录
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 221; 
-			flex-basis: 532px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c.png&#34; data-size=&#34;732x330&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c.png&#34;
-			width=&#34;732&#34;
-			height=&#34;330&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c_hu3e46f3a38853578056b79309fe9b03c3_47837_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_YTkPC74L3c_hu3e46f3a38853578056b79309fe9b03c3_47837_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;第五步：重启服务&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh restart
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这时候就可以愉快的ssh操作docker了！&lt;/p&gt;
-&lt;p&gt;你可以在终端中进行测试，使用：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -p &lt;span class=&#34;m&#34;&gt;50003&lt;/span&gt; root@127.0.0.1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输入123456密码发现可以成功进入，这时候已经基本成功，接下来进入到clion配置的环节&lt;/p&gt;
-&lt;h2 id=&#34;四clion配置&#34;&gt;四、Clion配置&lt;/h2&gt;
-&lt;p&gt;接下来进入到clion配置的环节，只要处理好这几个部分就可以完美体验！&lt;/p&gt;
-&lt;p&gt;主要参考：&lt;a class=&#34;link&#34; href=&#34;https://imhuwq.com/2018/12/02/Clion%20%e4%bd%bf%e7%94%a8%20Docker%20%e4%bd%9c%e4%b8%ba%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83/&#34;  title=&#34;https://imhuwq.com/2018/12/02/Clion 使用 Docker 作为开发环境/&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://imhuwq.com/2018/12/02/Clion 使用 Docker 作为开发环境/&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;一工具链设置&#34;&gt;一、工具链设置&lt;/h3&gt;
-&lt;p&gt;在 Clion &lt;code&gt;Settings-Build,Execution,Deployment-Toolchains&lt;/code&gt; 页面先新建一个 Toolchains 设置，名字叫 &lt;strong&gt;my-project&lt;/strong&gt; 吧，类型选 &lt;strong&gt;Remote Host&lt;/strong&gt;。 Credential 设置里面填入 Container 的 IP。端口、用户名和密码按自己创建 Docker 镜像的时候来设置。由于我是从源码编译的 Cmake，所以需要变更一下 Cmake 地址为 &lt;code&gt;/usr/local/bin/cmake&lt;/code&gt;。大家自己会意，按情况来改就好:&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	&gt;
-	&lt;a href=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/1.png&#34; &gt;
-		&lt;img src=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/1.png&#34;
-			
-			
-			
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;我的参考实现：（点+号选择远程主机）【如果没有检测到，到cmake或者其他东西，在docker内apt安装一下就好；g++编译器可能自动搜索不到，所以&lt;code&gt;whereis g++&lt;/code&gt;看一下地址，然后填入即可】&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 167; 
-			flex-basis: 402px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y.png&#34; data-size=&#34;1691x1008&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y.png&#34;
-			width=&#34;1691&#34;
-			height=&#34;1008&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y_hu7e3631587e962849cf654a0e57f6a6bf_169337_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_pqIC-_qz9y_hu7e3631587e962849cf654a0e57f6a6bf_169337_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;h3 id=&#34;二cmake设定&#34;&gt;二、CMAKE设定&lt;/h3&gt;
-&lt;p&gt;创建 Toolchains 配置后，在 &lt;code&gt;Settings-Build,Execution,Deployment-CMake&lt;/code&gt; 页面的 &lt;strong&gt;Toolchain&lt;/strong&gt; 下拉菜单里面选择刚才创建的 &lt;code&gt;my-project&lt;/code&gt;。 然后点击 &lt;strong&gt;Apply&lt;/strong&gt; 保存到目前为止的配置:&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	&gt;
-	&lt;a href=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/2.png&#34; &gt;
-		&lt;img src=&#34;http://static-public-imhuwq.oss-cn-shenzhen.aliyuncs.com/writing/clion-using-docker-as-dev-env/2.png&#34;
-			
-			
-			
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;我的实现参考：（工具链选择第一步设定的）&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 151; 
-			flex-basis: 364px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq.png&#34; data-size=&#34;1595x1051&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq.png&#34;
-			width=&#34;1595&#34;
-			height=&#34;1051&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq_hu5b8e2db90939ab51ad6f4fbc196a4338_245370_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_Vo7mJOndDq_hu5b8e2db90939ab51ad6f4fbc196a4338_245370_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;cmake选项中需要加入&lt;code&gt;-DPY_VERSION=3.7 -DWITH_GPU=ON&lt;/code&gt;  这是我们需要的cmake参数&lt;/p&gt;
-&lt;p&gt;如果你想要带上tensorrt编译，可以这么写：&lt;code&gt;-DPY_VERSION=3.7 -DWITH_GPU=ON -DWITH_TENSORRT=ON&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;环境处需要带上&lt;code&gt;PATH=/usr/local/cuda/bin/nvcc&lt;/code&gt;是因为有可能cmake过程中（我遇到了）遇到了这个提示&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;  No CMAKE_CUDA_COMPILER could be found.
-
-  Tell CMake where to find the compiler by setting either the environment
-  variable &amp;#34;CUDACXX&amp;#34; or the CMake cache entry CMAKE_CUDA_COMPILER to the full
-  path to the compiler, or to the compiler name if it is in the PATH.
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;同时你需要&lt;code&gt;export PATH=/usr/local/cuda/bin:$PATH&lt;/code&gt;直接附加到终端或者是加入到环境变量中。&lt;/p&gt;
-&lt;h3 id=&#34;三管理同步&#34;&gt;三、管理同步&lt;/h3&gt;
-&lt;p&gt;其实他的用法就是创建一个tmp（你可以在映射中看到）&lt;/p&gt;
-&lt;p&gt;然后把文件拷贝进去编译后再把信息拿回来。&lt;/p&gt;
-&lt;p&gt;记得测试连接，根路径自动检测即可&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 139; 
-			flex-basis: 334px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6.png&#34; data-size=&#34;1407x1011&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6.png&#34;
-			width=&#34;1407&#34;
-			height=&#34;1011&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6_hud6cd5b412ceb42f9f108c8be0f5a576c_137213_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_hFhH6yljV6_hud6cd5b412ceb42f9f108c8be0f5a576c_137213_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;h2 id=&#34;五快乐体验&#34;&gt;五、快乐体验&lt;/h2&gt;
-&lt;h3 id=&#34;注释每次重启docker后的操作&#34;&gt;注释：每次重启docker后的操作&lt;/h3&gt;
-&lt;p&gt;需要注意的是，每次重启后我们都需要在docker终端内启动一下ssh服务否则不能使用：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh start
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这时候已经大功告成，我们可以在下面选择对应的开发环境（如果它没有自动切换的话）&lt;/p&gt;
-&lt;p&gt;这时候你会看到它正在传输文件，并且开始有个漫长的符号表加载过程（需要一点点时间，但重复打开后就不需要时间了！）&lt;/p&gt;
-&lt;p&gt;如果出现问题可以修改后（大部分是环境变量的问题，根据上面的第二步骤进行修改即可）&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 174; 
-			flex-basis: 418px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c__.png&#34; data-size=&#34;1767x1014&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c__.png&#34;
-			width=&#34;1767&#34;
-			height=&#34;1014&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c___hud89c0241eed683c92027b8133f4d0989_213182_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image__6PrMT5c___hud89c0241eed683c92027b8133f4d0989_213182_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;经过漫长的等待我们就可以看到结果了。&lt;/p&gt;
-&lt;h3 id=&#34;cmake过程坑点注意&#34;&gt;cmake过程坑点注意&lt;/h3&gt;
-&lt;p&gt;cmake过程中可能需要下载一些仓库，但无法成功下载（网络原因），你可以bind 172.17.0.1 走proxy，或者使用这个方法：参考自&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/isLinXu/p/16693491.html&#34;  title=&#34;https://www.cnblogs.com/isLinXu/p/16693491.html&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.cnblogs.com/isLinXu/p/16693491.html&lt;/a&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;由于在paddle源码编译过程中，需要安装相应的依赖库，这些依赖库是通过github仓库拉取源码的形式下载下来的。  
-若docker环境下能够网络通畅的使用github，可跳过此项。  
-若网络情况不稳定，那么这里建议参考下面，分别将这些仓库手动clone下来，同时要注意当前的目录（放在根目录）。（因为是映射目录，你可以找各种方法在本地下载后放到目标位置即可，有必要的话弄一下DNS）&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;extern_gflags &lt;a class=&#34;link&#34; href=&#34;https://github.com/gflags/gflags.git&#34;  title=&#34;https://github.com/gflags/gflags.git&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/gflags/gflags.git&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;extern_cryptopp &lt;a class=&#34;link&#34; href=&#34;https://github.com/weidai11/cryptopp.git&#34;  title=&#34;https://github.com/weidai11/cryptopp.git&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/weidai11/cryptopp.git&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;extern_mkldnn &lt;a class=&#34;link&#34; href=&#34;https://github.com/oneapi-src/oneDNN&#34;  title=&#34;https://github.com/oneapi-src/oneDNN&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/oneapi-src/oneDNN&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;extern_warpctc git clone &lt;a class=&#34;link&#34; href=&#34;https://github.com/espnet/warp-ctc.git&#34;  title=&#34;https://github.com/espnet/warp-ctc.git&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/espnet/warp-ctc.git&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;extern_protobuf &lt;a class=&#34;link&#34; href=&#34;https://github.com/protocolbuffers/protobuf.git&#34;  title=&#34;https://github.com/protocolbuffers/protobuf.git&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/protocolbuffers/protobuf.git&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;虽然有些符号还是不能看到定义和实现，但已经足够看代码了（支持绝大部分，而且可以自由跳转）！（有些是cuda调用so本来就不能看到）&lt;/p&gt;
-&lt;p&gt;享受符号跳转带来的遍历把。（有了那个小标志就说明全部加载完成，如果加载符号表过程中卡住了卡了非常久，可以尝试重启clion）&lt;/p&gt;
-&lt;p&gt;&lt;figure 
-	
-		class=&#34;gallery-image&#34; 
-		style=&#34;
-			flex-grow: 153; 
-			flex-basis: 369px&#34;
-	&gt;
-	&lt;a href=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o.png&#34; data-size=&#34;1449x941&#34;&gt;
-		&lt;img src=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o.png&#34;
-			width=&#34;1449&#34;
-			height=&#34;941&#34;
-			srcset=&#34;https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o_hu2337592e0bb0f8726e3ddd99912b7f27_167429_480x0_resize_box_3.png 480w, https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image/image_ruKrFolt6o_hu2337592e0bb0f8726e3ddd99912b7f27_167429_1024x0_resize_box_3.png 1024w&#34;
-			loading=&#34;lazy&#34;
-			&gt;
-	&lt;/a&gt;
-	
-&lt;/figure&gt;&lt;/p&gt;
-&lt;h3 id=&#34;tensorrt扩展解析&#34;&gt;Tensorrt扩展解析&lt;/h3&gt;
-&lt;p&gt;此时有些跳转还是失效的，因为根本没有选择对应编译选项与库，所以我们需要做两步操作：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;增加cmake 选项  &lt;code&gt;-DWITH_TENSORRT=ON&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;在docker中根据 nvidia 官方教程安装 tensorrt：&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html#installing-debian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html#installing-debian&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;重新启动clion即可成功~（所有nvinfer1相关都点亮了）如果还出现不可跳转的情况，可以点击设置菜单中的 工具——与远程主机重新同步，然后符号加载完后就可以了，实在不行重启clion解决一切问题。&lt;/p&gt;
-&lt;h2 id=&#34;外传没clion但用vscode凑合&#34;&gt;外传——没clion但用vscode凑合&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;“放过vscode吧！他只是一个编辑器，不是IDE！”——沃兹季硕德&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;vscode下我们可以使用clangd+cmake插件实现一定的跳转功能，之前我们知道了用docker直接attach到vscode是失败的，不能安装插件。&lt;/p&gt;
-&lt;p&gt;但clion展示了他的强大功力（可以ssh后使用目标编译链进行编译和符号表的导入操作），那我们可以大胆猜想可以用vscode也直接ssh到docker然后看下是否可以安装插件。&lt;/p&gt;
-&lt;p&gt;幸运的是，vscode 在ssh链接docker后是可以安装clangd和cmake插件的，我们只需安装好插件然后配置好下方的build的相关参数，等他自己构建即可。&lt;/p&gt;
-&lt;p&gt;我的话是生成了clangd需要使用的compile_commands.json 文件。在paddle的根目录下使用这个即可成功！（CMAKE_EXPORT_COMPILE_COMMANDS为了生成json）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cmake .  -B build  -DPY_VERSION&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;3.7 -DWITH_GPU&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ON -DCMAKE_EXPORT_COMPILE_COMMANDS&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装生成完后重启vscode即可看到一个index加载过程，等待全部完成后就可以体验基本功能的跳转了（虽然肯定还是没有clion强大，但是对于没有clion的情况下还需要什么自行车呢？而且比GNU  global的提示肯定是更全更舒适的）&lt;/p&gt;
-&lt;p&gt;如果你想要vscode识别cmake参数，可以在.vscode的settings中添加：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;cmake.configureArgs&amp;#34;: [
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;#34;-DPY_VERSION=3.7&amp;#34;,
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;#34;-DWITH_GPU=ON&amp;#34;,
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;#34;-DWITH_TENSORRT=ON&amp;#34;,
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ],
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;reference&lt;/h2&gt;
-&lt;p&gt;使用ssh连接docker服务器的方法_docker&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.anquanclub.cn/6674.html&#34;  title=&#34;https://www.anquanclub.cn/6674.html&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.anquanclub.cn/6674.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;【健忘笔记】Clion连接docker远程开发&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/429270402&#34;  title=&#34;https://zhuanlan.zhihu.com/p/429270402&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://zhuanlan.zhihu.com/p/429270402&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;备忘-docker常用命令&#34;&gt;备忘-Docker常用命令&lt;/h2&gt;
-&lt;p&gt;参考：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/410056073&#34;  title=&#34;https://zhuanlan.zhihu.com/p/410056073&#34;
-     target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://zhuanlan.zhihu.com/p/410056073&lt;/a&gt;  &lt;/p&gt;
 </description>
         </item>
         <item>

@@ -6,7 +6,25 @@
     <description>Recent content in Posts on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 24 Feb 2023 23:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Feb 2023 07:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>计算机上的时间</title>
+      <link>https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/</link>
+      <pubDate>Sat, 25 Feb 2023 07:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/</guid>
+      <description>以后将会把延时比较的资料都搜集到这个帖子 以下转自：https://stackoverflow.com/questions/4087280/a</description>
+    </item>
+    
+    <item>
+      <title>耗时性能优化软件测试总结</title>
+      <link>https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Sat, 25 Feb 2023 06:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+      <description>通用类 Vtune（Intel） 简介 VTune是 Intel 提供性能分析软件，VTune Amplifier XE 2011 集成了Intel VTune Performance Analyzer 和 Thread Profiler的主要功能，同时</description>
+    </item>
+    
     <item>
       <title>Huggingface optimum介绍</title>
       <link>https://sanbuphy.github.io/p/huggingface-optimum%E4%BB%8B%E7%BB%8D/</link>
@@ -23,6 +41,15 @@
       
       <guid>https://sanbuphy.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E9%93%BE%E6%8E%A5%E4%B8%8Eldconfigld_library_path/</guid>
       <description>总的来说，日常我们经常会遇到的动态库找不到问题，首先遇事不决ldd看依赖，然后丢到搜索路径（usr/lib等）即可。（cmake有问题就me</description>
+    </item>
+    
+    <item>
+      <title>灵活使用IDE搭建远程Docker开发环境</title>
+      <link>https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Wed, 22 Feb 2023 22:18:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E7%81%B5%E6%B4%BB%E4%BD%BF%E7%94%A8ide%E6%90%AD%E5%BB%BA%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
+      <description>前言 最近在接触部分paddle源码，但由于本地搭建特容易出现环境依赖问题和其他奇怪的问题，故选择了docker编译。有很多朋友遇到这类问题第</description>
     </item>
     
     <item>
@@ -77,15 +104,6 @@
       
       <guid>https://sanbuphy.github.io/p/ncnn%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%90%AC%E8%AF%BE%E7%AC%94%E8%AE%B0/</guid>
       <description>开头安利了一下各种有趣的库（nihui姐姐的知乎也可以看看 这里面有很多不错的项目实现。 关于ncnn的所有资料 https://github.com/zchrissirhcz/awesome-ncnn ncnn源码解析相关资料推荐：</description>
-    </item>
-    
-    <item>
-      <title>Ubuntu下Clion利用远程Docker开发环境</title>
-      <link>https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
-      <pubDate>Sat, 24 Dec 2022 17:18:16 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/p/ubuntu%E4%B8%8Bclion%E5%88%A9%E7%94%A8%E8%BF%9C%E7%A8%8Bdocker%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
-      <description>前言 最近在接触部分paddle源码，但由于本地搭建特容易出现环境依赖问题和其他奇怪的问题，故选择了docker编译。有很多朋友遇到这类问题第</description>
     </item>
     
     <item>

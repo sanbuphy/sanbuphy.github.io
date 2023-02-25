@@ -162,32 +162,44 @@
 </span></span></code></pre></div><p>尽管如此，设置成这种情况还是有时候找不到（还没有彻底解决和理解这个过程），这种情况下只要暴力的改变cmake的动态库搜索路径即可（比如直接在usr/local/lib中查找需要的某些动态库）</p>
 <h2 id="链接库的路径搜索顺序">链接库的路径搜索顺序</h2>
 <p>以下来自linux man ld.so</p>
-<p>If a shared object dependency does not contain a slash, then it</p>
-<p>is searched for in the following order:</p>
-<p>o  Using the directories specified in the DT_RPATH dynamic</p>
-<p>section attribute of the binary if present and DT_RUNPATH</p>
-<p>attribute does not exist.  Use of DT_RPATH is deprecated.</p>
-<p>o  Using the environment variable <strong>LD_LIBRARY_PATH</strong>, unless the</p>
-<p>executable is being run in secure-execution mode (see below),</p>
-<p>in which case this variable is ignored.</p>
-<p>o  Using the directories specified in the DT_RUNPATH dynamic</p>
-<p>section attribute of the binary if present.  Such directories</p>
-<p>are searched only to find those objects required by DT_NEEDED</p>
-<p>(direct dependencies) entries and do not apply to those</p>
-<p>objects&rsquo; children, which must themselves have their own</p>
-<p>DT_RUNPATH entries.  This is unlike DT_RPATH, which is applied</p>
-<p>to searches for all children in the dependency tree.</p>
-<p>o  From the cache file <em>/etc/ld.so.cache</em>, which contains a</p>
-<p>compiled list of candidate shared objects previously found in</p>
-<p>the augmented library path.  If, however, the binary was</p>
-<p>linked with the <strong>-z nodeflib</strong> linker option, shared objects in</p>
-<p>the default paths are skipped.  Shared objects installed in</p>
-<p>hardware capability directories (see below) are preferred to</p>
-<p>other shared objects.</p>
-<p>o  In the default path <em>/lib</em>, and then <em>/usr/lib</em>.  (On some 64-bit</p>
-<p>architectures, the default paths for 64-bit shared objects are</p>
-<p><em>/lib64</em>, and then <em>/usr/lib64</em>.)  If the binary was linked with</p>
-<p>the <strong>-z nodeflib</strong> linker option, this step is skipped.</p>
+<p>If a shared object dependency does not contain a slash, then it
+is searched for in the following order:</p>
+<ul>
+<li>
+<p>Using the directories specified in the DT_RPATH dynamic
+section attribute of the binary if present and DT_RUNPATH
+attribute does not exist.  Use of DT_RPATH is deprecated.</p>
+</li>
+<li>
+<p>Using the environment variable <strong>LD_LIBRARY_PATH</strong>, unless the
+executable is being run in secure-execution mode (see below),
+in which case this variable is ignored.</p>
+</li>
+<li>
+<p>Using the directories specified in the DT_RUNPATH dynamic
+section attribute of the binary if present.  Such directories
+are searched only to find those objects required by DT_NEEDED
+(direct dependencies) entries and do not apply to those
+objects&rsquo; children, which must themselves have their own
+DT_RUNPATH entries.  This is unlike DT_RPATH, which is applied
+to searches for all children in the dependency tree.</p>
+</li>
+<li>
+<p>From the cache file <em>/etc/ld.so.cache</em>, which contains a
+compiled list of candidate shared objects previously found in
+the augmented library path.  If, however, the binary was
+linked with the <strong>-z nodeflib</strong> linker option, shared objects in
+the default paths are skipped.  Shared objects installed in
+hardware capability directories (see below) are preferred to
+other shared objects.</p>
+</li>
+<li>
+<p>In the default path <em>/lib</em>, and then <em>/usr/lib</em>.  (On some 64-bit
+architectures, the default paths for 64-bit shared objects are
+<em>/lib64</em>, and then <em>/usr/lib64</em>.)  If the binary was linked with
+the <strong>-z nodeflib</strong> linker option, this step is skipped.</p>
+</li>
+</ul>
 <p>转自：<a class="link" href="https://zhuanlan.zhihu.com/p/458193070"  target="_blank" rel="noopener"
     >https://zhuanlan.zhihu.com/p/458193070</a></p>
 <p>gcc在<strong>编译时</strong>按照如下顺序寻找所需要的库文件：</p>
@@ -250,6 +262,37 @@
 
     <aside class="related-contents--wrapper">
     
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">计算机上的时间</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">耗时性能优化软件测试总结</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
     
 </aside>
 

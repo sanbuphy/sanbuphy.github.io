@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='linux环境下python c&#43;&#43;代码耗时测试工具'><title>耗时性能优化软件测试总结</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='耗时性能优化软件测试总结'>
+<meta property='og:description' content='linux环境下python c&#43;&#43;代码耗时测试工具'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='操作系统' /><meta property='article:published_time' content='2023-02-25T06:14:16&#43;08:00'/><meta property='article:modified_time' content='2023-02-25T06:14:16&#43;08:00'/>
+<meta name="twitter:title" content="耗时性能优化软件测试总结">
+<meta name="twitter:description" content="linux环境下python c&#43;&#43;代码耗时测试工具">
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" >
+                操作系统
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/">耗时性能优化软件测试总结</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        linux环境下python c&#43;&#43;代码耗时测试工具
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 25, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h2 id="通用类">通用类</h2>
+<h3 id="vtuneintel">Vtune（Intel）</h3>
+<h4 id="简介">简介</h4>
+<p>VTune是 Intel 提供性能分析软件，VTune Amplifier XE 2011 集成了Intel VTune Performance Analyzer 和 Thread Profiler的主要功能，同时吸取了Performance Tool Utility 这个产品的优点。</p>
+<p>perf 看不到L3cache 等硬件特性，需要更强大的工具。</p>
+<p>其中，Vtune Performance Analyzer是性能分析工具，找到软件性能热点、瓶颈部分；</p>
+<p>Vtune Threading Profiler是线程性能检测工具 , 分析负载平衡、同步开销过大等线程相关的性能问题。</p>
+<p>VTune Amplifier XE 可以指明在相关的硬件资源上应用程序的改善点，具体来说，使用该软件用户获取的信息主要有以下几点：</p>
+<p>l         确定占用大量处理器时间的区域(热点)；</p>
+<p>l         查看应用运行过程中的情况(通过检测绑定process)；</p>
+<p>l         没有充分的有效利用可用的处理器时间的代码；</p>
+<p>l         影响应用程序性能的同步对象；</p>
+<p>l         应用程序是否浪费时间在输入输出操作上，在哪里浪费的，为何浪费；</p>
+<p>l         对比不同的同步方法、不同的线程数量、不同的算法之间对性能的影响；</p>
+<p>l         线程的活动状态和状态的转换；</p>
+<p>l         代码中与硬件相关的性能瓶颈(如缓存缺失、分支预测失败等)；</p>
+<p>官方安装地址：</p>
+<p><a class="link" href="https://www.intel.com/content/www/us/en/develop/documentation/vtune-install-guide/top.html"  title="https://www.intel.com/content/www/us/en/develop/documentation/vtune-install-guide/top.html"
+     target="_blank" rel="noopener"
+    >https://www.intel.com/content/www/us/en/develop/documentation/vtune-install-guide/top.html</a></p>
+<p>使用指南：</p>
+<p><a class="link" href="https://www.intel.com/content/www/us/en/develop/documentation/get-started-with-vtune/top/linux-os.html"  title="https://www.intel.com/content/www/us/en/develop/documentation/get-started-with-vtune/top/linux-os.html"
+     target="_blank" rel="noopener"
+    >https://www.intel.com/content/www/us/en/develop/documentation/get-started-with-vtune/top/linux-os.html</a></p>
+<h4 id="python代码分析指南">python代码分析指南</h4>
+<p>python代码分析指南：</p>
+<p><a class="link" href="https://www.intel.com/content/www/us/en/develop/documentation/vtune-help/top/analyze-performance/code-profiling-scenarios/python-code-analysis.html"  title="https://www.intel.com/content/www/us/en/develop/documentation/vtune-help/top/analyze-performance/code-profiling-scenarios/python-code-analysis.html"
+     target="_blank" rel="noopener"
+    >https://www.intel.com/content/www/us/en/develop/documentation/vtune-help/top/analyze-performance/code-profiling-scenarios/python-code-analysis.html</a></p>
+<p>视频教程：</p>
+<p><a class="link" href="https://www.intel.com/content/www/us/en/developer/videos/performance-analysis-of-python-applications-with-intel-vtune-amplifier.html"  title="https://www.intel.com/content/www/us/en/developer/videos/performance-analysis-of-python-applications-with-intel-vtune-amplifier.html"
+     target="_blank" rel="noopener"
+    >https://www.intel.com/content/www/us/en/developer/videos/performance-analysis-of-python-applications-with-intel-vtune-amplifier.html</a></p>
+<h4 id="c代码分析指南">C++代码分析指南</h4>
+<p>待定</p>
+<p>本次在 WSL2 ubuntu20.04环境下进行python代码的性能测试。（如果是可执行文件就更简单了，直接输入地址就行）</p>
+<p>我选择的是online安装，令人惊喜的是WSL2完美支持安装过程中的gui显示。</p>
+<p>安装完了后source进行变量的配置，然后使用<code>vtune-gui</code>打开软件，在这过程中遇到了几个动态链接库缺失问题：<code>libatk-1.0.so.0</code> 以及 <code>libcups.so.2</code>以及<code> libgtk-3.so.0</code></p>
+<p>分别使用以下命令解决：（估计是WSL2会遇到这个问题）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install -y libatk-bridge2.0-0
+</span></span><span class="line"><span class="cl">sudo apt-get install -y libcups2
+</span></span><span class="line"><span class="cl">sudo apt install -y libgtk-3-0  <span class="c1">#如果这个不管用可以选择安装：sudo apt install -y libgtk-3-dev</span>
+</span></span><span class="line"><span class="cl">sudo apt install -y libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev
+</span></span><span class="line"><span class="cl">sudo apt install -y libasound2
+</span></span></code></pre></div><p>即可成功进入主界面<code>vtune-gui</code> （如果进不去请先确保使用了source）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 171; 
+			flex-basis: 412px"
+	>
+	<a href="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_PsNsZUSzFS.png" data-size="1284x747">
+		<img src="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_PsNsZUSzFS.png"
+			width="1284"
+			height="747"
+			srcset="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_PsNsZUSzFS_hue7f939fe33b0d805984728edd124d3e0_155818_480x0_resize_box_3.png 480w, /p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_PsNsZUSzFS_hue7f939fe33b0d805984728edd124d3e0_155818_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接下来选择 configure analysis 然后输入解释器地址以及对应的parameter（就是python文件的地址）</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 167; 
+			flex-basis: 401px"
+	>
+	<a href="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_YAykT4kVMI.png" data-size="788x471">
+		<img src="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_YAykT4kVMI.png"
+			width="788"
+			height="471"
+			srcset="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_YAykT4kVMI_hu922a8545fe2d1eca17877cdfd8eaa283_34622_480x0_resize_box_3.png 480w, /p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_YAykT4kVMI_hu922a8545fe2d1eca17877cdfd8eaa283_34622_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>进去后发现粒度还是太细，我想要代码和函数层面的信息，所以继续尝试其他东西。</p>
+<p>CPU性能指标（其实这个应该看vtune更好一点</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/521597381?utm_id=0%5c&amp;utm_medium=social%5c&amp;utm_psn=1604820983428329473%5c&amp;utm_source=qzone%5c&amp;utm_oi=751534157867290624"  title="https://zhuanlan.zhihu.com/p/521597381?utm_id=0\&amp;utm_medium=social\&amp;utm_psn=1604820983428329473\&amp;utm_source=qzone\&amp;utm_oi=751534157867290624"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/521597381?utm_id=0&amp;utm_medium=social&amp;utm_psn=1604820983428329473&amp;utm_source=qzone&amp;utm_oi=751534157867290624</a></p>
+<p>google perftools</p>
+<p><a class="link" href="https://www.cnblogs.com/GODYCA/archive/2013/05/28/3104281.html"  title="https://www.cnblogs.com/GODYCA/archive/2013/05/28/3104281.html"
+     target="_blank" rel="noopener"
+    >https://www.cnblogs.com/GODYCA/archive/2013/05/28/3104281.html</a></p>
+<h2 id="python">python</h2>
+<h3 id="cprofile">cprofile</h3>
+<p>目前最推荐使用cprofile，标准库提供的工具，使用方法如下：</p>
+<p><code>python -m cProfile -o out.prof my_test.py </code></p>
+<p>产生的序列化文件可以通过一个叫做 snakeviz 的工具进行可视化，具体效果可参考：</p>
+<p>官网：<a class="link" href="https://jiffyclub.github.io/snakeviz/"  title="https://jiffyclub.github.io/snakeviz/"
+     target="_blank" rel="noopener"
+    >https://jiffyclub.github.io/snakeviz/</a></p>
+<p>github：<a class="link" href="https://github.com/jiffyclub/snakeviz/"  title="https://github.com/jiffyclub/snakeviz/"
+     target="_blank" rel="noopener"
+    >https://github.com/jiffyclub/snakeviz/</a></p>
+<p>但是这个只适合对大部分自己写的或者是完全自己实现的小模块进行测试，要做到更随心所欲的控制我自己写了一个工具，稳定后开源。</p>
+<p>你只要<code>pip install snakeviz</code>，然后<code>snakeviz out.prof</code>就可以在产生的网页服务中查看python性能开销的火焰图了。</p>
+<h3 id="line_profiler">line_profiler</h3>
+<p>PyInstrument也不错，但还是更喜欢 line_profiler</p>
+<p><a class="link" href="https://github.com/pyutils/line_profiler"  title="https://github.com/pyutils/line_profiler"
+     target="_blank" rel="noopener"
+    >https://github.com/pyutils/line_profiler</a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/88193562"  title="https://zhuanlan.zhihu.com/p/88193562"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/88193562</a></p>
+<p>可视化插件：【注意，只能在商业版上使用，无法在社区版上使用】</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/215302708"  title="https://zhuanlan.zhihu.com/p/215302708"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/215302708</a></p>
+<p>但是这里我只能在windows上成功测试（windows上安装的python解释器和pytcharm），WSL下无法成功生成，感兴趣的朋友可以用ubuntu系统试试看是只能在windows上看还是WSL支持不好。</p>
+<p>使用流程如下：</p>
+<p>1、准备测试代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">line_profiler_pycharm</span> <span class="kn">import</span> <span class="n">profile</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@profile</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fun1</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fun1&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@profile</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fun2</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fun2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@profile</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fun3</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fun3&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@profile</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fun4</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fun4&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@profile</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fun5</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fun5&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fun4</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fun1</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">fun2</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">fun3</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">fun5</span><span class="p">()</span>
+</span></span></code></pre></div><p>2、pycharm上安装插件：</p>
+<p>插件中搜索<code>line_profiler_pycharm</code>安装后重启即可</p>
+<p>3、安装line_profiler和pycharm适配用库</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> pip install line_profiler
+</span></span><span class="line"><span class="cl"> pip install line_profiler_pycharm
+</span></span></code></pre></div><p>4、开始运行</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 371; 
+			flex-basis: 891px"
+	>
+	<a href="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_yZC25-yXvj.png" data-size="747x201">
+		<img src="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_yZC25-yXvj.png"
+			width="747"
+			height="201"
+			srcset="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_yZC25-yXvj_hu47984ed3a2bb0cb0feb4b3f94c5cf7cc_27063_480x0_resize_box_3.png 480w, /p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_yZC25-yXvj_hu47984ed3a2bb0cb0feb4b3f94c5cf7cc_27063_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>然后就能看到详细的报告：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 169; 
+			flex-basis: 407px"
+	>
+	<a href="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_kbfK83C6ti.png" data-size="923x543">
+		<img src="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_kbfK83C6ti.png"
+			width="923"
+			height="543"
+			srcset="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_kbfK83C6ti_hu73a190e5c80f3c2ffca15560191362d0_63262_480x0_resize_box_3.png 480w, /p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/image/image_kbfK83C6ti_hu73a190e5c80f3c2ffca15560191362d0_63262_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>更详细的代码级的分析以及内存瓶颈分析可以参考：</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/392210020"  title="https://zhuanlan.zhihu.com/p/392210020"
+     target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/392210020</a></p>
+<p><a class="link" href="https://blog.vicyu.com/2017/12/26/more-about-python-profiling/"  title="https://blog.vicyu.com/2017/12/26/more-about-python-profiling/"
+     target="_blank" rel="noopener"
+    >https://blog.vicyu.com/2017/12/26/more-about-python-profiling/</a></p>
+<p>案例参考：</p>
+<p><a class="link" href="https://www.cnblogs.com/dechinphy/p/line-profiler.html"  title="https://www.cnblogs.com/dechinphy/p/line-profiler.html"
+     target="_blank" rel="noopener"
+    >https://www.cnblogs.com/dechinphy/p/line-profiler.html</a></p>
+<h2 id="c">c++</h2>
+<p>函数粒度直接使用 google benchmark</p>
+<p><a class="link" href="https://blog.vicyu.com/2017/12/26/more-about-python-profiling/"  title="https://blog.vicyu.com/2017/12/26/more-about-python-profiling/"
+     target="_blank" rel="noopener"
+    >https://blog.vicyu.com/2017/12/26/more-about-python-profiling/</a></p>
+<p><a class="link" href="https://geek-docs.com/numpy/numpy-tutorials/parallelizing-a-numpy-vector-operation.html"  title="https://geek-docs.com/numpy/numpy-tutorials/parallelizing-a-numpy-vector-operation.html"
+     target="_blank" rel="noopener"
+    >https://geek-docs.com/numpy/numpy-tutorials/parallelizing-a-numpy-vector-operation.html</a></p>
+<h2 id="算子层级的profile">算子层级的profile</h2>
+<p>其他工具待更新。</p>
+<p>参考paddle lite</p>
+<p><a class="link" href="https://paddlelite.paddlepaddle.org.cn/user_guides/profiler.html"  title="https://paddlelite.paddlepaddle.org.cn/user_guides/profiler.html"
+     target="_blank" rel="noopener"
+    >https://paddlelite.paddlepaddle.org.cn/user_guides/profiler.html</a></p>
+<p>paddle lite支持的算子信息：</p>
+<p><a class="link" href="https://paddlelite.paddlepaddle.org.cn/user_guides/opt/opt_bin.html"  title="https://paddlelite.paddlepaddle.org.cn/user_guides/opt/opt_bin.html"
+     target="_blank" rel="noopener"
+    >https://paddlelite.paddlepaddle.org.cn/user_guides/opt/opt_bin.html</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">计算机上的时间</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E7%BC%96%E8%AF%91%E5%99%A8%E9%93%BE%E6%8E%A5%E4%B8%8Eldconfigld_library_path/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">编译器链接与ldconfig、LD_LIBRARY_PATH</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2023 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">目录</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#通用类">通用类</a>
+      <ol>
+        <li><a href="#vtuneintel">Vtune（Intel）</a>
+          <ol>
+            <li><a href="#简介">简介</a></li>
+            <li><a href="#python代码分析指南">python代码分析指南</a></li>
+            <li><a href="#c代码分析指南">C++代码分析指南</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#python">python</a>
+      <ol>
+        <li><a href="#cprofile">cprofile</a></li>
+        <li><a href="#line_profiler">line_profiler</a></li>
+      </ol>
+    </li>
+    <li><a href="#c">c++</a></li>
+    <li><a href="#算子层级的profile">算子层级的profile</a></li>
+  </ol>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

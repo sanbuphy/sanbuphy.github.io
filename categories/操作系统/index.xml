@@ -6,7 +6,25 @@
     <description>Recent content in 操作系统 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 24 Feb 2023 23:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Feb 2023 07:14:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>计算机上的时间</title>
+      <link>https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/</link>
+      <pubDate>Sat, 25 Feb 2023 07:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/</guid>
+      <description>以后将会把延时比较的资料都搜集到这个帖子 以下转自：https://stackoverflow.com/questions/4087280/a</description>
+    </item>
+    
+    <item>
+      <title>耗时性能优化软件测试总结</title>
+      <link>https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Sat, 25 Feb 2023 06:14:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+      <description>通用类 Vtune（Intel） 简介 VTune是 Intel 提供性能分析软件，VTune Amplifier XE 2011 集成了Intel VTune Performance Analyzer 和 Thread Profiler的主要功能，同时</description>
+    </item>
+    
     <item>
       <title>编译器链接与ldconfig、LD_LIBRARY_PATH</title>
       <link>https://sanbuphy.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E9%93%BE%E6%8E%A5%E4%B8%8Eldconfigld_library_path/</link>

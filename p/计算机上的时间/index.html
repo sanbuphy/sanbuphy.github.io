@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='从CPU L1 L2再到网络连接的延时比较'><title>计算机上的时间</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='计算机上的时间'>
+<meta property='og:description' content='从CPU L1 L2再到网络连接的延时比较'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='操作系统' /><meta property='article:published_time' content='2023-02-25T07:14:16&#43;08:00'/><meta property='article:modified_time' content='2023-02-25T07:14:16&#43;08:00'/>
+<meta name="twitter:title" content="计算机上的时间">
+<meta name="twitter:description" content="从CPU L1 L2再到网络连接的延时比较">
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu6463d9446fa8a7e91f670d049d5ab438_588913_300x0_resize_box_3.png" width="300"
+                            height="305" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍉</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">散步的小屋</a></h1>
+        <h2 class="site-description">不懂就问 不会就学</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:physicoada@gmail.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-messages" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+  <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/sanbuphy'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' target="_blank">
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E7%BE%A4%E6%98%9F/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>群星</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" >
+                操作系统
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/">计算机上的时间</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        从CPU L1 L2再到网络连接的延时比较
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 25, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>以后将会把延时比较的资料都搜集到这个帖子</p>
+<p>以下转自：<a class="link" href="https://stackoverflow.com/questions/4087280/approximate-cost-to-access-various-caches-and-main-memory"  target="_blank" rel="noopener"
+    >https://stackoverflow.com/questions/4087280/approximate-cost-to-access-various-caches-and-main-memory</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">           0.5 ns - CPU L1 dCACHE reference
+</span></span><span class="line"><span class="cl">           <span class="m">1</span>   ns - speed-of-light <span class="o">(</span>a photon<span class="o">)</span> travel a <span class="m">1</span> ft <span class="o">(</span>30.5cm<span class="o">)</span> distance
+</span></span><span class="line"><span class="cl">           <span class="m">5</span>   ns - CPU L1 iCACHE Branch mispredict
+</span></span><span class="line"><span class="cl">           <span class="m">7</span>   ns - CPU L2  CACHE reference
+</span></span><span class="line"><span class="cl">          <span class="m">71</span>   ns - CPU cross-QPI/NUMA best  <span class="k">case</span> on XEON E5-46*
+</span></span><span class="line"><span class="cl">         <span class="m">100</span>   ns - MUTEX lock/unlock
+</span></span><span class="line"><span class="cl">         <span class="m">100</span>   ns - own DDR MEMORY reference
+</span></span><span class="line"><span class="cl">         <span class="m">135</span>   ns - CPU cross-QPI/NUMA best  <span class="k">case</span> on XEON E7-*
+</span></span><span class="line"><span class="cl">         <span class="m">202</span>   ns - CPU cross-QPI/NUMA worst <span class="k">case</span> on XEON E7-*
+</span></span><span class="line"><span class="cl">         <span class="m">325</span>   ns - CPU cross-QPI/NUMA worst <span class="k">case</span> on XEON E5-46*
+</span></span><span class="line"><span class="cl">      10,000   ns - Compress 1K bytes with Zippy PROCESS
+</span></span><span class="line"><span class="cl">      20,000   ns - Send 2K bytes over <span class="m">1</span> Gbps NETWORK
+</span></span><span class="line"><span class="cl">     250,000   ns - Read <span class="m">1</span> MB sequentially from MEMORY
+</span></span><span class="line"><span class="cl">     500,000   ns - Round trip within a same DataCenter
+</span></span><span class="line"><span class="cl">  10,000,000   ns - DISK seek
+</span></span><span class="line"><span class="cl">  10,000,000   ns - Read <span class="m">1</span> MB sequentially from NETWORK
+</span></span><span class="line"><span class="cl">  30,000,000   ns - Read <span class="m">1</span> MB sequentially from DISK
+</span></span><span class="line"><span class="cl"> 150,000,000   ns - Send a NETWORK packet CA -&gt; Netherlands
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span> ns<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="p">|</span> us<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ms<span class="p">|</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">2020: Still some improvements, prediction <span class="k">for</span> <span class="m">2025</span>
+</span></span><span class="line"><span class="cl">-------------------------------------------------------------------------
+</span></span><span class="line"><span class="cl">             0.1 ns - NOP
+</span></span><span class="line"><span class="cl">             0.3 ns - XOR, ADD, SUB
+</span></span><span class="line"><span class="cl">             0.5 ns - CPU L1 dCACHE reference           <span class="o">(</span>1st introduced in late 80-ies <span class="o">)</span>
+</span></span><span class="line"><span class="cl">             0.9 ns - JMP SHORT
+</span></span><span class="line"><span class="cl">             <span class="m">1</span>   ns - speed-of-light <span class="o">(</span>a photon<span class="o">)</span> travel a <span class="m">1</span> ft <span class="o">(</span>30.5cm<span class="o">)</span> distance -- will stay, throughout any foreseeable future :o<span class="o">)</span>
+</span></span><span class="line"><span class="cl">?~~~~~~~~~~~ <span class="m">1</span>   ns - MUL <span class="o">(</span> i**2 <span class="o">=</span> MUL i, i <span class="o">)</span>~~~~~~~~~ doing this 1,000 x is <span class="m">1</span> <span class="o">[</span>us<span class="o">]</span><span class="p">;</span> 1,000,000 x is <span class="m">1</span> <span class="o">[</span>ms<span class="o">]</span><span class="p">;</span> 1,000,000,000 x is <span class="m">1</span> <span class="o">[</span>s<span class="o">]</span> ~~~~~~~~~~~~~~~~~~~~~~~~~
+</span></span><span class="line"><span class="cl">           3~4   ns - CPU L2  CACHE reference           <span class="o">(</span>2020/Q1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">             <span class="m">5</span>   ns - CPU L1 iCACHE Branch mispredict
+</span></span><span class="line"><span class="cl">             <span class="m">7</span>   ns - CPU L2  CACHE reference
+</span></span><span class="line"><span class="cl">            <span class="m">10</span>   ns - DIV
+</span></span><span class="line"><span class="cl">            <span class="m">19</span>   ns - CPU L3  CACHE reference           <span class="o">(</span>2020/Q1 considered slow on 28c Skylake<span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="m">71</span>   ns - CPU cross-QPI/NUMA best  <span class="k">case</span> on XEON E5-46*
+</span></span><span class="line"><span class="cl">           <span class="m">100</span>   ns - MUTEX lock/unlock
+</span></span><span class="line"><span class="cl">           <span class="m">100</span>   ns - own DDR MEMORY reference
+</span></span><span class="line"><span class="cl">           <span class="m">135</span>   ns - CPU cross-QPI/NUMA best  <span class="k">case</span> on XEON E7-*
+</span></span><span class="line"><span class="cl">           <span class="m">202</span>   ns - CPU cross-QPI/NUMA worst <span class="k">case</span> on XEON E7-*
+</span></span><span class="line"><span class="cl">           <span class="m">325</span>   ns - CPU cross-QPI/NUMA worst <span class="k">case</span> on XEON E5-46*
+</span></span><span class="line"><span class="cl"><span class="p">|</span>Q&gt;~~~~~ 5,000   ns - QPU on-chip QUBO <span class="o">(</span> quantum annealer minimiser <span class="m">1</span> Qop <span class="o">)</span>
+</span></span><span class="line"><span class="cl">        10,000   ns - Compress 1K bytes with a Zippy PROCESS
+</span></span><span class="line"><span class="cl">        20,000   ns - Send     2K bytes over <span class="m">1</span> Gbps  NETWORK
+</span></span><span class="line"><span class="cl">       250,000   ns - Read   <span class="m">1</span> MB sequentially from  MEMORY
+</span></span><span class="line"><span class="cl">       500,000   ns - Round trip within a same DataCenter
+</span></span><span class="line"><span class="cl">?~~~ 2,500,000   ns - Read  <span class="m">10</span> MB sequentially from  MEMORY~~<span class="o">(</span>about an empty python process to copy on spawn<span class="o">)</span>~~~~ x <span class="o">(</span> <span class="m">1</span> + nProcesses <span class="o">)</span> on spawned process instantiation<span class="o">(</span>s<span class="o">)</span>, yet an empty python interpreter is indeed not a real-world, production-grade use-case, is it?
+</span></span><span class="line"><span class="cl">    10,000,000   ns - DISK seek
+</span></span><span class="line"><span class="cl">    10,000,000   ns - Read   <span class="m">1</span> MB sequentially from  NETWORK
+</span></span><span class="line"><span class="cl">?~~ 25,000,000   ns - Read <span class="m">100</span> MB sequentially from  MEMORY~~<span class="o">(</span>somewhat light python process to copy on spawn<span class="o">)</span>~~~~ x <span class="o">(</span> <span class="m">1</span> + nProcesses <span class="o">)</span> on spawned process instantiation<span class="o">(</span>s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    30,000,000   ns - Read <span class="m">1</span> MB sequentially from a  DISK
+</span></span><span class="line"><span class="cl">?~~ 36,000,000   ns - Pickle.dump<span class="o">()</span> SER a <span class="m">10</span> MB object <span class="k">for</span> IPC-transfer and remote DES in spawned process~~~~~~~~ x <span class="o">(</span> <span class="m">2</span> <span class="o">)</span> <span class="k">for</span> a single 10MB parameter-payload SER/DES + add an IPC-transport costs thereof or NETWORK-grade transport costs, <span class="k">if</span> going into <span class="o">[</span>distributed-computing<span class="o">]</span> model Cluster ecosystem
+</span></span><span class="line"><span class="cl">   150,000,000   ns - Send a NETWORK packet CA -&gt; Netherlands
+</span></span><span class="line"><span class="cl">  <span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>
+</span></span><span class="line"><span class="cl">  <span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span> ns<span class="p">|</span>
+</span></span><span class="line"><span class="cl">  <span class="p">|</span>   <span class="p">|</span> us<span class="p">|</span>
+</span></span><span class="line"><span class="cl">  <span class="p">|</span> ms<span class="p">|</span>
+</span></span></code></pre></div><p>下图出自量化体系方法：
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 278; 
+			flex-basis: 668px"
+	>
+	<a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/1.png" data-size="1301x467">
+		<img src="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/1.png"
+			width="1301"
+			height="467"
+			srcset="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/1_hub6a4c8e8bb20a212cf7ed8a4704d2853_235198_480x0_resize_box_3.png 480w, /p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E7%9A%84%E6%97%B6%E9%97%B4/1_hub6a4c8e8bb20a212cf7ed8a4704d2853_235198_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>参考：</p>
+<p><a class="link" href="https://blog.csdn.net/konghhhhh/article/details/120463330"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/konghhhhh/article/details/120463330</a></p>
+<p><a class="link" href="https://www.zhihu.com/question/488790905"  target="_blank" rel="noopener"
+    >https://www.zhihu.com/question/488790905</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/%E8%80%97%E6%97%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">耗时性能优化软件测试总结</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E7%BC%96%E8%AF%91%E5%99%A8%E9%93%BE%E6%8E%A5%E4%B8%8Eldconfigld_library_path/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">编译器链接与ldconfig、LD_LIBRARY_PATH</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2023 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
