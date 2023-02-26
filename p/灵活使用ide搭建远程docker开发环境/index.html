@@ -187,7 +187,8 @@
 </figure></p>
 <p>第三步：启动ssh服务</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">service ssh start
-</span></span></code></pre></div><p>记得把这句话加入到 ~/.bashrc 否则每次重启docker都要自己写。</p>
+</span></span></code></pre></div><p>这句话最好不要加入 ~/.bashrc（对于clion）否则远程连接环境变量可能会出错，当然你可以尝试调整不同地方看看。</p>
+<p>对于vscode你应该可以加入bashrc省的每次重启docker都要自己写。</p>
 <p>可以通过<code>ps -e |grep ssh</code>查看服务是否启动</p>
 <p>第四步：修改配置文件，通过vim编辑器打开配置文件 <code>vim /etc/ssh/sshd_config</code></p>
 <p>在配置文件中随便找个地方写入以下内容(#号后是注释)</p>

@@ -722,7 +722,8 @@ the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, this step is skipped
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;第三步：启动ssh服务&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;service ssh start
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;记得把这句话加入到 ~/.bashrc 否则每次重启docker都要自己写。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这句话最好不要加入 ~/.bashrc（对于clion）否则远程连接环境变量可能会出错，当然你可以尝试调整不同地方看看。&lt;/p&gt;
+&lt;p&gt;对于vscode你应该可以加入bashrc省的每次重启docker都要自己写。&lt;/p&gt;
 &lt;p&gt;可以通过&lt;code&gt;ps -e |grep ssh&lt;/code&gt;查看服务是否启动&lt;/p&gt;
 &lt;p&gt;第四步：修改配置文件，通过vim编辑器打开配置文件 &lt;code&gt;vim /etc/ssh/sshd_config&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;在配置文件中随便找个地方写入以下内容(#号后是注释)&lt;/p&gt;
