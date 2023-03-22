@@ -679,10 +679,11 @@ the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, this step is skipped
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;二、进入容器:&lt;/p&gt;
 &lt;p&gt;然后在Paddle源码那打开终端，
 docker images 查看镜像名，填充到下列语句：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run  -it --gpus&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;all --name paddle-gpu -v &lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;:/paddle -p 50003:22 registry.baidubce.com/paddlepaddle/paddle:2.4.2-gpu-cuda11.2-cudnn8.2-trt8.0 /bin/bash
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run -it --gpus&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;all --name paddle-gpu -v &lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;:/paddle -p 50003:22 registry.baidubce.com/paddlepaddle/paddle:2.4.2-gpu-cuda11.2-cudnn8.2-trt8.0 /bin/bash
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;三、开始编译：&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;cmake . -B build -DPY_VERSION=3.7 -DWITH_GPU=ON -DWITH_TENSORRT=ON&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;等待即可完成~&lt;/p&gt;
+&lt;p&gt;然后make
+等待即可完成~&lt;/p&gt;
 &lt;h2 id=&#34;一docker基础依赖安装&#34;&gt;一、docker基础依赖安装&lt;/h2&gt;
 &lt;p&gt;如果没有pull docker，先使用：&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-gpu-cuda10.2-cudnn7-dev&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;因为我的是11.5的cuda，所以使用&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82&lt;/code&gt;&lt;/p&gt;

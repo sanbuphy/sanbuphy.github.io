@@ -144,10 +144,11 @@
 </span></span></code></pre></div><p>二、进入容器:</p>
 <p>然后在Paddle源码那打开终端，
 docker images 查看镜像名，填充到下列语句：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run  -it --gpus<span class="o">=</span>all --name paddle-gpu -v <span class="nv">$PWD</span>:/paddle -p 50003:22 registry.baidubce.com/paddlepaddle/paddle:2.4.2-gpu-cuda11.2-cudnn8.2-trt8.0 /bin/bash
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run -it --gpus<span class="o">=</span>all --name paddle-gpu -v <span class="nv">$PWD</span>:/paddle -p 50003:22 registry.baidubce.com/paddlepaddle/paddle:2.4.2-gpu-cuda11.2-cudnn8.2-trt8.0 /bin/bash
 </span></span></code></pre></div><p>三、开始编译：</p>
 <p><code>cmake . -B build -DPY_VERSION=3.7 -DWITH_GPU=ON -DWITH_TENSORRT=ON</code></p>
-<p>等待即可完成~</p>
+<p>然后make
+等待即可完成~</p>
 <h2 id="一docker基础依赖安装">一、docker基础依赖安装</h2>
 <p>如果没有pull docker，先使用：<code>nvidia-docker pull paddlepaddle/paddle:latest-gpu-cuda10.2-cudnn7-dev</code></p>
 <p>因为我的是11.5的cuda，所以使用<code>nvidia-docker pull paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82</code></p>
