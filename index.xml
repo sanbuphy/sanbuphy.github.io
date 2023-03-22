@@ -668,6 +668,20 @@ the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, this step is skipped
 &lt;p&gt;具体编译细节和各平台的编译过程可参考paddle官方手册：&lt;a class=&#34;link&#34; href=&#34;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&#34;  title=&#34;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&#34;
      target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;快速开始编译gpu完整环境的paddle&#34;&gt;快速开始（编译GPU完整环境的paddle）&lt;/h2&gt;
+&lt;p&gt;GPU rt版本建议使用官方docker，在WSL中编译请使用&lt;code&gt;docker run —gpus all&lt;/code&gt;，进入后记得nvidia测试一下是否成功启动带GPU的环境，这样就可以编译了！具体流程可参考：&lt;/p&gt;
+&lt;p&gt;一、拉取tensorrt镜像：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.paddlepaddle.org.cn/documentation/docs/zh/install/docker/linux-docker.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方镜像选择&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;以11.2为例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;nvidia-docker pull registry.baidubce.com/paddlepaddle/paddle:2.4.2-gpu-cuda11.2-cudnn8.2-trt8.0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;二、进入容器:&lt;/p&gt;
+&lt;p&gt;然后在Paddle源码那打开终端，
+docker images 查看镜像名，填充到下列语句：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run —gpus all --name paddle-gpu -v &lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;:/paddle -p 50003:22 -it 这里换成镜像名 /bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;三、开始编译：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cmake . -B build -DPY_VERSION=3.7 -DWITH_GPU=ON -DWITH_TENSORRT=ON&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;等待即可完成~&lt;/p&gt;
 &lt;h2 id=&#34;一docker基础依赖安装&#34;&gt;一、docker基础依赖安装&lt;/h2&gt;
 &lt;p&gt;如果没有pull docker，先使用：&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-gpu-cuda10.2-cudnn7-dev&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;因为我的是11.5的cuda，所以使用&lt;code&gt;nvidia-docker pull paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82&lt;/code&gt;&lt;/p&gt;
@@ -676,8 +690,6 @@ the &lt;strong&gt;-z nodeflib&lt;/strong&gt; linker option, this step is skipped
 &lt;p&gt;值得注意的是，WSL2中我们不需要安装nvidia-docker，直接使用docker-desktop关联的环境然后docker就可以使用nvidia相关的容器。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.docker.com/blog/wsl-2-gpu-support-for-docker-desktop-on-nvidia-gpus/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.docker.com/blog/wsl-2-gpu-support-for-docker-desktop-on-nvidia-gpus/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_29462849/article/details/118160182&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://blog.csdn.net/qq_29462849/article/details/118160182&lt;/a&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;nvidia-docker run --name paddle-test -v &lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;:/paddle -p 50003:22 -it registry.baidubce.com/paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82 /bin/bash
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果你已经run了，直接docker exec -it即可，或者在vscode或clion中直接attach到终端。&lt;/p&gt;
 &lt;h2 id=&#34;二换源&#34;&gt;二、换源&lt;/h2&gt;

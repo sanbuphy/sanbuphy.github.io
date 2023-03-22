@@ -110,7 +110,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 8 分钟
+                    阅读时长: 9 分钟
                 </time>
             </div>
         
@@ -133,6 +133,20 @@
 <p>具体编译细节和各平台的编译过程可参考paddle官方手册：<a class="link" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle"  title="https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle"
      target="_blank" rel="noopener"
     >https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/install/compile/linux-compile.html#paddlepaddle-paddlepaddle-github-paddle</a></p>
+<h2 id="快速开始编译gpu完整环境的paddle">快速开始（编译GPU完整环境的paddle）</h2>
+<p>GPU rt版本建议使用官方docker，在WSL中编译请使用<code>docker run —gpus all</code>，进入后记得nvidia测试一下是否成功启动带GPU的环境，这样就可以编译了！具体流程可参考：</p>
+<p>一、拉取tensorrt镜像：</p>
+<p><a class="link" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/install/docker/linux-docker.html"  target="_blank" rel="noopener"
+    >官方镜像选择</a></p>
+<p>以11.2为例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nvidia-docker pull registry.baidubce.com/paddlepaddle/paddle:2.4.2-gpu-cuda11.2-cudnn8.2-trt8.0
+</span></span></code></pre></div><p>二、进入容器:</p>
+<p>然后在Paddle源码那打开终端，
+docker images 查看镜像名，填充到下列语句：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run —gpus all --name paddle-gpu -v <span class="nv">$PWD</span>:/paddle -p 50003:22 -it 这里换成镜像名 /bin/bash
+</span></span></code></pre></div><p>三、开始编译：</p>
+<p><code>cmake . -B build -DPY_VERSION=3.7 -DWITH_GPU=ON -DWITH_TENSORRT=ON</code></p>
+<p>等待即可完成~</p>
 <h2 id="一docker基础依赖安装">一、docker基础依赖安装</h2>
 <p>如果没有pull docker，先使用：<code>nvidia-docker pull paddlepaddle/paddle:latest-gpu-cuda10.2-cudnn7-dev</code></p>
 <p>因为我的是11.5的cuda，所以使用<code>nvidia-docker pull paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82</code></p>
@@ -141,8 +155,6 @@
 <p>值得注意的是，WSL2中我们不需要安装nvidia-docker，直接使用docker-desktop关联的环境然后docker就可以使用nvidia相关的容器。</p>
 <p><a class="link" href="https://www.docker.com/blog/wsl-2-gpu-support-for-docker-desktop-on-nvidia-gpus/"  target="_blank" rel="noopener"
     >https://www.docker.com/blog/wsl-2-gpu-support-for-docker-desktop-on-nvidia-gpus/</a></p>
-<p><a class="link" href="https://blog.csdn.net/qq_29462849/article/details/118160182"  target="_blank" rel="noopener"
-    >https://blog.csdn.net/qq_29462849/article/details/118160182</a></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nvidia-docker run --name paddle-test -v <span class="nv">$PWD</span>:/paddle -p 50003:22 -it registry.baidubce.com/paddlepaddle/paddle:latest-dev-cuda11.2-cudnn8-gcc82 /bin/bash
 </span></span></code></pre></div><p>如果你已经run了，直接docker exec -it即可，或者在vscode或clion中直接attach到终端。</p>
 <h2 id="二换源">二、换源</h2>
@@ -628,6 +640,7 @@
                     <nav id="TableOfContents">
   <ol>
     <li><a href="#前言">前言</a></li>
+    <li><a href="#快速开始编译gpu完整环境的paddle">快速开始（编译GPU完整环境的paddle）</a></li>
     <li><a href="#一docker基础依赖安装">一、docker基础依赖安装</a></li>
     <li><a href="#二换源">二、换源</a></li>
     <li><a href="#三ssh依赖安装与启动">三、ssh依赖安装与启动</a></li>
