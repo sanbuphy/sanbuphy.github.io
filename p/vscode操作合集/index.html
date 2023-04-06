@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='常见问题和基本知识'><title>ffmpeg视频流硬解码加速</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='由于vscode的各种设置也有点恶心&amp;hellip;..在此记录各类可能会遇到的坑： C&amp;amp;C&#43;&#43; 对于臭名昭著的c_cpp_properties.jso'><title>vscode操作合集</title>
 
-<link rel='canonical' href='https://sanbuphy.github.io/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/'>
+<link rel='canonical' href='https://sanbuphy.github.io/p/vscode%E6%93%8D%E4%BD%9C%E5%90%88%E9%9B%86/'>
 
-<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='ffmpeg视频流硬解码加速'>
-<meta property='og:description' content='常见问题和基本知识'>
-<meta property='og:url' content='https://sanbuphy.github.io/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/'>
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='vscode操作合集'>
+<meta property='og:description' content='由于vscode的各种设置也有点恶心&amp;hellip;..在此记录各类可能会遇到的坑： C&amp;amp;C&#43;&#43; 对于臭名昭著的c_cpp_properties.jso'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/vscode%E6%93%8D%E4%BD%9C%E5%90%88%E9%9B%86/'>
 <meta property='og:site_name' content='散步的小屋'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-11-13T15:48:48&#43;08:00'/><meta property='article:modified_time' content='2022-11-13T15:48:48&#43;08:00'/>
-<meta name="twitter:title" content="ffmpeg视频流硬解码加速">
-<meta name="twitter:description" content="常见问题和基本知识">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-04-06T22:54:06&#43;08:00'/><meta property='article:modified_time' content='2023-04-06T22:54:06&#43;08:00'/>
+<meta name="twitter:title" content="vscode操作合集">
+<meta name="twitter:description" content="由于vscode的各种设置也有点恶心&amp;hellip;..在此记录各类可能会遇到的坑： C&amp;amp;C&#43;&#43; 对于臭名昭著的c_cpp_properties.jso">
     </head>
     <body class="
     article-page has-toc
@@ -73,13 +73,9 @@
     
 
     <h2 class="article-title">
-        <a href="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/">ffmpeg视频流硬解码加速</a>
+        <a href="/p/vscode%E6%93%8D%E4%BD%9C%E5%90%88%E9%9B%86/">vscode操作合集</a>
     </h2>
 
-    
-    <h3 class="article-subtitle">
-        常见问题和基本知识
-    </h3>
     
 
     
@@ -95,7 +91,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Nov 13, 2022</time>
+                <time class="article-time--published">Apr 06, 2023</time>
             </div>
         
 
@@ -110,7 +106,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 2 分钟
+                    阅读时长: 1 分钟
                 </time>
             </div>
         
@@ -120,109 +116,44 @@
 </header>
 
     <section class="article-content">
-    <h2 id="拉流推流基础知识">拉流推流基础知识</h2>
-<p>直播-拉流和推流概述</p>
-<p><a class="link" href="https://www.jianshu.com/p/b520c2a9b795"  title="https://www.jianshu.com/p/b520c2a9b795"
-     target="_blank" rel="noopener"
-    >https://www.jianshu.com/p/b520c2a9b795</a></p>
-<h2 id="常见问题">常见问题</h2>
-<p>error while decoding MB 0 14, bytestream 104435 相关问题原因</p>
-<p><a class="link" href="https://blog.csdn.net/puffdoudou/article/details/109779624"  title="https://blog.csdn.net/puffdoudou/article/details/109779624"
-     target="_blank" rel="noopener"
-    >https://blog.csdn.net/puffdoudou/article/details/109779624</a></p>
-<p>opencv读取网络摄像头的rtsp流时发生断流现象</p>
-<p><a class="link" href="https://blog.csdn.net/qq_33764934/article/details/103482121"  title="https://blog.csdn.net/qq_33764934/article/details/103482121"
-     target="_blank" rel="noopener"
-    >https://blog.csdn.net/qq_33764934/article/details/103482121</a></p>
-<h2 id="使用ffmpeggpu相关拓展加速编码解码">使用ffmpegGPU相关拓展加速编码解码</h2>
-<p>一些依赖可选择安装：（最好用系统默认镜像源，否则容易被嵌套依赖问题电脑GG）</p>
-<p>sudo apt-get install autoconf automake build-essential libass-dev libfreetype6-dev  libtheora-dev libtool libvorbis-dev pkg-config texinfo zlib1g-dev unzip cmake yasm libx264-dev libmp3lame-dev libopus-dev libsdl1.2-dev libva-dev libvdpau-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev libfaac* libopenjpeg * libv4l-dev libvpx-dev libssl-dev</p>
-<p>参考用官方手册：</p>
-<p>Using_FFmpeg_with_NVIDIA_GPU_Hardware_Acceleration.pdf</p>
-<p><a class="link" href="https://docs.nvidia.com/video-technologies/video-codec-sdk/pdf/Using_FFmpeg_with_NVIDIA_GPU_Hardware_Acceleration.pdf"  title="https://docs.nvidia.com/video-technologies/video-codec-sdk/pdf/Using_FFmpeg_with_NVIDIA_GPU_Hardware_Acceleration.pdf"
-     target="_blank" rel="noopener"
-    >https://docs.nvidia.com/video-technologies/video-codec-sdk/pdf/Using_FFmpeg_with_NVIDIA_GPU_Hardware_Acceleration.pdf</a></p>
-<p>按照分支选择对应版本的nv-codec-headers进行编译安装</p>
-<p><a class="link" href="https://github.com/FFmpeg/nv-codec-headers"  title="https://github.com/FFmpeg/nv-codec-headers"
-     target="_blank" rel="noopener"
-    >https://github.com/FFmpeg/nv-codec-headers</a></p>
-<p>你可以直接下载别人的docker：</p>
-<p><a class="link" href="https://yinguobing.com/docker-image-for-nvidia-gpu-accelerated-ffmpeg-opencv/"  title="https://yinguobing.com/docker-image-for-nvidia-gpu-accelerated-ffmpeg-opencv/"
-     target="_blank" rel="noopener"
-    >https://yinguobing.com/docker-image-for-nvidia-gpu-accelerated-ffmpeg-opencv/</a></p>
-<p>下载：</p>
-<p><a class="link" href="https://ffmpeg.org/download.html"  title="https://ffmpeg.org/download.html"
-     target="_blank" rel="noopener"
-    >https://ffmpeg.org/download.html</a></p>
-<pre tabindex="0"><code>首先你需要编译H264库
-
-（1）下载X264 : git clone [http://git.videolan.org/git/x264.git](http://git.videolan.org/git/x264.git)
-
-（2）安装X264：
-
-sudo ./configure –enable-shared –disable-asm
-
-sudo make
-
-sudo make install
-</code></pre><p>接着重新编译ffmpeg：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./configure --enable-shared --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --enable-nonfree<span class="se">\ </span> <span class="c1">#可选--enable-gpl --enable-libx264   --enable-libx265 </span>
-</span></span><span class="line"><span class="cl"> --extra-cflags<span class="o">=</span>-I/usr/local/cuda/include --extra-ldflags<span class="o">=</span>-L/usr/local/cuda/lib64 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span> --prefix<span class="o">=</span>/usr/  
-</span></span></code></pre></div><blockquote>
-<p>注意，这里prefix之所以要指定为/usr/是为了让opencv能找到ffmpeg
-如果还是找不到，你可以用cmake-gui 然后打开grouped advanced找到pkgcfg，按照这样类似的命名规则，再找到你现在拥有的相应的so在右上角增加入口添加进去即可。</p>
-</blockquote>
-<p><figure 
-	
-		class="gallery-image" 
-		style="
-			flex-grow: 496; 
-			flex-basis: 1192px"
-	>
-	<a href="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/image/image_3GPFcg8rDJ.png" data-size="646x130">
-		<img src="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/image/image_3GPFcg8rDJ.png"
-			width="646"
-			height="130"
-			srcset="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/image/image_3GPFcg8rDJ_hu950b541d75f51e83f77cf69c17c56b7a_33296_480x0_resize_box_3.png 480w, /p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/image/image_3GPFcg8rDJ_hu950b541d75f51e83f77cf69c17c56b7a_33296_1024x0_resize_box_3.png 1024w"
-			loading="lazy"
-			>
-	</a>
-	
-</figure></p>
-<p>你也可以参考：<a class="link" href="https://www.jianshu.com/p/59da3d350488"  title="https://www.jianshu.com/p/59da3d350488"
-     target="_blank" rel="noopener"
-    >https://www.jianshu.com/p/59da3d350488</a></p>
-<p>到这里基本上就结束了，为了让命令行可以使用记得在~/.bashrc中添加如下命令：
-export PATH=/usr/local/ffmpeg/bin/:$PATH
-保存后执行
-source ~/.bashrc</p>
-<h2 id="reference">Reference</h2>
-<p>利用ffmpeg转接摄像头RTSP流硬解码</p>
-<p><a class="link" href="https://www.pianshen.com/article/31441500162/"  title="https://www.pianshen.com/article/31441500162/"
-     target="_blank" rel="noopener"
-    >https://www.pianshen.com/article/31441500162/</a></p>
-<p>ffmpeg使用硬件加速hwaccel、cuvid、h264_cuvid、h264_nvenc
-<a class="link" href="https://blog.csdn.net/zengraoli/article/details/119789655"  target="_blank" rel="noopener"
-    >https://blog.csdn.net/zengraoli/article/details/119789655</a></p>
-<p>NVIDIA FFmpeg 转码指南【非常推荐，英伟达官方良心之作，适合写个笔记】
-<a class="link" href="https://developer.nvidia.com/zh-cn/blog/nvidia-ffmpeg-transcoding-guide/"  target="_blank" rel="noopener"
-    >https://developer.nvidia.com/zh-cn/blog/nvidia-ffmpeg-transcoding-guide/</a></p>
-<p>ffmpeg命令行使用nvidia CUDA scaling高速转分辨率转码(libnpp)
-<a class="link" href="https://blog.csdn.net/n66040927/article/details/84525611"  target="_blank" rel="noopener"
-    >https://blog.csdn.net/n66040927/article/details/84525611</a></p>
-<h3 id="video-encoding-sessions并发数目限制openencodesessionex-failed-out-of-memory">Video Encoding Sessions并发数目限制(OpenEncodeSessionEx failed: out of memory)</h3>
-<p><a class="link" href="https://github.com/keylase/nvidia-patch"  title="https://github.com/keylase/nvidia-patch"
-     target="_blank" rel="noopener"
-    >https://github.com/keylase/nvidia-patch</a></p>
-<p><a class="link" href="https://blog.csdn.net/TracelessLe/article/details/113755792"  target="_blank" rel="noopener"
-    >https://blog.csdn.net/TracelessLe/article/details/113755792</a></p>
-<p><a class="link" href="https://blog.csdn.net/charleslei/article/details/105761627"  target="_blank" rel="noopener"
-    >https://blog.csdn.net/charleslei/article/details/105761627</a></p>
-<p><a class="link" href="https://www.cnblogs.com/geoffreyone/p/14715487.html"  target="_blank" rel="noopener"
-    >https://www.cnblogs.com/geoffreyone/p/14715487.html</a></p>
-
+    <p>由于vscode的各种设置也有点恶心&hellip;..在此记录各类可能会遇到的坑：</p>
+<h2 id="cc">C&amp;C++</h2>
+<p>对于臭名昭著的c_cpp_properties.json，额外参数有以下几点：（都是例子</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="s2">&#34;includePath&#34;</span>:<span class="o">[</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">workspaceFolder</span><span class="si">}</span><span class="s2">/**&#34;</span>,<span class="s2">&#34;/usr/local/cuda/include&#34;</span><span class="o">]</span>,
+</span></span></code></pre></div><p>更多配置信息可以在不同位置输入&quot; &quot; 然后会跳出自动补全（也会自动显示对应的意思）</p>
+<p>对于cmake的设置可参考:（需要先有个settings.json)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;cmake.cmakePath&#34;</span>:<span class="s2">&#34;/home/cmake-3.16.0-Linux-x86_64/bin/cmake&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;cmake.configureArgs&#34;</span>:<span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;-DPY_VERSION=3.7&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;-DWITH_GPU=OFF&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="c1">#注意，在这里可以加入其他的cmake参数，只要是后续-D的都行</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>,
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="python">Python</h2>
+<p>如何执行文件夹自目录下的子文件夹内的python文件</p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/458657777"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/458657777</a></p>
+<p>常用的调试 launch.json配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-JSON" data-lang="JSON"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Python: 当前文件&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;python&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${file}&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;console&#34;</span><span class="p">:</span> <span class="s2">&#34;integratedTerminal&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;justMyCode&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${fileDirname}&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;--config_path=./configs/ppyoloe_l_qat_dis.yaml&#34;</span><span class="p">,</span><span class="s2">&#34;--save_dir=&#39;./quant_yoloel_output/&#39;&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>注意，如果运行的脚本在某个文件夹内，但是参数引用的文件在上一个地方的文件夹（比如调试tools/traing.py）可以这么写：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-JSON" data-lang="JSON"><span class="line"><span class="cl"><span class="s2">&#34;args&#34;</span><span class="err">:</span> <span class="p">[</span><span class="s2">&#34;-c=../configs/ppyoloe/ppyoloe_crn_l_300e_coco.yml&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;--slim_config=../configs/slim/quant/ppyoloe_l_qat.yml&#34;</span><span class="p">]</span><span class="err">,</span>
+</span></span></code></pre></div>
 </section>
 
 
@@ -256,18 +187,6 @@ source ~/.bashrc</p>
                 
                     
 <article class="">
-    <a href="/p/vscode%E6%93%8D%E4%BD%9C%E5%90%88%E9%9B%86/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">vscode操作合集</h2>
-        </div>
-    </a>
-</article>
-                
-                    
-<article class="">
     <a href="/p/%E6%88%91%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E9%9B%86%E5%90%88/">
         
         
@@ -286,6 +205,18 @@ source ~/.bashrc</p>
 
         <div class="article-details">
             <h2 class="article-title">如何衡量深度学习算法的计算量及网络加速空间（学习笔记）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/ffmpeg%E8%A7%86%E9%A2%91%E6%B5%81%E7%A1%AC%E8%A7%A3%E7%A0%81%E5%8A%A0%E9%80%9F/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ffmpeg视频流硬解码加速</h2>
         </div>
     </a>
 </article>
@@ -456,14 +387,8 @@ source ~/.bashrc</p>
                 <div class="widget--toc">
                     <nav id="TableOfContents">
   <ol>
-    <li><a href="#拉流推流基础知识">拉流推流基础知识</a></li>
-    <li><a href="#常见问题">常见问题</a></li>
-    <li><a href="#使用ffmpeggpu相关拓展加速编码解码">使用ffmpegGPU相关拓展加速编码解码</a></li>
-    <li><a href="#reference">Reference</a>
-      <ol>
-        <li><a href="#video-encoding-sessions并发数目限制openencodesessionex-failed-out-of-memory">Video Encoding Sessions并发数目限制(OpenEncodeSessionEx failed: out of memory)</a></li>
-      </ol>
-    </li>
+    <li><a href="#cc">C&amp;C++</a></li>
+    <li><a href="#python">Python</a></li>
   </ol>
 </nav>
                 </div>
