@@ -49,7 +49,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注意，如果运行的脚本在某个文件夹内，但是参数引用的文件在上一个地方的文件夹（比如调试tools/traing.py）可以这么写：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-JSON&#34; data-lang=&#34;JSON&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;-c=../configs/ppyoloe/ppyoloe_crn_l_300e_coco.yml&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;--slim_config=../configs/slim/quant/ppyoloe_l_qat.yml&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;,&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
+&lt;p&gt;VSCode代码自动补全太慢  （可参考：https://blog.csdn.net/dddgggd/article/details/129105715
+首先左下角点开设置，搜索quick suggestions delay
+然后改成5以内就飞快。&lt;/p&gt;
+</description>
         </item>
         <item>
         <title>手写推理框架系列笔记</title>
