@@ -53,6 +53,8 @@
 &lt;p&gt;VSCode代码自动补全太慢  （可参考：https://blog.csdn.net/dddgggd/article/details/129105715
 首先左下角点开设置，搜索quick suggestions delay
 然后改成5以内就飞快。&lt;/p&gt;
+&lt;p&gt;vscode怎么多行标签栏而不是自己在那滚动？可参考：https://www.onlinevideoconverter.com/zh/video-converter
+搜索首先左下角点开设置，搜索workbench.edit.wrapTabs勾选即可。&lt;/p&gt;
 </description>
         </item>
         <item>
