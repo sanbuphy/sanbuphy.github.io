@@ -13,7 +13,7 @@
       <pubDate>Sun, 21 May 2023 08:12:16 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/p/tensorrt-hackathon-2022-transformer%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/</guid>
-      <description>笔记摘录自2022年的某期nvidia-tensorrt优化黑客松活动： https://www.bilibili.com/video/BV1i3411G7vN/</description>
+      <description>笔记摘录自2022年的某期nvidia-tensorrt优化黑客松活动： https://www.bilibili.com/video/BV1i3411G7vN/ 一些技术手段 使用 onnx-graphsurgeon 调整节点，解决.onnx 不能被 TensorRT 解析的问题 用一些</description>
     </item>
     
     <item>
