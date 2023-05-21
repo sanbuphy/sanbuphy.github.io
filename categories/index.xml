@@ -6,31 +6,40 @@
     <description>Recent content in Categories on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 06 Apr 2023 22:54:06 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>杂七杂八知识</title>
-      <link>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
-      <pubDate>Thu, 06 Apr 2023 22:54:06 +0800</pubDate>
-      
-      <guid>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Sun, 21 May 2023 08:12:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DL部署</title>
       <link>https://sanbuphy.github.io/categories/dl%E9%83%A8%E7%BD%B2/</link>
-      <pubDate>Sat, 25 Feb 2023 08:12:16 +0800</pubDate>
+      <pubDate>Sun, 21 May 2023 08:12:16 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/categories/dl%E9%83%A8%E7%BD%B2/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>nvidia</title>
+      <link>https://sanbuphy.github.io/categories/nvidia/</link>
+      <pubDate>Sun, 21 May 2023 08:12:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/nvidia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>笔记</title>
       <link>https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Sat, 25 Feb 2023 08:12:16 +0800</pubDate>
+      <pubDate>Sun, 21 May 2023 08:12:16 +0800</pubDate>
       
       <guid>https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>杂七杂八知识</title>
+      <link>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Thu, 06 Apr 2023 22:54:06 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9F%A5%E8%AF%86/</guid>
       <description></description>
     </item>
     

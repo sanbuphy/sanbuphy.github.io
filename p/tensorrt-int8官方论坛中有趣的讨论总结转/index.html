@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='关于int8校准的有趣的讨论，转载自互联网'><title>TensorRT&#43; int8官方论坛中有趣的讨论总结(转)</title>
+
+<link rel='canonical' href='https://sanbuphy.github.io/p/tensorrt-int8%E5%AE%98%E6%96%B9%E8%AE%BA%E5%9D%9B%E4%B8%AD%E6%9C%89%E8%B6%A3%E7%9A%84%E8%AE%A8%E8%AE%BA%E6%80%BB%E7%BB%93%E8%BD%AC/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='TensorRT&#43; int8官方论坛中有趣的讨论总结(转)'>
+<meta property='og:description' content='关于int8校准的有趣的讨论，转载自互联网'>
+<meta property='og:url' content='https://sanbuphy.github.io/p/tensorrt-int8%E5%AE%98%E6%96%B9%E8%AE%BA%E5%9D%9B%E4%B8%AD%E6%9C%89%E8%B6%A3%E7%9A%84%E8%AE%A8%E8%AE%BA%E6%80%BB%E7%BB%93%E8%BD%AC/'>
+<meta property='og:site_name' content='散步的小屋'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='DL部署' /><meta property='article:tag' content='nvidia' /><meta property='article:published_time' content='2023-05-20T08:12:16&#43;08:00'/><meta property='article:modified_time' content='2023-05-20T08:12:16&#43;08:00'/>
+<meta name="twitter:title" content="TensorRT&#43; int8官方论坛中有趣的讨论总结(转)">
+<meta name="twitter:description" content="关于int8校准的有趣的讨论，转载自互联网">
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu6463d9446fa8a7e91f670d049d5ab438_588913_300x0_resize_box_3.png" width="300"
+                            height="305" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍉</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">散步的小屋</a></h1>
+        <h2 class="site-description">不懂就问 不会就学</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:physicoada@gmail.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-messages" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+  <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/sanbuphy'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' target="_blank">
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E7%BE%A4%E6%98%9F/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>群星</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dl%E9%83%A8%E7%BD%B2/" >
+                DL部署
+            </a>
+        
+            <a href="/categories/nvidia/" >
+                nvidia
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" >
+                笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/tensorrt-int8%E5%AE%98%E6%96%B9%E8%AE%BA%E5%9D%9B%E4%B8%AD%E6%9C%89%E8%B6%A3%E7%9A%84%E8%AE%A8%E8%AE%BA%E6%80%BB%E7%BB%93%E8%BD%AC/">TensorRT&#43; int8官方论坛中有趣的讨论总结(转)</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        关于int8校准的有趣的讨论，转载自互联网
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 20, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>本文转载自：https://blog.csdn.net/yangjf91/article/details/92794182</p>
+<p>（以后说不定有机会做整理了就把这个也整理了）</p>
+<p>1、自定义层的int8优化</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1047184/tensorrt/tensorrt-int8-plugin-layer/post/5350305/#5350305"  target="_blank" rel="noopener"
+    >TensorRT INT8 plugin layer</a></p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1043895/tensorrt/about-use-int8-model-/post/5298264/#5298264"  target="_blank" rel="noopener"
+    >About use int8 model!</a>
+  官方开发人员只说了支持4种格式，未来会加入更多特性，没说能否自己实现自定义层的int8优化。</p>
+<p>2、int8优化后检测准确度降低</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1050874/tensorrt/int8-calibration-is-not-accurate-see-image-diff-with-and-without/post/5350109/#5350109"  target="_blank" rel="noopener"
+    >Int8 Calibration is not accurate … see image diff with and without</a></p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1049027/tensorrt/convert-a-detect-model-to-int8-the-performance-drops-a-lot/post/5324031/#5324031"  target="_blank" rel="noopener"
+    >convert a detect model to int8, the performance drops a lot</a></p>
+<p>  有人发现检测网络在经过int8优化有存在差异，甚至准确度下降，但官方开发人员通过yolo测试认为没有这个问题，并提出用 legacy calibrator 代替entropy calibrator来校准模型，有利于提高准确度。不过按照官方文档的说法，legacy calibrator应该是要被废弃的方法。</p>
+<p>3、int8优化后准确度提高</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1052768/tensorrt/analyzing-sampleint8-accuracy-/post/5348385/#5348385"  target="_blank" rel="noopener"
+    >Analyzing sampleInt8 accuracy</a></p>
+<p>  有人实验发现通过int8优化后，模型的识别准确度提高了，有人分析可能是模型本身训练过程中过拟合，通过int8优化后降低了模型的过拟合程度，因此在测试集上表现出识别准确度提升。</p>
+<p>4、int8校准表在不同设备上的使用问题</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1050952/tensorrt/could-tensorrt-int8-calibrationtable-be-use-on-different-hardware-platform-/post/5335781/#5335781"  target="_blank" rel="noopener"
+    >Could TensorRT INT8 CalibrationTable be use on different Hardware platform？</a></p>
+<p>  官方开发人员答曰，校准表如果使用相同的TensorRT版本时优化方法都是相同的，特别提到了如果使用5.1后的EntropyCalibrator2（官方文档中声明该方法需要DLA）则可以不同平台移植。 <br>
+  <a class="link" href="https://devtalk.nvidia.com/default/topic/1049822/tensorrt/do-tensorrt-plan-files-are-portable-across-different-gpus-which-have-the-same-type/post/5327943/#5327943"  target="_blank" rel="noopener"
+    >Do tensorRT plan files are portable across different GPUs which have the same type</a></p>
+<p>  需要注意的是TensorRT的文件在不同平台上还是慎用，可能出现警告！</p>
+<p>5、int8优化fastrcnn</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1038750/tensorrt/-quot-engine-buffer-is-full-quot-/post/5333126/#5333126"  target="_blank" rel="noopener"
+    >“Engine buffer is full”</a>
+  
+官方安装包的sample有fastrcnn，但需要添加plugin，这个讨论是2018年8月的，提到fastrcnn的int8转换似乎有点困难，先Mark一下。</p>
+<p>6、检查TensorRT优化后各层的精度</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1048038/tensorrt/how-to-check-layer-precision-/post/5320889/#5320889"  target="_blank" rel="noopener"
+    >How to check layer precision?</a>
+  
+使用nvprof。</p>
+<p>7、某层输出为0，会导致int8校准失败</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1047780/tensorrt/int8-calibration-failing-when-one-layers-output-is-uniformly-zero/post/5319817/#5319817"  target="_blank" rel="noopener"
+    >Int8 Calibration failing when one layer’s output is uniformly zero</a></p>
+<p>  如果模型某层权重全为0，会导致该层输出全为0，因此会提示int8校准失败。官方开发人员认为这不是推理模型中的常见问题，建议修改裁剪掉模型中的这个分支。</p>
+<p>8、TensorRT模型的显存使用</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1046059/tensorrt/tensorflow-trt-with-multiple-tf-sessions-dynamic-int8-engine-memory-allocation-errors/post/5313991/#5313991"  target="_blank" rel="noopener"
+    >TensorFlow/TRT with multiple TF sessions - Dynamic INT8 engine memory allocation errors</a></p>
+<p>  官方开发人员说TensorRT的背景就是要求使用所有的显存来构建最优的推理模型，如TensorFlow的显存指定不会在TensorRT生效。而setMaxWorkSpace(X)的API只是指定产生引擎的存储大小。</p>
+<p>9、DLA</p>
+<p> <a class="link" href="https://devtalk.nvidia.com/default/topic/1045452/tensorrt/how-to-use-dla-with-tesla-t4/post/5311981/#5311981"  target="_blank" rel="noopener"
+    > How to use DLA with Tesla T4</a></p>
+<p>  DLA是TensorRT的一项设置项，但目前官方文档中只有Jetson AGX Xavier标明支持DLA。这里有人回答说DLA只用在移动平台相关产品，桌面GPU产品没有这个单元。</p>
+<p>10、大BatchSize可以提升TensorRT推断速度</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1045386/tensorrt/why-inference-speedup-increases-with-the-increase-of-batch-size-in-tensorrt-int8-/post/5304304/#5304304"  target="_blank" rel="noopener"
+    >Why inference speedup increases with the increase of batch size in tensorrt int8？</a></p>
+<p>  官方开发人员说大BatchSIze可以更高效的使用GPU，特别是使用32的倍数作为批大小可以在如V100、T4这类显卡上充分利用专有内核加速矩阵乘法和全连接层。</p>
+<p>11、TensorRT加速没效果</p>
+<p>  <a class="link" href="https://devtalk.nvidia.com/default/topic/1043578/tensorrt/dont-see-any-speedups-using-tensorrt/post/5294251/#5294251"  target="_blank" rel="noopener"
+    >Dont see any speedups using TensorRT</a></p>
+<p>  TensorRT的加速性能取决于将多少原网络的操作替换为TensorRT的优化操作，对于python+TensorFlow可以通过以下代码查看。</p>
+<pre tabindex="0"><code>trt_engine_ops = len([1 for n in trt_graph.node if str(n.op)==&#39;TRTEngineOp&#39;])
+</code></pre>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/dl%E9%83%A8%E7%BD%B2/">DL部署</a>
+        
+            <a href="/tags/nvidia/">nvidia</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/tensorrt-hackathon-2022-transformer%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">TensorRT Hackathon 2022 —— Transformer模型优化笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%89%8B%E5%86%99%E6%8E%A8%E7%90%86%E6%A1%86%E6%9E%B6%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">手写推理框架系列笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/huggingface-optimum%E4%BB%8B%E7%BB%8D/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Huggingface optimum介绍</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">优雅的调试—在vscode上完美调试xv6（完结）</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/nju%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BE%E7%A8%8B%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C-pa4%E7%AC%94%E8%AE%B0%E5%A4%A7%E7%BB%93%E5%B1%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NJU计算机课程基础实验 PA4笔记（大结局）</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://waline-e20v24xbr-sanbuphy.vercel.app/","visitor":true});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2023 散步的小屋
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

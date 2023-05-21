@@ -6,7 +6,25 @@
     <description>Recent content in 笔记 on 散步的小屋</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 25 Feb 2023 08:12:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 21 May 2023 08:12:16 +0800</lastBuildDate><atom:link href="https://sanbuphy.github.io/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TensorRT Hackathon 2022 —— Transformer模型优化笔记</title>
+      <link>https://sanbuphy.github.io/p/tensorrt-hackathon-2022-transformer%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 21 May 2023 08:12:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/tensorrt-hackathon-2022-transformer%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/</guid>
+      <description>笔记摘录自2022年的某期nvidia-tensorrt优化黑客松活动： https://www.bilibili.com/video/BV1i3411G7vN/</description>
+    </item>
+    
+    <item>
+      <title>TensorRT&#43; int8官方论坛中有趣的讨论总结(转)</title>
+      <link>https://sanbuphy.github.io/p/tensorrt-int8%E5%AE%98%E6%96%B9%E8%AE%BA%E5%9D%9B%E4%B8%AD%E6%9C%89%E8%B6%A3%E7%9A%84%E8%AE%A8%E8%AE%BA%E6%80%BB%E7%BB%93%E8%BD%AC/</link>
+      <pubDate>Sat, 20 May 2023 08:12:16 +0800</pubDate>
+      
+      <guid>https://sanbuphy.github.io/p/tensorrt-int8%E5%AE%98%E6%96%B9%E8%AE%BA%E5%9D%9B%E4%B8%AD%E6%9C%89%E8%B6%A3%E7%9A%84%E8%AE%A8%E8%AE%BA%E6%80%BB%E7%BB%93%E8%BD%AC/</guid>
+      <description>本文转载自：https://blog.csdn.net/yangjf91/article/details/92794182 （以后说不定有机会</description>
+    </item>
+    
     <item>
       <title>手写推理框架系列笔记</title>
       <link>https://sanbuphy.github.io/p/%E6%89%8B%E5%86%99%E6%8E%A8%E7%90%86%E6%A1%86%E6%9E%B6%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0/</link>
