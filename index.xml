@@ -456,7 +456,7 @@
 	
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;CUBV2为什么快那么多主要也是对reduce sum的两趟变成了一趟让他快速减少了时间。&lt;/p&gt;
-&lt;h2 id=&#34;attention-plugin&#34;&gt;attention plugin&lt;/h2&gt;
+&lt;h2 id=&#34;attention-plugin&#34;&gt;Attention plugin&lt;/h2&gt;
 &lt;p&gt;接下来我们来看看attention plugin：&lt;/p&gt;
 &lt;p&gt;&lt;figure 
 	
