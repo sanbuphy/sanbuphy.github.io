@@ -119,17 +119,36 @@
     <p>由于vscode的各种设置也有点恶心&hellip;..在此记录各类可能会遇到的坑：</p>
 <h2 id="cc">C&amp;C++</h2>
 <p>对于臭名昭著的c_cpp_properties.json，额外参数有以下几点：（都是例子</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="s2">&#34;includePath&#34;</span>:<span class="o">[</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">workspaceFolder</span><span class="si">}</span><span class="s2">/**&#34;</span>,<span class="s2">&#34;/usr/local/cuda/include&#34;</span><span class="o">]</span>,
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="s2">&#34;includePath&#34;</span><span class="err">:</span><span class="p">[</span><span class="s2">&#34;${workspaceFolder}/**&#34;</span><span class="p">,</span><span class="s2">&#34;/usr/local/cuda/include&#34;</span><span class="p">]</span><span class="err">,</span>
 </span></span></code></pre></div><p>更多配置信息可以在不同位置输入&quot; &quot; 然后会跳出自动补全（也会自动显示对应的意思）</p>
-<p>对于cmake的设置可参考:（需要先有个settings.json)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;cmake.cmakePath&#34;</span>:<span class="s2">&#34;/home/cmake-3.16.0-Linux-x86_64/bin/cmake&#34;</span>,
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;cmake.configureArgs&#34;</span>:<span class="o">[</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;-DPY_VERSION=3.7&#34;</span>,
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;-DWITH_GPU=OFF&#34;</span>,
-</span></span><span class="line"><span class="cl">        <span class="c1">#注意，在这里可以加入其他的cmake参数，只要是后续-D的都行</span>
-</span></span><span class="line"><span class="cl">    <span class="o">]</span>,
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
+<p>此外，遇到头文件补全的情况，我们可以在c_cpp_properties.json中修改： （以nvidia-cookbook内的cpp代码自动补全和头文件修复为例）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Linux&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;includePath&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;/usr/include&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;/work/github/trt-samples-for-hackathon-cn/cookbook/include&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;/usr/local/cuda/include&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;defines&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;compilerPath&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/bin/gcc&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;cStandard&#34;</span><span class="p">:</span> <span class="s2">&#34;c17&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;cppStandard&#34;</span><span class="p">:</span> <span class="s2">&#34;gnu++14&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;intelliSenseMode&#34;</span><span class="p">:</span> <span class="s2">&#34;linux-gcc-x64&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>对于cmake的设置可参考:（需要先有个settings.json)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;cmake.cmakePath&#34;</span><span class="p">:</span><span class="s2">&#34;/home/cmake-3.16.0-Linux-x86_64/bin/cmake&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;cmake.configureArgs&#34;</span><span class="p">:[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;-DPY_VERSION=3.7&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;-DWITH_GPU=OFF&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="err">#注意，在这里可以加入其他的cmake参数，只要是后续-D的都行</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h2 id="python">Python</h2>
 <p>如何执行文件夹自目录下的子文件夹内的python文件</p>
 <p><a class="link" href="https://zhuanlan.zhihu.com/p/458657777"  target="_blank" rel="noopener"
@@ -162,6 +181,10 @@
 <h2 id="优雅的调试">优雅的调试</h2>
 <p>如何顺利看调用过程然后自己增加log？————使用调用堆栈。</p>
 <p>如何知道自己当前所在区域的“父类”是什么（比如某个函数属于那个类别），不需要拉动框，配合上面标题栏下方的索引即可（比如modules&gt;script.py&gt;load_module），也可以结合大纲判断。</p>
+<h2 id="推荐的插件">推荐的插件</h2>
+<ul>
+<li>Compare Folders插件，安装后，选择两个文件夹右键然后再选择最后一个英文的比较，可以对两个文件夹的区别进行比较。</li>
+</ul>
 
 </section>
 
@@ -400,6 +423,7 @@
     <li><a href="#python">Python</a></li>
     <li><a href="#其他">其他</a></li>
     <li><a href="#优雅的调试">优雅的调试</a></li>
+    <li><a href="#推荐的插件">推荐的插件</a></li>
   </ol>
 </nav>
                 </div>
