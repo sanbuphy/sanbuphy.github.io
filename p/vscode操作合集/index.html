@@ -106,7 +106,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 2 分钟
+                    阅读时长: 3 分钟
                 </time>
             </div>
         
@@ -140,7 +140,8 @@
 </span></span><span class="line"><span class="cl">    <span class="p">],</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="mi">4</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>对于cmake的设置可参考:（需要先有个settings.json)</p>
+</span></span></code></pre></div><h3 id="cmake">cmake</h3>
+<p>cmake的基础设置可参考:(需要先有个settings.json)</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;cmake.cmakePath&#34;</span><span class="p">:</span><span class="s2">&#34;/home/cmake-3.16.0-Linux-x86_64/bin/cmake&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;cmake.configureArgs&#34;</span><span class="p">:[</span>
@@ -149,6 +150,10 @@
 </span></span><span class="line"><span class="cl">        <span class="err">#注意，在这里可以加入其他的cmake参数，只要是后续-D的都行</span>
 </span></span><span class="line"><span class="cl">    <span class="p">],</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="gtest">gtest</h3>
+<p>如果在vscode中也想体会到clion单侧的快乐，首先需要安装两个插件：gtest mate和test Explorer UI，其次需要把对应单侧打包成可执行文件（可以每个都打包或者都打包在一个可执行文件</p>
+<p>然后在settings.json中需要设定包含test可执行文件的路径，字段如下：(**用于匹配任意相关字符)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl">    <span class="s2">&#34;testMate.cpp.test.executables&#34;</span><span class="err">:</span> <span class="s2">&#34;这里是能找到可执行文件的地址，比如/home/test/build/**test**&#34;</span>
 </span></span></code></pre></div><h2 id="python">Python</h2>
 <p>如何执行文件夹自目录下的子文件夹内的python文件</p>
 <p><a class="link" href="https://zhuanlan.zhihu.com/p/458657777"  target="_blank" rel="noopener"
@@ -419,7 +424,12 @@
                 <div class="widget--toc">
                     <nav id="TableOfContents">
   <ol>
-    <li><a href="#cc">C&amp;C++</a></li>
+    <li><a href="#cc">C&amp;C++</a>
+      <ol>
+        <li><a href="#cmake">cmake</a></li>
+        <li><a href="#gtest">gtest</a></li>
+      </ol>
+    </li>
     <li><a href="#python">Python</a></li>
     <li><a href="#其他">其他</a></li>
     <li><a href="#优雅的调试">优雅的调试</a></li>
