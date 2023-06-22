@@ -790,6 +790,10 @@
 &lt;ul&gt;
 &lt;li&gt;Compare Folders插件，安装后，选择两个文件夹右键然后再选择最后一个英文的比较，可以对两个文件夹的区别进行比较。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;推荐学习文章&#34;&gt;推荐学习文章&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/2146749&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;vscode一键配置C/C++多个C及CPP文件编译与tasks.json和launch.json原理&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;详细讲解了tasks和launch的参数和作用，以及简单的cmake写法&lt;/p&gt;
 </description>
         </item>
         <item>
