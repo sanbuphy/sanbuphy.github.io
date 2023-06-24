@@ -140,7 +140,8 @@
 </span></span><span class="line"><span class="cl">    <span class="p">],</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="mi">4</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="cmake">cmake</h3>
+</span></span></code></pre></div><p>为了在vscode中顺利查看STL容器的值，需要简单的配置一下launch.json。首先在运行与调试界面创建launch.json，随后在右下角找到创建配置，选择gdb生成然后创建对应的launch.json即可。其中可能需要填一下对应的二进制启动地址，之后只要随意调试就可以看到STL容器内的值了。</p>
+<h3 id="cmake">cmake</h3>
 <p>cmake的基础设置可参考:(需要先有个settings.json)</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;cmake.cmakePath&#34;</span><span class="p">:</span><span class="s2">&#34;/home/cmake-3.16.0-Linux-x86_64/bin/cmake&#34;</span><span class="p">,</span>
